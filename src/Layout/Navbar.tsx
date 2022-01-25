@@ -1,20 +1,11 @@
-import { Box, Flex, Heading } from "@chakra-ui/react";
+import { Box, Flex, Heading, Input } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 
 export const Navbar = () => {
   return (
-    <Flex
-      w="full"
-      shadow={"md"}
-      height={"12"}
-      justify={"space-between"}
-      align={"center"}
-      px="4"
-    >
-      <HamburgerIcon />
-      <Box>
-        <Heading fontSize={"lg"}>:wq</Heading>
-      </Box>
+    // TODO: should remove fixex width?
+    <Flex h="full" w="56" bg="gray.700" shadow={"inner"} p="3">
+      <Input placeholder="Search..." size={"sm"} />
     </Flex>
   );
 };

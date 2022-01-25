@@ -1,10 +1,11 @@
+import { Box } from "@chakra-ui/react";
 import { Navbar } from "./Layout/Navbar";
 
 function App() {
   return (
-    <div>
+    <Box h="full">
       <Navbar />
-    </div>
+    </Box>
   );
 }
 
