@@ -8,12 +8,18 @@ function App() {
   return (
     <Flex h="full" justifyContent={"flex-start"}>
       <Navbar />
-      <Box flex="1">
+      <Flex
+        p="2"
+        h="full"
+        flexDirection={"column"}
+        alignItems={"center"}
+        flex="1"
+      >
         <Routes>
           <Route path="/" element={<Welcome />}></Route>
           <Route path="/json-formatter" element={<JsonFormatter />}></Route>
         </Routes>
-      </Box>
+      </Flex>
     </Flex>
   );
 }
