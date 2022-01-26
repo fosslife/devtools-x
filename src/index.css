@@ -16,3 +16,18 @@ code {
 #root {
   height: 100vh;
 }
+
+/* hide scrollbar on left nav */
+::-webkit-scrollbar {
+  width: 5px; /* Remove scrollbar space */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* color of the tracking area */
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 20px; /* roundness of the scroll thumb */
+  border: 3px solid tomato; /* creates padding around scroll thumb */
+}
