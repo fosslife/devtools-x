@@ -12,6 +12,7 @@ export const Navbar = () => {
       flexDirection={"column"}
       overflow={"scroll"}
       pos={"relative"}
+      minW="52"
     >
       <Input pos={"sticky"} placeholder="Search..." size={"sm"} />
       <Box borderBottom={"1px solid tomato"} p="1.5">
@@ -20,7 +21,7 @@ export const Navbar = () => {
       <Box mt="1.5">
         <Card linkto="/json-formatter">
           <Icon as={MdAnchor}></Icon>
-          <Text>Json formatter</Text>
+          <Text>Json Tools</Text>
         </Card>
       </Box>
     </Flex>
