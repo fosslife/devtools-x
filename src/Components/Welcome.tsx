@@ -9,7 +9,9 @@ export const Welcome = () => {
       alignItems={"center"}
     >
       <Heading>Welcome</Heading>
-      <Text fontSize={"2xl"}>DevTools</Text>
+      <Text color={"tomato"} fontSize={"2xl"}>
+        DevTools
+      </Text>
       <Text>Click on any of the left card to get started</Text>
     </Flex>
   );
