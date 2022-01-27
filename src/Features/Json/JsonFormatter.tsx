@@ -1,7 +1,12 @@
 import { Tooltip, Button, Flex, Checkbox } from "@chakra-ui/react";
-import Editor, { DiffEditor, type OnMount } from "@monaco-editor/react";
+import Editor, {
+  DiffEditor,
+  type OnMount,
+  type DiffOnMount,
+} from "@monaco-editor/react";
 import { useRef, useState } from "react";
 
+// default
 const def = {
   array: [1, 2, 3],
   boolean: true,
@@ -20,7 +25,7 @@ export const JsonFormatter = () => {
   const [diff, setDiff] = useState(false);
 
   const onMount: OnMount = (editor, monaco) => {
-    console.log("Mounted", monaco);
+    // console.log("Mounted", monaco);
     // minify command
     editor.addAction({
       id: "minify-json",
@@ -28,10 +33,10 @@ export const JsonFormatter = () => {
       //FIXME: keybindings not working
       keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyM],
       // A precondition for this action.
-      precondition: null,
+      precondition: undefined,
 
       // A rule to evaluate on top of the precondition in order to dispatch the keybindings.
-      keybindingContext: null,
+      keybindingContext: undefined,
 
       contextMenuGroupId: "navigation",
 
@@ -45,6 +50,10 @@ export const JsonFormatter = () => {
     editorRef.current = editor;
   };
 
+  const diffOnMout: DiffOnMount = (editor, monaco) => {
+    editorRef.current = editor;
+  };
+
   return (
     <Flex w="full" gap={3} alignSelf={"start"}>
       {diff ? (
@@ -55,12 +64,12 @@ export const JsonFormatter = () => {
           }}
           theme="vs-dark"
           height={"93vh"}
-          width={"100%"}
+          width={diff ? "95%" : "100%"}
           originalLanguage="json"
           modifiedLanguage="json"
           original={JSON.stringify(def, null, 2)}
           modified={JSON.stringify(def, null, 2)}
-          onMount={onMount}
+          onMount={diffOnMout}
         />
       ) : (
         <Editor
@@ -77,29 +86,7 @@ export const JsonFormatter = () => {
         />
       )}
 
-      <Flex gap={5} flexDirection={"column"}>
-        <Tooltip label="Alt+Shift+F" openDelay={500}>
-          <Button
-            size={"sm"}
-            onClick={() => {
-              editorRef.current?.setValue(JSON.stringify(def, null, 2));
-            }}
-          >
-            Format
-          </Button>
-        </Tooltip>
-
-        <Tooltip label="Alt+Shift+M" openDelay={500}>
-          <Button
-            size={"sm"}
-            onClick={() => {
-              editorRef.current?.setValue(JSON.stringify(def));
-            }}
-          >
-            Minify
-          </Button>
-        </Tooltip>
-
+      <Flex gap={5} mt={10} flexDirection={"column"}>
         <Tooltip label="calculate Diff" openDelay={500}>
           <Checkbox
             size={"sm"}
@@ -111,12 +98,37 @@ export const JsonFormatter = () => {
             Diff
           </Checkbox>
         </Tooltip>
+        {!diff && (
+          <Tooltip label="Alt+Shift+F" openDelay={500}>
+            <Button
+              size={"sm"}
+              onClick={() => {
+                editorRef.current?.setValue(JSON.stringify(def, null, 2));
+              }}
+            >
+              Format
+            </Button>
+          </Tooltip>
+        )}
+
+        {!diff && (
+          <Tooltip label="Alt+Shift+M" openDelay={500}>
+            <Button
+              size={"sm"}
+              onClick={() => {
+                editorRef.current?.setValue(JSON.stringify(def));
+              }}
+            >
+              Minify
+            </Button>
+          </Tooltip>
+        )}
       </Flex>
     </Flex>
   );
 };
 
-/* TODOs:
+/* TODO:
 Save editors in storage on change - p1
-
+fix formatting - instead of default values get editor text - p1
 */
