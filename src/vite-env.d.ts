@@ -35,7 +35,7 @@ declare module "jsoneditor-react" {
     onError?: (error: any) => void;
     /** Set a callback function triggered right after the mode is changed by the user. */
     onModeChange?: (mode: Mode) => void;
-    onClassName?: (args: { path: any; field: str; value: any }) => void;
+    onClassName?: (args: { path: any; field: string; value: any }) => void;
 
     /** Provide a version of the Ace editor. Only applicable when mode is code */
     ace?: object;
