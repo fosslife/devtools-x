@@ -55,7 +55,18 @@ export const JsonFormatter = () => {
   };
 
   return (
-    <Flex w="full" gap={3} alignSelf={"start"}>
+    <Flex
+      w="full"
+      h="full"
+      gap={3}
+      alignSelf={"start"}
+      //thanks: https://stackoverflow.com/questions/54278276/improper-resizing-after-using-resize-bar
+      sx={{
+        "& div": {
+          maxWidth: "98%",
+        },
+      }}
+    >
       {diff ? (
         <DiffEditor
           options={{
@@ -63,8 +74,8 @@ export const JsonFormatter = () => {
             originalEditable: true,
           }}
           theme="vs-dark"
-          height={"93vh"}
-          width={diff ? "95%" : "100%"}
+          height={"95%"}
+          // width={diff ? "95%" : "100%"}
           originalLanguage="json"
           modifiedLanguage="json"
           original={JSON.stringify(def, null, 2)}
@@ -79,8 +90,8 @@ export const JsonFormatter = () => {
           }}
           defaultLanguage="json"
           theme="vs-dark"
-          height={"93vh"}
-          width={"100%"}
+          height={"95%"}
+          // width={"99%"}
           defaultValue={JSON.stringify(def, null, 2)}
           onMount={onMount}
         />
