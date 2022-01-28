@@ -1,10 +1,16 @@
 import { Flex, Box } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Welcome } from "./Components/Welcome";
 import { JsonFormatter } from "./Features/Json/JsonFormatter";
 import { Navbar } from "./Layout/Navbar";
+import { setupConfig } from "./utils";
 
 function App() {
+  useEffect(() => {
+    // TODO: Setup logging, caching
+    setupConfig();
+  }, []);
   return (
     <Flex h="full" justifyContent={"flex-start"}>
       <Navbar />

@@ -1,0 +1,1 @@
+export { setupConfig } from "./setupConfig";
