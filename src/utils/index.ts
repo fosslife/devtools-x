@@ -1,1 +1,1 @@
-export { setupConfig } from "./setupConfig";
+export * from "./db";

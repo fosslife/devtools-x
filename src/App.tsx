@@ -4,12 +4,16 @@ import { Routes, Route } from "react-router-dom";
 import { Welcome } from "./Components/Welcome";
 import { JsonFormatter } from "./Features/Json/JsonFormatter";
 import { Navbar } from "./Layout/Navbar";
-import { setupConfig } from "./utils";
+import { db } from "./utils";
 
 function App() {
   useEffect(() => {
     // TODO: Setup logging, caching
-    setupConfig();
+    // first config structure
+    if (!db.data) {
+      db.data ||= { json: { editor: "a" } };
+      db.write();
+    }
   }, []);
   return (
     <Flex h="full" justifyContent={"flex-start"}>
