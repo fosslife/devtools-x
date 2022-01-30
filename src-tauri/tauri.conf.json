@@ -13,7 +13,7 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.tauri.dev",
+      "identifier": "com.fosslife.devtools",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
@@ -54,8 +54,8 @@
     "windows": [
       {
         "title": "Dev Tools",
-        "width": 800,
-        "height": 600,
+        "width": 1000,
+        "height": 650,
         "resizable": true,
         "fullscreen": false
       }
