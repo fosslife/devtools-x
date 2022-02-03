@@ -8,7 +8,7 @@ import Editor, {
 import { fs } from "@tauri-apps/api";
 import { useEffect, useRef, useState } from "react";
 import { db } from "../../utils";
-import { useDebounce } from "react-use";
+import { useDebouncedCallback } from "@react-hookz/web/esm";
 
 // default
 const def = {
@@ -27,40 +27,20 @@ const def = {
 export const JsonFormatter = () => {
   const editorRef = useRef<any>(null);
   const [diff, setDiff] = useState(false);
-  const [val, setVal] = useState("");
-  const [debouncedValue, setDebouncedValue] = useState("");
 
-  const [, cancel] = useDebounce(
-    () => {
-      setDebouncedValue(val);
+  const onChange = useDebouncedCallback(
+    (e) => {
+      try {
+        db.data.json.editor = JSON.parse(e);
+      } catch {
+        db.data.json.editor = e;
+      }
+      db.write();
     },
-    1200,
-    [val]
+    [],
+    1000, // delay for debounce
+    500 // maxwait ( call at least once every 500ms )
   );
-
-  // const confFileRef = useRef<any>({});
-
-  // update ref when val changes
-  useEffect(() => {
-    try {
-      db.data.json.editor = JSON.parse(val);
-    } catch {
-      db.data.json.editor = val;
-    }
-    db.write();
-
-    // Save conf
-  }, [val]);
-
-  // useEffect(() => {
-  //   getConfFile().then(async (file) => {
-  //     confFileRef.current = JSON.parse(await fs.readTextFile(file));
-  //   });
-  // }, []);
-
-  const onChange: OnChange = async (value, e) => {
-    setVal(value || "");
-  };
 
   const onMount: OnMount = (editor, monaco) => {
     // console.log("Mounted", monaco);
