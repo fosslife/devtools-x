@@ -1,17 +1,22 @@
 import { Box, Flex } from "@chakra-ui/react";
 import Editor, { OnChange, type OnMount } from "@monaco-editor/react";
 import { useDebouncedCallback } from "@react-hookz/web/esm";
-import { MD5, SHA1 } from "crypto-js";
+import { MD5, SHA1, SHA256, SHA512, SHA224 } from "crypto-js";
 import { useRef, useState } from "react";
 import { HashBox } from "../../Components/HashBox";
 import { db } from "../../utils";
 
+const init = {
+  md5: "",
+  sha1: "",
+  sha256: "",
+  sha512: "",
+  sha224: "",
+};
+
 export const Hash = () => {
   const editorRef = useRef<any>(null);
-  const [hashes, setHashes] = useState({
-    md5: "",
-    sha1: "",
-  });
+  const [hashes, setHashes] = useState(init);
 
   const onMount: OnMount = (editor) => {
     editorRef.current = editor;
@@ -34,12 +39,24 @@ export const Hash = () => {
 
   const onChange: OnChange = async (e) => {
     // calculate hash
-    if (!e) return;
+    if (!e) {
+      setHashes({ ...init });
+      return;
+    }
     const md5hash = MD5(e).toString();
     const sha1Hash = SHA1(e).toString();
+    const sha256Hash = SHA256(e).toString();
+    const sha512Hash = SHA512(e).toString();
+    const sha224Hash = SHA224(e).toString();
 
     // set state
-    setHashes({ md5: md5hash, sha1: sha1Hash });
+    setHashes({
+      md5: md5hash,
+      sha1: sha1Hash,
+      sha256: sha256Hash,
+      sha512: sha512Hash,
+      sha224: sha224Hash,
+    });
     onChangeDeb(e);
   };
   return (
@@ -72,6 +89,15 @@ export const Hash = () => {
         </Box>
         <Box width={"full"}>
           <HashBox value={hashes.sha1} hashtype="SHA-1" />
+        </Box>
+        <Box width={"full"}>
+          <HashBox value={hashes.sha256} hashtype="SHA-256" />
+        </Box>
+        <Box width={"full"}>
+          <HashBox value={hashes.sha512} hashtype="SHA-512" />
+        </Box>
+        <Box width={"full"}>
+          <HashBox value={hashes.sha224} hashtype="SHA-224" />
         </Box>
       </Flex>
     </Flex>
