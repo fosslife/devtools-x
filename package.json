@@ -16,6 +16,7 @@
     "@monaco-editor/react": "^4.3.1",
     "@react-hookz/web": "^12.3.0",
     "@tauri-apps/api": "^1.0.0-beta.8",
+    "crypto-js": "^4.1.1",
     "framer-motion": "^5",
     "lowdb": "^3.0.0",
     "react": "^17.0.2",
@@ -25,6 +26,7 @@
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1.0.0-beta.10",
+    "@types/crypto-js": "^4.1.0",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
     "@vitejs/plugin-react": "^1.0.7",
