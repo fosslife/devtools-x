@@ -1,0 +1,83 @@
+import { Box, Flex } from "@chakra-ui/react";
+import Editor, { OnChange, type OnMount } from "@monaco-editor/react";
+import { useDebouncedCallback } from "@react-hookz/web/esm";
+import { MD5, SHA1 } from "crypto-js";
+import { useRef, useState } from "react";
+import { HashBox } from "../../Components/HashBox";
+import { db } from "../../utils";
+
+export const Hash = () => {
+  const editorRef = useRef<any>(null);
+  const [hashes, setHashes] = useState({
+    md5: "",
+    sha1: "",
+  });
+
+  const onMount: OnMount = (editor) => {
+    editorRef.current = editor;
+  };
+
+  // FIXME: definitely reusable function everywhere.
+  const onChangeDeb = useDebouncedCallback(
+    (e) => {
+      try {
+        db.data.hash.editor = JSON.parse(e);
+      } catch {
+        db.data.hash.editor = e;
+      }
+      db.write();
+    },
+    [],
+    1000, // delay for debounce
+    500 // maxwait ( call at least once every 500ms )
+  );
+
+  const onChange: OnChange = async (e) => {
+    // calculate hash
+    if (!e) return;
+    const md5hash = MD5(e).toString();
+    const sha1Hash = SHA1(e).toString();
+
+    // set state
+    setHashes({ md5: md5hash, sha1: sha1Hash });
+    onChangeDeb(e);
+  };
+  return (
+    <Flex
+      h="full"
+      w="100%"
+      gap={3}
+      alignSelf={"start"}
+      sx={{
+        "& div": {
+          maxWidth: "98%",
+        },
+      }}
+    >
+      <Editor
+        options={{
+          minimap: { enabled: false },
+        }}
+        defaultLanguage="text"
+        theme="vs-dark"
+        height={"95%"}
+        defaultValue={"Enter string to hash"}
+        onMount={onMount}
+        onChange={onChange}
+        width={"60%"}
+      />
+      <Flex width={"40%"} gap={2} flexDirection={"column"}>
+        <Box width={"full"}>
+          <HashBox value={hashes.md5} hashtype="MD5" />
+        </Box>
+        <Box width={"full"}>
+          <HashBox value={hashes.sha1} hashtype="SHA-1" />
+        </Box>
+      </Flex>
+    </Flex>
+  );
+};
+
+// TODO: toggle for 'full hash mode', skips middle text of hash and shows starting and ending of hash
+// TODO: add copy success toast? animation?
+// HELP: use this to verify : https://www.browserling.com/tools/all-hashes
