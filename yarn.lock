@@ -2415,6 +2415,13 @@ gauge@~2.7.3:
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
 
+generate-password-ts@^1.6.3:
+  version "1.6.3"
+  resolved "https://registry.yarnpkg.com/generate-password-ts/-/generate-password-ts-1.6.3.tgz#30250de208f3d0d1a45b128700a3449b777b13d3"
+  integrity sha512-6piPG6qvW3B40NLKz6VfK9IgVl0MXRZgGt1SW3zUTZXln2DVno84cAwx0Z6OvA9uJKXRjRRvPz1CUDDsWXJZwA==
+  dependencies:
+    js-crypto-random "1.0.2"
+
 gensync@^1.0.0-beta.2:
   version "1.0.0-beta.2"
   resolved "https://registry.yarnpkg.com/gensync/-/gensync-1.0.0-beta.2.tgz#32a6ee76c3d7f52d46b2b1ae5d93fea8580a25e0"
@@ -2995,6 +3002,18 @@ isurl@^1.0.0-alpha5:
   dependencies:
     has-to-string-tag-x "^1.2.0"
     is-object "^1.0.1"
+
+js-crypto-env@^1.0.2:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/js-crypto-env/-/js-crypto-env-1.0.4.tgz#2be3b0987124bfaf094aadd3c9d91a56aedb0f2a"
+  integrity sha512-b7WdjaX4csatMPfZ/mQ94yb/XTKe3o6qt0jPBVbKmaiOH97e+FlmIANoFEMrhxQM1xxKfA2QYLjgqL/YtdMm9g==
+
+js-crypto-random@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/js-crypto-random/-/js-crypto-random-1.0.2.tgz#79945b1252802dcca231a4f5c6b788c106e6eecf"
+  integrity sha512-bJ31lo2YrxOJIRnT/XPzUu2O43/7uGWAzAtXmAi09Oq6Jmrd2uVy8wII/WH3thezhZvjdU85fVtySSeD1Y2/dQ==
+  dependencies:
+    js-crypto-env "^1.0.2"
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"

@@ -3,6 +3,8 @@ import { extendTheme, ThemeConfig } from "@chakra-ui/react";
 const Card = {
   // The styles all Cards have in common
   baseStyle: {
+    padding: "20px",
+    minH: "70px",
     display: "flex",
     background: "gray.600",
     alignItems: "center",

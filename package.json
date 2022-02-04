@@ -18,6 +18,7 @@
     "@tauri-apps/api": "^1.0.0-beta.8",
     "crypto-js": "^4.1.1",
     "framer-motion": "^5",
+    "generate-password-ts": "^1.6.3",
     "lowdb": "^3.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
