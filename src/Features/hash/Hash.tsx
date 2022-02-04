@@ -50,12 +50,24 @@ export const Hash = () => {
     const sha224Hash = SHA224(e).toString();
 
     // set state
-    setHashes({
-      md5: md5hash,
-      sha1: sha1Hash,
-      sha256: sha256Hash,
-      sha512: sha512Hash,
-      sha224: sha224Hash,
+    setHashes(() => {
+      const state = {
+        md5: md5hash,
+        sha1: sha1Hash,
+        sha256: sha256Hash,
+        sha512: sha512Hash,
+        sha224: sha224Hash,
+      };
+      const parsed = Object.entries(state).reduce((acc, curr) => {
+        return {
+          ...acc,
+          [curr[0]]: `${curr[1].substring(0, 6)}...${curr[1].substring(
+            curr[1].length - 7
+          )}`,
+        };
+      }, init);
+
+      return parsed;
     });
     onChangeDeb(e);
   };
@@ -74,6 +86,7 @@ export const Hash = () => {
       <Editor
         options={{
           minimap: { enabled: false },
+          contextmenu: false,
         }}
         defaultLanguage="text"
         theme="vs-dark"
@@ -106,4 +119,5 @@ export const Hash = () => {
 
 // TODO: toggle for 'full hash mode', skips middle text of hash and shows starting and ending of hash
 // TODO: add copy success toast? animation?
+// TODO: hashes are costly, use LRU memoisation?
 // HELP: use this to verify : https://www.browserling.com/tools/all-hashes
