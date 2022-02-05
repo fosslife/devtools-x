@@ -1,11 +1,11 @@
 /// <reference types="vite/client" />
 
-declare module 'jsoneditor-react' {
+declare module "jsoneditor-react" {
   export class JsonEditor extends React.Component<JsonEditorProps> {
     jsonEditor: any;
   }
 
-  type Mode = 'tree' | 'view' | 'form' | 'code' | 'text';
+  type Mode = "tree" | "view" | "form" | "code" | "text";
 
   interface JsonEditorProps {
     value: any;

@@ -15,11 +15,11 @@ import {
   SliderThumb,
   SliderTrack,
   Stack,
-} from '@chakra-ui/react';
-import { clipboard } from '@tauri-apps/api';
-import { generate } from 'generate-password-ts';
-import { useState } from 'react';
-import { MdGraphicEq } from 'react-icons/md';
+} from "@chakra-ui/react";
+import { clipboard } from "@tauri-apps/api";
+import { generate } from "generate-password-ts";
+import { useState } from "react";
+import { MdGraphicEq } from "react-icons/md";
 
 type PassOpt = {
   lowercase: boolean;
@@ -31,7 +31,7 @@ type PassOpt = {
 
 const Random = () => {
   const [length, setLength] = useState(16); // default pass length
-  const [pass, setPass] = useState({ pass: '', entropy: 0 });
+  const [pass, setPass] = useState({ pass: "", entropy: 0 });
   const [passOpt, setPassOption] = useState<PassOpt>({
     lowercase: true,
     numbers: true,
@@ -75,18 +75,18 @@ const Random = () => {
       h="full"
       w="100%"
       gap={6}
-      alignSelf={'start'}
-      flexDirection={'column'}
+      alignSelf={"start"}
+      flexDirection={"column"}
       sx={{
-        '& div': {
-          maxWidth: '98%',
+        "& div": {
+          maxWidth: "98%",
         },
       }}
     >
       <FormControl>
         <FormLabel htmlFor="email">Password:</FormLabel>
         <InputGroup>
-          <Input readOnly size={'lg'} value={pass.pass} />
+          <Input readOnly size={"lg"} value={pass.pass} />
           <InputRightElement width="4.5rem">
             <Button
               size="sm"
@@ -99,15 +99,15 @@ const Random = () => {
           </InputRightElement>
         </InputGroup>
         {isError() ? (
-          <FormHelperText color={'red.300'}>
+          <FormHelperText color={"red.300"}>
             Please select at least one checkbox
           </FormHelperText>
         ) : null}
       </FormControl>
 
       <Box>
-        <CheckboxGroup colorScheme="green" defaultValue={['naruto', 'kakashi']}>
-          <Stack spacing={[1, 5]} direction={['column', 'row']}>
+        <CheckboxGroup colorScheme="green" defaultValue={["naruto", "kakashi"]}>
+          <Stack spacing={[1, 5]} direction={["column", "row"]}>
             <Checkbox
               isChecked={passOpt.lowercase}
               onChange={(e) => {

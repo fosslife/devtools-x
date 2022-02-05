@@ -1,26 +1,26 @@
-import { Button, Checkbox, Flex, Tooltip } from '@chakra-ui/react';
+import { Button, Checkbox, Flex, Tooltip } from "@chakra-ui/react";
 import Editor, {
   type DiffOnMount,
   type OnMount,
   DiffEditor,
-} from '@monaco-editor/react';
-import { useDebouncedCallback } from '@react-hookz/web/esm';
-import { useRef, useState } from 'react';
+} from "@monaco-editor/react";
+import { useDebouncedCallback } from "@react-hookz/web/esm";
+import { useRef, useState } from "react";
 
-import { db } from '../../utils';
+import { db } from "../../utils";
 
 // default
 const def = {
   array: [1, 2, 3],
   boolean: true,
-  color: 'gold',
+  color: "gold",
   null: null,
   number: 123,
   object: {
-    a: 'b',
-    c: 'd',
+    a: "b",
+    c: "d",
   },
-  string: 'Hello World',
+  string: "Hello World",
 };
 
 const JsonFormatter = () => {
@@ -45,8 +45,8 @@ const JsonFormatter = () => {
     // console.log("Mounted", monaco);
     // minify command
     editor.addAction({
-      id: 'minify-json',
-      label: 'Minify json',
+      id: "minify-json",
+      label: "Minify json",
       //FIXME: keybindings not working
       keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyM],
       // A precondition for this action.
@@ -55,7 +55,7 @@ const JsonFormatter = () => {
       // A rule to evaluate on top of the precondition in order to dispatch the keybindings.
       keybindingContext: undefined,
 
-      contextMenuGroupId: 'navigation',
+      contextMenuGroupId: "navigation",
 
       contextMenuOrder: 1.5,
       run: function (ed: any) {
@@ -76,11 +76,11 @@ const JsonFormatter = () => {
       w="full"
       h="full"
       gap={3}
-      alignSelf={'start'}
+      alignSelf={"start"}
       //thanks: https://stackoverflow.com/questions/54278276/improper-resizing-after-using-resize-bar
       sx={{
-        '& div': {
-          maxWidth: '98%',
+        "& div": {
+          maxWidth: "98%",
         },
       }}
     >
@@ -91,7 +91,7 @@ const JsonFormatter = () => {
             originalEditable: true,
           }}
           theme="vs-dark"
-          height={'95%'}
+          height={"95%"}
           // width={diff ? "95%" : "100%"}
           originalLanguage="json"
           modifiedLanguage="json"
@@ -107,7 +107,7 @@ const JsonFormatter = () => {
           }}
           defaultLanguage="json"
           theme="vs-dark"
-          height={'95%'}
+          height={"95%"}
           // width={"99%"}
           defaultValue={JSON.stringify(def, null, 2)}
           onMount={onMount}
@@ -115,12 +115,12 @@ const JsonFormatter = () => {
         />
       )}
 
-      <Flex gap={5} mt={10} flexDirection={'column'}>
+      <Flex gap={5} mt={10} flexDirection={"column"}>
         <Tooltip label="calculate Diff" openDelay={500}>
           <Checkbox
-            size={'sm'}
+            size={"sm"}
             onChange={() => {
-              console.log('toggling');
+              console.log("toggling");
               setDiff(!diff);
             }}
           >
@@ -130,7 +130,7 @@ const JsonFormatter = () => {
         {!diff && (
           <Tooltip label="Alt+Shift+F" openDelay={500}>
             <Button
-              size={'sm'}
+              size={"sm"}
               onClick={() => {
                 editorRef.current?.setValue(JSON.stringify(def, null, 2));
               }}
@@ -143,7 +143,7 @@ const JsonFormatter = () => {
         {!diff && (
           <Tooltip label="Alt+Shift+M" openDelay={500}>
             <Button
-              size={'sm'}
+              size={"sm"}
               onClick={() => {
                 editorRef.current?.setValue(JSON.stringify(def));
               }}

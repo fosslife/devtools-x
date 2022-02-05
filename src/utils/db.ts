@@ -1,12 +1,12 @@
-import { fs, path } from '@tauri-apps/api';
-import { Low } from 'lowdb';
+import { fs, path } from "@tauri-apps/api";
+import { Low } from "lowdb";
 
 const getAppDir = () => {
   return path.appDir();
 };
 
 const getConfFile = async () => {
-  return path.join(await getAppDir(), 'conf.json');
+  return path.join(await getAppDir(), "conf.json");
 };
 
 //TODO: Json parsing strigify is slow. look for possible alternatives - p5 since conf file will be really small
@@ -17,7 +17,7 @@ class CustomAdaptor {
   async read() {
     const data = await fs.readTextFile(await getConfFile());
     if (!data) {
-      return '';
+      return "";
     }
     return JSON.parse(data);
   }
@@ -29,7 +29,7 @@ class CustomAdaptor {
         contents: JSON.stringify(data),
       })
       .catch((e) => {
-        console.error('EEE', e);
+        console.error("EEE", e);
       });
   }
 }

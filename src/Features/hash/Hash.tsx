@@ -1,18 +1,18 @@
-import { Box, Flex } from '@chakra-ui/react';
-import Editor, { type OnMount, OnChange } from '@monaco-editor/react';
-import { useDebouncedCallback } from '@react-hookz/web/esm';
-import { MD5, SHA1, SHA224, SHA256, SHA512 } from 'crypto-js';
-import { useRef, useState } from 'react';
+import { Box, Flex } from "@chakra-ui/react";
+import Editor, { type OnMount, OnChange } from "@monaco-editor/react";
+import { useDebouncedCallback } from "@react-hookz/web/esm";
+import { MD5, SHA1, SHA224, SHA256, SHA512 } from "crypto-js";
+import { useRef, useState } from "react";
 
-import { HashBox } from '../../Components/HashBox';
-import { db } from '../../utils';
+import { HashBox } from "../../Components/HashBox";
+import { db } from "../../utils";
 
 const init = {
-  md5: '',
-  sha1: '',
-  sha256: '',
-  sha512: '',
-  sha224: '',
+  md5: "",
+  sha1: "",
+  sha256: "",
+  sha512: "",
+  sha224: "",
 };
 
 const Hash = () => {
@@ -77,10 +77,10 @@ const Hash = () => {
       h="full"
       w="100%"
       gap={3}
-      alignSelf={'start'}
+      alignSelf={"start"}
       sx={{
-        '& div': {
-          maxWidth: '98%',
+        "& div": {
+          maxWidth: "98%",
         },
       }}
     >
@@ -91,26 +91,26 @@ const Hash = () => {
         }}
         defaultLanguage="text"
         theme="vs-dark"
-        height={'95%'}
-        defaultValue={'Enter string to hash'}
+        height={"95%"}
+        defaultValue={"Enter string to hash"}
         onMount={onMount}
         onChange={onChange}
-        width={'60%'}
+        width={"60%"}
       />
-      <Flex width={'40%'} gap={2} flexDirection={'column'}>
-        <Box width={'full'}>
+      <Flex width={"40%"} gap={2} flexDirection={"column"}>
+        <Box width={"full"}>
           <HashBox value={hashes.md5} hashtype="MD5" />
         </Box>
-        <Box width={'full'}>
+        <Box width={"full"}>
           <HashBox value={hashes.sha1} hashtype="SHA-1" />
         </Box>
-        <Box width={'full'}>
+        <Box width={"full"}>
           <HashBox value={hashes.sha256} hashtype="SHA-256" />
         </Box>
-        <Box width={'full'}>
+        <Box width={"full"}>
           <HashBox value={hashes.sha512} hashtype="SHA-512" />
         </Box>
-        <Box width={'full'}>
+        <Box width={"full"}>
           <HashBox value={hashes.sha224} hashtype="SHA-224" />
         </Box>
       </Flex>
