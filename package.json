@@ -7,7 +7,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "tauri": "tauri",
-    "lint:fix": "eslint ./src --ext .jsx,.js,.ts,.tsx --quiet --fix",
+    "lint:fix": "eslint ./src --ext .jsx,.js,.ts,.tsx --fix",
     "lint:format": "prettier  --loglevel warn --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\" ",
     "lint": "yarn lint:format && yarn lint:fix ",
     "type-check": "tsc"
