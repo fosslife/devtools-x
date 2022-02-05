@@ -5,8 +5,8 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-} from "@chakra-ui/react";
-import { clipboard } from "@tauri-apps/api";
+} from '@chakra-ui/react';
+import { clipboard } from '@tauri-apps/api';
 
 type HashBoxProps = {
   value: string;
@@ -20,14 +20,14 @@ export const HashBox = ({ value, hashtype }: HashBoxProps) => {
       <InputGroup>
         <Input
           w="75%"
-          variant={"filled"}
+          variant={'filled'}
           id={hashtype}
           type="text"
           value={value}
           readOnly
-          cursor={"progress"}
-          overflow={"hidden"}
-          textOverflow={"ellipsis"}
+          cursor={'progress'}
+          overflow={'hidden'}
+          textOverflow={'ellipsis'}
         />
         <InputRightElement width="4.5rem">
           <Button
