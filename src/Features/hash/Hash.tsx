@@ -14,7 +14,7 @@ const init = {
   sha224: "",
 };
 
-export const Hash = () => {
+const Hash = () => {
   const editorRef = useRef<any>(null);
   const [hashes, setHashes] = useState(init);
 
@@ -121,3 +121,5 @@ export const Hash = () => {
 // TODO: add copy success toast? animation?
 // TODO: hashes are costly, use LRU memoisation?
 // HELP: use this to verify : https://www.browserling.com/tools/all-hashes
+
+export default Hash;

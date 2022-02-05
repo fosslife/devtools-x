@@ -24,7 +24,7 @@ const def = {
   string: "Hello World",
 };
 
-export const JsonFormatter = () => {
+const JsonFormatter = () => {
   const editorRef = useRef<any>(null);
   const [diff, setDiff] = useState(false);
 
@@ -162,3 +162,5 @@ export const JsonFormatter = () => {
 Save editors in storage on change - p1
 fix formatting - instead of default values get editor text - p1
 */
+
+export default JsonFormatter;

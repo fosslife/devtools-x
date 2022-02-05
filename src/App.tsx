@@ -1,12 +1,15 @@
 import { Flex } from "@chakra-ui/react";
+import loadable from "@loadable/component";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
-import { Welcome } from "./Components/Welcome";
-import { Hash } from "./Features/hash/Hash";
-import { JsonFormatter } from "./Features/Json/JsonFormatter";
-import { Random } from "./Features/random/Random";
 import { Navbar } from "./Layout/Navbar";
 import { db } from "./utils";
+
+// Lazy load components
+const Welcome = loadable(() => import("./Components/Welcome"));
+const Hash = loadable(() => import("./Features/hash/Hash"));
+const JsonFormatter = loadable(() => import("./Features/Json/JsonFormatter"));
+const Random = loadable(() => import("./Features/random/Random"));
 
 function App() {
   useEffect(() => {
