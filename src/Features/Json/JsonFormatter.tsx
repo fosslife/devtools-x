@@ -1,14 +1,13 @@
-import { Tooltip, Button, Flex, Checkbox } from "@chakra-ui/react";
+import { Button, Checkbox, Flex, Tooltip } from "@chakra-ui/react";
 import Editor, {
-  DiffEditor,
-  type OnMount,
   type DiffOnMount,
-  type OnChange,
+  type OnMount,
+  DiffEditor,
 } from "@monaco-editor/react";
-import { fs } from "@tauri-apps/api";
-import { useEffect, useRef, useState } from "react";
-import { db } from "../../utils";
 import { useDebouncedCallback } from "@react-hookz/web/esm";
+import { useRef, useState } from "react";
+
+import { db } from "../../utils";
 
 // default
 const def = {
@@ -24,7 +23,7 @@ const def = {
   string: "Hello World",
 };
 
-export const JsonFormatter = () => {
+const JsonFormatter = () => {
   const editorRef = useRef<any>(null);
   const [diff, setDiff] = useState(false);
 
@@ -68,7 +67,7 @@ export const JsonFormatter = () => {
     editorRef.current = editor;
   };
 
-  const diffOnMout: DiffOnMount = (editor, monaco) => {
+  const diffOnMout: DiffOnMount = (editor) => {
     editorRef.current = editor;
   };
 
@@ -162,3 +161,5 @@ export const JsonFormatter = () => {
 Save editors in storage on change - p1
 fix formatting - instead of default values get editor text - p1
 */
+
+export default JsonFormatter;

@@ -1,8 +1,9 @@
-import { Box, Flex, Icon, Text, Input } from "@chakra-ui/react";
-import { Card } from "../Components/Card";
-import { MdAnchor } from "react-icons/md";
-import { FiHash } from "react-icons/fi";
+import { Box, Flex, Icon, Input, Text } from "@chakra-ui/react";
 import { FaRandom } from "react-icons/fa";
+import { FiHash } from "react-icons/fi";
+import { MdAnchor } from "react-icons/md";
+
+import { Card } from "../Components/Card";
 
 export const Navbar = () => {
   return (

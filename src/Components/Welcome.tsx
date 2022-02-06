@@ -1,6 +1,6 @@
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import { Flex, Heading, Text } from "@chakra-ui/react";
 
-export const Welcome = () => {
+const Welcome = () => {
   return (
     <Flex
       h="full"
@@ -16,3 +16,5 @@ export const Welcome = () => {
     </Flex>
   );
 };
+
+export default Welcome;
