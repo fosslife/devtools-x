@@ -6,13 +6,18 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "lint:fix": "eslint ./src --ext .jsx,.js,.ts,.tsx --fix",
+    "lint:format": "prettier  --loglevel warn --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\" ",
+    "lint": "yarn lint:format && yarn lint:fix ",
+    "type-check": "tsc"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.1.1",
     "@chakra-ui/react": "^1.7.4",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "@loadable/component": "^5.15.2",
     "@monaco-editor/react": "^4.3.1",
     "@react-hookz/web": "^12.3.0",
     "@tauri-apps/api": "^1.0.0-beta.8",
@@ -28,10 +33,22 @@
   "devDependencies": {
     "@tauri-apps/cli": "^1.0.0-beta.10",
     "@types/crypto-js": "^4.1.0",
+    "@types/loadable__component": "^5.13.4",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
+    "@typescript-eslint/eslint-plugin": "^5.10.2",
+    "@typescript-eslint/parser": "^5.10.2",
     "@vitejs/plugin-react": "^1.0.7",
+    "eslint": "^8.8.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
     "monaco-editor": "^0.31.1",
+    "prettier": "^2.5.1",
+    "rollup-plugin-visualizer": "^5.5.4",
     "typescript": "^4.4.4",
     "vite": "^2.7.2"
   }

@@ -29,7 +29,7 @@ type PassOpt = {
   excludeSimilarCharacters?: boolean;
 };
 
-export const Random = () => {
+const Random = () => {
   const [length, setLength] = useState(16); // default pass length
   const [pass, setPass] = useState({ pass: "", entropy: 0 });
   const [passOpt, setPassOption] = useState<PassOpt>({
@@ -111,9 +111,7 @@ export const Random = () => {
             <Checkbox
               isChecked={passOpt.lowercase}
               onChange={(e) => {
-                setPassOption((prev) => {
-                  return { ...passOpt, lowercase: e.target.checked };
-                });
+                setPassOption({ ...passOpt, lowercase: e.target.checked });
               }}
             >
               Lowercase
@@ -190,3 +188,5 @@ export const Random = () => {
 
 // FIXME: entropy calculation is borked!
 // TODO: exclude characters
+
+export default Random;

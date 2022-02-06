@@ -1,8 +1,9 @@
 import { Box, Flex } from "@chakra-ui/react";
-import Editor, { OnChange, type OnMount } from "@monaco-editor/react";
+import Editor, { type OnMount, OnChange } from "@monaco-editor/react";
 import { useDebouncedCallback } from "@react-hookz/web/esm";
-import { MD5, SHA1, SHA256, SHA512, SHA224 } from "crypto-js";
+import { MD5, SHA1, SHA224, SHA256, SHA512 } from "crypto-js";
 import { useRef, useState } from "react";
+
 import { HashBox } from "../../Components/HashBox";
 import { db } from "../../utils";
 
@@ -14,7 +15,7 @@ const init = {
   sha224: "",
 };
 
-export const Hash = () => {
+const Hash = () => {
   const editorRef = useRef<any>(null);
   const [hashes, setHashes] = useState(init);
 
@@ -121,3 +122,5 @@ export const Hash = () => {
 // TODO: add copy success toast? animation?
 // TODO: hashes are costly, use LRU memoisation?
 // HELP: use this to verify : https://www.browserling.com/tools/all-hashes
+
+export default Hash;

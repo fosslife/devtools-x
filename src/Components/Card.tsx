@@ -1,4 +1,4 @@
-import { Box, ChakraComponent, useStyleConfig } from "@chakra-ui/react";
+import { Box, useStyleConfig } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 // FIXME: idk what type will be
