@@ -2,6 +2,7 @@ import { Box, Flex, Icon, Input, Text } from "@chakra-ui/react";
 import { FaRandom } from "react-icons/fa";
 import { FiHash } from "react-icons/fi";
 import { MdAnchor } from "react-icons/md";
+import { SiJsonwebtokens } from "react-icons/si";
 
 import { Card } from "../Components/Card";
 
@@ -39,6 +40,13 @@ export const Navbar = () => {
         <Card linkto="/random">
           <Icon as={FaRandom}></Icon>
           <Text>Random Text</Text>
+        </Card>
+      </Box>
+
+      <Box mt="1.5">
+        <Card linkto="/jwt">
+          <Icon as={SiJsonwebtokens}></Icon>
+          <Text>JWT tools</Text>
         </Card>
       </Box>
     </Flex>
