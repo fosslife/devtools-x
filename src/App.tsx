@@ -3,6 +3,7 @@ import loadable from "@loadable/component";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
+// import { JWT } from "./Features/jwt/JWT";
 import { Navbar } from "./Layout/Navbar";
 import { db } from "./utils";
 
@@ -11,6 +12,7 @@ const Welcome = loadable(() => import("./Components/Welcome"));
 const Hash = loadable(() => import("./Features/hash/Hash"));
 const JsonFormatter = loadable(() => import("./Features/Json/JsonFormatter"));
 const Random = loadable(() => import("./Features/random/Random"));
+const JWT = loadable(() => import("./Features/jwt/JWT"));
 
 function App() {
   useEffect(() => {
@@ -36,6 +38,7 @@ function App() {
           <Route path="/json-formatter" element={<JsonFormatter />}></Route>
           <Route path="/hash" element={<Hash />}></Route>
           <Route path="/random" element={<Random />}></Route>
+          <Route path="/jwt" element={<JWT />}></Route>
         </Routes>
       </Flex>
     </Flex>

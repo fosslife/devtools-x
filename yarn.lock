@@ -3758,6 +3758,11 @@ isurl@^1.0.0-alpha5:
     has-to-string-tag-x "^1.2.0"
     is-object "^1.0.1"
 
+jose@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/jose/-/jose-4.5.0.tgz#92829d8cf846351eb55aaaf94f252fb1d191f2d5"
+  integrity sha512-GFcVFQwYQKbQTUOo2JlpFGXTkgBw26uzDsRMD2q1WgSKNSnpKS9Ug7bdQ8dS+p4sZHNH6iRPu6WK2jLIjspaMA==
+
 js-crypto-env@^1.0.2:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/js-crypto-env/-/js-crypto-env-1.0.4.tgz#2be3b0987124bfaf094aadd3c9d91a56aedb0f2a"
