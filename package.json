@@ -29,7 +29,8 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
-    "react-router-dom": "6"
+    "react-router-dom": "6",
+    "simple-base-converter": "^1.0.10"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1.0.0-beta.10",
