@@ -55,7 +55,7 @@ const Random = () => {
       ...passOpt,
     });
 
-    // Entropy calculation, broken!
+    // FIXME: Entropy calculation, broken!
     // let l = x.length;
     // let poolsize = 0;
     // if (passOpt.lowercase) poolsize += 26;
