@@ -13,6 +13,7 @@ const Hash = loadable(() => import("./Features/hash/Hash"));
 const JsonFormatter = loadable(() => import("./Features/Json/JsonFormatter"));
 const Random = loadable(() => import("./Features/random/Random"));
 const JWT = loadable(() => import("./Features/jwt/JWT"));
+const Nums = loadable(() => import("./Features/nums/Nums"));
 
 function App() {
   useEffect(() => {
@@ -39,6 +40,7 @@ function App() {
           <Route path="/hash" element={<Hash />}></Route>
           <Route path="/random" element={<Random />}></Route>
           <Route path="/jwt" element={<JWT />}></Route>
+          <Route path="/nums" element={<Nums />}></Route>
         </Routes>
       </Flex>
     </Flex>

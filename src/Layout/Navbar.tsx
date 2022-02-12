@@ -1,4 +1,5 @@
 import { Box, Flex, Icon, Input, Text } from "@chakra-ui/react";
+import { BsSortNumericUpAlt } from "react-icons/bs";
 import { FaRandom } from "react-icons/fa";
 import { FiHash } from "react-icons/fi";
 import { MdAnchor } from "react-icons/md";
@@ -47,6 +48,13 @@ export const Navbar = () => {
         <Card linkto="/jwt">
           <Icon as={SiJsonwebtokens}></Icon>
           <Text>JWT tools</Text>
+        </Card>
+      </Box>
+
+      <Box mt="1.5">
+        <Card linkto="/nums">
+          <Icon as={BsSortNumericUpAlt}></Icon>
+          <Text>Num Converters</Text>
         </Card>
       </Box>
     </Flex>
