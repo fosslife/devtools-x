@@ -6,3 +6,5 @@ dist-ssr
 
 # rollup analysis stats. not sure if this should be pushed to gh. maybe host it?
 stats.html
+
+yarn-error.log

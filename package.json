@@ -20,6 +20,7 @@
     "@loadable/component": "^5.15.2",
     "@monaco-editor/react": "^4.3.1",
     "@react-hookz/web": "^12.3.0",
+    "@sqltools/formatter": "^1.2.3",
     "@tauri-apps/api": "^1.0.0-beta.8",
     "crypto-js": "^4.1.1",
     "framer-motion": "^5",
