@@ -14,6 +14,7 @@ const Random = loadable(() => import("./Features/random/Random"));
 const JWT = loadable(() => import("./Features/jwt/JWT"));
 const Nums = loadable(() => import("./Features/nums/Nums"));
 const Sql = loadable(() => import("./Features/Sql/Sql"));
+const Colors = loadable(() => import("./Features/colors/Colors"));
 
 function App() {
   useEffect(() => {
@@ -42,6 +43,7 @@ function App() {
           <Route path="/jwt" element={<JWT />}></Route>
           <Route path="/nums" element={<Nums />}></Route>
           <Route path="/sql" element={<Sql />}></Route>
+          <Route path="/colors" element={<Colors />}></Route>
         </Routes>
       </Flex>
     </Flex>
