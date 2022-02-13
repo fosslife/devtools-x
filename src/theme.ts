@@ -6,7 +6,6 @@ const Card = {
     padding: "20px",
     minH: "70px",
     display: "flex",
-    background: "gray.600",
     alignItems: "center",
     gap: 3,
   },
