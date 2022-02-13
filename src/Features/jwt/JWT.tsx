@@ -14,9 +14,13 @@ const JWT = () => {
 
   useEffect(() => {
     if (jwt.token) {
-      let decoded = decodeJwt(jwt.token);
-      let headers = decodeProtectedHeader(jwt.token);
-      setJwt({ ...jwt, decoded: decoded, headers: headers });
+      try {
+        let decoded = decodeJwt(jwt.token);
+        let headers = decodeProtectedHeader(jwt.token);
+        setJwt({ ...jwt, decoded: decoded, headers: headers });
+      } catch {
+        // ignore error I guess?
+      }
     }
   }, [jwt]);
 

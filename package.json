@@ -20,6 +20,7 @@
     "@loadable/component": "^5.15.2",
     "@monaco-editor/react": "^4.3.1",
     "@react-hookz/web": "^12.3.0",
+    "@sqltools/formatter": "^1.2.3",
     "@tauri-apps/api": "^1.0.0-beta.8",
     "crypto-js": "^4.1.1",
     "framer-motion": "^5",
@@ -29,7 +30,8 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
-    "react-router-dom": "6"
+    "react-router-dom": "6",
+    "simple-base-converter": "^1.0.10"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1.0.0-beta.10",

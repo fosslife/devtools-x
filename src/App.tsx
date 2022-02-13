@@ -3,7 +3,6 @@ import loadable from "@loadable/component";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
-// import { JWT } from "./Features/jwt/JWT";
 import { Navbar } from "./Layout/Navbar";
 import { db } from "./utils";
 
@@ -13,6 +12,8 @@ const Hash = loadable(() => import("./Features/hash/Hash"));
 const JsonFormatter = loadable(() => import("./Features/Json/JsonFormatter"));
 const Random = loadable(() => import("./Features/random/Random"));
 const JWT = loadable(() => import("./Features/jwt/JWT"));
+const Nums = loadable(() => import("./Features/nums/Nums"));
+const Sql = loadable(() => import("./Features/Sql/Sql"));
 
 function App() {
   useEffect(() => {
@@ -39,6 +40,8 @@ function App() {
           <Route path="/hash" element={<Hash />}></Route>
           <Route path="/random" element={<Random />}></Route>
           <Route path="/jwt" element={<JWT />}></Route>
+          <Route path="/nums" element={<Nums />}></Route>
+          <Route path="/sql" element={<Sql />}></Route>
         </Routes>
       </Flex>
     </Flex>
