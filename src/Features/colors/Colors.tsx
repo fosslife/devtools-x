@@ -54,7 +54,7 @@ const Colors = () => {
           <InputGroup>
             <Input
               value={`${color.r}, ${color.g}, ${color.b}, ${color.a}`}
-              onChange={(e) => {
+              onChange={() => {
                 // TODO: parse all rgb formats and set color.
                 // setColor()
               }}
@@ -78,7 +78,7 @@ const Colors = () => {
           <InputGroup>
             <Input
               value={convertRgbTohex(color)}
-              onChange={(e) => {
+              onChange={() => {
                 // TODO: parse all hex, convert to Rgb and set color.
                 // setColor()
               }}

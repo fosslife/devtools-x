@@ -1,9 +1,8 @@
 import { Box, Button, Divider, Flex, Textarea } from "@chakra-ui/react";
-import { type OnMount } from "@monaco-editor/react";
 import { useDebouncedCallback } from "@react-hookz/web/esm";
 import { dialog, fs } from "@tauri-apps/api";
 import { lib, MD5, SHA1, SHA224, SHA256, SHA512 } from "crypto-js";
-import { ChangeEventHandler, useRef, useState } from "react";
+import { ChangeEventHandler, useState } from "react";
 
 import { HashBox } from "../../Components/HashBox";
 import { db } from "../../utils";
@@ -25,12 +24,7 @@ const init = {
 };
 
 const Hash = () => {
-  const editorRef = useRef<any>(null);
   const [hashes, setHashes] = useState(init);
-
-  const onMount: OnMount = (editor) => {
-    editorRef.current = editor;
-  };
 
   // FIXME: definitely reusable function everywhere.
   const onChangeDeb = useDebouncedCallback(
