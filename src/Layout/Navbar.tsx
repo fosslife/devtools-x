@@ -57,6 +57,13 @@ export const Navbar = () => {
           <Text>Num Converters</Text>
         </Card>
       </Box>
+
+      <Box mt="1.5">
+        <Card linkto="/sql">
+          <Icon as={BsSortNumericUpAlt}></Icon>
+          <Text>SQL formatter</Text>
+        </Card>
+      </Box>
     </Flex>
   );
 };
