@@ -1,9 +1,9 @@
-import { Box, Button, Divider, Flex } from "@chakra-ui/react";
-import Editor, { type OnMount, OnChange } from "@monaco-editor/react";
+import { Box, Button, Divider, Flex, Textarea } from "@chakra-ui/react";
+import { type OnMount } from "@monaco-editor/react";
 import { useDebouncedCallback } from "@react-hookz/web/esm";
 import { dialog, fs } from "@tauri-apps/api";
-import { enc, lib, MD5, SHA1, SHA224, SHA256, SHA512 } from "crypto-js";
-import { useRef, useState } from "react";
+import { lib, MD5, SHA1, SHA224, SHA256, SHA512 } from "crypto-js";
+import { ChangeEventHandler, useRef, useState } from "react";
 
 import { HashBox } from "../../Components/HashBox";
 import { db } from "../../utils";
@@ -57,17 +57,18 @@ const Hash = () => {
       };
     }, init);
 
-  const onChange: OnChange = async (e) => {
+  const onChange: ChangeEventHandler<HTMLTextAreaElement> = async (e) => {
     // calculate hash
-    if (!e) {
+    const val = e.target.value;
+    if (!val) {
       setHashes({ ...init });
       return;
     }
-    const md5hash = MD5(e).toString();
-    const sha1Hash = SHA1(e).toString();
-    const sha256Hash = SHA256(e).toString();
-    const sha512Hash = SHA512(e).toString();
-    const sha224Hash = SHA224(e).toString();
+    const md5hash = MD5(val).toString();
+    const sha1Hash = SHA1(val).toString();
+    const sha256Hash = SHA256(val).toString();
+    const sha512Hash = SHA512(val).toString();
+    const sha224Hash = SHA224(val).toString();
     const state = {
       md5: md5hash,
       sha1: sha1Hash,
@@ -91,7 +92,7 @@ const Hash = () => {
         },
       }}
     >
-      <Editor
+      {/* <Editor
         options={{
           minimap: { enabled: false },
           contextmenu: false,
@@ -103,6 +104,13 @@ const Hash = () => {
         onMount={onMount}
         onChange={onChange}
         width={"60%"}
+      /> */}
+      <Textarea
+        height={"100%"}
+        width="60%"
+        placeholder="Enter text to hash"
+        onChange={onChange}
+        resize="none"
       />
       <Flex width={"40%"} gap={2} flexDirection={"column"}>
         <Box width={"full"}>
