@@ -11,6 +11,7 @@ import { FaRandom } from "react-icons/fa";
 import { FiHash } from "react-icons/fi";
 import { MdAnchor, MdColorize } from "react-icons/md";
 import { SiJsonwebtokens, SiPostgresql } from "react-icons/si";
+import { VscRegex } from "react-icons/vsc";
 
 import { Card } from "../Components/Card";
 
@@ -24,6 +25,7 @@ export const Navbar = () => {
     { id: 5, to: "/nums", icon: BsSortNumericUpAlt, text: "Num Converters" },
     { id: 6, to: "/sql", icon: SiPostgresql, text: "SQL formatter" },
     { id: 7, to: "/colors", icon: MdColorize, text: "Color Utils" },
+    { id: 8, to: "/regex", icon: VscRegex, text: "Regex Tester" },
   ];
   return (
     <Flex
