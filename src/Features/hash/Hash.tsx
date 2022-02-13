@@ -92,19 +92,6 @@ const Hash = () => {
         },
       }}
     >
-      {/* <Editor
-        options={{
-          minimap: { enabled: false },
-          contextmenu: false,
-        }}
-        defaultLanguage="text"
-        theme="vs-dark"
-        height={"95%"}
-        defaultValue={"Enter string to hash"}
-        onMount={onMount}
-        onChange={onChange}
-        width={"60%"}
-      /> */}
       <Textarea
         height={"100%"}
         width="60%"
