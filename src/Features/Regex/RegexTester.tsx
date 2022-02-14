@@ -77,13 +77,8 @@ const RegexTester = () => {
         },
       }}
     >
-      <Flex gap={3}>
-        <Input
-          placeholder="enter regex"
-          value={rg}
-          onChange={compileReg}
-          width="2xl"
-        />
+      <Flex gap={3} w="100%">
+        <Input placeholder="enter regex" value={rg} onChange={compileReg} />
         <CheckboxGroup colorScheme="green" defaultValue={["naruto", "kakashi"]}>
           <Stack spacing={[1, 5]} direction={["column", "row"]}>
             <Checkbox
@@ -124,11 +119,13 @@ const RegexTester = () => {
           minimap: { enabled: false },
           lineNumbers: "off",
           fontSize: 18,
+          cursorBlinking: "expand",
         }}
         defaultLanguage="text"
         defaultValue={text}
         theme="vs-dark"
         height={"89%"}
+        width="50%"
         onMount={onMount}
         onChange={onChange}
       />
