@@ -49,7 +49,10 @@
       "active": false
     },
     "allowlist": {
-      "all": true
+      "all": true,
+      "fs": {
+        "scope": ["$APP/*", "$CONFIG/*"]
+      }
     },
     "windows": [
       {
