@@ -11,18 +11,25 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import { clipboard } from "@tauri-apps/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RgbaColor, RgbaColorPicker } from "react-colorful";
 import { convertBase } from "simple-base-converter";
 
 const Colors = () => {
-  const { toggleColorMode } = useColorMode();
+  const { toggleColorMode, setColorMode } = useColorMode();
   const [color, setColor] = useState<RgbaColor>({
     r: 34,
     g: 135,
     b: 199,
     a: 0.5,
   });
+
+  useEffect(() => {
+    return () => {
+      // reset mode to dark before switching panels
+      setColorMode("dark");
+    };
+  }, []);
 
   const convertRgbTohex = (color: RgbaColor) => {
     const rH = convertBase(color.r, 10, 16).padStart(2, "0");
