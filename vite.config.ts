@@ -11,7 +11,8 @@ export default defineConfig({
       plugins: [visualizer()],
       output: {
         manualChunks: {
-          "@monaco-editor/react": ["@monaco-editor/react"],
+          jsoneditor: ["jsoneditor"],
+          "ace-builds": ["ace-builds"],
           "@chakra-ui/react": ["@chakra-ui/react"],
         },
       },

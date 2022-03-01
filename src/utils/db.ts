@@ -1,20 +1,15 @@
 import { fs, path } from "@tauri-apps/api";
+import { BaseDirectory } from "@tauri-apps/api/fs";
 import { Low } from "lowdb";
 
-const getAppDir = () => {
-  return path.appDir();
-};
-
-const getConfFile = async () => {
-  return path.join(await getAppDir(), "conf.json");
-};
+// const dir = await path.appDir();
 
 class CustomAdaptor {
   // Optional: your adapter can take arguments
   constructor() {}
 
   async read() {
-    const data = await fs.readTextFile(await getConfFile());
+    const data = await fs.readTextFile("conf.json", { dir: BaseDirectory.App });
     if (!data) {
       return "";
     }
@@ -23,36 +18,76 @@ class CustomAdaptor {
 
   async write(data: any) {
     await fs
-      .writeFile({
-        path: await getConfFile(),
-        contents: JSON.stringify(data),
-      })
+      .writeFile(
+        {
+          path: "conf.json",
+          contents: JSON.stringify(data),
+        },
+        {
+          dir: BaseDirectory.App,
+        }
+      )
       .catch((e) => {
         console.error("EEE", e);
       });
   }
 }
 
-const dir = await path.appDir();
 try {
-  await fs.readDir(dir);
+  console.log("Reading conf dir");
+  // await fs.readDir("", { dir: BaseDirectory.Config });
+  await fs.readDir("devtools", { dir: BaseDirectory.Config });
   console.log("dir exists");
   try {
-    await fs.readTextFile(await path.join(dir, "conf.json"));
+    await fs.readTextFile("conf.json", { dir: BaseDirectory.App });
   } catch (e) {
     console.error("conf file doesnt exist, creating one", e);
-    await fs.writeFile({
-      path: `${dir}${path.sep}conf.json`,
-      contents: "{}",
-    });
+    try {
+      console.log("Creating conf file");
+      await fs.writeFile(
+        {
+          path: "conf.json",
+          contents: "{}",
+        },
+        {
+          dir: BaseDirectory.App,
+        }
+      );
+      console.log("conf file created successfully");
+    } catch (x) {
+      console.log("issue writting a file", x);
+    }
   }
-} catch {
-  console.log("conf dir doesn't exist, creating one");
-  await fs.createDir(dir);
-  await fs.writeFile({
-    path: `${dir}${path.sep}conf.json`,
-    contents: "{}",
-  });
+} catch (e) {
+  console.log("conf dir doesn't exist, creating one", e);
+  try {
+    // await fs.createDir("")
+    const p = await path.appDir();
+    console.log("app dir is", p);
+    await fs.createDir("devtools", {
+      dir: BaseDirectory.Config,
+      recursive: true,
+    });
+    console.log("App dir created successfully");
+  } catch (x) {
+    console.log("creating conf dir failed", e);
+  }
+
+  try {
+    console.log("Creating conf file");
+    await fs.writeFile(
+      {
+        path: "conf.json",
+        contents: "{}",
+      },
+      {
+        dir: BaseDirectory.App,
+      }
+    );
+    console.log("conf file created successfully");
+  } catch (y) {
+    console.log("Writting conf file failed", y);
+  }
 }
 
 const adapter = new CustomAdaptor();

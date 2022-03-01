@@ -148,7 +148,7 @@ const Hash = () => {
   );
 };
 // Thousands of thanks to this guy for this function: https://gist.github.com/artjomb/7ef1ee574a411ba0dd1933c1ef4690d1
-function byteArrayToWordArray(ba: number[]) {
+function byteArrayToWordArray(ba: any) {
   const wa: number[] = [];
   for (let i = 0; i < ba.length; i++) {
     wa[(i / 4) | 0] |= ba[i] << (24 - 8 * i);

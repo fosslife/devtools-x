@@ -1,32 +1,18 @@
 import { Flex } from "@chakra-ui/react";
-import Editor from "@monaco-editor/react";
 import sqlFormatter from "@sqltools/formatter";
 import { useState } from "react";
+import AceEditor from "react-ace";
 
 const Sql = () => {
   const [formatted, setFormatted] = useState("");
 
   return (
-    <Flex
-      h="full"
-      w="100%"
-      gap={3}
-      alignSelf={"start"}
-      sx={{
-        "& div": {
-          maxWidth: "98%",
-        },
-      }}
-    >
-      <Editor
-        options={{
-          minimap: { enabled: false },
-          contextmenu: false,
-        }}
-        defaultLanguage="sql"
-        theme="vs-dark"
-        height={"96%"}
-        defaultValue={"Enter SQL"}
+    <Flex h="full" w="100%" gap={3} alignSelf={"start"}>
+      <AceEditor
+        theme="dracula"
+        width="50%"
+        fontSize={"14px"}
+        mode="sql"
         onChange={(e) => {
           setFormatted(
             sqlFormatter.format(e || "", {
@@ -37,25 +23,13 @@ const Sql = () => {
           );
         }}
       />
-      <Editor
-        options={{
-          minimap: { enabled: false },
-          readOnly: true,
-          contextmenu: false,
-        }}
-        defaultLanguage="sql"
-        theme="vs-dark"
-        height={"96%"}
+      <AceEditor
         value={formatted}
-        onChange={(e) => {
-          setFormatted(
-            sqlFormatter.format(e || "", {
-              language: "sql",
-              indent: "\t", // TODO: take this from user?
-              reservedWordCase: "upper",
-            })
-          );
-        }}
+        readOnly
+        theme="dracula"
+        width="50%"
+        // fontSize={"14px"}
+        mode="sql"
       />
     </Flex>
   );
