@@ -1,5 +1,10 @@
+import "ace-builds/src-noconflict/ace";
+import "ace-builds/src-noconflict/mode-json";
+import "ace-builds/src-noconflict/theme-dracula";
+
 import { Flex } from "@chakra-ui/react";
 import loadable from "@loadable/component";
+import { config } from "ace-builds";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
@@ -19,6 +24,16 @@ const RegexTester = loadable(() => import("./Features/Regex/RegexTester"));
 
 function App() {
   useEffect(() => {
+    // Ace setup: https://github.com/securingsincity/react-ace/issues/725#issuecomment-629068872
+    config.set(
+      "basePath",
+      "https://cdn.jsdelivr.net/npm/ace-builds@1.4.8/src-noconflict/"
+    );
+    config.setModuleUrl(
+      "ace/mode/javascript_worker",
+      "https://cdn.jsdelivr.net/npm/ace-builds@1.4.8/src-noconflict/worker-javascript.js"
+    );
+
     // TODO: Setup logging, caching
     // first config structure
     if (!db.data) {
