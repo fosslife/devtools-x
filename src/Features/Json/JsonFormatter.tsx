@@ -1,9 +1,8 @@
-import { Button, Flex, Tooltip } from "@chakra-ui/react";
-import { useDebouncedCallback } from "@react-hookz/web/esm";
+import { Flex } from "@chakra-ui/react";
 import { useState } from "react";
-import AceEditor from "react-ace";
 
-import { db } from "../../utils";
+import JsonEditorReact from "../../Components/JsonEditor";
+// import { db } from "../../utils"; FIXME:
 
 // default
 const def = {
@@ -19,58 +18,26 @@ const def = {
   string: "Hello World",
 };
 
-const JsonFormatter = () => {
-  const [code, setCode] = useState(JSON.stringify(def, null, 2));
+type Mode = "tree" | "code" | "text" | "form" | "view" | "preview";
 
-  const onChange = useDebouncedCallback(
-    (e) => {
-      try {
-        db.data.json.editor = JSON.parse(e);
-      } catch {
-        db.data.json.editor = e;
-      }
-      db.write();
-    },
-    [],
-    1000, // delay for debounce
-    500 // maxwait ( call at least once every 500ms )
-  );
+const JsonFormatter = () => {
+  const [code, setCode] = useState(def);
+  const [mode, setMode] = useState<Mode>("code");
 
   return (
     <Flex w="100%" h="100%" gap={3} flexDir="column">
-      <AceEditor
-        width="100%"
-        fontSize={"14px"}
-        mode="json"
-        theme="dracula"
-        onChange={onChange}
-        value={code}
-        name="editor-json"
-        editorProps={{ $blockScrolling: true }}
+      <JsonEditorReact
+        jsoneditorOptions={{
+          mode: mode,
+          modes: ["tree", "code", "text"],
+          indentation: 4,
+          onChangeJSON: setCode,
+          onModeChange: setMode,
+          theme: "ace/theme/dracula",
+          navigationBar: true,
+        }}
+        json={code}
       />
-      <Flex gap={5} mt={10}>
-        <Tooltip label="Alt+Shift+F" openDelay={500}>
-          <Button
-            size={"sm"}
-            onClick={() => {
-              setCode(JSON.stringify(def, null, 2));
-            }}
-          >
-            Format
-          </Button>
-        </Tooltip>
-
-        <Tooltip label="Alt+Shift+M" openDelay={500}>
-          <Button
-            size={"sm"}
-            onClick={() => {
-              setCode(JSON.stringify(def));
-            }}
-          >
-            Minify
-          </Button>
-        </Tooltip>
-      </Flex>
     </Flex>
   );
 };
