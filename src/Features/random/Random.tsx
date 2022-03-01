@@ -85,8 +85,8 @@ const Random = () => {
     >
       <FormControl>
         <FormLabel htmlFor="email">Password:</FormLabel>
-        <InputGroup>
-          <Input readOnly size={"lg"} value={pass.pass} />
+        <InputGroup size={"lg"}>
+          <Input readOnly value={pass.pass} pr="4.5rem" />
           <InputRightElement width="4.5rem">
             <Button
               size="sm"
