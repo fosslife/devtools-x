@@ -19,28 +19,28 @@ import { Card } from "../Components/Card";
 
 export const Navbar = () => {
   const location = useLocation();
-  console.log(location.pathname);
-  const bg = useColorModeValue("gray.100", "gray.700");
   const data = [
     { id: 1, to: "/json-formatter", icon: MdAnchor, text: "Json Formatter" },
-    { id: 2, to: "/hash", icon: FiHash, text: "Hashing tools" },
+    { id: 2, to: "/hash", icon: FiHash, text: "Hashing Tools" },
     { id: 3, to: "/random", icon: FaRandom, text: "Random Text" },
-    { id: 4, to: "/jwt", icon: SiJsonwebtokens, text: "JWT decoder" },
+    { id: 4, to: "/jwt", icon: SiJsonwebtokens, text: "JWT Tools" },
     { id: 5, to: "/nums", icon: BsSortNumericUpAlt, text: "Num Converters" },
-    { id: 6, to: "/sql", icon: SiPostgresql, text: "SQL formatter" },
+    { id: 6, to: "/sql", icon: SiPostgresql, text: "SQL Formatter" },
     { id: 7, to: "/colors", icon: MdColorize, text: "Color Utils" },
-    // { id: 8, to: "/regex", icon: VscRegex, text: "Regex Tester" },
+    { id: 8, to: "/regex", icon: VscRegex, text: "Regex Tester" },
   ];
   return (
     <Flex
       h="full"
-      bg={bg}
+      bg={"gray.800"}
       shadow={"inner"}
       p="3"
       flexDirection={"column"}
       overflow={"scroll"}
       pos={"relative"}
       minW="52"
+      borderRight={"thin solid tomato"}
+      fontSize={14}
     >
       <Input pos={"sticky"} placeholder="Search..." size={"sm"} />
       <Box mt="2">

@@ -42,7 +42,7 @@ function App() {
     }
   }, []);
   return (
-    <Flex h="full" justifyContent={"flex-start"}>
+    <Flex h="full" justifyContent={"flex-start"} bg="gray.800">
       <Navbar />
       <Flex
         p="2"
