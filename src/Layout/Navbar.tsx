@@ -1,21 +1,11 @@
-import {
-  Box,
-  Flex,
-  HStack,
-  Icon,
-  Input,
-  Text,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Flex, HStack, Icon, Input, Text } from "@chakra-ui/react";
 import { BsSortNumericUpAlt } from "react-icons/bs";
 import { FaRandom } from "react-icons/fa";
 import { FiHash } from "react-icons/fi";
 import { MdAnchor, MdColorize, MdOutlineHome } from "react-icons/md";
 import { SiJsonwebtokens, SiPostgresql } from "react-icons/si";
-import { VscRegex } from "react-icons/vsc";
+import { VscDiff, VscRegex } from "react-icons/vsc";
 import { Link, useLocation } from "react-router-dom";
-
-import { Card } from "../Components/Card";
 
 export const Navbar = () => {
   const location = useLocation();
@@ -28,6 +18,7 @@ export const Navbar = () => {
     { id: 6, to: "/sql", icon: SiPostgresql, text: "SQL Formatter" },
     { id: 7, to: "/colors", icon: MdColorize, text: "Color Utils" },
     { id: 8, to: "/regex", icon: VscRegex, text: "Regex Tester" },
+    { id: 9, to: "/text", icon: VscDiff, text: "Text Diff" },
   ];
   return (
     <Flex
@@ -46,7 +37,7 @@ export const Navbar = () => {
       <Box mt="2">
         <Link to={"/"}>
           <HStack p="1" pl="1.5">
-            <Icon as={MdOutlineHome}></Icon>
+            <Icon as={MdOutlineHome} w={4} h={4}></Icon>
             <Text>{"Home"}</Text>
           </HStack>
         </Link>
@@ -63,7 +54,7 @@ export const Navbar = () => {
         >
           <Link to={e.to}>
             <HStack p="1" pl="1.5">
-              <Icon as={e.icon}></Icon>
+              <Icon as={e.icon} w={4} h={4}></Icon>
               <Text>{e.text}</Text>
             </HStack>
           </Link>

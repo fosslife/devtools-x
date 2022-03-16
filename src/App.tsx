@@ -1,7 +1,3 @@
-import "ace-builds/src-noconflict/ace";
-import "ace-builds/src-noconflict/mode-json";
-import "ace-builds/src-noconflict/theme-dracula";
-
 import { Flex } from "@chakra-ui/react";
 import loadable from "@loadable/component";
 import { config } from "ace-builds";
@@ -21,6 +17,7 @@ const Nums = loadable(() => import("./Features/nums/Nums"));
 const Sql = loadable(() => import("./Features/Sql/Sql"));
 const Colors = loadable(() => import("./Features/colors/Colors"));
 const RegexTester = loadable(() => import("./Features/Regex/RegexTester"));
+const TextDiff = loadable(() => import("./Features/text/TextDiff"));
 
 function App() {
   useEffect(() => {
@@ -61,6 +58,7 @@ function App() {
           <Route path="/sql" element={<Sql />}></Route>
           <Route path="/colors" element={<Colors />}></Route>
           <Route path="/regex" element={<RegexTester />}></Route>
+          <Route path="/text" element={<TextDiff />}></Route>
         </Routes>
       </Flex>
     </Flex>
