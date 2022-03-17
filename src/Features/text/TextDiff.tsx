@@ -1,26 +1,18 @@
-import {
-  Box,
-  Button,
-  Flex,
-  HStack,
-  Select,
-  Textarea,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { DiffEditor, OnMount } from "@monaco-editor/react";
+import { Box, Flex, Select } from "@chakra-ui/react";
+import { DiffEditor, DiffOnMount } from "@monaco-editor/react";
 import { useState } from "react";
 
 const TextDiff = () => {
   const [lang, setLang] = useState("javascript");
 
-  const onMount: OnMount = (editor, monaco) => {
+  const onMount: DiffOnMount = (editor, monaco) => {
     // disable TS incorrect diagnostic
     monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
       noSemanticValidation: true,
       noSyntaxValidation: true,
     });
 
-    import("monaco-themes/themes/Dracula.json").then((data) => {
+    import("monaco-themes/themes/Dracula.json").then((data: any) => {
       monaco.editor.defineTheme("dracula", data);
       monaco.editor.setTheme("dracula");
     });
