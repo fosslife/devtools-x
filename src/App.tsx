@@ -18,6 +18,7 @@ const Sql = loadable(() => import("./Features/Sql/Sql"));
 const Colors = loadable(() => import("./Features/colors/Colors"));
 const RegexTester = loadable(() => import("./Features/Regex/RegexTester"));
 const TextDiff = loadable(() => import("./Features/text/TextDiff"));
+const Markdown = loadable(() => import("./Features/Markdown/Markdown"));
 
 function App() {
   useEffect(() => {
@@ -59,6 +60,7 @@ function App() {
           <Route path="/colors" element={<Colors />}></Route>
           <Route path="/regex" element={<RegexTester />}></Route>
           <Route path="/text" element={<TextDiff />}></Route>
+          <Route path="/markdown" element={<Markdown />}></Route>
         </Routes>
       </Flex>
     </Flex>
