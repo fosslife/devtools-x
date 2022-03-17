@@ -10,7 +10,7 @@ import { Link, useLocation } from "react-router-dom";
 export const Navbar = () => {
   const location = useLocation();
   const data = [
-    { id: 1, to: "/json-formatter", icon: MdAnchor, text: "Json Formatter" },
+    { id: 1, to: "/json-formatter", icon: MdAnchor, text: "Json Tools" },
     { id: 2, to: "/hash", icon: FiHash, text: "Hashing Tools" },
     { id: 3, to: "/random", icon: FaRandom, text: "Random Text" },
     { id: 4, to: "/jwt", icon: SiJsonwebtokens, text: "JWT Tools" },
@@ -18,7 +18,7 @@ export const Navbar = () => {
     { id: 6, to: "/sql", icon: SiPostgresql, text: "SQL Formatter" },
     { id: 7, to: "/colors", icon: MdColorize, text: "Color Utils" },
     { id: 8, to: "/regex", icon: VscRegex, text: "Regex Tester" },
-    { id: 9, to: "/text", icon: VscDiff, text: "Text Diff" },
+    { id: 9, to: "/text", icon: VscDiff, text: "Diff Tools" },
   ];
   return (
     <Flex
