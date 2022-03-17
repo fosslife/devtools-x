@@ -28,6 +28,7 @@
     "framer-motion": "^6.2.6",
     "generate-password-ts": "^1.6.3",
     "jose": "^4.5.0",
+    "js-yaml": "^4.1.0",
     "jsoneditor": "^9.7.2",
     "lowdb": "^3.0.0",
     "monaco-themes": "^0.4.0",
@@ -42,6 +43,7 @@
   "devDependencies": {
     "@tauri-apps/cli": "^1.0.0-rc.5",
     "@types/crypto-js": "^4.1.0",
+    "@types/js-yaml": "^4.0.5",
     "@types/jsoneditor": "^9.5.1",
     "@types/loadable__component": "^5.13.4",
     "@types/react": "^17.0.33",
