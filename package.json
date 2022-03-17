@@ -22,6 +22,7 @@
     "@react-hookz/web": "^12.3.0",
     "@sqltools/formatter": "^1.2.3",
     "@tauri-apps/api": "^1.0.0-beta.8",
+    "@uiw/react-markdown-preview": "^4.0.2",
     "ace-builds": "^1.4.14",
     "crypto-js": "^4.1.1",
     "framer-motion": "^6.2.6",
