@@ -1,5 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import loadable from "@loadable/component";
+import { loader } from "@monaco-editor/react";
 import { config } from "ace-builds";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
@@ -23,6 +24,12 @@ const YamlJson = loadable(() => import("./Features/YamlJson/Yaml"));
 
 function App() {
   useEffect(() => {
+    // monaco loader setup
+    console.log("ENV", process.env.NODE_ENV);
+    if (process.env.NODE_ENV === "production") {
+      loader.config({ paths: { vs: "/vs" } });
+    }
+
     // Ace setup: https://github.com/securingsincity/react-ace/issues/725#issuecomment-629068872
     config.set(
       "basePath",
