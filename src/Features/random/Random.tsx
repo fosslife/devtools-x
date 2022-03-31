@@ -77,11 +77,7 @@ const Random = () => {
       gap={6}
       alignSelf={"start"}
       flexDirection={"column"}
-      sx={{
-        "& div": {
-          maxWidth: "98%",
-        },
-      }}
+      p={2}
     >
       <FormControl>
         <FormLabel htmlFor="email">Password:</FormLabel>

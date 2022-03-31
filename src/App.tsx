@@ -5,6 +5,7 @@ import { config } from "ace-builds";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
+import Pastebin from "./Features/pastebin/Pastebin";
 import { Navbar } from "./Layout/Navbar";
 import { db } from "./utils";
 
@@ -25,7 +26,6 @@ const YamlJson = loadable(() => import("./Features/YamlJson/Yaml"));
 function App() {
   useEffect(() => {
     // monaco loader setup
-    console.log("ENV", process.env.NODE_ENV);
     if (process.env.NODE_ENV === "production") {
       loader.config({ paths: { vs: "/vs" } });
     }
@@ -70,6 +70,7 @@ function App() {
           <Route path="/text" element={<TextDiff />}></Route>
           <Route path="/markdown" element={<Markdown />}></Route>
           <Route path="/yamljson" element={<YamlJson />}></Route>
+          <Route path="/pastebin" element={<Pastebin />}></Route>
         </Routes>
       </Flex>
     </Flex>

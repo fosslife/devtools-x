@@ -1,6 +1,6 @@
 import { Box, Flex, HStack, Icon, Input, Text } from "@chakra-ui/react";
 import { BsSortNumericUpAlt } from "react-icons/bs";
-import { FaMarkdown, FaRandom, FaYinYang } from "react-icons/fa";
+import { FaMarkdown, FaPaste, FaRandom, FaYinYang } from "react-icons/fa";
 import { FiHash } from "react-icons/fi";
 import { MdAnchor, MdColorize, MdOutlineHome } from "react-icons/md";
 import { SiJsonwebtokens, SiPostgresql } from "react-icons/si";
@@ -21,6 +21,7 @@ export const Navbar = () => {
     { id: 9, to: "/text", icon: VscDiff, text: "Diff Tools" },
     { id: 10, to: "/markdown", icon: FaMarkdown, text: "Markdown" },
     { id: 11, to: "/yamljson", icon: FaYinYang, text: "Yaml JSON" },
+    { id: 12, to: "/pastebin", icon: FaPaste, text: "Pastebin" },
   ];
   return (
     <Flex
