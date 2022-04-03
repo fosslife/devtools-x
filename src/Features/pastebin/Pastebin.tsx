@@ -1,28 +1,36 @@
-import "./pastebin.css";
-import "./dracula-prism.css";
-
-import { Button, Flex, Select } from "@chakra-ui/react";
-import Prism, { Grammar } from "prismjs";
-import { languages } from "prismjs";
+import { Alert, AlertIcon, Button, Flex, Select, Text } from "@chakra-ui/react";
 import { useState } from "react";
-// Editor
-import Editor from "react-simple-code-editor";
+import Editor, { OnMount } from "@monaco-editor/react";
+import { clipboard } from "@tauri-apps/api";
 
-const hightlightWithLineNumbers = (
-  input: string,
-  grammar: Grammar,
-  language: string
-) =>
-  Prism.highlight(input, grammar, language)
-    .split("\n")
-    .map((line, i) => `<span class='editorLineNumber'>${i + 1}</span>${line}`)
-    .join("\n");
-
+const langs = [
+  "JavaScript",
+  "TypeScript",
+  "Rust",
+  "Python",
+  "C#",
+  "Go",
+  "Java",
+  "C",
+  "C++",
+  "Text",
+  "PHP",
+];
 function Pastebin() {
-  const [codeValue, setCodeValue] = useState(`function test(){
-  return "string";
-}
-  `);
+  const [codeValue, setCodeValue] =
+    useState(`const call = async () => {\n\treturn "Works!"\n}
+`);
+
+  const [lang, setLang] = useState("javascript");
+  const [link, setLink] = useState("");
+
+  const onMount: OnMount = (editor, monaco) => {
+    import("monaco-themes/themes/Dracula.json").then((data: any) => {
+      monaco.editor.defineTheme("dracula", data);
+      monaco.editor.setTheme("dracula");
+    });
+  };
+
   return (
     <Flex
       h="full"
@@ -32,40 +40,74 @@ function Pastebin() {
       flexDirection={"column"}
       p={2}
     >
-      <Select placeholder="Select provider">
-        <option value="pastebin">Pastebin</option>
+      <Select
+        value={lang}
+        placeholder="Select Language"
+        onChange={(e) => {
+          setLang(e.target.value);
+        }}
+      >
+        {langs.map((e, i) => (
+          <option key={i} value={e.toLowerCase()}>
+            {e}
+          </option>
+        ))}
       </Select>
       <Editor
+        onChange={(e) => setCodeValue(e || "")}
         value={codeValue}
-        onValueChange={(code) => setCodeValue(code)}
-        highlight={(code) =>
-          hightlightWithLineNumbers(code, languages.go, "go")
-        }
-        padding={10}
-        textareaId="codeArea"
-        className="editor"
-        style={{
-          fontFamily: '"Fira code", "Fira Mono", monospace',
-          fontSize: 16,
+        theme="dracula"
+        onMount={onMount}
+        language={lang}
+        height="50%"
+        options={{
+          fontSize: 15,
+          minimap: { enabled: false },
         }}
       />
       <Button
         onClick={() => {
-          //
+          // Make Call
+          fetch("https://bin.fosslife.com/api", {
+            method: "POST",
+            body: codeValue,
+            headers: {
+              "X-Language": lang,
+            },
+          })
+            .then((d) => d.text())
+            .then((l) => {
+              const url = `https://bin.fosslife.com/${l.split(" ")[0]}`;
+              setLink(url);
+            });
         }}
       >
         Create Paste
       </Button>
+      {link ? (
+        <Alert status="success" variant="left-accent">
+          <AlertIcon />
+          <Flex w={"100%"} justifyContent={"space-between"}>
+            <Text
+              textDecoration={"underline"}
+              textUnderlineOffset={1}
+              cursor="pointer"
+            >
+              {link}
+            </Text>
+            <Button
+              size={"xs"}
+              onClick={() => {
+                clipboard.writeText(link);
+              }}
+            >
+              Copy
+            </Button>
+          </Flex>
+        </Alert>
+      ) : null}
     </Flex>
   );
 }
 
 export default Pastebin;
-
-// Pastebin API: https://pastebin.com/doc_api
-// POST: https://pastebin.com/api/api_post.php
-//   api_dev_key:         c3N79MMZbVY1IghaNpo61sYavJMAW8p6
-//   api_paste_code:      any text
-// Shouldn't support:
-//   api_paste_private    = '1'; // 0=public 1=unlisted 2=private
-//   api_paste_expire_date 		= '10M';
