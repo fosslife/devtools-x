@@ -1,52 +1,46 @@
-import {
-  Box,
-  Flex,
-  HStack,
-  Icon,
-  Input,
-  Text,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Flex, HStack, Icon, Input, Text } from "@chakra-ui/react";
 import { BsSortNumericUpAlt } from "react-icons/bs";
-import { FaRandom } from "react-icons/fa";
+import { FaMarkdown, FaPaste, FaRandom, FaYinYang } from "react-icons/fa";
 import { FiHash } from "react-icons/fi";
 import { MdAnchor, MdColorize, MdOutlineHome } from "react-icons/md";
 import { SiJsonwebtokens, SiPostgresql } from "react-icons/si";
-import { VscRegex } from "react-icons/vsc";
+import { VscDiff, VscRegex } from "react-icons/vsc";
 import { Link, useLocation } from "react-router-dom";
-
-import { Card } from "../Components/Card";
 
 export const Navbar = () => {
   const location = useLocation();
-  console.log(location.pathname);
-  const bg = useColorModeValue("gray.100", "gray.700");
   const data = [
-    { id: 1, to: "/json-formatter", icon: MdAnchor, text: "Json Formatter" },
-    { id: 2, to: "/hash", icon: FiHash, text: "Hashing tools" },
+    { id: 1, to: "/json-formatter", icon: MdAnchor, text: "Json Tools" },
+    { id: 2, to: "/hash", icon: FiHash, text: "Hashing Tools" },
     { id: 3, to: "/random", icon: FaRandom, text: "Random Text" },
-    { id: 4, to: "/jwt", icon: SiJsonwebtokens, text: "JWT decoder" },
+    { id: 4, to: "/jwt", icon: SiJsonwebtokens, text: "JWT Tools" },
     { id: 5, to: "/nums", icon: BsSortNumericUpAlt, text: "Num Converters" },
-    { id: 6, to: "/sql", icon: SiPostgresql, text: "SQL formatter" },
+    { id: 6, to: "/sql", icon: SiPostgresql, text: "SQL Formatter" },
     { id: 7, to: "/colors", icon: MdColorize, text: "Color Utils" },
-    // { id: 8, to: "/regex", icon: VscRegex, text: "Regex Tester" },
+    { id: 8, to: "/regex", icon: VscRegex, text: "Regex Tester" },
+    { id: 9, to: "/text", icon: VscDiff, text: "Diff Tools" },
+    { id: 10, to: "/markdown", icon: FaMarkdown, text: "Markdown" },
+    { id: 11, to: "/yamljson", icon: FaYinYang, text: "Yaml JSON" },
+    { id: 12, to: "/pastebin", icon: FaPaste, text: "Pastebin" },
   ];
   return (
     <Flex
       h="full"
-      bg={bg}
+      bg={"gray.800"}
       shadow={"inner"}
       p="3"
       flexDirection={"column"}
       overflow={"scroll"}
       pos={"relative"}
       minW="52"
+      borderRight={"thin solid tomato"}
+      fontSize={14}
     >
       <Input pos={"sticky"} placeholder="Search..." size={"sm"} />
       <Box mt="2">
         <Link to={"/"}>
           <HStack p="1" pl="1.5">
-            <Icon as={MdOutlineHome}></Icon>
+            <Icon as={MdOutlineHome} w={4} h={4}></Icon>
             <Text>{"Home"}</Text>
           </HStack>
         </Link>
@@ -63,7 +57,7 @@ export const Navbar = () => {
         >
           <Link to={e.to}>
             <HStack p="1" pl="1.5">
-              <Icon as={e.icon}></Icon>
+              <Icon as={e.icon} w={4} h={4}></Icon>
               <Text>{e.text}</Text>
             </HStack>
           </Link>

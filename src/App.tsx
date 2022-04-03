@@ -1,13 +1,11 @@
-import "ace-builds/src-noconflict/ace";
-import "ace-builds/src-noconflict/mode-json";
-import "ace-builds/src-noconflict/theme-dracula";
-
 import { Flex } from "@chakra-ui/react";
 import loadable from "@loadable/component";
+import { loader } from "@monaco-editor/react";
 import { config } from "ace-builds";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
+import Pastebin from "./Features/pastebin/Pastebin";
 import { Navbar } from "./Layout/Navbar";
 import { db } from "./utils";
 
@@ -21,9 +19,17 @@ const Nums = loadable(() => import("./Features/nums/Nums"));
 const Sql = loadable(() => import("./Features/Sql/Sql"));
 const Colors = loadable(() => import("./Features/colors/Colors"));
 const RegexTester = loadable(() => import("./Features/Regex/RegexTester"));
+const TextDiff = loadable(() => import("./Features/text/TextDiff"));
+const Markdown = loadable(() => import("./Features/Markdown/Markdown"));
+const YamlJson = loadable(() => import("./Features/YamlJson/Yaml"));
 
 function App() {
   useEffect(() => {
+    // monaco loader setup
+    if (process.env.NODE_ENV === "production") {
+      loader.config({ paths: { vs: "/vs" } });
+    }
+
     // Ace setup: https://github.com/securingsincity/react-ace/issues/725#issuecomment-629068872
     config.set(
       "basePath",
@@ -42,7 +48,7 @@ function App() {
     }
   }, []);
   return (
-    <Flex h="full" justifyContent={"flex-start"}>
+    <Flex h="full" justifyContent={"flex-start"} bg="gray.800">
       <Navbar />
       <Flex
         p="2"
@@ -61,6 +67,10 @@ function App() {
           <Route path="/sql" element={<Sql />}></Route>
           <Route path="/colors" element={<Colors />}></Route>
           <Route path="/regex" element={<RegexTester />}></Route>
+          <Route path="/text" element={<TextDiff />}></Route>
+          <Route path="/markdown" element={<Markdown />}></Route>
+          <Route path="/yamljson" element={<YamlJson />}></Route>
+          <Route path="/pastebin" element={<Pastebin />}></Route>
         </Routes>
       </Flex>
     </Flex>
