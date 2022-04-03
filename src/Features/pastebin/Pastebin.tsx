@@ -1,7 +1,7 @@
 import { Alert, AlertIcon, Button, Flex, Select, Text } from "@chakra-ui/react";
-import { useState } from "react";
 import Editor, { OnMount } from "@monaco-editor/react";
 import { clipboard } from "@tauri-apps/api";
+import { useState } from "react";
 
 const langs = [
   "JavaScript",
