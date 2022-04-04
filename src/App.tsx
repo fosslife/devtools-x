@@ -5,7 +5,6 @@ import { config } from "ace-builds";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
-import Pastebin from "./Features/pastebin/Pastebin";
 import { Navbar } from "./Layout/Navbar";
 import { db } from "./utils";
 
@@ -22,6 +21,8 @@ const RegexTester = loadable(() => import("./Features/Regex/RegexTester"));
 const TextDiff = loadable(() => import("./Features/text/TextDiff"));
 const Markdown = loadable(() => import("./Features/Markdown/Markdown"));
 const YamlJson = loadable(() => import("./Features/YamlJson/Yaml"));
+const Pastebin = loadable(() => import("./Features/pastebin/Pastebin"));
+const Repl = loadable(() => import("./Features/repl/Repl"));
 
 function App() {
   useEffect(() => {
@@ -71,6 +72,7 @@ function App() {
           <Route path="/markdown" element={<Markdown />}></Route>
           <Route path="/yamljson" element={<YamlJson />}></Route>
           <Route path="/pastebin" element={<Pastebin />}></Route>
+          <Route path="/repl" element={<Repl />}></Route>
         </Routes>
       </Flex>
     </Flex>
