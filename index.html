@@ -8,6 +8,14 @@
     <script>
       const global = globalThis;
     </script>
+    <script>
+      window.onkeydown = function (e) {
+        if (e.code === "KeyP" && e.ctrlKey) {
+          return false;
+        }
+        if (e.code === "F3") return false;
+      };
+    </script>
     <style>
       @media print {
         html,
