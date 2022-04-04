@@ -34,7 +34,7 @@ const Hash = () => {
       } catch {
         db.data.hash.editor = e;
       }
-      db.write();
+      // db.write();
     },
     [],
     1000, // delay for debounce
@@ -75,17 +75,7 @@ const Hash = () => {
     onChangeDeb(e);
   };
   return (
-    <Flex
-      h="full"
-      w="100%"
-      gap={3}
-      alignSelf={"start"}
-      sx={{
-        "& div": {
-          maxWidth: "98%",
-        },
-      }}
-    >
+    <Flex h="full" w="100%" gap={3} alignSelf={"start"}>
       <Textarea
         height={"100%"}
         width="60%"
