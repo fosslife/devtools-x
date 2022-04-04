@@ -8,6 +8,14 @@
     <script>
       const global = globalThis;
     </script>
+    <style>
+      @media print {
+        html,
+        body {
+          display: none; /* hide whole page */
+        }
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
