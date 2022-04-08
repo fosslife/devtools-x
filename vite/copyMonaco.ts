@@ -1,6 +1,7 @@
-import { copySync, readdirSync } from "fs-extra";
+import { copySync } from "fs-extra";
+import { PluginOption } from "vite";
 
-export default () => {
+export default (): PluginOption => {
   return {
     name: "vite-plugin-copy-monaco",
     closeBundle: () => {
