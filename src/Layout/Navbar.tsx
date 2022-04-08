@@ -2,6 +2,7 @@ import { Box, Flex, HStack, Icon, Input, Text } from "@chakra-ui/react";
 import { BsSortNumericUpAlt } from "react-icons/bs";
 import {
   FaCode,
+  FaFileImage,
   FaMarkdown,
   FaPaste,
   FaRandom,
@@ -29,6 +30,7 @@ export const Navbar = () => {
     { id: 11, to: "/yamljson", icon: FaYinYang, text: "Yaml JSON" },
     { id: 12, to: "/pastebin", icon: FaPaste, text: "Pastebin" },
     { id: 13, to: "/repl", icon: FaCode, text: "ScratchPad" },
+    { id: 14, to: "/image", icon: FaFileImage, text: "Image Tools" },
   ];
   return (
     <Flex

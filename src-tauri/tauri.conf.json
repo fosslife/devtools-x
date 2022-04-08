@@ -51,7 +51,7 @@
     "allowlist": {
       "all": true,
       "fs": {
-        "scope": ["$APP/*", "$CONFIG/*"]
+        "scope": ["*"]
       }
     },
     "windows": [
