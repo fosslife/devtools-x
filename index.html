@@ -12,13 +12,13 @@
         preRun: (module) => {
           module.ENV.VIPS_INFO = "1";
           // FIXME: not require preload
-          module.FS.createPreloadedFile(
-            "/",
-            "owl.jpg",
-            "/owl.jpg",
-            true,
-            false
-          );
+          // module.FS.createPreloadedFile(
+          //   "/",
+          //   "owl.jpg",
+          //   "/owl.jpg",
+          //   true,
+          //   false
+          // );
         },
         postRun: (module) => {
           const pad = 30;
