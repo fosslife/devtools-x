@@ -1,76 +1,63 @@
-import { Box, Button, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex, Link } from "@chakra-ui/react";
 import { dialog, fs } from "@tauri-apps/api";
+import { save } from "@tauri-apps/api/dialog";
 import { convertFileSrc } from "@tauri-apps/api/tauri";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { ReactCompareSlider } from "react-compare-slider";
 
 function Image() {
   let rightRef = useRef<HTMLImageElement>(null);
+  const [downloadUrl, setDownloadUrl] = useState("");
 
   const [imageSrc, setImageSrc] = useState({
     left: "",
     right: "",
   });
 
-  useEffect(() => {
-    (async () => {
-      if (!imageSrc.right) return;
-      let { vips } = self;
-      // #C83658 as CIELAB triple
-      const start = [46.479, 58.976, 15.052];
+  const resize = async () => {
+    let { vips } = self;
 
-      // #D8E74F as CIELAB triple
-      const stop = [88.12, -23.952, 69.178];
+    let arr = await fs.readBinaryFile(imageSrc.right);
+    // .catch(console.error);
 
-      // Makes a lut which is a smooth gradient from start colour to stop colour,
-      // with start and stop in CIELAB
-      // let lut = vips.Image.identity() / 255;
-      let lut = vips.Image.identity().divide(255);
+    let im = vips.Image.newFromBuffer(arr);
+    console.time("compress");
+    let outBuffer = im.jpegsaveBuffer({
+      Q: 20,
+      strip: true,
+    });
+    console.timeEnd("compress");
 
-      // lut = lut * stop + (1 - lut) * start;
-      lut = lut.multiply(stop).add(lut.multiply(-1).add(1).multiply(start));
+    const blob = new Blob([outBuffer], { type: "image/jpeg" });
+    const blobURL = URL.createObjectURL(blob);
+    rightRef.current.src = blobURL;
+    setDownloadUrl(await blobToBase64(blob));
+  };
 
-      lut = lut.colourspace(vips.Interpretation.srgb /* 'srgb' */, {
-        source_space: vips.Interpretation.lab, // 'lab'
-      });
-
-      let arr = await fs.readBinaryFile(
-        "C:\\Users\\Spark\\Desktop\\vlad-dyshlivenko-2IdjqOIFIWM-unsplash.jpg"
-      );
-      // .catch(console.error);
-
-      let im = vips.Image.newFromBuffer(arr);
-      if (im.hasAlpha()) {
-        // Separate alpha channel
-        const withoutAlpha = im.extractBand(0, { n: im.bands - 1 });
-        const alpha = im.extractBand(im.bands - 1);
-        im = withoutAlpha
-          .colourspace(vips.Interpretation.b_w /* 'b-w' */)
-          .maplut(lut)
-          .bandjoin(alpha);
-      } else {
-        im = im.colourspace(vips.Interpretation.b_w /* 'b-w' */).maplut(lut);
-      }
-      console.time("op");
-      const outBuffer = im.writeToBuffer(".jpg");
-      console.timeEnd("op");
-
-      const blob = new Blob([outBuffer], { type: "image/jpeg" });
-      const blobURL = URL.createObjectURL(blob);
-      rightRef.current.src = blobURL;
-    })();
-  }, [imageSrc.right]);
+  function blobToBase64(blob: Blob): Promise<string> {
+    return new Promise((resolve, _) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.readAsDataURL(blob);
+    });
+  }
 
   return (
     <Flex h="100%" w="100%" boxSizing="border-box">
       <Box w="500px">
         {imageSrc.left ? (
           <ReactCompareSlider
-            itemOne={<img src={imageSrc.left} alt="Left" height="400px" />}
+            itemOne={
+              <img
+                src={convertFileSrc(imageSrc.left)}
+                alt="Left"
+                height="400px"
+              />
+            }
             itemTwo={
               <img
-                src={imageSrc.right}
+                src={convertFileSrc(imageSrc.right)}
                 alt="right"
                 ref={rightRef}
                 height="400px"
@@ -89,24 +76,19 @@ function Image() {
               directory: false,
             })
             .then(async (path) => {
-              let fp = convertFileSrc(path as string);
               setImageSrc({
-                left: fp,
-                right: fp,
+                left: path as string,
+                right: path as string,
               });
-              //   let image = await fs.readBinaryFile(fp);
             });
         }}
       >
         Select Image
       </Button>
-      <Button
-        onClick={async () => {
-          let file = await fs.readBinaryFile(imageSrc.right);
-        }}
-      >
-        Resize
-      </Button>
+      <Button onClick={resize}>Resize</Button>
+      <a href={downloadUrl} download={"compressed.jpg"}>
+        Download
+      </a>
     </Flex>
   );
 }
