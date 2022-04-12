@@ -8,7 +8,7 @@ import { ReactCompareSlider } from "react-compare-slider";
 
 function Image() {
   let rightRef = useRef<HTMLImageElement>(null);
-  const [downloadUrl, setDownloadUrl] = useState("");
+  const [downloadBlob, setDownloadBlob] = useState<Blob>();
 
   const [imageSrc, setImageSrc] = useState({
     left: "",
@@ -17,6 +17,7 @@ function Image() {
 
   const resize = async () => {
     let { vips } = self;
+    if (!rightRef.current) return; // typescript check
 
     let arr = await fs.readBinaryFile(imageSrc.right);
     // .catch(console.error);
@@ -32,22 +33,15 @@ function Image() {
     const blob = new Blob([outBuffer], { type: "image/jpeg" });
     const blobURL = URL.createObjectURL(blob);
     rightRef.current.src = blobURL;
-    setDownloadUrl(await blobToBase64(blob));
+    setDownloadBlob(blob);
   };
-
-  function blobToBase64(blob: Blob): Promise<string> {
-    return new Promise((resolve, _) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result as string);
-      reader.readAsDataURL(blob);
-    });
-  }
 
   return (
     <Flex h="100%" w="100%" boxSizing="border-box">
       <Box w="500px">
         {imageSrc.left ? (
           <ReactCompareSlider
+            onlyHandleDraggable={true}
             itemOne={
               <img
                 src={convertFileSrc(imageSrc.left)}
@@ -86,9 +80,24 @@ function Image() {
         Select Image
       </Button>
       <Button onClick={resize}>Resize</Button>
-      <a href={downloadUrl} download={"compressed.jpg"}>
-        Download
-      </a>
+
+      <Button
+        onClick={async () => {
+          let downloadPath = await save({
+            filters: [{ name: "images", extensions: ["jpg", "png", "jpeg"] }],
+            title: "Select location",
+          });
+
+          let ab = await downloadBlob?.arrayBuffer();
+
+          fs.writeBinaryFile({
+            contents: new Uint8Array(ab as ArrayBuffer),
+            path: downloadPath,
+          });
+        }}
+      >
+        Save api
+      </Button>
     </Flex>
   );
 }
