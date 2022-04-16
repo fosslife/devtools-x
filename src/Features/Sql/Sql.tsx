@@ -7,12 +7,13 @@ const Sql = () => {
   const [formatted, setFormatted] = useState("");
 
   return (
-    <Flex h="full" w="100%" gap={3} alignSelf={"start"}>
+    <Flex h="full" w="100%" gap={3} alignSelf={"start"} flexDir="column">
       <AceEditor
         theme="dracula"
-        width="50%"
-        fontSize={"14px"}
+        width="100%"
+        fontSize={"16px"}
         mode="sql"
+        placeholder="Paste original SQL"
         onChange={(e) => {
           setFormatted(
             sqlFormatter.format(e || "", {
@@ -27,8 +28,8 @@ const Sql = () => {
         value={formatted}
         readOnly
         theme="dracula"
-        width="50%"
-        // fontSize={"14px"}
+        width="100%"
+        fontSize={"16px"}
         mode="sql"
       />
     </Flex>
