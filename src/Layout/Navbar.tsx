@@ -41,7 +41,7 @@ export const Navbar = () => {
       flexDirection={"column"}
       overflow={"scroll"}
       pos={"relative"}
-      minW="52"
+      minW="48"
       borderRight={"thin solid tomato"}
       fontSize={14}
     >
