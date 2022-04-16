@@ -16,7 +16,6 @@ import { dialog, fs } from "@tauri-apps/api";
 import { save } from "@tauri-apps/api/dialog";
 import { convertFileSrc } from "@tauri-apps/api/tauri";
 import { motion } from "framer-motion";
-
 import { useRef, useState } from "react";
 import { ReactCompareSlider, styleFitContainer } from "react-compare-slider";
 
