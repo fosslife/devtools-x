@@ -168,10 +168,10 @@ const Random = () => {
           }}
         >
           <SliderTrack bg="red.100">
-            <SliderFilledTrack bg="tomato" />
+            <SliderFilledTrack bg="red.500" />
           </SliderTrack>
           <SliderThumb boxSize={6}>
-            <Box color="tomato" as={MdGraphicEq} />
+            <Box color="red.500" as={MdGraphicEq} />
           </SliderThumb>
         </Slider>
         length: {length}
