@@ -1,4 +1,5 @@
 import { Box, Flex, HStack, Icon, Input, Text } from "@chakra-ui/react";
+import { ChangeEvent, useState } from "react";
 import { BsSortNumericUpAlt } from "react-icons/bs";
 import {
   FaCode,
@@ -14,24 +15,39 @@ import { SiJsonwebtokens, SiPostgresql } from "react-icons/si";
 import { VscDiff, VscRegex } from "react-icons/vsc";
 import { Link, useLocation } from "react-router-dom";
 
+const data = [
+  { id: 1, to: "/json-formatter", icon: MdAnchor, text: "Json Tools" },
+  { id: 2, to: "/hash", icon: FiHash, text: "Hashing Tools" },
+  { id: 3, to: "/random", icon: FaRandom, text: "Random Text" },
+  { id: 4, to: "/jwt", icon: SiJsonwebtokens, text: "JWT Tools" },
+  { id: 5, to: "/nums", icon: BsSortNumericUpAlt, text: "Num Converters" },
+  { id: 6, to: "/sql", icon: SiPostgresql, text: "SQL Formatter" },
+  { id: 7, to: "/colors", icon: MdColorize, text: "Color Utils" },
+  { id: 8, to: "/regex", icon: VscRegex, text: "Regex Tester" },
+  { id: 9, to: "/text", icon: VscDiff, text: "Diff Tools" },
+  { id: 10, to: "/markdown", icon: FaMarkdown, text: "Markdown" },
+  { id: 11, to: "/yamljson", icon: FaYinYang, text: "Yaml JSON" },
+  { id: 12, to: "/pastebin", icon: FaPaste, text: "Pastebin" },
+  { id: 13, to: "/repl", icon: FaCode, text: "ScratchPad" },
+  // { id: 14, to: "/image", icon: FaFileImage, text: "Image Tools" },
+];
+
 export const Navbar = () => {
   const location = useLocation();
-  const data = [
-    { id: 1, to: "/json-formatter", icon: MdAnchor, text: "Json Tools" },
-    { id: 2, to: "/hash", icon: FiHash, text: "Hashing Tools" },
-    { id: 3, to: "/random", icon: FaRandom, text: "Random Text" },
-    { id: 4, to: "/jwt", icon: SiJsonwebtokens, text: "JWT Tools" },
-    { id: 5, to: "/nums", icon: BsSortNumericUpAlt, text: "Num Converters" },
-    { id: 6, to: "/sql", icon: SiPostgresql, text: "SQL Formatter" },
-    { id: 7, to: "/colors", icon: MdColorize, text: "Color Utils" },
-    { id: 8, to: "/regex", icon: VscRegex, text: "Regex Tester" },
-    { id: 9, to: "/text", icon: VscDiff, text: "Diff Tools" },
-    { id: 10, to: "/markdown", icon: FaMarkdown, text: "Markdown" },
-    { id: 11, to: "/yamljson", icon: FaYinYang, text: "Yaml JSON" },
-    { id: 12, to: "/pastebin", icon: FaPaste, text: "Pastebin" },
-    { id: 13, to: "/repl", icon: FaCode, text: "ScratchPad" },
-    // { id: 14, to: "/image", icon: FaFileImage, text: "Image Tools" },
-  ];
+  const [navItems, setNavItems] = useState(data);
+
+  const filterItems = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value) {
+      setNavItems(
+        data.filter((i) =>
+          i.text.toLowerCase().includes(e.target.value.toLowerCase())
+        )
+      );
+    } else {
+      setNavItems([...data]);
+    }
+  };
+
   return (
     <Flex
       h="full"
@@ -45,7 +61,12 @@ export const Navbar = () => {
       borderRight={"thin solid tomato"}
       fontSize={14}
     >
-      <Input pos={"sticky"} placeholder="Search..." size={"sm"} />
+      <Input
+        pos={"sticky"}
+        placeholder="Search..."
+        size={"sm"}
+        onChange={filterItems}
+      />
       <Box mt="2">
         <Link to={"/"}>
           <HStack p="1" pl="1.5">
@@ -55,7 +76,7 @@ export const Navbar = () => {
         </Link>
       </Box>
       <Box borderBottom={"1px solid tomato"}> </Box>
-      {data.map((e) => (
+      {navItems.map((e) => (
         <Box
           key={e.id}
           mt="2"
