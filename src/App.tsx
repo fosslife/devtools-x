@@ -4,7 +4,6 @@ import { loader } from "@monaco-editor/react";
 import { config } from "ace-builds";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
-import Image from "./Features/Image/Image";
 
 import { Navbar } from "./Layout/Navbar";
 import { db } from "./utils";
@@ -75,7 +74,7 @@ function App() {
           <Route path="/yamljson" element={<YamlJson />}></Route>
           <Route path="/pastebin" element={<Pastebin />}></Route>
           <Route path="/repl" element={<Repl />}></Route>
-          <Route path="/image" element={<Image />}></Route>
+          {/* <Route path="/image" element={<Image />}></Route> */}
         </Routes>
       </Flex>
     </Flex>
