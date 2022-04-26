@@ -45,7 +45,11 @@ function App() {
     // TODO: Setup logging, caching
     // first config structure
     if (!db.data) {
-      db.data ||= { json: { editor: "", diff: "" }, hash: { editor: "" } };
+      db.data ||= {
+        json: { editor: "", diff: "" },
+        hash: { editor: "" },
+        pinned: [],
+      };
       db.write();
     }
   }, []);

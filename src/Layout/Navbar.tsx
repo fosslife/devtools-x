@@ -3,7 +3,6 @@ import { ChangeEvent, useState } from "react";
 import { BsSortNumericUpAlt } from "react-icons/bs";
 import {
   FaCode,
-  FaFileImage,
   FaMarkdown,
   FaPaste,
   FaRandom,
@@ -12,8 +11,10 @@ import {
 import { FiHash } from "react-icons/fi";
 import { MdAnchor, MdColorize, MdOutlineHome } from "react-icons/md";
 import { SiJsonwebtokens, SiPostgresql } from "react-icons/si";
-import { VscDiff, VscRegex } from "react-icons/vsc";
+import { VscDiff, VscPin, VscPinned, VscRegex } from "react-icons/vsc";
 import { Link, useLocation } from "react-router-dom";
+
+import { db } from "../utils";
 
 const data = [
   { id: 1, to: "/json-formatter", icon: MdAnchor, text: "Json Tools" },
@@ -35,6 +36,7 @@ const data = [
 export const Navbar = () => {
   const location = useLocation();
   const [navItems, setNavItems] = useState(data);
+  const [showIcon, setShowIcon] = useState(-99);
 
   const filterItems = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value) {
@@ -81,9 +83,14 @@ export const Navbar = () => {
           key={e.id}
           mt="2"
           w="full"
+          position={"relative"}
           bg={location.pathname === e.to ? "red.500" : ""}
           borderRadius={4}
           shadow={location.pathname === e.to ? "md" : ""}
+          onMouseMove={() => {
+            setShowIcon(e.id);
+          }}
+          onMouseLeave={() => setShowIcon(-99)}
         >
           <Link to={e.to}>
             <HStack p="1" pl="1.5">
@@ -91,6 +98,25 @@ export const Navbar = () => {
               <Text>{e.text}</Text>
             </HStack>
           </Link>
+          {e.id === showIcon || db.data.pinned.includes(e.id) ? (
+            <Icon
+              pos={"absolute"}
+              right="1"
+              top="1"
+              as={db.data.pinned.includes(e.id) ? VscPinned : VscPin}
+              w={5}
+              h={5}
+              onClick={() => {
+                const { pinned } = db.data;
+                if (pinned.includes(e.id)) {
+                  db.data.pinned = pinned.filter((i: number) => i !== e.id);
+                } else {
+                  db.data.pinned = [...db.data.pinned, e.id];
+                }
+                db.write();
+              }}
+            ></Icon>
+          ) : null}
         </Box>
       ))}
     </Flex>
