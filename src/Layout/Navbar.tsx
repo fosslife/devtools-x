@@ -1,5 +1,5 @@
 import { Box, Flex, HStack, Icon, Input, Text } from "@chakra-ui/react";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useContext, useState } from "react";
 import { BsSortNumericUpAlt } from "react-icons/bs";
 import {
   FaCode,
@@ -14,9 +14,10 @@ import { SiJsonwebtokens, SiPostgresql } from "react-icons/si";
 import { VscDiff, VscPin, VscPinned, VscRegex } from "react-icons/vsc";
 import { Link, useLocation } from "react-router-dom";
 
+import { AppContext } from "../Contexts/AppContextProvider";
 import { db } from "../utils";
 
-const data = [
+export const data = [
   { id: 1, to: "/json-formatter", icon: MdAnchor, text: "Json Tools" },
   { id: 2, to: "/hash", icon: FiHash, text: "Hashing Tools" },
   { id: 3, to: "/random", icon: FaRandom, text: "Random Text" },
@@ -37,6 +38,7 @@ export const Navbar = () => {
   const location = useLocation();
   const [navItems, setNavItems] = useState(data);
   const [showIcon, setShowIcon] = useState(-99);
+  const { handleState } = useContext(AppContext);
 
   const filterItems = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value) {
@@ -78,47 +80,52 @@ export const Navbar = () => {
         </Link>
       </Box>
       <Box borderBottom={"1px solid tomato"}> </Box>
-      {navItems.map((e) => (
-        <Box
-          key={e.id}
-          mt="2"
-          w="full"
-          position={"relative"}
-          bg={location.pathname === e.to ? "red.500" : ""}
-          borderRadius={4}
-          shadow={location.pathname === e.to ? "md" : ""}
-          onMouseMove={() => {
-            setShowIcon(e.id);
-          }}
-          onMouseLeave={() => setShowIcon(-99)}
-        >
-          <Link to={e.to}>
-            <HStack p="1" pl="1.5">
-              <Icon as={e.icon} w={4} h={4}></Icon>
-              <Text>{e.text}</Text>
-            </HStack>
-          </Link>
-          {e.id === showIcon || db.data.pinned.includes(e.id) ? (
-            <Icon
-              pos={"absolute"}
-              right="1"
-              top="1"
-              as={db.data.pinned.includes(e.id) ? VscPinned : VscPin}
-              w={5}
-              h={5}
-              onClick={() => {
-                const { pinned } = db.data;
-                if (pinned.includes(e.id)) {
-                  db.data.pinned = pinned.filter((i: number) => i !== e.id);
-                } else {
-                  db.data.pinned = [...db.data.pinned, e.id];
-                }
-                db.write();
-              }}
-            ></Icon>
-          ) : null}
-        </Box>
-      ))}
+      {navItems.map((e) => {
+        const pinExists = db.data.pinned.includes(e.id);
+
+        return (
+          <Box
+            key={e.id}
+            mt="2"
+            w="full"
+            position={"relative"}
+            bg={location.pathname === e.to ? "red.500" : ""}
+            borderRadius={4}
+            shadow={location.pathname === e.to ? "md" : ""}
+            onMouseMove={() => {
+              setShowIcon(e.id);
+            }}
+            onMouseLeave={() => setShowIcon(-99)}
+          >
+            <Link to={e.to}>
+              <HStack p="1" pl="1.5">
+                <Icon as={e.icon} w={4} h={4}></Icon>
+                <Text>{e.text}</Text>
+              </HStack>
+            </Link>
+            {e.id === showIcon || pinExists ? (
+              <Icon
+                pos={"absolute"}
+                right={"1"}
+                top="1"
+                as={pinExists ? VscPinned : VscPin}
+                w={5}
+                h={5}
+                onClick={() => {
+                  const { pinned } = db.data;
+                  if (pinned.includes(e.id)) {
+                    db.data.pinned = pinned.filter((i: number) => i !== e.id);
+                  } else {
+                    db.data.pinned = [...db.data.pinned, e.id];
+                  }
+                  db.write();
+                  handleState(db.data.pinned);
+                }}
+              ></Icon>
+            ) : null}
+          </Box>
+        );
+      })}
     </Flex>
   );
 };
