@@ -24,6 +24,7 @@
     "@tauri-apps/api": "^1.0.0-rc.3",
     "@uiw/react-markdown-preview": "^4.0.5",
     "ace-builds": "^1.4.14",
+    "convert-units": "^2.3.4",
     "crypto-js": "^4.1.1",
     "framer-motion": "^6.2.8",
     "generate-password-ts": "^1.6.3",

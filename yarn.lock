@@ -1694,6 +1694,14 @@ convert-source-map@^1.5.0, convert-source-map@^1.7.0:
   dependencies:
     safe-buffer "~5.1.1"
 
+convert-units@^2.3.4:
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/convert-units/-/convert-units-2.3.4.tgz#a279f4b3cb9b5d5094beba61abc742dcb46a180d"
+  integrity sha512-ERHfdA0UhHJp1IpwE6PnFJx8LqG7B1ZjJ20UvVCmopEnVCfER68Tbe3kvN63dLbYXDA2xFWRE6zd4Wsf0w7POg==
+  dependencies:
+    lodash.foreach "2.3.x"
+    lodash.keys "2.3.x"
+
 copy-to-clipboard@3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/copy-to-clipboard/-/copy-to-clipboard-3.3.1.tgz#115aa1a9998ffab6196f93076ad6da3b913662ae"
@@ -3059,15 +3067,144 @@ locate-path@^2.0.0:
     p-locate "^2.0.0"
     path-exists "^3.0.0"
 
+lodash._basebind@~2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/lodash._basebind/-/lodash._basebind-2.3.0.tgz#2b5bc452a0e106143b21869f233bdb587417d248"
+  integrity sha1-K1vEUqDhBhQ7IYafIzvbWHQX0kg=
+  dependencies:
+    lodash._basecreate "~2.3.0"
+    lodash._setbinddata "~2.3.0"
+    lodash.isobject "~2.3.0"
+
+lodash._basecreate@~2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/lodash._basecreate/-/lodash._basecreate-2.3.0.tgz#9b88a86a4dcff7b7f3c61d83a2fcfc0671ec9de0"
+  integrity sha1-m4ioak3P97fzxh2Dovz8BnHsneA=
+  dependencies:
+    lodash._renative "~2.3.0"
+    lodash.isobject "~2.3.0"
+    lodash.noop "~2.3.0"
+
+lodash._basecreatecallback@~2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/lodash._basecreatecallback/-/lodash._basecreatecallback-2.3.0.tgz#37b2ab17591a339e988db3259fcd46019d7ac362"
+  integrity sha1-N7KrF1kaM56YjbMln81GAZ16w2I=
+  dependencies:
+    lodash._setbinddata "~2.3.0"
+    lodash.bind "~2.3.0"
+    lodash.identity "~2.3.0"
+    lodash.support "~2.3.0"
+
+lodash._basecreatewrapper@~2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/lodash._basecreatewrapper/-/lodash._basecreatewrapper-2.3.0.tgz#aa0c61ad96044c3933376131483a9759c3651247"
+  integrity sha1-qgxhrZYETDkzN2ExSDqXWcNlEkc=
+  dependencies:
+    lodash._basecreate "~2.3.0"
+    lodash._setbinddata "~2.3.0"
+    lodash._slice "~2.3.0"
+    lodash.isobject "~2.3.0"
+
+lodash._createwrapper@~2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/lodash._createwrapper/-/lodash._createwrapper-2.3.0.tgz#d1aae1102dadf440e8e06fc133a6edd7fe146075"
+  integrity sha1-0arhEC2t9EDo4G/BM6bt1/4UYHU=
+  dependencies:
+    lodash._basebind "~2.3.0"
+    lodash._basecreatewrapper "~2.3.0"
+    lodash.isfunction "~2.3.0"
+
+lodash._objecttypes@~2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/lodash._objecttypes/-/lodash._objecttypes-2.3.0.tgz#6a3ea3987dd6eeb8021b2d5c9c303549cc2bae1e"
+  integrity sha1-aj6jmH3W7rgCGy1cnDA1Scwrrh4=
+
+lodash._renative@~2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/lodash._renative/-/lodash._renative-2.3.0.tgz#77d8edd4ced26dd5971f9e15a5f772e4e317fbd3"
+  integrity sha1-d9jt1M7SbdWXH54Vpfdy5OMX+9M=
+
+lodash._setbinddata@~2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/lodash._setbinddata/-/lodash._setbinddata-2.3.0.tgz#e5610490acd13277d59858d95b5f2727f1508f04"
+  integrity sha1-5WEEkKzRMnfVmFjZW18nJ/FQjwQ=
+  dependencies:
+    lodash._renative "~2.3.0"
+    lodash.noop "~2.3.0"
+
+lodash._shimkeys@~2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/lodash._shimkeys/-/lodash._shimkeys-2.3.0.tgz#611f93149e3e6c721096b48769ef29537ada8ba9"
+  integrity sha1-YR+TFJ4+bHIQlrSHae8pU3rai6k=
+  dependencies:
+    lodash._objecttypes "~2.3.0"
+
+lodash._slice@~2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/lodash._slice/-/lodash._slice-2.3.0.tgz#147198132859972e4680ca29a5992c855669aa5c"
+  integrity sha1-FHGYEyhZly5GgMoppZkshVZpqlw=
+
+lodash.bind@~2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/lodash.bind/-/lodash.bind-2.3.0.tgz#c2a8e18b68e5ecc152e2b168266116fea5b016cc"
+  integrity sha1-wqjhi2jl7MFS4rFoJmEW/qWwFsw=
+  dependencies:
+    lodash._createwrapper "~2.3.0"
+    lodash._renative "~2.3.0"
+    lodash._slice "~2.3.0"
+
+lodash.foreach@2.3.x:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/lodash.foreach/-/lodash.foreach-2.3.0.tgz#083404c91e846ee77245fdf9d76519c68b2af168"
+  integrity sha1-CDQEyR6EbudyRf3512UZxosq8Wg=
+  dependencies:
+    lodash._basecreatecallback "~2.3.0"
+    lodash.forown "~2.3.0"
+
+lodash.forown@~2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/lodash.forown/-/lodash.forown-2.3.0.tgz#24fb4aaf800d45fc2dc60bfec3ce04c836a3ad7f"
+  integrity sha1-JPtKr4ANRfwtxgv+w84EyDajrX8=
+  dependencies:
+    lodash._basecreatecallback "~2.3.0"
+    lodash._objecttypes "~2.3.0"
+    lodash.keys "~2.3.0"
+
 lodash.get@^4.4.2:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
   integrity sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk=
 
+lodash.identity@~2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/lodash.identity/-/lodash.identity-2.3.0.tgz#6b01a210c9485355c2a913b48b6711219a173ded"
+  integrity sha1-awGiEMlIU1XCqRO0i2cRIZoXPe0=
+
 lodash.isequal@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
   integrity sha1-QVxEePK8wwEgwizhDtMib30+GOA=
+
+lodash.isfunction@~2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/lodash.isfunction/-/lodash.isfunction-2.3.0.tgz#6b2973e47a647cf12e70d676aea13643706e5267"
+  integrity sha1-aylz5HpkfPEucNZ2rqE2Q3BuUmc=
+
+lodash.isobject@~2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/lodash.isobject/-/lodash.isobject-2.3.0.tgz#2e16d3fc583da9831968953f2d8e6d73434f6799"
+  integrity sha1-LhbT/Fg9qYMZaJU/LY5tc0NPZ5k=
+  dependencies:
+    lodash._objecttypes "~2.3.0"
+
+lodash.keys@2.3.x, lodash.keys@~2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/lodash.keys/-/lodash.keys-2.3.0.tgz#b350f4f92caa9f45a4a2ecf018454cf2f28ae253"
+  integrity sha1-s1D0+Syqn0WkouzwGEVM8vKK4lM=
+  dependencies:
+    lodash._renative "~2.3.0"
+    lodash._shimkeys "~2.3.0"
+    lodash.isobject "~2.3.0"
 
 lodash.merge@^4.6.2:
   version "4.6.2"
@@ -3078,6 +3215,18 @@ lodash.mergewith@4.6.2:
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/lodash.mergewith/-/lodash.mergewith-4.6.2.tgz#617121f89ac55f59047c7aec1ccd6654c6590f55"
   integrity sha512-GK3g5RPZWTRSeLSpgP8Xhra+pnjBC56q9FZYe1d5RN3TJ35dbkGy3YqBSMbyCrlbi+CM9Z3Jk5yTL7RCsqboyQ==
+
+lodash.noop@~2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/lodash.noop/-/lodash.noop-2.3.0.tgz#3059d628d51bbf937cd2a0b6fc3a7f212a669c2c"
+  integrity sha1-MFnWKNUbv5N80qC2/Dp/ISpmnCw=
+
+lodash.support@~2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/lodash.support/-/lodash.support-2.3.0.tgz#7eaf038af4f0d6aab776b44aa6dcfc80334c9bfd"
+  integrity sha1-fq8DivTw1qq3drRKptz8gDNMm/0=
+  dependencies:
+    lodash._renative "~2.3.0"
 
 longest-streak@^3.0.0:
   version "3.0.1"
