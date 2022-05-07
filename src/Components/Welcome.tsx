@@ -14,7 +14,7 @@ const Welcome = () => {
   let actualRows = pinned.length > 0 ? pinned : db.data.pinned;
 
   return (
-    <Flex h="full" w="full" justify={"start"} ml="10" flexDirection={"column"}>
+    <Flex h="full" w="96%" justify={"start"} ml="10" flexDirection={"column"}>
       <Heading>Welcome</Heading>
       <Text color={"tomato"} fontSize={"2xl"}>
         DevTools
