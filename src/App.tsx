@@ -1,10 +1,13 @@
-import { Flex } from "@chakra-ui/react";
+import "./App.css";
+
+import { Box, Fade, Flex } from "@chakra-ui/react";
 import loadable from "@loadable/component";
 import { loader } from "@monaco-editor/react";
 import { config } from "ace-builds";
-import { useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 
+import { UnitConverter } from "./Features/UnitConverter/UnitConverter";
 import { Navbar } from "./Layout/Navbar";
 import { db } from "./utils";
 
@@ -26,6 +29,15 @@ const Repl = loadable(() => import("./Features/repl/Repl"));
 // const Image = loadable(() => import("./Features/Image/Image"));
 
 function App() {
+  const location = useLocation();
+  const [displayLocation, setDisplayLocation] = useState(location);
+
+  const [transitionStage, setTransistionStage] = useState("fadeIn");
+
+  useEffect(() => {
+    if (location !== displayLocation) setTransistionStage("fadeOut");
+  }, [location, displayLocation]);
+
   useEffect(() => {
     // monaco loader setup
     if (process.env.NODE_ENV === "production") {
@@ -62,8 +74,15 @@ function App() {
         flexDirection={"column"}
         alignItems={"center"}
         flex="1"
+        className={`${transitionStage}`}
+        onAnimationEnd={() => {
+          if (transitionStage === "fadeOut") {
+            setTransistionStage("fadeIn");
+            setDisplayLocation(location);
+          }
+        }}
       >
-        <Routes>
+        <Routes location={displayLocation}>
           <Route path="/" element={<Welcome />}></Route>
           <Route path="/json-formatter" element={<JsonFormatter />}></Route>
           <Route path="/hash" element={<Hash />}></Route>
@@ -79,6 +98,7 @@ function App() {
           <Route path="/pastebin" element={<Pastebin />}></Route>
           <Route path="/repl" element={<Repl />}></Route>
           {/* <Route path="/image" element={<Image />}></Route> */}
+          <Route path="/units" element={<UnitConverter />}></Route>
         </Routes>
       </Flex>
     </Flex>
