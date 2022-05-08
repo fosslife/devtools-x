@@ -96,3 +96,7 @@ div.jsoneditor-value.jsoneditor-invalid {
 .jsoneditor-poweredBy {
   display: none;
 }
+
+div.jsoneditor .jsoneditor-preview {
+  color: whitesmoke;
+}

@@ -1,43 +1,53 @@
-import { Flex } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+} from "@chakra-ui/react";
 import { useState } from "react";
 
-import JsonEditorReact from "../../Components/JsonEditor";
+import { IsolateTab } from "./IsolateTab";
 // import { db } from "../../utils"; FIXME:
 
-// default
-const def = {
-  array: [1, 2, 3],
-  boolean: true,
-  color: "gold",
-  null: null,
-  number: 123,
-  object: {
-    a: "b",
-    c: "d",
-  },
-  string: "Hello World",
-};
-
-type Mode = "tree" | "code" | "text" | "form" | "view" | "preview";
-
 const JsonFormatter = () => {
-  const [code, setCode] = useState(def);
-  const [mode, setMode] = useState<Mode>("code");
+  const [tabs, setTabs] = useState([1, 2]);
+  // Note: this controlls the selecting newly created tab on + click
+  const [tidx, setTidx] = useState(0);
 
   return (
     <Flex w="100%" h="100%" gap={3} flexDir="column">
-      <JsonEditorReact
-        jsoneditorOptions={{
-          mode: mode,
-          modes: ["tree", "code", "text"],
-          indentation: 4,
-          onChangeJSON: setCode,
-          onModeChange: setMode,
-          theme: "ace/theme/dracula",
-          navigationBar: true,
-        }}
-        json={code}
-      />
+      <Tabs
+        height={"100%"}
+        isLazy
+        index={tidx}
+        onChange={(i) => setTidx(i)}
+        lazyBehavior="keepMounted"
+      >
+        <TabList>
+          {tabs.map((t) => (
+            <Tab key={t}>{t}</Tab>
+          ))}
+          <Button
+            onClick={() => {
+              setTabs([...tabs, tabs.length + 1]);
+              setTidx(tabs.length);
+            }}
+          >
+            +
+          </Button>
+        </TabList>
+
+        <TabPanels height={"100%"}>
+          {tabs.map((t) => (
+            <TabPanel key={t} height={"100%"}>
+              <IsolateTab t={t} />
+            </TabPanel>
+          ))}
+        </TabPanels>
+      </Tabs>
     </Flex>
   );
 };
