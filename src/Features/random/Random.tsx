@@ -4,21 +4,21 @@ import {
   Checkbox,
   CheckboxGroup,
   Flex,
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  Input,
-  InputGroup,
-  InputRightElement,
+  Heading,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
   Slider,
   SliderFilledTrack,
   SliderThumb,
   SliderTrack,
   Stack,
 } from "@chakra-ui/react";
-import { clipboard } from "@tauri-apps/api";
+import Editor, { OnMount } from "@monaco-editor/react";
 import { generate } from "generate-password-ts";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdGraphicEq } from "react-icons/md";
 
 type PassOpt = {
@@ -39,6 +39,7 @@ const Random = () => {
     uppercase: true,
     excludeSimilarCharacters: false,
   });
+  const [total, setTotal] = useState(1);
 
   const isError = () => {
     // dumb check on if all are false
@@ -47,8 +48,13 @@ const Random = () => {
     return Object.values(copy).every((e) => e === false);
   };
 
+  useEffect(() => {
+    let pass = genPassword();
+    setPass({ pass: pass, entropy: 0 });
+  }, []);
+
   const genPassword = () => {
-    if (isError()) return;
+    if (isError()) return "";
     const x = generate({
       strict: true, // password must contain one char from each pool
       length: length,
@@ -67,7 +73,20 @@ const Random = () => {
     // const e = Math.log2(combinations);
     // console.log(poolsize, length, "Entropu", e);
 
-    setPass({ pass: x, entropy: 0 });
+    return x;
+  };
+
+  const onMount: OnMount = (editor, monaco) => {
+    // disable TS incorrect diagnostic
+    monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
+      noSemanticValidation: true,
+      noSyntaxValidation: true,
+    });
+
+    import("monaco-themes/themes/Dracula.json").then((data: any) => {
+      monaco.editor.defineTheme("dracula", data);
+      monaco.editor.setTheme("dracula");
+    });
   };
 
   return (
@@ -79,7 +98,8 @@ const Random = () => {
       flexDirection={"column"}
       p={2}
     >
-      <FormControl>
+      <Heading>Random Text</Heading>
+      {/* <FormControl>
         <FormLabel htmlFor="email">Password:</FormLabel>
         <InputGroup size={"lg"}>
           <Input readOnly value={pass.pass} pr="4.5rem" />
@@ -99,11 +119,11 @@ const Random = () => {
             Please select at least one checkbox
           </FormHelperText>
         ) : null}
-      </FormControl>
+      </FormControl> */}
 
       <Box>
         <CheckboxGroup colorScheme="green" defaultValue={["naruto", "kakashi"]}>
-          <Stack spacing={[1, 5]} direction={["column", "row"]}>
+          <Stack spacing={[1, 5]} direction={["column", "row"]} align="center">
             <Checkbox
               isChecked={passOpt.lowercase}
               onChange={(e) => {
@@ -150,21 +170,43 @@ const Random = () => {
             >
               Exclude similar chars
             </Checkbox>
-            <Button disabled={isError()} onClick={genPassword}>
+
+            <NumberInput
+              size={"sm"}
+              defaultValue={1}
+              onChange={(e) => setTotal(Number(e))}
+            >
+              <NumberInputField placeholder="Total strings to generate" />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+            <Button
+              disabled={isError()}
+              onClick={() => {
+                let str = "";
+                for (let i = 0; i < total; i++) {
+                  str += genPassword();
+                  str += "\n";
+                }
+                setPass({ pass: str, entropy: 0 });
+              }}
+            >
               Generate
             </Button>
           </Stack>
         </CheckboxGroup>
       </Box>
       <Box>
+        length: {length}
         <Slider
           aria-label="slider-ex-4"
-          min={8}
+          min={4}
           max={128} // overkill?
           value={length}
           onChange={(v) => {
             setLength(v);
-            genPassword();
           }}
         >
           <SliderTrack bg="red.100">
@@ -174,8 +216,23 @@ const Random = () => {
             <Box color="red.500" as={MdGraphicEq} />
           </SliderThumb>
         </Slider>
-        length: {length}
       </Box>
+      <Editor
+        theme="dracula"
+        value={pass.pass}
+        language="markdown"
+        onMount={onMount}
+        height="100%"
+        width="100%"
+        options={{
+          minimap: {
+            enabled: false,
+          },
+          readOnly: true,
+          lineNumbersMinChars: 3,
+          fontSize: 17,
+        }}
+      />
 
       {/* <Box>Entropy: {pass.entropy}</Box> */}
     </Flex>
