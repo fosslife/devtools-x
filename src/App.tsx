@@ -1,6 +1,6 @@
 import "./App.css";
 
-import { Box, Fade, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import loadable from "@loadable/component";
 import { loader } from "@monaco-editor/react";
 import { config } from "ace-builds";
@@ -70,7 +70,7 @@ function App() {
       <Navbar />
       <Flex
         p="2"
-        h="full"
+        h="98%"
         flexDirection={"column"}
         alignItems={"center"}
         flex="1"
