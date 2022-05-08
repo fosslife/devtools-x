@@ -20,6 +20,7 @@ function Repl() {
 
   const [lang, setLang] = useState("");
   const [output, setOutput] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const onMount: OnMount = (editor, monaco) => {
     import("monaco-themes/themes/Dracula.json").then((data: any) => {
@@ -29,12 +30,15 @@ function Repl() {
   };
 
   useEffect(() => {
+    // TODO: limit or memoise? or cache even?
     fetch("https://emkc.org/api/v2/piston/runtimes")
       .then((d) => d.json())
       .then((x) => {
         setRuntimes(x);
       });
   }, []);
+
+  // console.log(lang, "Lang", lang.split("-")[0]);
 
   return (
     <Flex
@@ -54,9 +58,8 @@ function Repl() {
       >
         {runtimes.map((e, i) => (
           <Tooltip key={i} label={`${e.aliases.join(",")}`}>
-            <option value={`${e.language}-${e.version}`}>
-              {e.language} - {e.version}{" "}
-              <Text color={"gray.100"}> ({e.aliases.join(", ")})</Text>
+            <option value={`${e.language}-${e.version}`} color={"gray.100"}>
+              {e.language} - v{e.version} ({e.aliases.join(", ")})
             </option>
           </Tooltip>
         ))}
@@ -69,11 +72,13 @@ function Repl() {
           href="https://github.com/engineer-man/piston"
           target={"_blank"}
           as="a"
+          textDecor={"underline"}
+          textUnderlineOffset="2px"
         >
           Piston
         </Link>
       </Alert>
-      <Flex h="100%" gap={3}>
+      <Flex h="100%" w="100%" gap={3}>
         <Editor
           onChange={(e) => setCodeValue(e || "")}
           value={codeValue}
@@ -81,28 +86,29 @@ function Repl() {
           onMount={onMount}
           language={lang.split("-")[0]}
           height="100%"
-          width={"50%"}
+          width={"49%"}
           options={{
             fontSize: 15,
             minimap: { enabled: false },
           }}
         />
-        <Box
-          overflow={"scroll"}
-          unselectable="on"
-          userSelect={"none"}
-          pl="4"
-          pt="1"
-          bg="#282a36"
-          h="100%"
-          w="50%"
-        >
-          <Text as="pre">{output}</Text>
+        <Box pl="4" pt="1" bg="#282a36" h="100%" w="50%">
+          <Text as="pre" whiteSpace={"pre-wrap"}>
+            {output}
+          </Text>
         </Box>
       </Flex>
 
       <Button
+        size={"lg"}
+        isLoading={loading}
+        loadingText={"Running Code..."}
         onClick={() => {
+          if (!codeValue) {
+            setOutput("Write some code and select language!");
+            return;
+          }
+          setLoading(true);
           // Make Call
           fetch("https://emkc.org/api/v2/piston/execute", {
             method: "POST",
@@ -119,15 +125,23 @@ function Repl() {
           })
             .then((d) => d.json())
             .then((l) => {
+              setLoading(false);
               console.log("resp", l);
-              setOutput(l.run.output);
+              // output will always be stderr or stdout
+              setOutput(l.compile.output ? l.compile.output : l.run.output);
+            })
+            .catch((err) => {
+              setOutput(err.message);
+              setLoading(false);
             });
         }}
       >
-        Run Code
+        Run
       </Button>
     </Flex>
   );
 }
 
 export default Repl;
+
+// FIXME: Editor doesn't support syntax highlighting for wide range of languages like zig bash
