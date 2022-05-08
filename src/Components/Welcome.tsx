@@ -33,7 +33,7 @@ const Welcome = () => {
               flexDir={"column"}
               align="center"
               key={pin}
-              bg="red.400"
+              bg="red.500"
               p="6"
               borderRadius={"md"}
               cursor="pointer"
