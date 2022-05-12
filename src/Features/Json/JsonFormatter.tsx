@@ -1,6 +1,7 @@
 import {
   Button,
   Flex,
+  Heading,
   Tab,
   TabList,
   TabPanel,
@@ -18,7 +19,8 @@ const JsonFormatter = () => {
   const [tidx, setTidx] = useState(0);
 
   return (
-    <Flex w="100%" h="100%" gap={3} flexDir="column">
+    <Flex w="100%" h="100%" gap={3} flexDir="column" pl="2">
+      <Heading>Json Tools</Heading>
       <Tabs
         height={"100%"}
         isLazy
@@ -31,6 +33,7 @@ const JsonFormatter = () => {
             <Tab key={t}>{t}</Tab>
           ))}
           <Button
+            variant={"ghost"}
             onClick={() => {
               setTabs([...tabs, tabs.length + 1]);
               setTidx(tabs.length);
@@ -40,7 +43,7 @@ const JsonFormatter = () => {
           </Button>
         </TabList>
 
-        <TabPanels height={"100%"}>
+        <TabPanels height={"95%"}>
           {tabs.map((t) => (
             <TabPanel key={t} height={"100%"}>
               <IsolateTab t={t} />
