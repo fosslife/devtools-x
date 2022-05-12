@@ -27,7 +27,7 @@ const Markdown = loadable(() => import("./Features/Markdown/Markdown"));
 const YamlJson = loadable(() => import("./Features/YamlJson/Yaml"));
 const Pastebin = loadable(() => import("./Features/pastebin/Pastebin"));
 const Repl = loadable(() => import("./Features/repl/Repl"));
-// const Image = loadable(() => import("./Features/Image/Image"));
+const Image = loadable(() => import("./Features/Image/Image"));
 
 function App() {
   const location = useLocation();
@@ -98,7 +98,7 @@ function App() {
           <Route path="/yamljson" element={<YamlJson />}></Route>
           <Route path="/pastebin" element={<Pastebin />}></Route>
           <Route path="/repl" element={<Repl />}></Route>
-          {/* <Route path="/image" element={<Image />}></Route> */}
+          <Route path="/image" element={<Image />}></Route>
           <Route path="/units" element={<UnitConverter />}></Route>
         </Routes>
       </Flex>

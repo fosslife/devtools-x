@@ -9,12 +9,6 @@ export default (): PluginOption => {
         overwrite: true,
         recursive: true,
       });
-
-      // vips:
-      // copySync("./src/vips", "./dist/src/vips", {
-      //   overwrite: true,
-      //   recursive: true,
-      // });
     },
   };
 };
