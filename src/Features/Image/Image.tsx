@@ -118,25 +118,27 @@ function Image() {
   return (
     <Flex
       ref={parentRef}
-      h="100%"
+      h="99%"
       w="100%"
       justify={"center"}
       flexDir="column"
       gap="10"
-      p="5"
+      p="10"
+      mt="2"
       boxSizing="border-box"
     >
       {imageSrc.left ? (
         <Box>
           <ReactCompareSlider
             style={{
-              height: "90vh",
+              height: "80vh",
             }}
             onlyHandleDraggable={true}
             itemOne={
               <img
                 style={{
                   ...styleFitContainer(),
+                  objectFit: "contain",
                 }}
                 src={convertFileSrc(imageSrc.left)}
                 alt="Left"
@@ -146,6 +148,7 @@ function Image() {
               <img
                 style={{
                   ...styleFitContainer(),
+                  objectFit: "contain",
                 }}
                 src={convertFileSrc(imageSrc.right)}
                 alt="right"
