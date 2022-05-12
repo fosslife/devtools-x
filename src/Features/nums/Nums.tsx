@@ -4,6 +4,7 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  Heading,
   Input,
   InputGroup,
   InputRightElement,
@@ -42,18 +43,8 @@ const Nums = () => {
     });
   };
   return (
-    <Flex
-      h="full"
-      w="100%"
-      gap={3}
-      alignSelf={"start"}
-      flexDir="column"
-      sx={{
-        "& div": {
-          maxWidth: "98%",
-        },
-      }}
-    >
+    <Flex h="full" w="100%" gap={3} alignSelf={"start"} flexDir="column">
+      <Heading>Number Converter</Heading>
       <Flex gap="4">
         <FormControl>
           <FormLabel htmlFor="input">Input</FormLabel>

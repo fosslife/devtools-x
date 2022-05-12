@@ -1,4 +1,12 @@
-import { Alert, AlertIcon, Button, Flex, Select, Text } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertIcon,
+  Button,
+  Flex,
+  Heading,
+  Select,
+  Text,
+} from "@chakra-ui/react";
 import Editor, { OnMount } from "@monaco-editor/react";
 import { clipboard } from "@tauri-apps/api";
 import { useState } from "react";
@@ -23,6 +31,7 @@ function Pastebin() {
 
   const [lang, setLang] = useState("javascript");
   const [link, setLink] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const onMount: OnMount = (editor, monaco) => {
     import("monaco-themes/themes/Dracula.json").then((data: any) => {
@@ -40,6 +49,7 @@ function Pastebin() {
       flexDirection={"column"}
       p={2}
     >
+      <Heading>Pastebin</Heading>
       <Select
         value={lang}
         placeholder="Select Language"
@@ -66,7 +76,10 @@ function Pastebin() {
         }}
       />
       <Button
+        isLoading={loading}
+        loadingText="Creating Paste"
         onClick={() => {
+          setLoading(true);
           // Make Call
           fetch("https://bin.fosslife.com/api", {
             method: "POST",
@@ -77,8 +90,13 @@ function Pastebin() {
           })
             .then((d) => d.text())
             .then((l) => {
+              setLoading(false);
               const url = `https://bin.fosslife.com/${l.split(" ")[0]}`;
               setLink(url);
+            })
+            .catch((e) => {
+              console.log("error", e);
+              setLoading(false);
             });
         }}
       >
@@ -96,7 +114,7 @@ function Pastebin() {
               {link}
             </Text>
             <Button
-              size={"xs"}
+              size={"sm"}
               onClick={() => {
                 clipboard.writeText(link);
               }}

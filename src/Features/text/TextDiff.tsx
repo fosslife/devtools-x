@@ -1,4 +1,4 @@
-import { Box, Flex, Select } from "@chakra-ui/react";
+import { Box, Flex, Heading, Select } from "@chakra-ui/react";
 import { DiffEditor, DiffOnMount } from "@monaco-editor/react";
 import { useState } from "react";
 
@@ -33,7 +33,8 @@ const TextDiff = () => {
   ].sort();
 
   return (
-    <Flex h="full" w="100%" gap={3} alignSelf={"start"} flexDir="column">
+    <Flex h="full" w="100%" gap={3} alignSelf={"start"} flexDir="column" p="2">
+      <Heading>Diff tools</Heading>
       <Select
         value={lang}
         placeholder="Select Language"
@@ -75,6 +76,3 @@ const TextDiff = () => {
 };
 
 export default TextDiff;
-
-// TODO: can experiment around react-diff-viewer since it's going to be lighter than monaco, but then we will need
-// lots of boilerplate of setting original content, modified content, prism for highlighting etc etc

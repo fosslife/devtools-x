@@ -1,4 +1,4 @@
-import { Flex, Select } from "@chakra-ui/react";
+import { Box, Flex, Heading, Select } from "@chakra-ui/react";
 import Editor, { OnMount } from "@monaco-editor/react";
 import YAML from "js-yaml";
 import { useState } from "react";
@@ -27,10 +27,15 @@ const YamlJson = () => {
 
   return (
     <Flex h="full" w="full" gap="5" p="2" flexDir={"column"}>
+      <Heading>Yaml-Json </Heading>
       <Select value={mode} onChange={(e) => setMode(e.target.value)}>
         <option value="json">JSON to YAML</option>
         <option value="yaml">YAML to JSON</option>
       </Select>
+      <Flex w="full" justify={"space-around"} gap="10">
+        <Box>{mode}</Box>
+        <Box>{mode == "json" ? "yaml" : "json"}</Box>
+      </Flex>
       <Flex h="full" gap="5">
         <Editor
           onMount={onMount}

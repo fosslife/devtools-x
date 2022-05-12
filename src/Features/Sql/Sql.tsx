@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, Heading } from "@chakra-ui/react";
 import sqlFormatter from "@sqltools/formatter";
 import { useState } from "react";
 import AceEditor from "react-ace";
@@ -8,6 +8,7 @@ const Sql = () => {
 
   return (
     <Flex h="full" w="100%" gap={3} alignSelf={"start"} flexDir="column">
+      <Heading>Sql Formatter</Heading>
       <AceEditor
         theme="dracula"
         width="100%"

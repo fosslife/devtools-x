@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Flex,
+  Heading,
   Link,
   Select,
   Text,
@@ -49,6 +50,7 @@ function Repl() {
       flexDirection={"column"}
       p={2}
     >
+      <Heading>ScratchPad</Heading>
       <Select
         value={lang}
         placeholder="Select Language"

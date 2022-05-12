@@ -4,11 +4,12 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  Heading,
   Input,
   InputGroup,
   InputRightElement,
-  // Switch,
-  // useColorMode,
+  Switch,
+  useColorMode,
 } from "@chakra-ui/react";
 import { clipboard } from "@tauri-apps/api";
 import { useEffect, useState } from "react";
@@ -16,7 +17,7 @@ import { RgbaColor, RgbaColorPicker } from "react-colorful";
 import { convertBase } from "simple-base-converter";
 
 const Colors = () => {
-  // const { toggleColorMode, setColorMode } = useColorMode();
+  const { toggleColorMode, setColorMode } = useColorMode();
   const [color, setColor] = useState<RgbaColor>({
     r: 34,
     g: 135,
@@ -27,7 +28,7 @@ const Colors = () => {
   useEffect(() => {
     return () => {
       // reset mode to dark before switching panels
-      // setColorMode("dark");
+      setColorMode("dark");
     };
   }, []);
 
@@ -41,14 +42,16 @@ const Colors = () => {
   return (
     <Flex
       flexDir={"column"}
-      gap={10}
+      gap={5}
       sx={{
         "& .react-colorful ": {
           width: "60vw",
           height: "40vh",
+          marginTop: 2,
         },
       }}
     >
+      <Heading>Color Picker</Heading>
       <RgbaColorPicker
         color={color}
         onChange={(e) => {
@@ -111,15 +114,15 @@ const Colors = () => {
         shadow="xl"
       ></Box>
 
-      {/* <Flex gap={3}>
+      {/* FIXME: Enable when themes are working */}
+      <Flex gap={3} display="none">
         <FormControl display="flex" alignItems="center">
           <FormLabel htmlFor="theme" mb="0">
             Toggle theme
           </FormLabel>
           <Switch id="theme" onChange={toggleColorMode} />
         </FormControl>
-      </Flex> */}
-      {/* Enable when themes are working */}
+      </Flex>
     </Flex>
   );
 };
@@ -127,4 +130,4 @@ const Colors = () => {
 export default Colors;
 
 // TODO: more features
-// TODO: save prev color
+// TODO: save prev color and compare
