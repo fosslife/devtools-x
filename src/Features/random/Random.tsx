@@ -99,27 +99,6 @@ const Random = () => {
       p={2}
     >
       <Heading>Random Text</Heading>
-      {/* <FormControl>
-        <FormLabel htmlFor="email">Password:</FormLabel>
-        <InputGroup size={"lg"}>
-          <Input readOnly value={pass.pass} pr="4.5rem" />
-          <InputRightElement width="4.5rem">
-            <Button
-              size="sm"
-              onClick={() => {
-                clipboard.writeText(pass.pass);
-              }}
-            >
-              Copy
-            </Button>
-          </InputRightElement>
-        </InputGroup>
-        {isError() ? (
-          <FormHelperText color={"red.300"}>
-            Please select at least one checkbox
-          </FormHelperText>
-        ) : null}
-      </FormControl> */}
 
       <Box>
         <CheckboxGroup colorScheme="green" defaultValue={["naruto", "kakashi"]}>
@@ -174,7 +153,15 @@ const Random = () => {
             <NumberInput
               size={"sm"}
               defaultValue={1}
-              onChange={(e) => setTotal(Number(e))}
+              onChange={(e) => {
+                setTotal(Number(e));
+                let str = "";
+                for (let i = 0; i < Number(e); i++) {
+                  str += genPassword();
+                  str += "\n";
+                }
+                setPass({ pass: str, entropy: 0 });
+              }}
             >
               <NumberInputField placeholder="Total strings to generate" />
               <NumberInputStepper>
@@ -207,6 +194,12 @@ const Random = () => {
           value={length}
           onChange={(v) => {
             setLength(v);
+            let str = "";
+            for (let i = 0; i < total; i++) {
+              str += genPassword();
+              str += "\n";
+            }
+            setPass({ pass: str, entropy: 0 });
           }}
         >
           <SliderTrack bg="red.100">
@@ -220,7 +213,7 @@ const Random = () => {
       <Editor
         theme="dracula"
         value={pass.pass}
-        language="markdown"
+        language="text"
         onMount={onMount}
         height="100%"
         width="100%"
