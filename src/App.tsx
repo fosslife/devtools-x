@@ -7,6 +7,7 @@ import { config } from "ace-builds";
 import { useEffect, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 
+import Nums from "./Features/nums/Nums";
 import { UnitConverter } from "./Features/UnitConverter/UnitConverter";
 import { Navbar } from "./Layout/Navbar";
 import { db } from "./utils";
@@ -17,7 +18,7 @@ const Hash = loadable(() => import("./Features/hash/Hash"));
 const JsonFormatter = loadable(() => import("./Features/Json/JsonFormatter"));
 const Random = loadable(() => import("./Features/random/Random"));
 const JWT = loadable(() => import("./Features/jwt/JWT"));
-const Nums = loadable(() => import("./Features/nums/Nums"));
+// const Nums = loadable(() => import("./Features/nums/Nums"));
 const Sql = loadable(() => import("./Features/Sql/Sql"));
 const Colors = loadable(() => import("./Features/colors/Colors"));
 const RegexTester = loadable(() => import("./Features/Regex/RegexTester"));
