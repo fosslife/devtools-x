@@ -1,9 +1,8 @@
-import { Flex, Textarea } from "@chakra-ui/react";
+import { Flex, Heading } from "@chakra-ui/react";
 import { decodeJwt, decodeProtectedHeader } from "jose";
 import { useEffect, useState } from "react";
 
-// const token = test token:
-//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+import { Monaco } from "../../Components/MonacoWrapper";
 
 const JWT = () => {
   const [jwt, setJwt] = useState({
@@ -20,41 +19,28 @@ const JWT = () => {
         setJwt({ ...jwt, decoded: decoded, headers: headers });
       } catch {
         // ignore error I guess?
+        setJwt({ ...jwt, decoded: "Invalid TOken", headers: "" });
       }
     }
   }, [jwt]);
 
   return (
-    <Flex
-      h="full"
-      w="100%"
-      gap={3}
-      alignSelf={"start"}
-      flexDir="column"
-      sx={{
-        "& div": {
-          maxWidth: "98%",
-        },
-      }}
-    >
-      <Textarea
-        onChange={(e) => setJwt({ ...jwt, token: e.target.value })}
-        resize={"none"}
-        placeholder="Enter JWT"
+    <Flex h="full" w="100%" gap={3} alignSelf={"start"} flexDir="column" pl="2">
+      <Heading>JWT</Heading>
+      <Monaco
+        height="30%"
+        setValue={(e) => setJwt({ ...jwt, token: e || "" })}
       />
       Payload:
-      <Textarea
-        height={60}
-        readOnly
-        resize={"none"}
+      <Monaco
+        height="30%"
         value={JSON.stringify(jwt.decoded, null, 2)}
+        extraOptions={{ readOnly: true }}
       />
       Headers:
-      <Textarea
-        height={40}
-        readOnly
-        resize={"none"}
+      <Monaco
         value={JSON.stringify(jwt.headers, null, 2)}
+        extraOptions={{ readOnly: true }}
       />
     </Flex>
   );
@@ -63,3 +49,4 @@ const JWT = () => {
 export default JWT;
 
 // TODO: add token verify? any other features?
+// TODO: color jwt

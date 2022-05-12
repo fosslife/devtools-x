@@ -19,7 +19,7 @@ export const HashBox = ({ value, hashtype }: HashBoxProps) => {
       <FormLabel htmlFor={hashtype}>{hashtype}</FormLabel>
       <InputGroup>
         <Input
-          w="75%"
+          w="100%"
           variant={"filled"}
           id={hashtype}
           type="text"

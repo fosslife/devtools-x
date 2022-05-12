@@ -1,11 +1,10 @@
-import { Box, Button, Divider, Flex, Textarea } from "@chakra-ui/react";
-import { useDebouncedCallback } from "@react-hookz/web/esm";
+import { Box, Button, Divider, Flex, Heading } from "@chakra-ui/react";
 import { dialog, fs } from "@tauri-apps/api";
 import { lib, MD5, SHA1, SHA224, SHA256, SHA512 } from "crypto-js";
-import { ChangeEventHandler, useState } from "react";
+import { useState } from "react";
 
 import { HashBox } from "../../Components/HashBox";
-import { db } from "../../utils";
+import { Monaco } from "../../Components/MonacoWrapper";
 
 type HashState = {
   md5: string;
@@ -26,34 +25,18 @@ const init = {
 const Hash = () => {
   const [hashes, setHashes] = useState(init);
 
-  // FIXME: definitely reusable function everywhere.
-  const onChangeDeb = useDebouncedCallback(
-    (e) => {
-      try {
-        db.data.hash.editor = JSON.parse(e);
-      } catch {
-        db.data.hash.editor = e;
-      }
-      // db.write();
-    },
-    [],
-    1000, // delay for debounce
-    500 // maxwait ( call at least once every 500ms )
-  );
-
   const ellipsify = (state: HashState) =>
     Object.entries(state).reduce((acc, curr) => {
       return {
         ...acc,
-        [curr[0]]: `${curr[1].substring(0, 6)}...${curr[1].substring(
-          curr[1].length - 7
+        [curr[0]]: `${curr[1].substring(0, 10)}....${curr[1].substring(
+          curr[1].length - 10
         )}`,
       };
     }, init);
 
-  const onChange: ChangeEventHandler<HTMLTextAreaElement> = async (e) => {
+  const onChange = async (val: string | undefined) => {
     // calculate hash
-    const val = e.target.value;
     if (!val) {
       setHashes({ ...init });
       return;
@@ -72,18 +55,20 @@ const Hash = () => {
     };
     // set state
     setHashes(ellipsify(state));
-    onChangeDeb(e);
   };
   return (
-    <Flex h="full" w="100%" gap={3} alignSelf={"start"}>
-      <Textarea
-        height={"100%"}
-        width="60%"
-        placeholder="Enter text to hash"
-        onChange={onChange}
-        resize="none"
-      />
-      <Flex width={"40%"} gap={2} flexDirection={"column"}>
+    <Flex
+      h="full"
+      w="100%"
+      gap={3}
+      alignSelf={"start"}
+      flexDir="column"
+      pl="2"
+      p="4"
+    >
+      <Heading>Hashing</Heading>
+      <Monaco value={"Enter Text"} setValue={onChange} />
+      <Flex width={"100%"} gap={2} flexDirection={"column"}>
         <Box width={"full"}>
           <HashBox value={hashes.md5} hashtype="MD5" />
         </Box>
@@ -102,6 +87,7 @@ const Hash = () => {
         <Divider mt="10" />
         <Box mt="10">
           <Button
+            bgColor={"red.500"}
             onClick={async () => {
               const filePath = (await dialog.open({
                 multiple: false,
