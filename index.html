@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
     <!-- VIPS -->
-    <!-- <script src="./src/vips/vips.js"></script> -->
-    <!-- <script type="module">
+    <script src="./src/vips/vips.js"></script>
+    <script type="module">
       window.vips = await Vips({
         print: (stdout) => console.log(stdout.replace(/\033\[[0-9;]*m/g, "")),
         preRun: (module) => {
@@ -89,7 +89,7 @@
           window.parent.postMessage("vipsInitialized", "*");
         },
       });
-    </script> -->
+    </script>
     <!-- React-editor -->
     <script>
       const global = globalThis;
