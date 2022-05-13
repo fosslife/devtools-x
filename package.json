@@ -47,6 +47,7 @@
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1.0.0-rc.10",
+    "@types/convert-units": "^2.3.5",
     "@types/crypto-js": "^4.1.0",
     "@types/fs-extra": "^9.0.13",
     "@types/js-yaml": "^4.0.5",

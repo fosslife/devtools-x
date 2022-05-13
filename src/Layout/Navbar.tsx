@@ -34,7 +34,7 @@ export const data = [
   { id: 12, to: "/pastebin", icon: FaPaste, text: "Pastebin" },
   { id: 13, to: "/repl", icon: FaCode, text: "ScratchPad" },
   { id: 14, to: "/image", icon: FaFileImage, text: "Image Tools" },
-  { id: 15, to: "/units", icon: FaExchangeAlt, text: "Unit Converters (WIP)" },
+  { id: 15, to: "/units", icon: FaExchangeAlt, text: "Unit Converters" },
 ];
 
 export const Navbar = () => {
