@@ -8,7 +8,7 @@ import {
   Select,
 } from "@chakra-ui/react";
 import Convert, { Unit } from "convert-units";
-import { forwardRef, Ref, useEffect, useRef, useState } from "react";
+import { forwardRef, Ref, useRef, useState } from "react";
 import { FaExchangeAlt } from "react-icons/fa";
 
 const StyledInput = forwardRef(function mInput(
@@ -125,14 +125,14 @@ export const UnitConverter = () => {
       </Select>
 
       <Flex gap="5" py="3" w="100%" align={"center"}>
-        <Flex direction={"column"} w="50%">
+        <Flex direction={"column"} w="48%">
           <StyledInput
-            placeholder="Enter"
+            placeholder="Enter From Value"
             ref={fromRef}
             onChange={() => calculate()}
           />
           <StyledSelect
-            vallue={fromUnit}
+            value={fromUnit}
             onChange={(e: any) => {
               setFromUnit(e.target.value);
               calculate(e.target.value, toUnit);
@@ -146,11 +146,26 @@ export const UnitConverter = () => {
           </StyledSelect>
         </Flex>
 
-        <Icon as={FaExchangeAlt} />
+        <Icon
+          as={FaExchangeAlt}
+          // p="2.5"
+          padding="2px"
+          w="4%"
+          h="24px"
+          onClick={() => {
+            calculate(toUnit, fromUnit);
+            setToUnit(fromUnit);
+            setFromUnit(toUnit);
+          }}
+          _hover={{
+            bg: "#adadad53",
+            borderRadius: 4,
+          }}
+        />
 
-        <Flex direction={"column"} w="50%">
+        <Flex direction={"column"} w="48%">
           {/* FIXME: make second inputbox as editable */}
-          <StyledInput placeholder="Dont" isReadOnly value={toValue} />
+          <StyledInput placeholder="Output" isReadOnly value={toValue} />
           <StyledSelect
             value={toUnit}
             onChange={(e: any) => {
