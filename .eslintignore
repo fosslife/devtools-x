@@ -6,3 +6,4 @@ dist-ssr
 node_modules/
 target/
 **/*.d.ts
+vips/

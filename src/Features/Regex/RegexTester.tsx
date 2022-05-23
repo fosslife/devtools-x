@@ -5,6 +5,7 @@ import {
   Checkbox,
   CheckboxGroup,
   Flex,
+  Heading,
   Input,
   InputGroup,
   InputLeftAddon,
@@ -76,7 +77,8 @@ const RegexTester = () => {
   }, [flags, rg]);
 
   return (
-    <Flex h="full" w="100%" gap={3} alignSelf={"start"} flexDir="column">
+    <Flex h="full" w="100%" gap={3} alignSelf={"start"} p="2" flexDir="column">
+      <Heading>Regex Tester</Heading>
       <Flex gap={3} w="100%" flexDir={"column"}>
         <Flex gap={3}>
           <InputGroup size="md">

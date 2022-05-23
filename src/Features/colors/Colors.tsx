@@ -4,6 +4,7 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  Heading,
   Input,
   InputGroup,
   InputRightElement,
@@ -41,14 +42,16 @@ const Colors = () => {
   return (
     <Flex
       flexDir={"column"}
-      gap={10}
+      gap={5}
       sx={{
         "& .react-colorful ": {
           width: "60vw",
           height: "40vh",
+          marginTop: 2,
         },
       }}
     >
+      <Heading>Color Picker</Heading>
       <RgbaColorPicker
         color={color}
         onChange={(e) => {
@@ -111,7 +114,8 @@ const Colors = () => {
         shadow="xl"
       ></Box>
 
-      <Flex gap={3}>
+      {/* FIXME: Enable when themes are working */}
+      <Flex gap={3} display="none">
         <FormControl display="flex" alignItems="center">
           <FormLabel htmlFor="theme" mb="0">
             Toggle theme
@@ -126,4 +130,4 @@ const Colors = () => {
 export default Colors;
 
 // TODO: more features
-// TODO: save prev color
+// TODO: save prev color and compare

@@ -1,11 +1,10 @@
-import { Box, Button, Divider, Flex, Textarea } from "@chakra-ui/react";
-import { useDebouncedCallback } from "@react-hookz/web/esm";
+import { Box, Button, Divider, Flex, Heading, Text } from "@chakra-ui/react";
 import { dialog, fs } from "@tauri-apps/api";
 import { lib, MD5, SHA1, SHA224, SHA256, SHA512 } from "crypto-js";
-import { ChangeEventHandler, useState } from "react";
+import { useState } from "react";
 
 import { HashBox } from "../../Components/HashBox";
-import { db } from "../../utils";
+import { Monaco } from "../../Components/MonacoWrapper";
 
 type HashState = {
   md5: string;
@@ -25,35 +24,20 @@ const init = {
 
 const Hash = () => {
   const [hashes, setHashes] = useState(init);
-
-  // FIXME: definitely reusable function everywhere.
-  const onChangeDeb = useDebouncedCallback(
-    (e) => {
-      try {
-        db.data.hash.editor = JSON.parse(e);
-      } catch {
-        db.data.hash.editor = e;
-      }
-      db.write();
-    },
-    [],
-    1000, // delay for debounce
-    500 // maxwait ( call at least once every 500ms )
-  );
+  const [filePath, setFilePath] = useState("");
 
   const ellipsify = (state: HashState) =>
     Object.entries(state).reduce((acc, curr) => {
       return {
         ...acc,
-        [curr[0]]: `${curr[1].substring(0, 6)}...${curr[1].substring(
-          curr[1].length - 7
+        [curr[0]]: `${curr[1].substring(0, 10)}....${curr[1].substring(
+          curr[1].length - 10
         )}`,
       };
     }, init);
 
-  const onChange: ChangeEventHandler<HTMLTextAreaElement> = async (e) => {
+  const onChange = async (val: string | undefined) => {
     // calculate hash
-    const val = e.target.value;
     if (!val) {
       setHashes({ ...init });
       return;
@@ -72,76 +56,72 @@ const Hash = () => {
     };
     // set state
     setHashes(ellipsify(state));
-    onChangeDeb(e);
   };
+
+  const selectFile = async () => {
+    const filePath = (await dialog.open({
+      multiple: false,
+    })) as string; // Multiple is false
+    setFilePath(filePath);
+
+    const fileContent = await fs.readBinaryFile(filePath);
+
+    const md5 = MD5(byteArrayToWordArray(fileContent)).toString();
+    const sha1 = SHA1(byteArrayToWordArray(fileContent)).toString();
+    const sha256 = SHA256(byteArrayToWordArray(fileContent)).toString();
+    const sha512 = SHA512(byteArrayToWordArray(fileContent)).toString();
+    const sha224 = SHA224(byteArrayToWordArray(fileContent)).toString();
+
+    const state = {
+      md5,
+      sha1,
+      sha256,
+      sha512,
+      sha224,
+    };
+    setHashes(ellipsify(state));
+  };
+
   return (
     <Flex
       h="full"
       w="100%"
       gap={3}
       alignSelf={"start"}
-      sx={{
-        "& div": {
-          maxWidth: "98%",
-        },
-      }}
+      flexDir="column"
+      pl="2"
+      p="4"
     >
-      <Textarea
-        height={"100%"}
-        width="60%"
-        placeholder="Enter text to hash"
-        onChange={onChange}
-        resize="none"
-      />
-      <Flex width={"40%"} gap={2} flexDirection={"column"}>
-        <Box width={"full"}>
-          <HashBox value={hashes.md5} hashtype="MD5" />
-        </Box>
-        <Box width={"full"}>
-          <HashBox value={hashes.sha1} hashtype="SHA-1" />
-        </Box>
-        <Box width={"full"}>
-          <HashBox value={hashes.sha256} hashtype="SHA-256" />
-        </Box>
-        <Box width={"full"}>
-          <HashBox value={hashes.sha512} hashtype="SHA-512" />
-        </Box>
-        <Box width={"full"}>
-          <HashBox value={hashes.sha224} hashtype="SHA-224" />
-        </Box>
-        <Divider mt="10" />
-        <Box mt="10">
-          <Button
-            onClick={async () => {
-              const filePath = (await dialog.open({
-                multiple: false,
-              })) as string; // Multiple is false
-              const fileContent = await fs.readBinaryFile(filePath);
-
-              const md5 = MD5(byteArrayToWordArray(fileContent)).toString();
-              const sha1 = SHA1(byteArrayToWordArray(fileContent)).toString();
-              const sha256 = SHA256(
-                byteArrayToWordArray(fileContent)
-              ).toString();
-              const sha512 = SHA512(
-                byteArrayToWordArray(fileContent)
-              ).toString();
-              const sha224 = SHA224(
-                byteArrayToWordArray(fileContent)
-              ).toString();
-
-              const state = {
-                md5,
-                sha1,
-                sha256,
-                sha512,
-                sha224,
-              };
-              setHashes(ellipsify(state));
-            }}
-          >
-            Calculate hashes of a file
+      <Heading>Hashing</Heading>
+      <Box>
+        <Monaco height="150px" value={"Enter Text"} setValue={onChange} />
+      </Box>
+      <Flex align={"center"} gap="5">
+        <Flex width={"60%"} gap={2} direction="column">
+          <Box width={"full"}>
+            <HashBox value={hashes.md5} hashtype="MD5" />
+          </Box>
+          <Box width={"full"}>
+            <HashBox value={hashes.sha1} hashtype="SHA-1" />
+          </Box>
+          <Box width={"full"}>
+            <HashBox value={hashes.sha256} hashtype="SHA-256" />
+          </Box>
+          <Box width={"full"}>
+            <HashBox value={hashes.sha512} hashtype="SHA-512" />
+          </Box>
+          <Box width={"full"}>
+            <HashBox value={hashes.sha224} hashtype="SHA-224" />
+          </Box>
+        </Flex>
+        <Divider orientation="vertical"></Divider>
+        <Box w="40%">
+          <Button w="100%" bgColor={"red.500"} onClick={selectFile}>
+            Select a File
           </Button>
+          <Text align={"center"} color="gray.400" mt="3">
+            {filePath ? filePath : ""}
+          </Text>
         </Box>
       </Flex>
     </Flex>
@@ -160,6 +140,7 @@ function byteArrayToWordArray(ba: any) {
 // TODO: toggle for 'full hash mode', skips middle text of hash and shows starting and ending of hash
 // TODO: add copy success toast? animation?
 // TODO: hashes are costly, use LRU memoisation?
+// TODO: show loading spinner for heavy files?
 // HELP: use this to verify : https://www.browserling.com/tools/all-hashes
 
 export default Hash;

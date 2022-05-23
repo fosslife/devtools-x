@@ -92,3 +92,11 @@ div.jsoneditor-value.jsoneditor-null {
 div.jsoneditor-value.jsoneditor-invalid {
   color: white;
 }
+
+.jsoneditor-poweredBy {
+  display: none;
+}
+
+div.jsoneditor .jsoneditor-preview {
+  color: whitesmoke;
+}

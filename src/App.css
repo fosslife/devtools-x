@@ -1,0 +1,31 @@
+/* Courtesy of : https://dev.to/fazliddin04/react-router-v6-animated-transitions-diy-3e6l */
+
+.fadeIn {
+  animation: 0.2s fadeIn forwards;
+}
+
+.fadeOut {
+  animation: 0.2s fadeOut forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(0px, 0px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0px, 10px);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translate(0px, 10px);
+  }
+  to {
+    transform: translate(0px, 0px);
+    opacity: 0;
+  }
+}
