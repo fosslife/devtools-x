@@ -29,7 +29,6 @@ export default defineConfig({
           "rehype-parse": ["rehype-parse"],
           "rehype-raw": ["rehype-raw"],
           "react-markdown": ["react-markdown"],
-          jsoneditor: ["jsoneditor"],
           "ace-builds": ["ace-builds"],
           "@chakra-ui/react": ["@chakra-ui/react"],
         },
