@@ -1,15 +1,27 @@
 import "./App.css";
 
-import { Flex } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+} from "@chakra-ui/react";
 import loadable from "@loadable/component";
 import { loader } from "@monaco-editor/react";
 import { config } from "ace-builds";
-import { useEffect, useState } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Select } from "chakra-react-select";
+import { useEffect, useRef, useState } from "react";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 import Nums from "./Features/nums/Nums";
 import { UnitConverter } from "./Features/UnitConverter/UnitConverter";
-import { Navbar } from "./Layout/Navbar";
+import { data, Navbar } from "./Layout/Navbar";
 import { db } from "./utils";
 
 // Lazy load components
@@ -31,13 +43,25 @@ const Image = loadable(() => import("./Features/Image/Image"));
 
 function App() {
   const location = useLocation();
-  const [displayLocation, setDisplayLocation] = useState(location);
+  const nav = useNavigate();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const [displayLocation, setDisplayLocation] = useState(location);
   const [transitionStage, setTransistionStage] = useState("fadeIn");
+
+  const initialRef = useRef(null);
 
   useEffect(() => {
     if (location !== displayLocation) setTransistionStage("fadeOut");
   }, [location, displayLocation]);
+
+  useEffect(() => {
+    document.addEventListener("keyup", function (e) {
+      if (e.ctrlKey && e.key === " " && e.shiftKey) {
+        onOpen();
+      }
+    });
+  }, []);
 
   useEffect(() => {
     // monaco loader setup
@@ -66,6 +90,7 @@ function App() {
       db.write();
     }
   }, []);
+
   return (
     <Flex h="full" justifyContent={"flex-start"} bg="gray.800">
       <Navbar />
@@ -102,6 +127,41 @@ function App() {
           <Route path="/units" element={<UnitConverter />}></Route>
         </Routes>
       </Flex>
+
+      <Modal isOpen={isOpen} onClose={onClose} initialFocusRef={initialRef}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Jump To</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Select<{ value: string }>
+              ref={initialRef}
+              id="location-select"
+              name="location"
+              options={[
+                {
+                  label: "Location",
+                  options: data.map((e) => ({ value: e.to, label: e.text })),
+                },
+              ]}
+              onKeyDown={(e) => {
+                if (e.code === "Escape") {
+                  onClose();
+                }
+              }}
+              placeholder="Type location"
+              closeMenuOnSelect={false}
+              size="sm"
+              onChange={(e) => {
+                onClose();
+                if (e) nav(e.value);
+              }}
+            />
+          </ModalBody>
+
+          <ModalFooter></ModalFooter>
+        </ModalContent>
+      </Modal>
     </Flex>
   );
 }
