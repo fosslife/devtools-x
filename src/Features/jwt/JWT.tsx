@@ -12,6 +12,7 @@ const JWT = () => {
   });
 
   useEffect(() => {
+    console.log("jrw", jwt);
     if (jwt.token) {
       try {
         let decoded = decodeJwt(jwt.token);
@@ -19,7 +20,7 @@ const JWT = () => {
         setJwt({ ...jwt, decoded: decoded, headers: headers });
       } catch {
         // ignore error I guess?
-        setJwt({ ...jwt, decoded: "Invalid TOken", headers: "" });
+        setJwt({ token: "", decoded: "Invalid TOken", headers: "" });
       }
     }
   }, [jwt]);
