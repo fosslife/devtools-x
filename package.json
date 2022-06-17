@@ -46,7 +46,7 @@
     "wasm-vips": "^0.0.2"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^1.0.0-rc.10",
+    "@tauri-apps/cli": "^1.0.0-rc.11",
     "@types/convert-units": "^2.3.5",
     "@types/crypto-js": "^4.1.0",
     "@types/fs-extra": "^9.0.13",
