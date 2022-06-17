@@ -29,17 +29,20 @@ const JWT = () => {
     <Flex h="full" w="100%" gap={3} alignSelf={"start"} flexDir="column" pl="2">
       <Heading>JWT</Heading>
       <Monaco
+        language="text"
         height="30%"
         setValue={(e) => setJwt({ ...jwt, token: e || "" })}
       />
       Payload:
       <Monaco
+        language="text"
         height="30%"
         value={JSON.stringify(jwt.decoded, null, 2)}
         extraOptions={{ readOnly: true }}
       />
       Headers:
       <Monaco
+        language="text"
         value={JSON.stringify(jwt.headers, null, 2)}
         extraOptions={{ readOnly: true }}
       />

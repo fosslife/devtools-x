@@ -1,7 +1,6 @@
 import "./App.css";
 
 import {
-  Button,
   Flex,
   Modal,
   ModalBody,
@@ -19,8 +18,10 @@ import { Select } from "chakra-react-select";
 import { useEffect, useRef, useState } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
+// NOTE: keep Num converter here, do not lazy load. there's a rare crashing bug.
 import Nums from "./Features/nums/Nums";
-import { UnitConverter } from "./Features/UnitConverter/UnitConverter";
+// import Playground from "./Features/Playground/Playground";
+// import { UnitConverter } from "./Features/UnitConverter/UnitConverter";
 import { data, Navbar } from "./Layout/Navbar";
 import { db } from "./utils";
 
@@ -40,6 +41,10 @@ const YamlJson = loadable(() => import("./Features/YamlJson/Yaml"));
 const Pastebin = loadable(() => import("./Features/pastebin/Pastebin"));
 const Repl = loadable(() => import("./Features/repl/Repl"));
 const Image = loadable(() => import("./Features/Image/Image"));
+const Playground = loadable(() => import("./Features/Playground/Playground"));
+const UnitConverter = loadable(
+  () => import("./Features/UnitConverter/UnitConverter")
+);
 
 function App() {
   const location = useLocation();
@@ -128,6 +133,7 @@ function App() {
           <Route path="/repl" element={<Repl />}></Route>
           <Route path="/image" element={<Image />}></Route>
           <Route path="/units" element={<UnitConverter />}></Route>
+          <Route path="/playground" element={<Playground />}></Route>
         </Routes>
       </Flex>
 
