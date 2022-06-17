@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import { type FC } from "react";
+import { type ElementType } from "react";
 
 type AppContextType = {
   pinned: string[];
@@ -13,7 +13,7 @@ const init = {
 
 export const AppContext = createContext<AppContextType>(init);
 
-export const AppContextProvider: FC = ({ children }) => {
+export const AppContextProvider: ElementType = ({ children }) => {
   const [pinned, setPinned] = useState<string[]>([]);
 
   const handleState = (newPins: string[]) => {
