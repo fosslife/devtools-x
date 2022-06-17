@@ -8,6 +8,7 @@ import {
   FaMarkdown,
   FaPaste,
   FaRandom,
+  FaReact,
   FaYinYang,
 } from "react-icons/fa";
 import { FiHash } from "react-icons/fi";
@@ -35,6 +36,7 @@ export const data = [
   { id: 13, to: "/repl", icon: FaCode, text: "ScratchPad" },
   { id: 14, to: "/image", icon: FaFileImage, text: "Image Tools" },
   { id: 15, to: "/units", icon: FaExchangeAlt, text: "Unit Converters" },
+  { id: 16, to: "/playground", icon: FaReact, text: "React Playground" },
 ];
 
 export const Navbar = () => {
