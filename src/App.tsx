@@ -58,7 +58,10 @@ function App() {
   useEffect(() => {
     document.addEventListener("keyup", function (e) {
       if (e.ctrlKey && e.key === " " && e.shiftKey) {
-        onOpen();
+        return onOpen();
+      }
+      if (e.key === "Escape") {
+        document.getElementById("search")?.focus();
       }
     });
   }, []);

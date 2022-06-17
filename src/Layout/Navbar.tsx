@@ -69,6 +69,7 @@ export const Navbar = () => {
       fontSize={14}
     >
       <Input
+        id="search"
         pos={"sticky"}
         placeholder="Search..."
         size={"sm"}
