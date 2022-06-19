@@ -1,24 +1,26 @@
 import { Box, Flex, Heading } from "@chakra-ui/react";
+import * as chakra from "@chakra-ui/react";
+import { LivePreview, LiveProvider } from "react-live";
 
-import React, { useRef, useState } from "react";
-import { renderToString } from "react-dom/server";
-import { createRoot } from "react-dom/client";
-
+import { useState } from "react";
 import { Monaco } from "../../Components/MonacoWrapper";
 
 const boilerplate = `
-
+// Syntax highlighting, autocompletion etc doesn't work.
+// access to entire \`chakra\` and \`React\` is auto injected
 function App(){
-    const [count, setCount] = useState(0);
+    const [count, setCount] = React.useState(0);
     return <div>
         <h4>Counter: {count}</h4>
-        <button onClick={() => setCount(count+1)}>Add 1</button>
+        <chakra.Button colorScheme='blue' onClick={() => setCount(count+1)}>Add 1</chakra.Button>
     </div>
 }
 
 `;
 
 function Playground() {
+  const [code, setCode] = useState(boilerplate);
+  // const;
   return (
     <Flex
       h="full"
@@ -30,25 +32,59 @@ function Playground() {
     >
       <Heading>Playground</Heading>
       <Flex height="100%" gap={5}>
-        {/* <Monaco
-          width="50%"
-          value={code}
-          setValue={handleCode}
-          language="typescript"
-          onEditorMounted={(editor, monaco) => {
-            const root = createRoot(rootDiv.current);
-            root.render(code);
-          }}
-        />
-        <Box width="50%" bg="white" border="1px" ref={rootDiv}></Box> */}
+        <LiveProvider code={code} width="100%" scope={{ chakra }}>
+          <Monaco
+            width="50%"
+            value={code}
+            setValue={(e) => setCode(e || "")}
+            language="typescript"
+            onEditorMounted={(editor, monaco) => {
+              // extra libraries
+              monaco.languages.typescript.typescriptDefaults.addExtraLib(
+                `export declare function next() : string`,
+                "node_modules/@types/external/index.d.ts"
+              );
 
-        {/* <Sandpack
-            template="react"
-            theme={"dark"}
-            files={{
-              "/App.js": boilerplate,
+              const model = monaco.editor.createModel(
+                code,
+                "typescript",
+                monaco.Uri.parse("file://index.jsx")
+              );
+              editor.setModel(null);
+              editor.setModel(model);
+              monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions(
+                {
+                  noSemanticValidation: true,
+                  noSyntaxValidation: true, // This line disables errors in jsx tags like <div>, etc.
+                }
+              );
+
+              monaco.languages.typescript.typescriptDefaults.setCompilerOptions(
+                {
+                  target: monaco.languages.typescript.ScriptTarget.Latest,
+                  allowNonTsExtensions: true,
+                  moduleResolution:
+                    monaco.languages.typescript.ModuleResolutionKind.NodeJs,
+                  module: monaco.languages.typescript.ModuleKind.CommonJS,
+                  noEmit: true,
+                  typeRoots: ["node_modules/@types"],
+                  jsx: monaco.languages.typescript.JsxEmit.React,
+                  jsxFactory: "React.createElement",
+                  reactNamespace: "React",
+                  allowJs: true,
+                }
+              );
             }}
-          /> */}
+          />
+          <LivePreview
+            style={{
+              backgroundColor: "white",
+              width: "50%",
+              color: "black",
+              padding: 15,
+            }}
+          />
+        </LiveProvider>
       </Flex>
     </Flex>
   );
