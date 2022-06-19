@@ -8,6 +8,7 @@ type MonacoProps = {
   height?: string;
   width?: string;
   onEditorMounted?: OnMount;
+  language: string;
 };
 
 export const Monaco = ({
@@ -17,6 +18,7 @@ export const Monaco = ({
   width = "100%",
   extraOptions,
   onEditorMounted,
+  language,
 }: MonacoProps) => {
   const onMount: OnMount = (editor, monaco) => {
     // disable TS incorrect diagnostic
@@ -40,7 +42,7 @@ export const Monaco = ({
       theme="dracula"
       value={value}
       onChange={setValue}
-      language="markdown"
+      language={language}
       onMount={onMount}
       height={height}
       width={width}

@@ -54,7 +54,7 @@ const StyledSelect = chakra(Select, {
   },
 });
 
-export const UnitConverter = () => {
+const UnitConverter = () => {
   const [category, setCategory] = useState<Convert.Measure>("length");
   const possibilities = Convert().possibilities(category);
 
@@ -184,3 +184,5 @@ export const UnitConverter = () => {
     </Flex>
   );
 };
+
+export default UnitConverter;

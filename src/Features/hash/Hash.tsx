@@ -94,7 +94,12 @@ const Hash = () => {
     >
       <Heading>Hashing</Heading>
       <Box>
-        <Monaco height="150px" value={"Enter Text"} setValue={onChange} />
+        <Monaco
+          language="text"
+          height="150px"
+          value={"Enter Text"}
+          setValue={onChange}
+        />
       </Box>
       <Flex align={"center"} gap="5">
         <Flex width={"60%"} gap={2} direction="column">

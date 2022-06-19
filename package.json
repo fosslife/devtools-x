@@ -1,6 +1,6 @@
 {
   "name": "dev-tools",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "license": "MIT",
   "scripts": {
     "dev": "vite",
@@ -21,9 +21,10 @@
     "@monaco-editor/react": "^4.4.4",
     "@react-hookz/web": "^13.3.0",
     "@sqltools/formatter": "^1.2.3",
-    "@tauri-apps/api": "^1.0.0-rc.5",
+    "@tauri-apps/api": "^1.0.1",
     "@uiw/react-markdown-preview": "^4.0.8",
     "ace-builds": "^1.4.14",
+    "chakra-react-select": "^4.0.3",
     "convert-units": "^2.3.4",
     "crypto-js": "^4.1.1",
     "framer-motion": "^6.3.3",
@@ -40,13 +41,14 @@
     "react-compare-slider": "^2.2.0",
     "react-dom": "^18.1.0",
     "react-icons": "^4.3.1",
+    "react-live": "^2.4.1",
     "react-router-dom": "6.3.0",
     "react-simple-code-editor": "^0.11.0",
     "simple-base-converter": "^1.0.10",
     "wasm-vips": "^0.0.2"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^1.0.0-rc.10",
+    "@tauri-apps/cli": "^1.0.0",
     "@types/convert-units": "^2.3.5",
     "@types/crypto-js": "^4.1.0",
     "@types/fs-extra": "^9.0.13",

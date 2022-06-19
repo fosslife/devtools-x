@@ -1,15 +1,28 @@
 import "./App.css";
 
-import { Flex } from "@chakra-ui/react";
+import {
+  Flex,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+} from "@chakra-ui/react";
 import loadable from "@loadable/component";
 import { loader } from "@monaco-editor/react";
 import { config } from "ace-builds";
-import { useEffect, useState } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Select } from "chakra-react-select";
+import { useEffect, useRef, useState } from "react";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
+// NOTE: keep Num converter here, do not lazy load. there's a rare crashing bug.
 import Nums from "./Features/nums/Nums";
-import { UnitConverter } from "./Features/UnitConverter/UnitConverter";
-import { Navbar } from "./Layout/Navbar";
+// import Playground from "./Features/Playground/Playground";
+// import { UnitConverter } from "./Features/UnitConverter/UnitConverter";
+import { data, Navbar } from "./Layout/Navbar";
 import { db } from "./utils";
 
 // Lazy load components
@@ -28,16 +41,35 @@ const YamlJson = loadable(() => import("./Features/YamlJson/Yaml"));
 const Pastebin = loadable(() => import("./Features/pastebin/Pastebin"));
 const Repl = loadable(() => import("./Features/repl/Repl"));
 const Image = loadable(() => import("./Features/Image/Image"));
+const Playground = loadable(() => import("./Features/Playground/Playground"));
+const UnitConverter = loadable(
+  () => import("./Features/UnitConverter/UnitConverter")
+);
 
 function App() {
   const location = useLocation();
-  const [displayLocation, setDisplayLocation] = useState(location);
+  const nav = useNavigate();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const [displayLocation, setDisplayLocation] = useState(location);
   const [transitionStage, setTransistionStage] = useState("fadeIn");
+
+  const initialRef = useRef(null);
 
   useEffect(() => {
     if (location !== displayLocation) setTransistionStage("fadeOut");
   }, [location, displayLocation]);
+
+  useEffect(() => {
+    document.addEventListener("keyup", function (e) {
+      if (e.ctrlKey && e.key === " " && e.shiftKey) {
+        return onOpen();
+      }
+      if (e.key === "Escape") {
+        document.getElementById("search")?.focus();
+      }
+    });
+  }, []);
 
   useEffect(() => {
     // monaco loader setup
@@ -66,6 +98,7 @@ function App() {
       db.write();
     }
   }, []);
+
   return (
     <Flex h="full" justifyContent={"flex-start"} bg="gray.800">
       <Navbar />
@@ -100,8 +133,44 @@ function App() {
           <Route path="/repl" element={<Repl />}></Route>
           <Route path="/image" element={<Image />}></Route>
           <Route path="/units" element={<UnitConverter />}></Route>
+          <Route path="/playground" element={<Playground />}></Route>
         </Routes>
       </Flex>
+
+      <Modal isOpen={isOpen} onClose={onClose} initialFocusRef={initialRef}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Jump To</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Select<{ value: string }>
+              ref={initialRef}
+              id="location-select"
+              name="location"
+              options={[
+                {
+                  label: "Location",
+                  options: data.map((e) => ({ value: e.to, label: e.text })),
+                },
+              ]}
+              onKeyDown={(e) => {
+                if (e.code === "Escape") {
+                  onClose();
+                }
+              }}
+              placeholder="Type location"
+              closeMenuOnSelect={false}
+              size="sm"
+              onChange={(e) => {
+                onClose();
+                if (e) nav(e.value);
+              }}
+            />
+          </ModalBody>
+
+          <ModalFooter></ModalFooter>
+        </ModalContent>
+      </Modal>
     </Flex>
   );
 }
