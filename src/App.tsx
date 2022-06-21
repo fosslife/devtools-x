@@ -42,6 +42,7 @@ const Pastebin = loadable(() => import("./Features/pastebin/Pastebin"));
 const Repl = loadable(() => import("./Features/repl/Repl"));
 const Image = loadable(() => import("./Features/Image/Image"));
 const Playground = loadable(() => import("./Features/Playground/Playground"));
+const Rest = loadable(() => import("./Features/Rest/Rest"));
 const UnitConverter = loadable(
   () => import("./Features/UnitConverter/UnitConverter")
 );
@@ -134,6 +135,7 @@ function App() {
           <Route path="/image" element={<Image />}></Route>
           <Route path="/units" element={<UnitConverter />}></Route>
           <Route path="/playground" element={<Playground />}></Route>
+          <Route path="/rest" element={<Rest />}></Route>
         </Routes>
       </Flex>
 
