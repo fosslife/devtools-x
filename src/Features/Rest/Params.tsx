@@ -1,11 +1,15 @@
 import { Flex, Button } from "@chakra-ui/react";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { ParamType } from "./IsolateTab";
 import { Row } from "./Row";
 
-export function Params() {
-  const [params, setParams] = useState<ParamType[]>([{ key: "", value: "" }]);
-
+export function Params({
+  params,
+  setParams,
+}: {
+  params: ParamType[];
+  setParams: Dispatch<SetStateAction<ParamType[]>>;
+}) {
   const handleChange = (what: "key" | "value", change: string, id: number) => {
     if (what === "key") {
       params[id] = { ...params[id], key: change };
@@ -32,6 +36,7 @@ export function Params() {
       {params.map((e, i) => (
         <Flex w="100%" key={i} align="center" gap={3}>
           <Button
+            tabIndex={-1}
             size={"xs"}
             onClick={() => {
               const filtered = params.filter((f, j) => j !== i);

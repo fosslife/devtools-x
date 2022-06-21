@@ -25,14 +25,22 @@ export const IsolateTab = ({ t }: { t: number }) => {
   const [url, setUrl] = useState<string>(
     `https://jsonplaceholder.typicode.com/users/${t}`
   );
+  const [params, setParams] = useState<ParamType[]>([{ key: "", value: "" }]);
+
   const [respText, setRespText] = useState<string>("");
   const [response, setResponse] = useState<any>("");
 
   const makeRequest = async () => {
+    const copy = [...params];
     const t1 = performance.now();
+    delete copy[copy.length - 1]; // The last empty one
     const res = await axios({
       method,
       url,
+      params: copy.reduce(
+        (acc, curr) => ({ ...acc, [curr.key]: curr.value }),
+        {}
+      ),
     });
     const t2 = performance.now();
     console.log(res);
@@ -78,7 +86,7 @@ export const IsolateTab = ({ t }: { t: number }) => {
             <TabPanels height={"80%"}>
               <TabPanel height={"100%"} overflow={"scroll"}>
                 {/* ============= PARAMS ========== */}
-                <Params />
+                <Params params={params} setParams={setParams} />
               </TabPanel>
               <TabPanel>
                 <p>headers!</p>
