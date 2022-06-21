@@ -12,7 +12,7 @@ import {
   FaYinYang,
 } from "react-icons/fa";
 import { FiHash } from "react-icons/fi";
-import { MdAnchor, MdColorize, MdOutlineHome } from "react-icons/md";
+import { MdAnchor, MdColorize, MdHttp, MdOutlineHome } from "react-icons/md";
 import { SiJsonwebtokens, SiPostgresql } from "react-icons/si";
 import { VscDiff, VscPin, VscPinned, VscRegex } from "react-icons/vsc";
 import { Link, useLocation } from "react-router-dom";
@@ -37,6 +37,7 @@ export const data = [
   { id: 14, to: "/image", icon: FaFileImage, text: "Image Tools" },
   { id: 15, to: "/units", icon: FaExchangeAlt, text: "Unit Converters" },
   { id: 16, to: "/playground", icon: FaReact, text: "React Playground" },
+  { id: 17, to: "/rest", icon: MdHttp, text: "REST API" },
 ];
 
 export const Navbar = () => {

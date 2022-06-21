@@ -1,4 +1,3 @@
-import { TabPanel } from "@chakra-ui/react";
 import { useState } from "react";
 
 import JsonEditorReact from "../../Components/JsonEditor";
