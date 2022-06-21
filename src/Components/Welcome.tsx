@@ -29,6 +29,7 @@ const Welcome = () => {
         {actualRows.map((pin: number) => {
           return (
             <Flex
+              w="40"
               gap="4"
               flexDir={"column"}
               align="center"
