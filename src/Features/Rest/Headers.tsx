@@ -1,46 +1,46 @@
 import { Flex, Button } from "@chakra-ui/react";
 import { Dispatch, SetStateAction } from "react";
-import { ParamType } from "./IsolateTab";
+import { HeaderType } from "./IsolateTab";
 import { Row } from "./Row";
 
-export function Params({
-  params,
-  setParams,
+export function Headers({
+  headers,
+  setHeaders,
 }: {
-  params: ParamType[];
-  setParams: Dispatch<SetStateAction<ParamType[]>>;
+  headers: HeaderType[];
+  setHeaders: Dispatch<SetStateAction<HeaderType[]>>;
 }) {
   const handleChange = (what: "key" | "value", change: string, id: number) => {
     if (what === "key") {
-      params[id] = { ...params[id], key: change };
-      if (params.length <= id + 1) {
-        params.splice(id + 1, 0, { key: "", value: "" });
+      headers[id] = { ...headers[id], key: change };
+      if (headers.length <= id + 1) {
+        headers.splice(id + 1, 0, { key: "", value: "" });
       }
 
       if (
         change === "" &&
-        params[id + 1].key === "" &&
-        params[id + 1].value === ""
+        headers[id + 1].key === "" &&
+        headers[id + 1].value === ""
       ) {
-        delete params[id + 1];
+        delete headers[id + 1];
       }
 
-      setParams([...params.filter(Boolean)]);
+      setHeaders([...headers.filter(Boolean)]);
     } else {
-      params[id] = { ...params[id], value: change };
-      setParams([...params]);
+      headers[id] = { ...headers[id], value: change };
+      setHeaders([...headers]);
     }
   };
   return (
     <Flex direction={"column"}>
-      {params.map((e, i) => (
+      {headers.map((e, i) => (
         <Flex w="100%" key={i} align="center" gap={3}>
           <Button
             tabIndex={-1}
             size={"xs"}
             onClick={() => {
-              const filtered = params.filter((f, j) => j !== i);
-              setParams(filtered);
+              const filtered = headers.filter((f, j) => j !== i);
+              setHeaders(filtered);
             }}
           >
             X

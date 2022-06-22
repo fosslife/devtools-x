@@ -14,9 +14,11 @@ import {
 import axios from "axios";
 import { useState } from "react";
 import { Monaco } from "../../Components/MonacoWrapper";
+import { Headers } from "./Headers";
 import { Params } from "./Params";
 
 export type ParamType = { key: string; value: string };
+export type HeaderType = { key: string; value: string };
 
 export const IsolateTab = ({ t }: { t: number }) => {
   const methods = ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"] as const;
@@ -26,24 +28,33 @@ export const IsolateTab = ({ t }: { t: number }) => {
     `https://jsonplaceholder.typicode.com/users/${t}`
   );
   const [params, setParams] = useState<ParamType[]>([{ key: "", value: "" }]);
+  const [headers, setHeaders] = useState<HeaderType[]>([
+    { key: "", value: "" },
+  ]);
 
   const [respText, setRespText] = useState<string>("");
   const [response, setResponse] = useState<any>("");
 
   const makeRequest = async () => {
-    const copy = [...params];
+    function parseKV(arr: { key: string; value: string }[]) {
+      return arr.reduce(
+        (acc, curr) => ({ ...acc, [curr.key]: curr.value }),
+        {}
+      );
+    }
+    const paramsCopy = [...params];
+    const headersCopy = [...headers];
     const t1 = performance.now();
-    delete copy[copy.length - 1]; // The last empty one
+    delete paramsCopy[paramsCopy.length - 1]; // The last empty one
+    delete headersCopy[headersCopy.length - 1];
     const res = await axios({
       method,
       url,
-      params: copy.reduce(
-        (acc, curr) => ({ ...acc, [curr.key]: curr.value }),
-        {}
-      ),
+      headers: parseKV(headersCopy),
+      params: parseKV(paramsCopy),
     });
     const t2 = performance.now();
-    console.log(res);
+    console.log(res); // Keeping for dbg
     setRespText(
       `${res.status} - ${res.statusText}  Time: ${(t2 - t1).toFixed(2)}ms`
     );
@@ -71,10 +82,12 @@ export const IsolateTab = ({ t }: { t: number }) => {
             onChange={(e) => setUrl(e.target.value)}
           />
         </Flex>
-        <Button onClick={makeRequest}>Send</Button>
+        <Button colorScheme={"red"} onClick={makeRequest}>
+          Send
+        </Button>
       </Flex>
       <Flex h="100%" direction={"column"} gap="2">
-        <Flex h="40%">
+        <Flex h="40%" overflow={"scroll"}>
           <Tabs w="100%" height={"100%"}>
             <TabList>
               <Tab>Params</Tab>
@@ -89,7 +102,7 @@ export const IsolateTab = ({ t }: { t: number }) => {
                 <Params params={params} setParams={setParams} />
               </TabPanel>
               <TabPanel>
-                <p>headers!</p>
+                <Headers headers={headers} setHeaders={setHeaders} />
               </TabPanel>
               <TabPanel>
                 <p>authorization!</p>
@@ -101,7 +114,7 @@ export const IsolateTab = ({ t }: { t: number }) => {
           </Tabs>
         </Flex>
         <Divider />
-        <Flex direction={"column"} height="50%" gap={2}>
+        <Flex direction={"column"} height="70%" gap={2}>
           <Text>Response {respText}</Text>
           <Monaco language="json" value={response} />
         </Flex>
