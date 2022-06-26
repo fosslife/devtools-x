@@ -1,4 +1,4 @@
-import { Flex, Button } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { Dispatch, SetStateAction } from "react";
 import { ParamType } from "./IsolateTab";
 import { Row } from "./Row";
@@ -14,7 +14,8 @@ export function Params({
     if (what === "key") {
       params[id] = { ...params[id], key: change };
       if (params.length <= id + 1) {
-        params.splice(id + 1, 0, { key: "", value: "" });
+        // Delete one
+        params.splice(id + 1, 0, { key: "", value: "", enabled: true });
       }
 
       if (
@@ -32,32 +33,12 @@ export function Params({
     }
   };
   return (
-    <Flex direction={"column"}>
+    <Flex direction={"column"} h="100%">
       {params.map((e, i) => (
         <Flex w="100%" key={i} align="center" gap={3}>
-          <Button
-            tabIndex={-1}
-            size={"xs"}
-            onClick={() => {
-              const filtered = params.filter((f, j) => j !== i);
-              setParams(filtered);
-            }}
-          >
-            X
-          </Button>
           <Row id={i} param={e} onChange={handleChange} />
         </Flex>
       ))}
-      {/* FIXME: if you enable this, layout height breaks. */}
-      {/* <Button
-        w={"24"}
-        mt={4}
-        onClick={() => {
-          setParams([...params, { key: "", value: "" }]);
-        }}
-      >
-        Add Row
-      </Button> */}
     </Flex>
   );
 }
