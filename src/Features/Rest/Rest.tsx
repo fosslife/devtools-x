@@ -25,7 +25,7 @@ const Rest = () => {
   return (
     <Flex h="full" w="100%" gap={3} p={1} alignSelf={"start"} flexDir="column">
       <Flex align={"end"} gap="4">
-        <Heading>REST API</Heading>
+        <Heading size="sm">REST API</Heading>
         <Tooltip
           placement="right-start"
           label="This module doesn't revolve around

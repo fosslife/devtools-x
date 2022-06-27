@@ -1,24 +1,29 @@
 import {
+  Box,
   Button,
   Divider,
   Flex,
   Input,
   Select,
   Tab,
+  Table,
   TabList,
   TabPanel,
   TabPanels,
   Tabs,
+  Tbody,
+  Td,
   Text,
+  Tr,
+  useMediaQuery,
 } from "@chakra-ui/react";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { useState } from "react";
 import { Monaco } from "../../Components/MonacoWrapper";
-import { Headers } from "./Headers";
+
 import { Params } from "./Params";
 
-export type ParamType = { key: string; value: string };
-export type HeaderType = { key: string; value: string };
+export type ParamType = { key: string; value: string; enabled: boolean };
 
 export const IsolateTab = ({ t }: { t: number }) => {
   const methods = ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"] as const;
@@ -27,26 +32,39 @@ export const IsolateTab = ({ t }: { t: number }) => {
   const [url, setUrl] = useState<string>(
     `https://jsonplaceholder.typicode.com/users/${t}`
   );
-  const [params, setParams] = useState<ParamType[]>([{ key: "", value: "" }]);
-  const [headers, setHeaders] = useState<HeaderType[]>([
-    { key: "", value: "" },
+  const [params, setParams] = useState<ParamType[]>([
+    { key: "", value: "", enabled: true },
+  ]);
+  const [headers, setHeaders] = useState<ParamType[]>([
+    { key: "", value: "", enabled: true },
   ]);
 
   const [respText, setRespText] = useState<string>("");
-  const [response, setResponse] = useState<any>("");
+  const [response, setResponse] = useState<AxiosResponse>({
+    config: {},
+    data: null,
+    headers: {},
+    status: 1,
+    statusText: "",
+    request: "",
+  });
+
+  // FIXME: Height is totally broken in responsive screens.
+  const isSmallScreen = useMediaQuery("(min-height: 850px)");
 
   const makeRequest = async () => {
-    function parseKV(arr: { key: string; value: string }[]) {
-      return arr.reduce(
-        (acc, curr) => ({ ...acc, [curr.key]: curr.value }),
-        {}
-      );
+    function parseKV(arr: ParamType[]) {
+      return arr
+        .filter((e) => e.enabled)
+        .reduce(
+          (acc, curr) => (curr.key ? { ...acc, [curr.key]: curr.value } : acc),
+          {}
+        );
     }
     const paramsCopy = [...params];
     const headersCopy = [...headers];
     const t1 = performance.now();
-    delete paramsCopy[paramsCopy.length - 1]; // The last empty one
-    delete headersCopy[headersCopy.length - 1];
+
     const res = await axios({
       method,
       url,
@@ -58,7 +76,7 @@ export const IsolateTab = ({ t }: { t: number }) => {
     setRespText(
       `${res.status} - ${res.statusText}  Time: ${(t2 - t1).toFixed(2)}ms`
     );
-    setResponse(JSON.stringify(res.data, null, 2));
+    setResponse(res);
   };
   return (
     <Flex gap={3} direction="column" w="100%" h="100%">
@@ -86,9 +104,9 @@ export const IsolateTab = ({ t }: { t: number }) => {
           Send
         </Button>
       </Flex>
-      <Flex h="100%" direction={"column"} gap="2">
-        <Flex h="40%" overflow={"scroll"}>
-          <Tabs w="100%" height={"100%"}>
+      <Flex h="100%" w="100%" direction={"column"} gap="2">
+        <Flex>
+          <Tabs h="100%" w="100%">
             <TabList>
               <Tab>Params</Tab>
               <Tab>Headers</Tab>
@@ -96,13 +114,34 @@ export const IsolateTab = ({ t }: { t: number }) => {
               <Tab>Body</Tab>
             </TabList>
 
-            <TabPanels height={"80%"}>
-              <TabPanel height={"100%"} overflow={"scroll"}>
+            {/* FIXME: should not in pixels */}
+            <TabPanels h={"150px"} overflow={"scroll"}>
+              <TabPanel h="100%">
                 {/* ============= PARAMS ========== */}
-                <Params params={params} setParams={setParams} />
+                {params.length === 0 ? (
+                  <Button
+                    onClick={() =>
+                      setParams([{ key: "", value: "", enabled: true }])
+                    }
+                  >
+                    Add Param
+                  </Button>
+                ) : (
+                  <Params params={params} setParams={setParams} />
+                )}
               </TabPanel>
               <TabPanel>
-                <Headers headers={headers} setHeaders={setHeaders} />
+                {headers.length === 0 ? (
+                  <Button
+                    onClick={() =>
+                      setHeaders([{ key: "", value: "", enabled: true }])
+                    }
+                  >
+                    Add Headers
+                  </Button>
+                ) : (
+                  <Params params={headers} setParams={setHeaders} />
+                )}
               </TabPanel>
               <TabPanel>
                 <p>authorization!</p>
@@ -113,11 +152,56 @@ export const IsolateTab = ({ t }: { t: number }) => {
             </TabPanels>
           </Tabs>
         </Flex>
-        <Divider />
-        <Flex direction={"column"} height="70%" gap={2}>
-          <Text>Response {respText}</Text>
-          <Monaco language="json" value={response} />
+
+        {/* TODO: make draggable */}
+        <Divider my={2} cursor={"ns-resize"} />
+        <Flex
+          h={"50vh"}
+          w="100%"
+          overflow="auto"
+          justify={"stretch"}
+          flexDir="column"
+          align="tr"
+        >
+          <Text unselectable={"on"} style={{ userSelect: "none" }}>
+            Response {respText}
+          </Text>
+          {response.data && (
+            <Tabs h="100%">
+              <TabList>
+                <Tab>Response</Tab>
+                <Tab>Headers</Tab>
+              </TabList>
+
+              <TabPanels h="100%">
+                <TabPanel h="100%">
+                  <Monaco
+                    language="json"
+                    value={JSON.stringify(response.data, null, 2)}
+                  />
+                </TabPanel>
+                <TabPanel>
+                  <Table variant={"striped"} size="sm">
+                    <Tbody>
+                      {Object.entries(response.headers).map(
+                        ([key, value]: any) => {
+                          return (
+                            <Tr key={key}>
+                              <Td>{key}</Td>
+                              <Td>{value}</Td>
+                            </Tr>
+                          );
+                        }
+                      )}
+                    </Tbody>
+                  </Table>
+                </TabPanel>
+              </TabPanels>
+            </Tabs>
+          )}
         </Flex>
+
+        {/* =========== RESPONSE */}
       </Flex>
     </Flex>
   );

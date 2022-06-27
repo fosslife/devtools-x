@@ -10,7 +10,21 @@ export function Params({
   params: ParamType[];
   setParams: Dispatch<SetStateAction<ParamType[]>>;
 }) {
-  const handleChange = (what: "key" | "value", change: string, id: number) => {
+  const handleChange = (
+    what: "key" | "value" | "status" | "delete",
+    change: string,
+    id: number
+  ) => {
+    if (what === "status") {
+      setParams([
+        ...params.map((p, i) => (id === i ? { ...p, enabled: !p.enabled } : p)),
+      ]);
+      return;
+    }
+    if (what === "delete") {
+      setParams([...params.filter((p, i) => i !== id)]);
+      return;
+    }
     if (what === "key") {
       params[id] = { ...params[id], key: change };
       if (params.length <= id + 1) {
