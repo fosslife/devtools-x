@@ -41,6 +41,9 @@ const Rest = () => {
         index={tidx}
         onChange={(i) => setTidx(i)}
         lazyBehavior="keepMounted"
+        variant={"enclosed"}
+        size="sm"
+        // isFitted ??
       >
         <TabList>
           {tabs.map((t, i) => (

@@ -56,7 +56,7 @@ export const Row = ({
         <Icon
           fontSize="18px"
           as={param.enabled ? MdCheckCircle : MdCircle}
-          color="green.400"
+          color="red.400"
         />
       </Box>
       <Box
@@ -67,7 +67,7 @@ export const Row = ({
           onChange("delete", "", id);
         }}
       >
-        <Icon fontSize="18px" as={MdDelete} color="green.400" />
+        <Icon fontSize="18px" as={MdDelete} color="red.400" />
       </Box>
     </Flex>
   );

@@ -83,6 +83,7 @@ export const IsolateTab = ({ t }: { t: number }) => {
       <Flex w="100%" gap={4}>
         <Flex flex={"1"}>
           <Select
+            size={"sm"}
             w={"36"}
             borderRightRadius="0"
             value={method}
@@ -95,22 +96,22 @@ export const IsolateTab = ({ t }: { t: number }) => {
             ))}
           </Select>
           <Input
+            size="sm"
             borderLeftRadius={0}
             value={url}
             onChange={(e) => setUrl(e.target.value)}
           />
         </Flex>
-        <Button colorScheme={"red"} onClick={makeRequest}>
+        <Button colorScheme={"red"} onClick={makeRequest} size="sm">
           Send
         </Button>
       </Flex>
       <Flex h="100%" w="100%" direction={"column"} gap="2">
         <Flex>
-          <Tabs h="100%" w="100%">
+          <Tabs h="100%" w="100%" isLazy lazyBehavior="keepMounted">
             <TabList>
               <Tab>Params</Tab>
               <Tab>Headers</Tab>
-              <Tab>Authorization</Tab>
               <Tab>Body</Tab>
             </TabList>
 
@@ -143,11 +144,8 @@ export const IsolateTab = ({ t }: { t: number }) => {
                   <Params params={headers} setParams={setHeaders} />
                 )}
               </TabPanel>
-              <TabPanel>
-                <p>authorization!</p>
-              </TabPanel>
-              <TabPanel>
-                <p>body!</p>
+              <TabPanel h="100%">
+                <Monaco language="json" />
               </TabPanel>
             </TabPanels>
           </Tabs>
