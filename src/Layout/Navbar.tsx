@@ -41,7 +41,10 @@ const useStyles = createStyles((theme) => ({
     borderRight: "thin solid white",
     fontSize: "15px",
     lineHeight: "14px",
-    background: theme.colors.dark[7],
+    background:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[7]
+        : theme.colors.gray[1],
   },
   navIcon: {},
 }));
@@ -101,16 +104,25 @@ export const Navbar = () => {
       <Group
         mt="2"
         pl="10px"
-        sx={() => ({
-          color: "white",
+        sx={(theme) => ({
+          color:
+            theme.colorScheme === "dark"
+              ? theme.colors.dark[1]
+              : theme.colors.dark[8],
         })}
       >
         <MdOutlineHome size={"20px"} />
-        <Text component={Link} to="/">
+        <Text
+          variant={location.pathname === "/" ? "gradient" : "text"}
+          component={Link}
+          to="/"
+          weight={location.pathname === "/" ? "bold" : "normal"}
+        >
           {"Home"}
         </Text>
       </Group>
       <Divider />
+      {/* ====== One Title */}
       {navItems.map((e) => {
         const pinExists = db.data.pinned.includes(e.id);
 
@@ -121,18 +133,14 @@ export const Navbar = () => {
             key={e.id}
             sx={(t) => ({
               backgroundColor:
-                location.pathname === e.to ? t.colors.dark[0] : "inherit",
-              color:
                 location.pathname === e.to
-                  ? t.colors.dark[8]
-                  : t.colors.dark[0],
+                  ? t.colorScheme === "dark"
+                    ? t.colors.gray[2]
+                    : t.colors.gray[8]
+                  : "inherit",
               padding: 4,
               paddingLeft: 15,
               borderRadius: 4,
-              boxShadow:
-                location.pathname === e.to
-                  ? "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px"
-                  : "none",
             })}
             onMouseMove={() => {
               setShowIcon(e.id);
@@ -140,12 +148,27 @@ export const Navbar = () => {
             onMouseLeave={() => setShowIcon(-99)}
           >
             <Group mt="2">
-              {e.icon}
-              <Text component={Link} to={e.to}>
+              <Text
+                sx={(theme) => ({
+                  color:
+                    theme.colorScheme === "dark" && location.pathname === e.to
+                      ? theme.colors.dark[9]
+                      : theme.colors.dark[1],
+                })}
+              >
+                {e.icon}
+              </Text>
+              <Text
+                variant={location.pathname === e.to ? "gradient" : "text"}
+                weight={location.pathname === e.to ? "bold" : "normal"}
+                component={Link}
+                to={e.to}
+              >
                 {e.text}
               </Text>
               {e.id === showIcon || pinExists ? (
                 <ActionIcon
+                  color={"cyan"}
                   size={"sm"}
                   onClick={() => {
                     const { pinned } = db.data;

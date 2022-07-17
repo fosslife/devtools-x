@@ -90,16 +90,14 @@ function App() {
 
   return (
     <Grid
-      sx={(theme) => ({
-        background: theme.colors.dark[6],
+      sx={() => ({
         height: "100%",
         padding: 10,
       })}
     >
       <Grid.Col
         span={2}
-        sx={(theme) => ({
-          background: theme.colors.dark[6],
+        sx={() => ({
           height: "100%",
           paddingLeft: 0,
         })}
@@ -108,8 +106,7 @@ function App() {
       </Grid.Col>
       <Grid.Col
         span={9}
-        sx={(theme) => ({
-          background: theme.colors.dark[6],
+        sx={() => ({
           height: "100%",
         })}
         className={`${transitionStage}`}
