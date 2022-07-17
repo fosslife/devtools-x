@@ -120,8 +120,12 @@ export const Navbar = () => {
             spacing={"xs"}
             key={e.id}
             sx={(t) => ({
-              background: location.pathname === e.to ? t.colors.red[7] : "",
-              color: "white",
+              backgroundColor:
+                location.pathname === e.to ? t.colors.dark[0] : "inherit",
+              color:
+                location.pathname === e.to
+                  ? t.colors.dark[8]
+                  : t.colors.dark[0],
               padding: 4,
               paddingLeft: 15,
               borderRadius: 4,
