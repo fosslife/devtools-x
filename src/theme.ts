@@ -1,38 +1,7 @@
-import { extendTheme, ThemeConfig } from "@chakra-ui/react";
+import { MantineThemeOverride } from "@mantine/core";
 
-const Card = {
-  // The styles all Cards have in common
-  baseStyle: {
-    padding: "20px",
-    minH: "70px",
-    display: "flex",
-    alignItems: "center",
-    gap: 3,
-  },
-  // Two variants: rounded and smooth
-  variants: {
-    smooth: {
-      padding: 4,
-      borderRadius: "sm",
-      boxShadow: "md",
-    },
-  },
-  // The default variant value
-  defaultProps: {
-    variant: "smooth",
-  },
+const theme: MantineThemeOverride = {
+  colorScheme: "dark",
 };
-
-const config: ThemeConfig = {
-  initialColorMode: "dark",
-  useSystemColorMode: false,
-};
-
-const theme = extendTheme({
-  config,
-  components: {
-    Card,
-  },
-});
 
 export default theme;
