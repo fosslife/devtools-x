@@ -1,16 +1,15 @@
 import "./App.css";
 
-import {
-  Flex,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  useDisclosure,
-} from "@chakra-ui/react";
+// import {
+//   Modal,
+//   ModalBody,
+//   ModalCloseButton,
+//   ModalContent,
+//   ModalFooter,
+//   ModalHeader,
+//   ModalOverlay,
+//   useDisclosure,
+// } from "@chakra-ui/react";
 import loadable from "@loadable/component";
 import { loader } from "@monaco-editor/react";
 import { config } from "ace-builds";
@@ -20,10 +19,10 @@ import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 // NOTE: keep Num converter here, do not lazy load. there's a rare crashing bug.
 import Nums from "./Features/nums/Nums";
-// import Playground from "./Features/Playground/Playground";
-// import { UnitConverter } from "./Features/UnitConverter/UnitConverter";
+
 import { data, Navbar } from "./Layout/Navbar";
 import { db } from "./utils";
+import { Grid } from "@mantine/core";
 
 // Lazy load components
 const Welcome = loadable(() => import("./Components/Welcome"));
@@ -50,7 +49,7 @@ const UnitConverter = loadable(
 function App() {
   const location = useLocation();
   const nav = useNavigate();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [displayLocation, setDisplayLocation] = useState(location);
   const [transitionStage, setTransistionStage] = useState("fadeIn");
@@ -60,17 +59,6 @@ function App() {
   useEffect(() => {
     if (location !== displayLocation) setTransistionStage("fadeOut");
   }, [location, displayLocation]);
-
-  useEffect(() => {
-    document.addEventListener("keyup", function (e) {
-      if (e.ctrlKey && e.key === " " && e.shiftKey) {
-        return onOpen();
-      }
-      if (e.key === "Escape") {
-        document.getElementById("search")?.focus();
-      }
-    });
-  }, []);
 
   useEffect(() => {
     // monaco loader setup
@@ -101,14 +89,29 @@ function App() {
   }, []);
 
   return (
-    <Flex h="full" justifyContent={"flex-start"} bg="gray.800">
-      <Navbar />
-      <Flex
-        p="2"
-        h="98%"
-        flexDirection={"column"}
-        alignItems={"center"}
-        flex="1"
+    <Grid
+      sx={(theme) => ({
+        background: theme.colors.dark[6],
+        height: "100%",
+        padding: 10,
+      })}
+    >
+      <Grid.Col
+        span={2}
+        sx={(theme) => ({
+          background: theme.colors.dark[6],
+          height: "100%",
+          paddingLeft: 0,
+        })}
+      >
+        <Navbar />
+      </Grid.Col>
+      <Grid.Col
+        span={9}
+        sx={(theme) => ({
+          background: theme.colors.dark[6],
+          height: "100%",
+        })}
         className={`${transitionStage}`}
         onAnimationEnd={() => {
           if (transitionStage === "fadeOut") {
@@ -137,9 +140,10 @@ function App() {
           <Route path="/playground" element={<Playground />}></Route>
           <Route path="/rest" element={<Rest />}></Route>
         </Routes>
-      </Flex>
+      </Grid.Col>
 
-      <Modal isOpen={isOpen} onClose={onClose} initialFocusRef={initialRef}>
+      {/* FIXME: Modal  */}
+      {/* <Modal isOpen={isOpen} onClose={onClose} initialFocusRef={initialRef}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Jump To</ModalHeader>
@@ -172,8 +176,8 @@ function App() {
 
           <ModalFooter></ModalFooter>
         </ModalContent>
-      </Modal>
-    </Flex>
+      </Modal> */}
+    </Grid>
   );
 }
 
