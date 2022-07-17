@@ -1,4 +1,4 @@
-import { Flex, Heading, Icon, Text } from "@chakra-ui/react";
+import { createStyles, Group, Stack, Text, Title } from "@mantine/core";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -6,7 +6,30 @@ import { AppContext } from "../Contexts/AppContextProvider";
 import { data } from "../Layout/Navbar";
 import { db } from "../utils";
 
+const useStyles = createStyles((theme) => ({
+  pinnedCard: {
+    padding: 15,
+    cursor: "pointer",
+    borderRadius: 5,
+    backgroundColor:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[0]
+        : theme.colors.dark[5],
+    color:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[7]
+        : theme.colors.dark[0],
+    ":hover": {
+      backgroundColor:
+        theme.colorScheme === "dark"
+          ? theme.colors.dark[1]
+          : theme.colors.dark[4],
+    },
+  },
+}));
+
 const Welcome = () => {
+  const { classes } = useStyles();
   const nav = useNavigate();
   const { pinned } = useContext(AppContext);
 
@@ -14,46 +37,38 @@ const Welcome = () => {
   let actualRows = pinned.length > 0 ? pinned : db.data.pinned;
 
   return (
-    <Flex h="full" w="96%" justify={"start"} ml="10" flexDirection={"column"}>
-      <Heading>Welcome</Heading>
-      <Text color={"tomato"} fontSize={"2xl"}>
-        DevTools
+    <Stack align={"center"} mt="xl">
+      <Text transform="uppercase" variant="gradient">
+        <Title>DEVTOOLS-X</Title>
       </Text>
+
       {actualRows.length === 0 && (
-        <Heading size={"sm"} mt="10">
+        <Title order={4} mt="10">
           No pinned cards
-        </Heading>
+        </Title>
       )}
       <br />
-      <Flex mt="4" gap="5" flexWrap={"wrap"}>
+      <Group mt="4" spacing={"xl"}>
         {actualRows.map((pin: number) => {
           return (
-            <Flex
-              w="40"
-              gap="4"
-              flexDir={"column"}
+            <Stack
+              spacing={"xs"}
               align="center"
+              justify={"center"}
+              className={classes.pinnedCard}
               key={pin}
-              bg="red.500"
-              p="6"
-              borderRadius={"md"}
-              cursor="pointer"
               onClick={() => {
                 const clickedCard = data.find((e) => e.id === pin);
                 nav(clickedCard?.to || "/"); // TS FIX NOTHING ELSE
               }}
             >
-              <Icon
-                as={data.find((e) => e.id === pin)?.icon}
-                w={9}
-                h={9}
-              ></Icon>
+              {data.find((e) => e.id === pin)?.icon}
               <Text>{data.find((e) => e.id === pin)?.text}</Text>
-            </Flex>
+            </Stack>
           );
         })}
-      </Flex>
-    </Flex>
+      </Group>
+    </Stack>
   );
 };
 
