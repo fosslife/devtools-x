@@ -13,7 +13,7 @@ import "./App.css";
 import loadable from "@loadable/component";
 import { loader } from "@monaco-editor/react";
 import { config } from "ace-builds";
-import { Select } from "chakra-react-select";
+// import { Select } from "chakra-react-select";
 import { useEffect, useRef, useState } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
@@ -22,7 +22,8 @@ import Nums from "./Features/nums/Nums";
 
 import { data, Navbar } from "./Layout/Navbar";
 import { db } from "./utils";
-import { Grid } from "@mantine/core";
+import { Grid, Modal, Select } from "@mantine/core";
+import { useHotkeys } from "@mantine/hooks";
 
 // Lazy load components
 const Welcome = loadable(() => import("./Components/Welcome"));
@@ -49,6 +50,7 @@ const UnitConverter = loadable(
 function App() {
   const location = useLocation();
   const nav = useNavigate();
+  const [opened, setOpened] = useState(false);
   // const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [displayLocation, setDisplayLocation] = useState(location);
@@ -59,6 +61,16 @@ function App() {
   useEffect(() => {
     if (location !== displayLocation) setTransistionStage("fadeOut");
   }, [location, displayLocation]);
+
+  useHotkeys([
+    [
+      "ctrl+k",
+      () => {
+        setOpened(true);
+        console.log(initialRef.current);
+      },
+    ],
+  ]);
 
   useEffect(() => {
     // monaco loader setup
@@ -96,7 +108,9 @@ function App() {
       })}
     >
       <Grid.Col
-        span={2}
+        // span={}
+        sm={3}
+        lg={2}
         sx={() => ({
           height: "100%",
           paddingLeft: 0,
@@ -105,7 +119,8 @@ function App() {
         <Navbar />
       </Grid.Col>
       <Grid.Col
-        span={9}
+        sm={9}
+        lg={10}
         sx={() => ({
           height: "100%",
         })}
@@ -140,40 +155,35 @@ function App() {
       </Grid.Col>
 
       {/* FIXME: Modal  */}
-      {/* <Modal isOpen={isOpen} onClose={onClose} initialFocusRef={initialRef}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Jump To</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Select<{ value: string }>
-              ref={initialRef}
-              id="location-select"
-              name="location"
-              options={[
-                {
-                  label: "Location",
-                  options: data.map((e) => ({ value: e.to, label: e.text })),
-                },
-              ]}
-              onKeyDown={(e) => {
-                if (e.code === "Escape") {
-                  onClose();
-                }
-              }}
-              placeholder="Type location"
-              closeMenuOnSelect={false}
-              size="sm"
-              onChange={(e) => {
-                onClose();
-                if (e) nav(e.value);
-              }}
-            />
-          </ModalBody>
-
-          <ModalFooter></ModalFooter>
-        </ModalContent>
-      </Modal> */}
+      <Modal
+        opened={opened}
+        onClose={() => setOpened(false)}
+        title="Jump To:"
+        withCloseButton={false}
+      >
+        <Select
+          ref={initialRef}
+          id="location-select"
+          name="location"
+          data={data.map((e) => ({
+            value: e.to,
+            label: e.text,
+            group: "Location",
+          }))}
+          onKeyDown={(e) => {
+            if (e.code === "Escape") {
+              setOpened(false);
+            }
+          }}
+          placeholder="Type location"
+          size="sm"
+          searchable
+          onChange={(e) => {
+            setOpened(false);
+            if (e) nav(e);
+          }}
+        />
+      </Modal>
     </Grid>
   );
 }
