@@ -107,9 +107,4 @@ const JsonFormatter = () => {
   );
 };
 
-/* TODO:
-Save editors in storage on change - p1
-fix formatting - instead of default values get editor text - p1
-*/
-
 export default JsonFormatter;
