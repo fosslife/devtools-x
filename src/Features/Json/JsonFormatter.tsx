@@ -21,8 +21,8 @@ const def = {
 
 const JsonFormatter = () => {
   const [tabs, setTabs] = useState<{ tab: number; data: any }[]>([
-    { tab: 1, data: def },
-    { tab: 2, data: def },
+    { tab: 1, data: { tab: 1, ...def } },
+    { tab: 2, data: { tab: 2, ...def } },
   ]);
   const [activeTab, setActiveTab] = useState<string | null>("1");
 
@@ -32,6 +32,7 @@ const JsonFormatter = () => {
 
     if (saved.length > 0) {
       setTabs(saved.map((e) => ({ tab: Number(e), data: tabsstate[e] })));
+      setActiveTab(saved[0]);
     }
   }, []);
 
@@ -67,9 +68,13 @@ const JsonFormatter = () => {
             <Tabs.Tab
               key={t.tab}
               value={t.tab.toString()}
-              onMouseDown={(e) => {
+              onMouseDown={async (e) => {
                 if (e.button === 1) {
-                  setTabs(tabs.filter((e) => e !== t));
+                  const tabid = tabs.find((el) => el.tab === t.tab);
+                  console.log("closing", tabid);
+                  if (tabid) delete db.data.jsoneditor.tabsstate[tabid.tab];
+                  setTabs(tabs.filter((e) => e.tab !== t.tab));
+                  await db.write();
                 }
               }}
             >
@@ -80,9 +85,19 @@ const JsonFormatter = () => {
           <Button
             ml="xs"
             size="xs"
-            onClick={() => {
-              tabs.push({ tab: tabs[tabs.length - 1].tab + 1, data: def });
+            onClick={async () => {
+              const lastTabid = tabs[tabs.length - 1].tab;
+              tabs.push({
+                tab: lastTabid + 1,
+                data: { tab: lastTabid + 1, ...def },
+              });
               setTabs([...tabs]);
+              setActiveTab((lastTabid + 1).toString());
+              db.data.jsoneditor.tabsstate[lastTabid + 1] = {
+                tab: lastTabid + 1,
+                ...def,
+              }; // save this new tab to db
+              await db.write();
             }}
           >
             +
