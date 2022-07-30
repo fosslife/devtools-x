@@ -3,7 +3,7 @@ import { editor } from "monaco-editor";
 
 type MonacoProps = {
   value?: string;
-  setValue?: (e: string | undefined) => void;
+  setValue?: (e?: string) => void;
   extraOptions?: editor.IStandaloneDiffEditorConstructionOptions;
   height?: string;
   width?: string;
@@ -27,15 +27,16 @@ export const Monaco = ({
       noSyntaxValidation: true,
     });
 
-    import("monaco-themes/themes/Dracula.json").then((data: any) => {
-      monaco.editor.defineTheme("dracula", data);
-      monaco.editor.setTheme("dracula");
+    import("monaco-themes/themes/Tomorrow-Night.json").then((data: any) => {
+      monaco.editor.defineTheme("tmnight", data);
+      monaco.editor.setTheme("tmnight");
     });
 
     if (onEditorMounted) {
       onEditorMounted(editor, monaco);
     }
   };
+  // console.log("refres", value);
 
   return (
     <Editor
