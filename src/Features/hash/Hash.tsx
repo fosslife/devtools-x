@@ -1,18 +1,11 @@
-import { Box, Button, Divider, Flex, Heading, Text } from "@chakra-ui/react";
+import { Box, Button, Stack, Text } from "@mantine/core";
 import { dialog, fs } from "@tauri-apps/api";
 import { lib, MD5, SHA1, SHA224, SHA256, SHA512 } from "crypto-js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import { HashBox } from "../../Components/HashBox";
+import { HashBox } from "./HashBox";
 import { Monaco } from "../../Components/MonacoWrapper";
-
-type HashState = {
-  md5: string;
-  sha1: string;
-  sha256: string;
-  sha512: string;
-  sha224: string;
-};
+import { db } from "../../utils";
 
 const init = {
   md5: "",
@@ -26,15 +19,21 @@ const Hash = () => {
   const [hashes, setHashes] = useState(init);
   const [filePath, setFilePath] = useState("");
 
-  const ellipsify = (state: HashState) =>
-    Object.entries(state).reduce((acc, curr) => {
-      return {
-        ...acc,
-        [curr[0]]: `${curr[1].substring(0, 10)}....${curr[1].substring(
-          curr[1].length - 10
-        )}`,
-      };
-    }, init);
+  useEffect(() => {
+    // calculate dummy hashes of first text
+    onChange("Enter Text");
+    console.log(db.data);
+  }, []);
+
+  // const ellipsify = (state: HashState) =>
+  //   Object.entries(state).reduce((acc, curr) => {
+  //     return {
+  //       ...acc,
+  //       [curr[0]]: `${curr[1].substring(0, 10)}....${curr[1].substring(
+  //         curr[1].length - 10
+  //       )}`,
+  //     };
+  //   }, init);
 
   const onChange = async (val: string | undefined) => {
     // calculate hash
@@ -42,11 +41,11 @@ const Hash = () => {
       setHashes({ ...init });
       return;
     }
-    const md5hash = MD5(val).toString();
-    const sha1Hash = SHA1(val).toString();
-    const sha256Hash = SHA256(val).toString();
-    const sha512Hash = SHA512(val).toString();
-    const sha224Hash = SHA224(val).toString();
+    const md5hash = MD5(val).toString().toUpperCase();
+    const sha1Hash = SHA1(val).toString().toUpperCase();
+    const sha256Hash = SHA256(val).toString().toUpperCase();
+    const sha512Hash = SHA512(val).toString().toUpperCase();
+    const sha224Hash = SHA224(val).toString().toUpperCase();
     const state = {
       md5: md5hash,
       sha1: sha1Hash,
@@ -55,7 +54,8 @@ const Hash = () => {
       sha224: sha224Hash,
     };
     // set state
-    setHashes(ellipsify(state));
+    // setHashes(ellipsify(state));
+    setHashes(state);
   };
 
   const selectFile = async () => {
@@ -66,11 +66,12 @@ const Hash = () => {
 
     const fileContent = await fs.readBinaryFile(filePath);
 
-    const md5 = MD5(byteArrayToWordArray(fileContent)).toString();
-    const sha1 = SHA1(byteArrayToWordArray(fileContent)).toString();
-    const sha256 = SHA256(byteArrayToWordArray(fileContent)).toString();
-    const sha512 = SHA512(byteArrayToWordArray(fileContent)).toString();
-    const sha224 = SHA224(byteArrayToWordArray(fileContent)).toString();
+    const wordArray = byteArrayToWordArray(fileContent);
+    const md5 = MD5(wordArray).toString().toUpperCase();
+    const sha1 = SHA1(wordArray).toString().toUpperCase();
+    const sha256 = SHA256(wordArray).toString().toUpperCase();
+    const sha512 = SHA512(wordArray).toString().toUpperCase();
+    const sha224 = SHA224(wordArray).toString().toUpperCase();
 
     const state = {
       md5,
@@ -79,57 +80,43 @@ const Hash = () => {
       sha512,
       sha224,
     };
-    setHashes(ellipsify(state));
+    // setHashes(ellipsify(state));
+    setHashes(state);
   };
 
   return (
-    <Flex
-      h="full"
-      w="100%"
-      gap={3}
-      alignSelf={"start"}
-      flexDir="column"
-      pl="2"
-      p="4"
-    >
-      <Heading>Hashing</Heading>
-      <Box>
-        <Monaco
-          language="text"
-          height="150px"
-          value={"Enter Text"}
-          setValue={onChange}
-        />
-      </Box>
-      <Flex align={"center"} gap="5">
-        <Flex width={"60%"} gap={2} direction="column">
-          <Box width={"full"}>
+    <Stack style={{ height: "100%", width: "100%" }} p="xs" spacing={"lg"}>
+      <Monaco
+        language="text"
+        height="50%"
+        value={"Enter Text"}
+        setValue={onChange}
+      />
+      <Stack spacing={"lg"} pr={"sm"}>
+        <Stack>
+          <Box>
             <HashBox value={hashes.md5} hashtype="MD5" />
           </Box>
-          <Box width={"full"}>
-            <HashBox value={hashes.sha1} hashtype="SHA-1" />
+          <Box>
+            <HashBox value={hashes.sha1} hashtype="SHA1" />
           </Box>
-          <Box width={"full"}>
-            <HashBox value={hashes.sha256} hashtype="SHA-256" />
+          <Box>
+            <HashBox value={hashes.sha224} hashtype="SHA224" />
           </Box>
-          <Box width={"full"}>
-            <HashBox value={hashes.sha512} hashtype="SHA-512" />
+          <Box>
+            <HashBox value={hashes.sha256} hashtype="SHA256" />
           </Box>
-          <Box width={"full"}>
-            <HashBox value={hashes.sha224} hashtype="SHA-224" />
+          <Box>
+            <HashBox value={hashes.sha512} hashtype="SHA512" />
           </Box>
-        </Flex>
-        <Divider orientation="vertical"></Divider>
-        <Box w="40%">
-          <Button w="100%" bgColor={"red.500"} onClick={selectFile}>
-            Select a File
-          </Button>
-          <Text align={"center"} color="gray.400" mt="3">
-            {filePath ? filePath : ""}
-          </Text>
+        </Stack>
+
+        <Box>
+          <Button onClick={selectFile}>Select a File</Button>
+          <Text>{filePath ? filePath : ""}</Text>
         </Box>
-      </Flex>
-    </Flex>
+      </Stack>
+    </Stack>
   );
 };
 // Thousands of thanks to this guy for this function: https://gist.github.com/artjomb/7ef1ee574a411ba0dd1933c1ef4690d1
