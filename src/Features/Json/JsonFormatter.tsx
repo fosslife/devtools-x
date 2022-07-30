@@ -1,57 +1,109 @@
-import {
-  Button,
-  Flex,
-  Heading,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-} from "@chakra-ui/react";
-import { useState } from "react";
+import { Box, Button, Tabs } from "@mantine/core";
+import { useEffect, useState } from "react";
 
-import { IsolateTab } from "./IsolateTab";
-// import { db } from "../../utils"; FIXME:
+import { SingleTab } from "./SingleTab";
+import { db } from "../../utils";
+import { useDebouncedCallback } from "../../utils/useDebouceCallback";
+
+// default state
+const def = {
+  array: [1, 2, 3],
+  boolean: true,
+  color: "gold",
+  null: null,
+  number: 123,
+  object: {
+    a: "b",
+    c: "d",
+  },
+  string: "Hello World",
+};
 
 const JsonFormatter = () => {
-  const [tabs, setTabs] = useState([1, 2]);
-  // Note: this controlls the selecting newly created tab on + click
-  const [tidx, setTidx] = useState(0);
+  const [tabs, setTabs] = useState<{ tab: number; data: any }[]>([
+    { tab: 1, data: def },
+    { tab: 2, data: def },
+  ]);
+  const [activeTab, setActiveTab] = useState<string | null>("1");
+
+  useEffect(() => {
+    const { tabsstate } = db.data.jsoneditor;
+    const saved = Object.keys(tabsstate);
+
+    if (saved.length > 0) {
+      setTabs(saved.map((e) => ({ tab: Number(e), data: tabsstate[e] })));
+    }
+  }, []);
+
+  const handleTabChange = useDebouncedCallback(
+    async (e: string = "", t: any) => {
+      let isJson;
+      try {
+        isJson = JSON.parse(e);
+      } catch {
+        isJson = e;
+      }
+
+      db.data.jsoneditor.tabsstate[t] = isJson;
+      await db.write();
+    },
+    500,
+    []
+  );
 
   return (
-    <Flex w="100%" h="100%" gap={3} flexDir="column" pl="2">
-      <Heading>Json Tools</Heading>
+    <Box>
       <Tabs
-        height={"100%"}
-        isLazy
-        index={tidx}
-        onChange={(i) => setTidx(i)}
-        lazyBehavior="keepMounted"
+        value={activeTab}
+        onTabChange={setActiveTab}
+        sx={() => ({
+          "div[role='tabpanel']": {
+            height: "85vh",
+          },
+        })}
       >
-        <TabList>
+        <Tabs.List>
           {tabs.map((t) => (
-            <Tab key={t}>{t}</Tab>
+            <Tabs.Tab
+              key={t.tab}
+              value={t.tab.toString()}
+              onMouseDown={(e) => {
+                if (e.button === 1) {
+                  setTabs(tabs.filter((e) => e !== t));
+                }
+              }}
+            >
+              {t.tab}
+            </Tabs.Tab>
           ))}
+
           <Button
-            variant={"ghost"}
+            ml="xs"
+            size="xs"
             onClick={() => {
-              setTabs([...tabs, tabs.length + 1]);
-              setTidx(tabs.length);
+              tabs.push({ tab: tabs[tabs.length - 1].tab + 1, data: def });
+              setTabs([...tabs]);
             }}
           >
             +
           </Button>
-        </TabList>
+        </Tabs.List>
 
-        <TabPanels height={"95%"}>
-          {tabs.map((t) => (
-            <TabPanel key={t} height={"100%"}>
-              <IsolateTab t={t} />
-            </TabPanel>
-          ))}
-        </TabPanels>
+        {tabs.map((t) => (
+          <Tabs.Panel key={t.tab} value={t.tab.toString()}>
+            <SingleTab
+              key={t.tab}
+              tabid={t.tab}
+              tabdata={JSON.stringify(t.data, null, 2)}
+              onChange={handleTabChange}
+            />
+          </Tabs.Panel>
+        ))}
+        <Tabs.Panel value="+">
+          <Button mt="lg">Add a new Tab</Button>
+        </Tabs.Panel>
       </Tabs>
-    </Flex>
+    </Box>
   );
 };
 
