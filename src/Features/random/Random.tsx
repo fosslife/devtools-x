@@ -8,6 +8,7 @@ import {
   Stack,
   Text,
   Textarea,
+  TextInput,
 } from "@mantine/core";
 import { generate } from "generate-password-ts";
 import { useEffect, useState } from "react";
@@ -24,6 +25,7 @@ const Random = () => {
   const [length, setLength] = useState(16); // default pass length
   const [pass, setPass] = useState({ pass: "", entropy: 0 });
   const [checkboxes, setCheckboxes] = useState<string[]>(["lowercase"]);
+  const [excludeChars, setExcludeChars] = useState("");
 
   // total passwords to generate
   const [total, setTotal] = useState(1);
@@ -44,6 +46,7 @@ const Random = () => {
     const options = {
       strict: true, // password must contain one char from each pool
       length: length,
+      exclude: excludeChars,
       ...checkboxtypes.reduce(
         (a, c) => ({ ...a, [c]: checkboxes.includes(c) }),
         {}
@@ -88,6 +91,13 @@ const Random = () => {
         </Checkbox.Group>
       </Group>
       <Group align={"flex-end"}>
+        <TextInput
+          placeholder="Characters to exclude"
+          size="xs"
+          label="exclude"
+          value={excludeChars}
+          onChange={(e) => setExcludeChars(e.currentTarget.value)}
+        />
         <NumberInput
           min={1}
           label="total texts"
@@ -132,15 +142,15 @@ const Random = () => {
       <Textarea autosize readOnly value={pass.pass} />
 
       <Box>Entropy: {pass.entropy}</Box>
-      <Text size="xs">Note: entropy calculation might be broken.</Text>
-      <Text size="xs">
+      <Text size="xs" color={"dimmed"}>
+        Note: entropy calculation might be broken.
+      </Text>
+      <Text size="xs" color={"dimmed"}>
         And even if it&apos;s correct, entropy is not everything do not rely on
         it
       </Text>
     </Stack>
   );
 };
-
-// TODO: exclude characters
 
 export default Random;
