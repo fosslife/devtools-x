@@ -28,7 +28,7 @@ class CustomAdaptor {
         }
       )
       .catch((e) => {
-        console.error("EEE", e);
+        console.error("Error", e);
       });
   }
 }
@@ -101,6 +101,7 @@ if (!db.data || Object.keys(db.data).length === 0) {
   // conf file structure
   db.data = {
     jsoneditor: { tabsstate: {} },
+    hashes: {},
     pinned: [],
   };
   db.write();
