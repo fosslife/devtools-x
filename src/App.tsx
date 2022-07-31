@@ -18,7 +18,7 @@ import { useEffect, useRef, useState } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 // NOTE: keep Num converter here, do not lazy load. there's a rare crashing bug.
-import Nums from "./Features/nums/Nums";
+import Nums from "./Features/number-tools/Nums";
 
 import { data, Navbar } from "./Layout/Navbar";
 import { Box, Group, Modal, Select } from "@mantine/core";
@@ -27,23 +27,23 @@ import { useHotkeys } from "@mantine/hooks";
 // Lazy load components
 const Welcome = loadable(() => import("./Components/Welcome"));
 const Hash = loadable(() => import("./Features/hash/Hash"));
-const JsonFormatter = loadable(() => import("./Features/Json/JsonFormatter"));
+const JsonFormatter = loadable(() => import("./Features/json/JsonFormatter"));
 const Random = loadable(() => import("./Features/random/Random"));
 const JWT = loadable(() => import("./Features/jwt/JWT"));
 // const Nums = loadable(() => import("./Features/nums/Nums"));
-const Sql = loadable(() => import("./Features/Sql/Sql"));
+const Sql = loadable(() => import("./Features/sql/Sql"));
 const Colors = loadable(() => import("./Features/colors/Colors"));
-const RegexTester = loadable(() => import("./Features/Regex/RegexTester"));
+const RegexTester = loadable(() => import("./Features/regex/RegexTester"));
 const TextDiff = loadable(() => import("./Features/text/TextDiff"));
-const Markdown = loadable(() => import("./Features/Markdown/Markdown"));
-const YamlJson = loadable(() => import("./Features/YamlJson/Yaml"));
+const Markdown = loadable(() => import("./Features/markdown/Markdown"));
+const YamlJson = loadable(() => import("./Features/yaml-json/Yaml"));
 const Pastebin = loadable(() => import("./Features/pastebin/Pastebin"));
 const Repl = loadable(() => import("./Features/repl/Repl"));
-const Image = loadable(() => import("./Features/Image/Image"));
-const Playground = loadable(() => import("./Features/Playground/Playground"));
-const Rest = loadable(() => import("./Features/Rest/Rest"));
+const Image = loadable(() => import("./Features/image/Image"));
+const Playground = loadable(() => import("./Features/playground/Playground"));
+const Rest = loadable(() => import("./Features/rest/Rest"));
 const UnitConverter = loadable(
-  () => import("./Features/UnitConverter/UnitConverter")
+  () => import("./Features/unitconverter/UnitConverter")
 );
 
 function App() {

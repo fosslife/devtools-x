@@ -53,7 +53,7 @@ export const data = [
   { id: 2, to: "/hash", icon: <FiHash />, text: "Hashing Tools" },
   { id: 3, to: "/random", icon: <FaRandom />, text: "Random Text" },
   { id: 4, to: "/jwt", icon: <SiJsonwebtokens />, text: "JWT Tools" },
-  { id: 5, to: "/nums", icon: <BsSortNumericUpAlt />, text: "Num Converters" },
+  { id: 5, to: "/nums", icon: <BsSortNumericUpAlt />, text: "Number Tools" },
   { id: 6, to: "/sql", icon: <SiPostgresql />, text: "SQL Formatter" },
   { id: 7, to: "/colors", icon: <MdColorize />, text: "Color Utils" },
   { id: 8, to: "/regex", icon: <VscRegex />, text: "Regex Tester" },
@@ -63,8 +63,8 @@ export const data = [
   { id: 12, to: "/pastebin", icon: <FaPaste />, text: "Pastebin" },
   { id: 13, to: "/repl", icon: <FaCode />, text: "ScratchPad" },
   { id: 14, to: "/image", icon: <FaFileImage />, text: "Image Tools" },
-  { id: 15, to: "/units", icon: <FaExchangeAlt />, text: "Unit Converters" },
-  { id: 16, to: "/playground", icon: <FaReact />, text: "React Playground" },
+  { id: 15, to: "/units", icon: <FaExchangeAlt />, text: "Unit Converter" },
+  { id: 16, to: "/playground", icon: <FaReact />, text: "React" },
   { id: 17, to: "/rest", icon: <MdHttp />, text: "REST API" },
 ];
 

@@ -37,7 +37,12 @@ const Welcome = () => {
   let actualRows = pinned.length > 0 ? pinned : db.data.pinned;
 
   return (
-    <Stack align={"center"} mt="xl">
+    <Stack
+      align={"center"}
+      justify="start"
+      style={{ height: "100%", width: "100%" }}
+      mt="xl"
+    >
       <Text transform="uppercase" variant="gradient">
         <Title>DEVTOOLS-X</Title>
       </Text>
