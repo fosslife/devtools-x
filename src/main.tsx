@@ -1,7 +1,4 @@
 import "./index.css";
-import "ace-builds/src-noconflict/ace";
-import "ace-builds/src-noconflict/mode-json";
-import "ace-builds/src-noconflict/theme-dracula";
 
 import { MantineProvider } from "@mantine/core";
 
