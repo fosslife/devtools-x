@@ -40,7 +40,6 @@ const useStyles = createStyles((theme) => ({
     overflow: "scroll",
     borderRight: "thin solid white",
     fontSize: "15px",
-    lineHeight: "14px",
     background:
       theme.colorScheme === "dark"
         ? theme.colors.dark[7]
