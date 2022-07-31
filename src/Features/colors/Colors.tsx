@@ -1,23 +1,165 @@
-import {
-  Box,
-  Button,
-  Flex,
-  FormControl,
-  FormLabel,
-  Heading,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Switch,
-  // useColorMode,
-} from "@chakra-ui/react";
-import { clipboard } from "@tauri-apps/api";
+import { Box, Group, Stack } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { RgbaColor, RgbaColorPicker } from "react-colorful";
 import { convertBase } from "simple-base-converter";
+import { OutputBox } from "../../Components/OutputBox";
+
+// https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/color_keywords
+//#region
+// const colorkeywords = {
+//   back: "#000000",
+//   silver: "#c0c0c0",
+//   gray: "#808080",
+//   white: "#ffffff",
+//   maroon: "#800000",
+//   red: "#ff0000",
+//   purple: "#800080",
+//   fuchsia: "#ff00ff",
+//   green: "#008000",
+//   lime: "#00ff00",
+//   olive: "#808000",
+//   yellow: "#ffff00",
+//   navy: "#000080",
+//   blue: "#0000ff",
+//   teal: "#008080",
+//   aqua: "#00ffff",
+//   orange: "#ffa500",
+//   aliceblue: "#f0f8ff",
+//   antiquewhite: "#faebd7",
+//   aquamarine: "#7fffd4",
+//   azure: "#f0ffff",
+//   beige: "#f5f5dc",
+//   bisque: "#ffe4c4",
+//   blanchedalmond: "#ffebcd",
+//   blueviolet: "#8a2be2",
+//   brown: "#a52a2a",
+//   burlywood: "#deb887",
+//   cadetblue: "#5f9ea0",
+//   chartreuse: "#7fff00",
+//   chocolate: "#d2691e",
+//   coral: "#ff7f50",
+//   cornflowerblue: "#6495ed",
+//   cornsilk: "#fff8dc",
+//   crimson: "#dc143c",
+//   cyan: "#00ffff",
+//   darkblue: "#00008b",
+//   darkcyan: "#008b8b",
+//   darkgoldenrod: "#b8860b",
+//   darkgray: "#a9a9a9",
+//   darkgreen: "#006400",
+//   darkgrey: "#a9a9a9",
+//   darkkhaki: "#bdb76b",
+//   darkmagenta: "#8b008b",
+//   darkolivegreen: "#556b2f",
+//   darkorange: "#ff8c00",
+//   darkorchid: "#9932cc",
+//   darkred: "#8b0000",
+//   darksalmon: "#e9967a",
+//   darkseagreen: "#8fbc8f",
+//   darkslateblue: "#483d8b",
+//   darkslategray: "#2f4f4f",
+//   darkslategrey: "#2f4f4f",
+//   darkturquoise: "#00ced1",
+//   darkviolet: "#9400d3",
+//   deeppink: "#ff1493",
+//   deepskyblue: "#00bfff",
+//   dimgray: "#696969",
+//   dimgrey: "#696969",
+//   dodgerblue: "#1e90ff",
+//   firebrick: "#b22222",
+//   floralwhite: "#fffaf0",
+//   forestgreen: "#228b22",
+//   gainsboro: "#dcdcdc",
+//   ghostwhite: "#f8f8ff",
+//   gold: "#ffd700",
+//   goldenrod: "#daa520",
+//   greenyellow: "#adff2f",
+//   grey: "#808080",
+//   honeydew: "#f0fff0",
+//   hotpink: "#ff69b4",
+//   indianred: "#cd5c5c",
+//   indigo: "#4b0082",
+//   ivory: "#fffff0",
+//   khaki: "#f0e68c",
+//   lavender: "#e6e6fa",
+//   lavenderblush: "#fff0f5",
+//   lawngreen: "#7cfc00",
+//   lemonchiffon: "#fffacd",
+//   lightblue: "#add8e6",
+//   lightcoral: "#f08080",
+//   lightcyan: "#e0ffff",
+//   lightgoldenrodyellow: "#fafad2",
+//   lightgray: "#d3d3d3",
+//   lightgreen: "#90ee90",
+//   lightgrey: "#d3d3d3",
+//   lightpink: "#ffb6c1",
+//   lightsalmon: "#ffa07a",
+//   lightseagreen: "#20b2aa",
+//   lightskyblue: "#87cefa",
+//   lightslategray: "#778899",
+//   lightslategrey: "#778899",
+//   lightsteelblue: "#b0c4de",
+//   lightyellow: "#ffffe0",
+//   limegreen: "#32cd32",
+//   linen: "#faf0e6",
+//   magenta: "#ff00ff",
+//   mediumaquamarine: "#66cdaa",
+//   mediumblue: "#0000cd",
+//   mediumorchid: "#ba55d3",
+//   mediumpurple: "#9370db",
+//   mediumseagreen: "#3cb371",
+//   mediumslateblue: "#7b68ee",
+//   mediumspringgreen: "#00fa9a",
+//   mediumturquoise: "#48d1cc",
+//   mediumvioletred: "#c71585",
+//   midnightblue: "#191970",
+//   mintcream: "#f5fffa",
+//   mistyrose: "#ffe4e1",
+//   moccasin: "#ffe4b5",
+//   navajowhite: "#ffdead",
+//   oldlace: "#fdf5e6",
+//   olivedrab: "#6b8e23",
+//   orangered: "#ff4500",
+//   orchid: "#da70d6",
+//   palegoldenrod: "#eee8aa",
+//   palegreen: "#98fb98",
+//   paleturquoise: "#afeeee",
+//   palevioletred: "#db7093",
+//   papayawhip: "#ffefd5",
+//   peachpuff: "#ffdab9",
+//   peru: "#cd853f",
+//   pink: "#ffc0cb",
+//   plum: "#dda0dd",
+//   powderblue: "#b0e0e6",
+//   rosybrown: "#bc8f8f",
+//   royalblue: "#4169e1",
+//   saddlebrown: "#8b4513",
+//   salmon: "#fa8072",
+//   sandybrown: "#f4a460",
+//   seagreen: "#2e8b57",
+//   seashell: "#fff5ee",
+//   sienna: "#a0522d",
+//   skyblue: "#87ceeb",
+//   slateblue: "#6a5acd",
+//   slategray: "#708090",
+//   slategrey: "#708090",
+//   snow: "#fffafa",
+//   springgreen: "#00ff7f",
+//   steelblue: "#4682b4",
+//   tan: "#d2b48c",
+//   thistle: "#d8bfd8",
+//   tomato: "#ff6347",
+//   turquoise: "#40e0d0",
+//   violet: "#ee82ee",
+//   wheat: "#f5deb3",
+//   whitesmoke: "#f5f5f5",
+//   yellowgreen: "#9acd32",
+//   rebeccapurple: "#663399",
+// };
+
+//#endregionregion
 
 const Colors = () => {
-  // const { toggleColorMode, setColorMode } = useColorMode();
   const [color, setColor] = useState<RgbaColor>({
     r: 34,
     g: 135,
@@ -39,14 +181,22 @@ const Colors = () => {
     const aH = convertBase(Math.round(color.a * 255), 10, 16).padStart(2, "0");
     return `#${rH}${gH}${bH}${aH}`;
   };
+
+  // const hexToRgb = (hex: string) => {
+  //   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  //   return result
+  //     ? {
+  //         r: parseInt(result[1], 16),
+  //         g: parseInt(result[2], 16),
+  //         b: parseInt(result[3], 16),
+  //       }
+  //     : { r: 0, g: 0, b: 0 };
+  // };
+
   return (
-    <Flex
-      height="100%"
-      width="100%"
-      flexDir={"column"}
+    <Stack
+      style={{ height: "100%", width: "100%" }}
       align="center"
-      gap={5}
-      p={2}
       sx={{
         "& .react-colorful ": {
           width: "95%",
@@ -57,83 +207,84 @@ const Colors = () => {
         },
       }}
     >
-      <Heading fontSize={"lg"}>Color Picker</Heading>
       <RgbaColorPicker
         color={color}
         onChange={(e) => {
           setColor(e);
         }}
       />
-      <Flex gap={3}>
-        <FormControl>
-          <FormLabel htmlFor="input">RGB:</FormLabel>
-          <InputGroup>
-            <Input
-              value={`${color.r}, ${color.g}, ${color.b}, ${color.a}`}
-              onChange={() => {
-                // TODO: parse all rgb formats and set color.
-                // setColor()
-              }}
-            />
-            <InputRightElement width="4.5rem">
-              <Button
-                size="sm"
-                onClick={() => {
-                  clipboard.writeText(
-                    `${color.r}, ${color.g}, ${color.b}, ${color.a}`
-                  );
-                }}
-              >
-                Copy
-              </Button>
-            </InputRightElement>
-          </InputGroup>
-        </FormControl>
-        <FormControl>
-          <FormLabel htmlFor="input">HEX:</FormLabel>
-          <InputGroup>
-            <Input
-              value={convertRgbTohex(color)}
-              onChange={() => {
-                // TODO: parse all hex, convert to Rgb and set color.
-                // setColor()
-              }}
-            />
-            <InputRightElement width="4.5rem">
-              <Button
-                size="sm"
-                onClick={() => {
-                  clipboard.writeText(convertRgbTohex(color));
-                }}
-              >
-                Copy
-              </Button>
-            </InputRightElement>
-          </InputGroup>
-        </FormControl>
-      </Flex>
+      <Group spacing={10}>
+        <OutputBox
+          label="RGB:"
+          value={`${color.r}, ${color.g}, ${color.b}, ${color.a}`}
+        />
+        <OutputBox label="HEX:" value={convertRgbTohex(color).toUpperCase()} />
+        {/* <Select
+          label="Color keywords"
+          searchable
+          clearable
+          placeholder="Pick color"
+          onSelect={(e) => {
+            // const { r, g, b } = hexToRgb(colorkeywords[e.currentTarget.value]);
+            // setColor({ r, g, b, a: 1 });
+          }}
+          nothingFound="Try something else"
+          itemComponent={SelectItem}
+          data={Object.keys(colorkeywords).map((c) => ({
+            //@ts-ignore  you wont be able to assign string to key names
+            label: c,
+            value: c,
+          }))}
+        /> */}
+      </Group>
       <Box
-        w="full"
-        h="120px"
-        background={`rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`}
-        borderRadius={5}
-        shadow="xl"
+        sx={() => ({
+          background: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+          borderRadius: 5,
+          width: "400px",
+          height: "30%",
+        })}
       ></Box>
 
       {/* FIXME: Enable when themes are working */}
-      <Flex gap={3} display="none">
+      {/* <Flex gap={3} display="none">
         <FormControl display="flex" alignItems="center">
           <FormLabel htmlFor="theme" mb="0">
             Toggle theme
           </FormLabel>
-          {/* <Switch id="theme" onChange={toggleColorMode} /> */}
+          <Switch id="theme" onChange={toggleColorMode} />
         </FormControl>
-      </Flex>
-    </Flex>
+      </Flex> */}
+    </Stack>
   );
 };
 
+// const SelectItem = forwardRef<HTMLDivElement, any>(
+//   ({ label, value, ...others }: any, ref) => (
+//     <div ref={ref} {...others}>
+//       <Group noWrap>
+//         <div>
+//           <div
+//             style={{
+//               background: colorkeywords[value],
+//               height: "20px",
+//               width: "50px",
+//             }}
+//           ></div>
+//           <Text size="sm">{label}</Text>
+//           {/* <Text size="xs" color="dimmed">
+//             {colorkeywords[value]}
+//           </Text> */}
+//         </div>
+//       </Group>
+//     </div>
+//   )
+// );
+
+// SelectItem.displayName = "SelectItem";
+
 export default Colors;
 
+// TODO: save prev color and compare. p1
+// TODO: Color keywords? have gathered data above. p2
 // TODO: more features
-// TODO: save prev color and compare
