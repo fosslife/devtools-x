@@ -21,8 +21,7 @@ import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Nums from "./Features/nums/Nums";
 
 import { data, Navbar } from "./Layout/Navbar";
-import { db } from "./utils";
-import { Grid, Modal, Select } from "@mantine/core";
+import { Box, Group, Modal, Select } from "@mantine/core";
 import { useHotkeys } from "@mantine/hooks";
 
 // Lazy load components
@@ -87,42 +86,31 @@ function App() {
       "ace/mode/javascript_worker",
       "https://cdn.jsdelivr.net/npm/ace-builds@1.4.8/src-noconflict/worker-javascript.js"
     );
-
-    // TODO: Setup logging, caching
-    // first config structure
-    if (!db.data) {
-      db.data ||= {
-        json: { editor: "", diff: "" },
-        hash: { editor: "" },
-        pinned: [],
-      };
-      db.write();
-    }
   }, []);
 
   return (
-    <Grid
+    <Box
       sx={() => ({
         height: "100%",
+        width: "100%",
         padding: 10,
+        display: "flex",
+        gap: 10,
       })}
     >
-      <Grid.Col
-        // span={}
-        sm={3}
-        lg={2}
+      <Box
         sx={() => ({
+          width: "300px",
           height: "100%",
           paddingLeft: 0,
         })}
       >
         <Navbar />
-      </Grid.Col>
-      <Grid.Col
-        sm={9}
-        lg={10}
+      </Box>
+      <Group
         sx={() => ({
           height: "100%",
+          width: "100%",
         })}
         className={`${transitionStage}`}
         onAnimationEnd={() => {
@@ -152,9 +140,8 @@ function App() {
           <Route path="/playground" element={<Playground />}></Route>
           <Route path="/rest" element={<Rest />}></Route>
         </Routes>
-      </Grid.Col>
+      </Group>
 
-      {/* FIXME: Modal  */}
       <Modal
         opened={opened}
         onClose={() => setOpened(false)}
@@ -184,7 +171,7 @@ function App() {
           }}
         />
       </Modal>
-    </Grid>
+    </Box>
   );
 }
 
