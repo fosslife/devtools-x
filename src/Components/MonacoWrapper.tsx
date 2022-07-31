@@ -48,11 +48,11 @@ export const Monaco = ({
       height={height}
       width={width}
       options={{
-        ...extraOptions,
         minimap: {
           enabled: false,
         },
         lineNumbersMinChars: 3,
+        ...extraOptions,
       }}
     />
   );
