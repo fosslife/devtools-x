@@ -100,7 +100,7 @@ function App() {
     >
       <Box
         sx={() => ({
-          width: "300px",
+          minWidth: "230px",
           height: "100%",
           paddingLeft: 0,
         })}

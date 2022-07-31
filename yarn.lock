@@ -1615,7 +1615,7 @@
   resolved "https://registry.yarnpkg.com/@zag-js/focus-visible/-/focus-visible-0.1.0.tgz#9777bbaff8316d0b3a14a9095631e1494f69dbc7"
   integrity sha512-PeaBcTmdZWcFf7n1aM+oiOdZc+sy14qi0emPIeUuGMTjbP0xLGrZu43kdpHnWSXy7/r4Ubp/vlg50MCV8+9Isg==
 
-ace-builds@^1.4.14, ace-builds@^1.8.1:
+ace-builds@^1.8.1:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/ace-builds/-/ace-builds-1.8.1.tgz#5d318fa13d7e6ea947f8a50e42c570c573b29529"
   integrity sha512-wjEQ4khMQYg9FfdEDoOtqdoHwcwFL48H0VB3te5b5A3eqHwxsTw8IX6+xzfisgborIb8dYU+1y9tcmtGFrCPIg==
@@ -2088,11 +2088,6 @@ detect-node-es@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/detect-node-es/-/detect-node-es-1.1.0.tgz#163acdf643330caa0b4cd7c21e7ee7755d6fa493"
   integrity sha512-ypdmJU/TbBby2Dxibuv7ZLW3Bs1QEmM7nHjEANfohJLvE0XVujisn1qPJcZxg+qDucsr+bP6fLD1rPS3AhJ7EQ==
-
-diff-match-patch@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/diff-match-patch/-/diff-match-patch-1.0.5.tgz#abb584d5f10cd1196dfc55aa03701592ae3f7b37"
-  integrity sha512-IayShXAgj/QMXgB0IWmKx+rOPuGMhqm5w6jvFxmVenXKIzRqTAAsbBPT3kWQeGANj3jGgvcvv4yK6SxqYmikgw==
 
 diff@^5.0.0:
   version "5.1.0"
@@ -3483,20 +3478,10 @@ lodash.forown@~2.3.0:
     lodash._objecttypes "~2.3.0"
     lodash.keys "~2.3.0"
 
-lodash.get@^4.4.2:
-  version "4.4.2"
-  resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
-  integrity sha512-z+Uw/vLuy6gQe8cfaFWD7p0wVv8fJl3mbzXh33RS+0oW2wvUqiRXiQ69gLWSLpgB5/6sU+r6BlQR0MBILadqTQ==
-
 lodash.identity@~2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/lodash.identity/-/lodash.identity-2.3.0.tgz#6b01a210c9485355c2a913b48b6711219a173ded"
   integrity sha512-NYJ2r2cwy3tkx/saqbIZEX6oQUzjWTnGRu7d/zmBjMCZos3eHBxCpbvWFWSetv8jFVrptsp6EbWjzNgBKhUoOA==
-
-lodash.isequal@^4.5.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
-  integrity sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ==
 
 lodash.isfunction@~2.3.0:
   version "2.3.0"
@@ -4347,17 +4332,6 @@ queue-microtask@^1.2.2:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
-
-react-ace@^10.1.0:
-  version "10.1.0"
-  resolved "https://registry.yarnpkg.com/react-ace/-/react-ace-10.1.0.tgz#d348eac2b16475231779070b6cd16768deed565f"
-  integrity sha512-VkvUjZNhdYTuKOKQpMIZi7uzZZVgzCjM7cLYu6F64V0mejY8a2XTyPUIMszC6A4trbeMIHbK5fYFcT/wkP/8VA==
-  dependencies:
-    ace-builds "^1.4.14"
-    diff-match-patch "^1.0.5"
-    lodash.get "^4.4.2"
-    lodash.isequal "^4.5.0"
-    prop-types "^15.7.2"
 
 react-clientside-effect@^1.2.6:
   version "1.2.6"
