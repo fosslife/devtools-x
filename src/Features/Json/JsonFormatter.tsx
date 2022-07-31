@@ -53,7 +53,7 @@ const JsonFormatter = () => {
   );
 
   return (
-    <Box>
+    <Box style={{ width: "100%" }}>
       <Tabs
         value={activeTab}
         onTabChange={setActiveTab}
