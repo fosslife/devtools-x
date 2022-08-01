@@ -1,4 +1,4 @@
-import Editor, { OnMount } from "@monaco-editor/react";
+import Editor, { DiffEditor, OnMount, DiffOnMount } from "@monaco-editor/react";
 import { editor } from "monaco-editor";
 
 type MonacoProps = {
@@ -8,7 +8,15 @@ type MonacoProps = {
   height?: string;
   width?: string;
   onEditorMounted?: OnMount;
+  onDiffEditorMounted?: DiffOnMount;
   language: string;
+  mode?: "diff" | "regular";
+  diffProps?: {
+    original: string;
+    modified: string;
+    modifiedLanguage: string;
+    originalLanguage: string;
+  };
 };
 
 export const Monaco = ({
@@ -19,7 +27,27 @@ export const Monaco = ({
   extraOptions,
   onEditorMounted,
   language,
+  mode,
+  onDiffEditorMounted,
+  diffProps,
 }: MonacoProps) => {
+  // FIXME: (Typescript); both onMount are exactly same, absolutely reusable;
+  const diffOnMount: DiffOnMount = (editor, monaco) => {
+    // disable TS incorrect diagnostic
+    monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
+      noSemanticValidation: true,
+      noSyntaxValidation: true,
+    });
+
+    import("monaco-themes/themes/Tomorrow-Night.json").then((data: any) => {
+      monaco.editor.defineTheme("tmnight", data);
+      monaco.editor.setTheme("tmnight");
+    });
+
+    if (onDiffEditorMounted) {
+      onDiffEditorMounted(editor, monaco);
+    }
+  };
   const onMount: OnMount = (editor, monaco) => {
     // disable TS incorrect diagnostic
     monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
@@ -36,7 +64,15 @@ export const Monaco = ({
       onEditorMounted(editor, monaco);
     }
   };
-  // console.log("refres", value);
+  if (mode === "diff") {
+    return (
+      <DiffEditor
+        {...diffProps}
+        onMount={diffOnMount}
+        options={{ ...extraOptions }}
+      />
+    );
+  }
 
   return (
     <Editor
