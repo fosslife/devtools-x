@@ -1,30 +1,25 @@
-// import "./ace.css";
+import { Box, Button, Group, Stack, TextInput } from "@mantine/core";
+import { OnMount } from "@monaco-editor/react";
+import { editor } from "monaco-editor";
+import { useEffect, useState } from "react";
+import { Monaco } from "../../Components/MonacoWrapper";
 
-import {
-  Button,
-  Checkbox,
-  CheckboxGroup,
-  Flex,
-  Heading,
-  Input,
-  InputGroup,
-  InputLeftAddon,
-  InputRightAddon,
-  Stack,
-} from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
-import AceEditor from "react-ace";
+/////////////////////////////////////
+// NOTE BEFORE YOU WORK ON THIS FILE
+// THIS FILE HAS SEEN EVERYTHING
+// 3 DIFFERNET EDITORS: CODEMIRROR, ACE AND NOW MONACO
+// IT HAS LOTS OF CODE COMMENTED
+// PLURAL OF REGEX IS REGRETS
+// IF YOU WANT TO MAKE THE EDITOR BETTER
+// MAKE SURE ALL FEATURES WORK. I DON'T WANT ONE MORE EDITOR
+// GOOD TO HAVE WOULD BE CHECKBOXES WITH FLAGS LIKE BELOW
+////////////////////////////////////
 
-type Flags = {
-  g: boolean;
-  i: boolean;
-  m: boolean;
-  u: boolean;
-  y: boolean;
-};
+// On the side note, monaco `decorations` work but they don't reset
+// TODO:
 
 const RegexTester = () => {
-  const [input, setInput] = useState(
+  const [input, setInput] = useState<string | undefined>(
     `123-456-7890
 (123) 456-7890
 1235
@@ -34,128 +29,73 @@ const RegexTester = () => {
 1235 abc 12345
 +91 (123) 456-7890`
   );
-  const editorRef = useRef<any>(); // AceEditor type helps, need investigation TODO:
   const [rg, setRg] = useState(
     `^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]\\d{3}[\\s.-]\\d{4}$`
-  ); // ^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$
-  const [flags, setFlags] = useState<Flags>({
-    g: true,
-    i: false,
-    m: true,
-    u: false,
-    y: false,
-  });
+  ); // escaped version of ^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$
+  const [editor, setEditor] = useState<editor.IStandaloneCodeEditor>();
 
-  const onChange = (e: string) => {
-    setInput(e);
+  const editorMounted: OnMount = (editor) => {
+    setEditor(editor);
   };
 
+  // Highlight logic
   const matchReg = () => {
-    if (!rg) return;
-    let flagsStr = Object.keys(flags)
-      // @ts-ignore
-      .filter((e) => flags[e])
-      .join("");
+    if (!rg) {
+      return;
+    }
+    const results = editor
+      ?.getModel()
+      ?.findMatches(rg, true, true, false, null, true);
+    if (!results?.length) {
+      return;
+    }
     try {
-      let localRg = new RegExp(rg, flagsStr);
-      editorRef.current?.editor.findAll(
-        localRg,
-        {
-          regExp: true,
-          preventScroll: true,
-        },
-        false
+      editor?.setSelections(
+        results.map((r) => ({
+          selectionStartLineNumber: r.range.startLineNumber,
+          selectionStartColumn: r.range.startColumn,
+          positionLineNumber: r.range.endLineNumber,
+          positionColumn: r.range.endColumn,
+        }))
       );
-    } catch (e) {
-      console.error("Error", e);
-      // Ignore?
+    } catch {
+      // ignore invalid regex errors
     }
   };
 
   useEffect(() => {
     matchReg();
-  }, [flags, rg]);
+  }, [rg]);
 
   return (
-    <Flex h="full" w="100%" gap={3} alignSelf={"start"} p="2" flexDir="column">
-      <Heading>Regex Tester</Heading>
-      <Flex gap={3} w="100%" flexDir={"column"}>
-        <Flex gap={3}>
-          <InputGroup size="md">
-            <InputLeftAddon>/</InputLeftAddon>
-            <Input
-              value={rg}
-              // variant="flushed"
-              placeholder="enter regex"
-              onChange={(e) => {
-                setRg(e.target.value);
-              }}
-            />
-            <InputRightAddon>
-              /
-              {Object.keys(flags).filter((e) => {
-                /*@ts-ignore*/
-                return flags[e];
-              })}
-            </InputRightAddon>
-          </InputGroup>
+    <Stack style={{ width: "100%", height: "100%" }}>
+      <Stack spacing={10}>
+        <Group spacing={5} grow>
+          <TextInput
+            value={rg}
+            onChange={(e) => {
+              setRg(e.currentTarget.value);
+            }}
+          />
+        </Group>
+        <Box>
           <Button onClick={matchReg}>Match</Button>
-        </Flex>
-        <CheckboxGroup colorScheme="green">
-          <Stack spacing={[1, 5]} direction={["column", "row"]}>
-            <Checkbox
-              defaultChecked={flags.g}
-              onChange={(e) => {
-                setFlags({ ...flags, g: e.target.checked });
-              }}
-            >
-              Global
-            </Checkbox>
-            <Checkbox
-              defaultChecked={flags.i}
-              onChange={(e) => {
-                setFlags({ ...flags, i: e.target.checked });
-              }}
-            >
-              Case Sensitive
-            </Checkbox>
-            <Checkbox
-              defaultChecked={flags.m}
-              onChange={(e) => {
-                setFlags({ ...flags, m: e.target.checked });
-              }}
-            >
-              Multiline
-            </Checkbox>
-            <Checkbox
-              defaultChecked={flags.u}
-              onChange={(e) => {
-                setFlags({ ...flags, u: e.target.checked });
-              }}
-            >
-              Unicode
-            </Checkbox>
-            <Checkbox
-              defaultChecked={flags.y}
-              onChange={(e) => {
-                setFlags({ ...flags, y: e.target.checked });
-              }}
-            >
-              Sticky
-            </Checkbox>
-          </Stack>
-        </CheckboxGroup>
-      </Flex>
-      <AceEditor
+        </Box>
+        {/* <Checkbox.Group value={flags} onChange={setFlags}>
+          <Checkbox label="Global" value={"g"} />
+          <Checkbox label="Case Sensitive" value={"i"} />
+          <Checkbox label="Multi Line" value={"m"} />
+          <Checkbox label="Unicode" value={"u"} />
+          <Checkbox label="Sticky" value={"y"} />
+        </Checkbox.Group> */}
+      </Stack>
+      <Monaco
         value={input}
-        ref={editorRef}
-        mode="text"
-        theme="dracula"
-        width="100%"
-        fontSize={"16px"}
-        onChange={onChange}
+        language="text"
+        setValue={setInput}
+        onEditorMounted={editorMounted}
       />
-    </Flex>
+    </Stack>
   );
 };
 

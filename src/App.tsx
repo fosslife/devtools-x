@@ -12,7 +12,6 @@ import "./App.css";
 // } from "@chakra-ui/react";
 import loadable from "@loadable/component";
 import { loader } from "@monaco-editor/react";
-import { config } from "ace-builds";
 // import { Select } from "chakra-react-select";
 import { useEffect, useRef, useState } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
@@ -76,16 +75,6 @@ function App() {
     if (process.env.NODE_ENV === "production") {
       loader.config({ paths: { vs: "/vs" } });
     }
-
-    // Ace setup: https://github.com/securingsincity/react-ace/issues/725#issuecomment-629068872
-    config.set(
-      "basePath",
-      "https://cdn.jsdelivr.net/npm/ace-builds@1.4.8/src-noconflict/"
-    );
-    config.setModuleUrl(
-      "ace/mode/javascript_worker",
-      "https://cdn.jsdelivr.net/npm/ace-builds@1.4.8/src-noconflict/worker-javascript.js"
-    );
   }, []);
 
   return (
