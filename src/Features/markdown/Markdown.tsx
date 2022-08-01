@@ -1,9 +1,9 @@
 import "./markdown.css";
 
-import { Box, Flex, Heading } from "@chakra-ui/react";
 import MarkdownPreview from "@uiw/react-markdown-preview";
 import { useState } from "react";
 import { Monaco } from "../../Components/MonacoWrapper";
+import { Box, Group, Stack } from "@mantine/core";
 
 const Markdown = () => {
   const [source, setSource] = useState(`
@@ -21,38 +21,22 @@ const codeblock = () => {
 `);
 
   return (
-    <Flex
-      justify={"space-between"}
-      w="full"
-      h="full"
-      gap="5"
-      p="2"
-      flexDir={"column"}
-    >
-      <Heading>Markdown</Heading>
-      <Flex justify={"space-between"} w="full" h="full" gap="5">
-        <Box w="50%" h="100%">
-          <Monaco
-            setValue={(e) => setSource(e || "")}
-            value={source}
-            language="markdown"
-            extraOptions={{
-              minimap: {
-                enabled: false,
-              },
-              lineNumbersMinChars: 3,
-            }}
-          />
-        </Box>
-        <Box w="50%" h="100%" overflow={"scroll"}>
-          <MarkdownPreview
-            source={source}
-            style={{ padding: "15px", height: "100%" }}
-            linkTarget="_blank"
-          />
-        </Box>
-      </Flex>
-    </Flex>
+    <Group sx={{ width: "100%", height: "100%" }} grow spacing={10}>
+      <Box sx={{ width: "50%", height: "100%" }}>
+        <Monaco
+          setValue={(e) => setSource(e || "")}
+          value={source}
+          language="markdown"
+        />
+      </Box>
+      <Box sx={{ width: "50%", height: "100%" }}>
+        <MarkdownPreview
+          source={source}
+          style={{ padding: "15px", height: "100%", overflow: "scroll" }}
+          linkTarget="_blank"
+        />
+      </Box>
+    </Group>
   );
 };
 
