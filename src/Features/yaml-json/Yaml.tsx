@@ -13,7 +13,10 @@ const YamlJson = () => {
   return (
     <Stack sx={{ height: "100%", width: "100%" }}>
       <NativeSelect
-        data={["JSON to YAML", "YAML to JSON"]}
+        data={[
+          { value: "json", label: "JSON to YAML" },
+          { value: "yaml", label: "YAML to JSON" },
+        ]}
         value={mode}
         onChange={(e) => setMode(e.currentTarget.value)}
       ></NativeSelect>
