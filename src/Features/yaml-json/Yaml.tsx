@@ -1,53 +1,35 @@
-import { Box, Flex, Heading, Select } from "@chakra-ui/react";
-import Editor, { OnMount } from "@monaco-editor/react";
+import { Box, Group, NativeSelect, Stack } from "@mantine/core";
 import YAML from "js-yaml";
 import { useState } from "react";
+import { Monaco } from "../../Components/MonacoWrapper";
 
 const YamlJson = () => {
-  const [mode, setMode] = useState<string>("json");
-  const [o, setO] = useState("");
-
-  const onMount: OnMount = (editor, monaco) => {
-    // disable TS incorrect diagnostic
-    monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
-      noSemanticValidation: true,
-      noSyntaxValidation: true,
-    });
-
-    import("monaco-themes/themes/Dracula.json").then((data: any) => {
-      monaco.editor.defineTheme("dracula", data);
-      monaco.editor.setTheme("dracula");
-    });
-
-    setO(`numbers:
+  const [mode, setMode] = useState<"json" | "yaml" | string>("json");
+  const [o, setO] = useState(`numbers:
   - 1
   - 2
   - 3`);
-  };
 
   return (
-    <Flex h="full" w="full" gap="5" p="2" flexDir={"column"}>
-      <Heading>Yaml-Json </Heading>
-      <Select value={mode} onChange={(e) => setMode(e.target.value)}>
-        <option value="json">JSON to YAML</option>
-        <option value="yaml">YAML to JSON</option>
-      </Select>
-      <Flex w="full" justify={"space-around"} gap="10">
+    <Stack sx={{ height: "100%", width: "100%" }}>
+      <NativeSelect
+        data={["JSON to YAML", "YAML to JSON"]}
+        value={mode}
+        onChange={(e) => setMode(e.currentTarget.value)}
+      ></NativeSelect>
+      <Group position="apart" align={"start"}>
         <Box>{mode}</Box>
         <Box>{mode == "json" ? "yaml" : "json"}</Box>
-      </Flex>
-      <Flex h="full" gap="5">
-        <Editor
-          onMount={onMount}
+      </Group>
+      <Group noWrap sx={{ height: "100%", width: "100%" }}>
+        <Monaco
           width="50%"
-          height="full"
           language={mode}
-          options={{
+          extraOptions={{
             contextmenu: false,
           }}
-          theme="dracula"
           value={'{\n  "numbers": [1, 2, 3]\n}'}
-          onChange={(e) => {
+          setValue={(e) => {
             if (!e) {
               setO("");
               return;
@@ -57,24 +39,23 @@ const YamlJson = () => {
                 indent: 2,
               });
               setO(x);
-            } else if (mode === "yaml") {
+            } else {
               setO(JSON.stringify(YAML.load(e), null, 4));
             }
           }}
-        ></Editor>
-        <Editor
-          theme="dracula"
+        ></Monaco>
+        <Monaco
+          language={mode === "json" ? "yaml" : "json"}
           value={o}
           width="50%"
           height="100%"
-          options={{
+          extraOptions={{
             readOnly: true,
             contextmenu: false,
           }}
-          language={mode === "json" ? "yaml" : "json"}
-        ></Editor>
-      </Flex>
-    </Flex>
+        ></Monaco>
+      </Group>
+    </Stack>
   );
 };
 
