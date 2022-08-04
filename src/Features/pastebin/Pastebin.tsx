@@ -1,15 +1,9 @@
-import {
-  Alert,
-  AlertIcon,
-  Button,
-  Flex,
-  Heading,
-  Select,
-  Text,
-} from "@chakra-ui/react";
+import { Alert, Button, NativeSelect, Stack } from "@mantine/core";
 import Editor, { OnMount } from "@monaco-editor/react";
 import { clipboard } from "@tauri-apps/api";
 import { useState } from "react";
+import { FaInfo } from "react-icons/fa";
+import { Monaco } from "../../Components/MonacoWrapper";
 
 const langs = [
   "JavaScript",
@@ -29,55 +23,30 @@ function Pastebin() {
     useState(`const call = async () => {\n\treturn "Works!"\n}
 `);
 
-  const [lang, setLang] = useState("javascript");
+  const [lang, setLang] = useState("typescript");
   const [link, setLink] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const onMount: OnMount = (editor, monaco) => {
-    import("monaco-themes/themes/Dracula.json").then((data: any) => {
-      monaco.editor.defineTheme("dracula", data);
-      monaco.editor.setTheme("dracula");
-    });
-  };
-
   return (
-    <Flex
-      h="full"
-      w="100%"
-      gap={6}
-      alignSelf={"start"}
-      flexDirection={"column"}
-      p={2}
-    >
-      <Heading>Pastebin</Heading>
-      <Select
+    <Stack sx={{ width: "100%", height: "100%" }} p={2}>
+      <NativeSelect
         value={lang}
-        placeholder="Select Language"
+        data={langs.map((e) => e.toLowerCase())}
         onChange={(e) => {
           setLang(e.target.value);
         }}
-      >
-        {langs.map((e, i) => (
-          <option key={i} value={e.toLowerCase()}>
-            {e}
-          </option>
-        ))}
-      </Select>
-      <Editor
-        onChange={(e) => setCodeValue(e || "")}
+      ></NativeSelect>
+      <Monaco
+        setValue={(e) => setCodeValue(e || "")}
         value={codeValue}
-        theme="dracula"
-        onMount={onMount}
-        language={lang}
-        height="50%"
-        options={{
+        language={lang.toLowerCase()}
+        height="67%"
+        extraOptions={{
           fontSize: 15,
-          minimap: { enabled: false },
         }}
       />
       <Button
-        isLoading={loading}
-        loadingText="Creating Paste"
+        loading={loading}
         onClick={() => {
           setLoading(true);
           // Make Call
@@ -103,28 +72,24 @@ function Pastebin() {
         Create Paste
       </Button>
       {link ? (
-        <Alert status="success" variant="left-accent">
-          <AlertIcon />
-          <Flex w={"100%"} justifyContent={"space-between"}>
-            <Text
-              textDecoration={"underline"}
-              textUnderlineOffset={1}
-              cursor="pointer"
-            >
-              {link}
-            </Text>
-            <Button
-              size={"sm"}
-              onClick={() => {
-                clipboard.writeText(link);
-              }}
-            >
-              Copy
-            </Button>
-          </Flex>
+        <Alert
+          icon={<FaInfo />}
+          variant="filled"
+          title="Bin created!"
+          color={"blue"}
+        >
+          {link}
+          <Button
+            size={"sm"}
+            onClick={() => {
+              clipboard.writeText(link);
+            }}
+          >
+            Copy
+          </Button>
         </Alert>
       ) : null}
-    </Flex>
+    </Stack>
   );
 }
 
