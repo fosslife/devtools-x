@@ -52,16 +52,9 @@
         "scope": ["*"]
       }
     },
-    "windows": [
-      {
-        "title": "Dev Tools",
-        "width": 1000,
-        "height": 650,
-        "resizable": true,
-        "fullscreen": false
-      }
-    ],
+    "windows": [],
     "security": {
+      "dangerousDisableAssetCspModification": true,
       "csp": "default-src blob: data: filesystem: ws: wss: http: https: tauri: 'unsafe-eval' 'unsafe-inline' 'self' img-src: 'self'"
     }
   }
