@@ -1,146 +1,122 @@
-import {
-  Alert,
-  AlertIcon,
-  Box,
-  Button,
-  Flex,
-  Heading,
-  Link,
-  Select,
-  Text,
-  Tooltip,
-} from "@chakra-ui/react";
-import Editor, { type OnMount } from "@monaco-editor/react";
-import { useEffect, useState } from "react";
+/* eslint-disable no-control-regex */
+import { Alert, Box, Button, Group, Select, Stack, Text } from "@mantine/core";
+import { forwardRef, useEffect, useState } from "react";
+import { Monaco } from "../../Components/MonacoWrapper";
 
-type Response = { language: string; version: string; aliases: string[] };
+type Runtimes = {
+  language: string;
+  version: string;
+  aliases: string[];
+  runtime?: string;
+};
+
+const SelectItem = forwardRef<HTMLDivElement, Runtimes>(
+  ({ language, version, runtime, ...others }: Runtimes, ref) => (
+    <div ref={ref} {...others}>
+      <Group noWrap>
+        <div>
+          <Text size="sm">{language}</Text>
+          <Text size="xs" color="dimmed">
+            v{version} {runtime ? `runtime - ${runtime}` : null}
+          </Text>
+        </div>
+      </Group>
+    </div>
+  )
+);
+
+SelectItem.displayName = "Select";
 
 function Repl() {
   const [codeValue, setCodeValue] = useState(``);
-  const [runtimes, setRuntimes] = useState<Response[]>([]);
+  const [runtimes, setRuntimes] = useState<Runtimes[]>([]);
 
-  const [lang, setLang] = useState("");
+  const [lang, setLang] = useState<string | null>("");
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const onMount: OnMount = (editor, monaco) => {
-    import("monaco-themes/themes/Dracula.json").then((data: any) => {
-      monaco.editor.defineTheme("dracula", data);
-      monaco.editor.setTheme("dracula");
-    });
-  };
 
   useEffect(() => {
     // TODO: limit or memoise? or cache even?
     fetch("https://emkc.org/api/v2/piston/runtimes")
       .then((d) => d.json())
-      .then((x) => {
-        setRuntimes(x);
-      });
+      .then(setRuntimes);
   }, []);
 
-  // console.log(lang, "Lang", lang.split("-")[0]);
+  const handleSubmit = () => {
+    if (!codeValue) {
+      setOutput("Write some code and select language!");
+      return;
+    }
+    setLoading(true);
+    if (!lang) {
+      return;
+    }
+    // console.log("lang", lang);
+    // return;
+    // Make Call
+    fetch("https://emkc.org/api/v2/piston/execute", {
+      method: "POST",
+      body: JSON.stringify({
+        language: lang.split("-")[0],
+        version: lang.split("-")[1],
+        files: [
+          {
+            name: "runfile.js",
+            content: codeValue,
+          },
+        ],
+      }),
+    })
+      .then((d) => d.json())
+      .then((l) => {
+        setLoading(false);
+        console.log("resp", l);
+        // output will always be stderr or stdout
+        setOutput(l.compile?.output ? l.compile.output : l.run.output);
+      })
+      .catch((err) => {
+        setOutput(err.message);
+        setLoading(false);
+      });
+  };
 
   return (
-    <Flex
-      h="full"
-      w="100%"
-      gap={6}
-      alignSelf={"start"}
-      flexDirection={"column"}
-      p={2}
-    >
-      <Heading>ScratchPad</Heading>
+    <Stack sx={{ width: "100%", height: "100%" }} p={2}>
       <Select
+        searchable
+        clearable
+        placeholder="Select a language"
+        required
         value={lang}
-        placeholder="Select Language"
-        onChange={(e) => {
-          setLang(e.target.value);
-        }}
-      >
-        {runtimes.map((e, i) => (
-          <Tooltip key={i} label={`${e.aliases.join(",")}`}>
-            <option value={`${e.language}-${e.version}`} color={"gray.100"}>
-              {e.language} - v{e.version} ({e.aliases.join(", ")})
-            </option>
-          </Tooltip>
-        ))}
-      </Select>
-      <Alert status="info">
-        <AlertIcon />
-        Scratchpad uses{" "}
-        <Link
-          ml={1}
-          href="https://github.com/engineer-man/piston"
-          target={"_blank"}
-          as="a"
-          textDecor={"underline"}
-          textUnderlineOffset="2px"
-        >
-          Piston
-        </Link>
-      </Alert>
-      <Flex h="100%" w="100%" gap={3}>
-        <Editor
-          onChange={(e) => setCodeValue(e || "")}
-          value={codeValue}
-          theme="dracula"
-          onMount={onMount}
-          language={lang.split("-")[0]}
-          height="100%"
-          width={"49%"}
-          options={{
-            fontSize: 15,
-            minimap: { enabled: false },
-          }}
-        />
-        <Box pl="4" pt="1" bg="#282a36" h="100%" w="50%">
-          <Text as="pre" whiteSpace={"pre-wrap"}>
-            {output}
-          </Text>
-        </Box>
-      </Flex>
+        itemComponent={SelectItem}
+        data={runtimes.map((r) => ({
+          value: `${r.language}-${r.version}`,
+          label: r.language,
+          language: r.language,
+          version: r.version,
+          runtime: r.runtime,
+        }))}
+        onChange={setLang}
+      ></Select>
 
-      <Button
-        size={"lg"}
-        isLoading={loading}
-        loadingText={"Running Code..."}
-        onClick={() => {
-          if (!codeValue) {
-            setOutput("Write some code and select language!");
-            return;
-          }
-          setLoading(true);
-          // Make Call
-          fetch("https://emkc.org/api/v2/piston/execute", {
-            method: "POST",
-            body: JSON.stringify({
-              language: lang.split("-")[0],
-              version: lang.split("-")[1],
-              files: [
-                {
-                  name: "runfile.js",
-                  content: codeValue,
-                },
-              ],
-            }),
-          })
-            .then((d) => d.json())
-            .then((l) => {
-              setLoading(false);
-              console.log("resp", l);
-              // output will always be stderr or stdout
-              setOutput(l.compile.output ? l.compile.output : l.run.output);
-            })
-            .catch((err) => {
-              setOutput(err.message);
-              setLoading(false);
-            });
-        }}
-      >
-        Run
-      </Button>
-    </Flex>
+      <Box sx={{ width: "100%", height: "100%" }}>
+        <Group sx={{ width: "100%", height: "86%" }} align="start">
+          <Monaco
+            setValue={(e) => setCodeValue(e || "")}
+            value={codeValue}
+            language={lang ? lang.split("-")[0] : "text"}
+            height="95%"
+            width={"50%"}
+          />
+          <Box>
+            <Text component="pre">{output}</Text>
+          </Box>
+        </Group>
+        <Button size={"md"} fullWidth loading={loading} onClick={handleSubmit}>
+          Run
+        </Button>
+      </Box>
+    </Stack>
   );
 }
 
