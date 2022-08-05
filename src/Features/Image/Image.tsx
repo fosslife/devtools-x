@@ -2,30 +2,29 @@ import {
   Box,
   Button,
   Divider,
-  Flex,
-  Select,
+  Group,
+  NativeSelect,
   Slider,
-  SliderFilledTrack,
-  SliderThumb,
-  SliderTrack,
+  Stack,
   Text,
   Tooltip,
-  VStack,
-} from "@chakra-ui/react";
+} from "@mantine/core";
+import { useDebouncedValue } from "@mantine/hooks";
 import { dialog, fs } from "@tauri-apps/api";
 import { save } from "@tauri-apps/api/dialog";
 import { convertFileSrc } from "@tauri-apps/api/tauri";
-import { motion } from "framer-motion";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ReactCompareSlider, styleFitContainer } from "react-compare-slider";
 
 function Image() {
   let rightRef = useRef<HTMLImageElement>(null);
   const [downloadBlob, setDownloadBlob] = useState<Blob>();
   const [quality, setQuality] = useState(50);
+  const [doubouncedQuality] = useDebouncedValue(quality, 300);
   const [showTooltip, setShowTooltip] = useState(false);
-  const [imageType, setImageType] = useState<"webp" | "jpeg" | "png">("webp");
-  const parentRef = useRef<any>(); // HTMLDivElement type not working with chakra flexbox
+  const [imageType, setImageType] = useState<"webp" | "jpeg" | "png" | string>(
+    "webp"
+  );
 
   const [sizes, setSizes] = useState({
     og: "0",
@@ -57,6 +56,7 @@ function Image() {
     if (!rightRef.current) return; // typescript check
 
     let arr = await fs.readBinaryFile(imageSrc.right);
+    console.log("Quality", quality);
 
     let im = vips.Image.newFromBuffer(arr);
     console.time("compress");
@@ -115,18 +115,12 @@ function Image() {
       });
   };
 
+  useEffect(() => {
+    resize();
+  }, [doubouncedQuality]);
+
   return (
-    <Flex
-      ref={parentRef}
-      h="99%"
-      w="100%"
-      justify={"center"}
-      flexDir="column"
-      gap="10"
-      p="10"
-      mt="2"
-      boxSizing="border-box"
-    >
+    <Stack sx={{ width: "100%", height: "100%" }}>
       {imageSrc.left ? (
         <Box>
           <ReactCompareSlider
@@ -158,79 +152,60 @@ function Image() {
           />
         </Box>
       ) : null}
-      <Flex justify={"center"} gap="10">
-        <Button onClick={selectImage} bg="red.500">
-          Select image
-        </Button>
-        {imageSrc.right ? (
-          <Button onClick={download} bg="red.500">
-            Save
-          </Button>
-        ) : null}
-      </Flex>
+      <Group align={"center"} position="center">
+        <Button onClick={selectImage}>Select image</Button>
+        {imageSrc.right ? <Button onClick={download}>Save</Button> : null}
+      </Group>
 
       {imageSrc.right ? (
-        <Box
-          as={motion.div}
-          drag
-          dragConstraints={parentRef}
-          w="300px"
-          position={"absolute"}
-          borderRadius="lg"
-          shadow={"2xl"}
-          bg="gray.700"
-          right="10"
-          bottom={"10"}
-          p="4"
-        >
-          <VStack align={"left"} gap="2">
-            <Select
+        <Box sx={{ position: "relative" }}>
+          <Stack
+            align={"left"}
+            spacing="sm"
+            sx={(theme) => ({
+              position: "absolute",
+              right: 10,
+              bottom: 40,
+              backgroundColor: theme.colors.dark[8],
+              padding: 15,
+              borderRadius: 9,
+              width: 250,
+            })}
+          >
+            <NativeSelect
               value={imageType}
+              data={["jpeg", "png", "webp"]}
               onChange={(e) => {
-                setImageType(e.target.value as "webp" | "jpeg" | "png");
+                setImageType(e.currentTarget.value);
               }}
-            >
-              <option value="jpeg">JPEG</option>
-              <option value="png">PNG</option>
-              <option value="webp">WEBP</option>
-            </Select>
+            ></NativeSelect>
             <Divider />
             <Slider
-              onMouseEnter={() => setShowTooltip(true)}
-              onMouseLeave={() => setShowTooltip(false)}
-              onChangeEnd={resize}
+              // onMouseEnter={() => setShowTooltip(true)}
+              // onMouseLeave={() => setShowTooltip(false)}
+              // onChangeEnd={resize}
               min={0}
               max={100}
               value={quality}
               onChange={(e) => {
                 setQuality(e);
               }}
+              // setValue={}
               aria-label="slider-ex-1"
               defaultValue={30}
             >
-              <Tooltip
-                hasArrow
-                bg="red.500"
-                color="white"
-                placement="top"
-                isOpen={showTooltip}
-                label={`Quality: ${quality}%`}
-              >
-                <SliderThumb />
-              </Tooltip>
-              <SliderTrack>
-                <SliderFilledTrack bg={"red.500"} />
-              </SliderTrack>
-              <SliderThumb />
+              {/* <Tooltip label="label" color="white" opened={showTooltip}>
+                Quality: ${quality}%
+              </Tooltip> */}
             </Slider>
             <Box>
               <Text>Original: {sizes.og}kb</Text>{" "}
               <Text>Converted: {sizes.conv}kb</Text>
             </Box>
-          </VStack>
+          </Stack>
         </Box>
       ) : null}
-    </Flex>
+    </Stack>
   );
 }
 
