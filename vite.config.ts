@@ -2,7 +2,7 @@ import react from "@vitejs/plugin-react";
 import { visualizer } from "rollup-plugin-visualizer";
 import { defineConfig } from "vite";
 
-import copyMonaco from "./vite/copyMonaco";
+import copyMonaco from "./vite/copyAssets";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -32,7 +32,6 @@ export default defineConfig({
           "rehype-parse": ["rehype-parse"],
           "rehype-raw": ["rehype-raw"],
           "react-markdown": ["react-markdown"],
-          "ace-builds": ["ace-builds"],
           "@chakra-ui/react": ["@chakra-ui/react"],
         },
       },
