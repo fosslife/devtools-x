@@ -28,7 +28,7 @@ class CustomAdaptor {
         }
       )
       .catch((e) => {
-        console.error("EEE", e);
+        console.error("Error", e);
       });
   }
 }
@@ -97,18 +97,12 @@ const db = new Low<any>(adapter);
 // Read data from JSON file, this will set db.data content
 await db.read();
 
-console.log("DB:", db.data);
-
 if (!db.data || Object.keys(db.data).length === 0) {
   // conf file structure
   db.data = {
-    json: {
-      editor: "",
-      diff: "",
-    },
-    hash: {
-      editor: "",
-    },
+    jsoneditor: { tabsstate: {} },
+    hashes: {},
+    pinned: [],
   };
   db.write();
 }

@@ -1,4 +1,12 @@
-import { Box, Flex, HStack, Icon, Input, Text } from "@chakra-ui/react";
+import {
+  ActionIcon,
+  createStyles,
+  Divider,
+  Group,
+  Stack,
+  Text,
+  TextInput,
+} from "@mantine/core";
 import { ChangeEvent, useContext, useState } from "react";
 import { BsSortNumericUpAlt } from "react-icons/bs";
 import {
@@ -20,27 +28,47 @@ import { Link, useLocation } from "react-router-dom";
 import { AppContext } from "../Contexts/AppContextProvider";
 import { db } from "../utils";
 
+const useStyles = createStyles((theme) => ({
+  navbar: {
+    height: "100%",
+    width: "100%",
+    padding: "10px",
+    // FIXME: HACKS!!!
+    marginTop: -10,
+    marginLeft: -4,
+    overflow: "scroll",
+    borderRight: "thin solid white",
+    fontSize: "15px",
+    background:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[7]
+        : theme.colors.gray[1],
+  },
+  navIcon: {},
+}));
+
 export const data = [
-  { id: 1, to: "/json-formatter", icon: MdAnchor, text: "Json Tools" },
-  { id: 2, to: "/hash", icon: FiHash, text: "Hashing Tools" },
-  { id: 3, to: "/random", icon: FaRandom, text: "Random Text" },
-  { id: 4, to: "/jwt", icon: SiJsonwebtokens, text: "JWT Tools" },
-  { id: 5, to: "/nums", icon: BsSortNumericUpAlt, text: "Num Converters" },
-  { id: 6, to: "/sql", icon: SiPostgresql, text: "SQL Formatter" },
-  { id: 7, to: "/colors", icon: MdColorize, text: "Color Utils" },
-  { id: 8, to: "/regex", icon: VscRegex, text: "Regex Tester" },
-  { id: 9, to: "/text", icon: VscDiff, text: "Diff Tools" },
-  { id: 10, to: "/markdown", icon: FaMarkdown, text: "Markdown" },
-  { id: 11, to: "/yamljson", icon: FaYinYang, text: "Yaml JSON" },
-  { id: 12, to: "/pastebin", icon: FaPaste, text: "Pastebin" },
-  { id: 13, to: "/repl", icon: FaCode, text: "ScratchPad" },
-  { id: 14, to: "/image", icon: FaFileImage, text: "Image Tools" },
-  { id: 15, to: "/units", icon: FaExchangeAlt, text: "Unit Converters" },
-  { id: 16, to: "/playground", icon: FaReact, text: "React Playground" },
-  { id: 17, to: "/rest", icon: MdHttp, text: "REST API" },
+  { id: 1, to: "/json-formatter", icon: <MdAnchor />, text: "Json Tools" },
+  { id: 2, to: "/hash", icon: <FiHash />, text: "Hashing Tools" },
+  { id: 3, to: "/random", icon: <FaRandom />, text: "Random Text" },
+  { id: 4, to: "/jwt", icon: <SiJsonwebtokens />, text: "JWT Tools" },
+  { id: 5, to: "/nums", icon: <BsSortNumericUpAlt />, text: "Number Tools" },
+  { id: 6, to: "/sql", icon: <SiPostgresql />, text: "SQL Formatter" },
+  { id: 7, to: "/colors", icon: <MdColorize />, text: "Color Utils" },
+  { id: 8, to: "/regex", icon: <VscRegex />, text: "Regex Tester" },
+  { id: 9, to: "/text", icon: <VscDiff />, text: "Diff Tools" },
+  { id: 10, to: "/markdown", icon: <FaMarkdown />, text: "Markdown" },
+  { id: 11, to: "/yamljson", icon: <FaYinYang />, text: "Yaml JSON" },
+  { id: 12, to: "/pastebin", icon: <FaPaste />, text: "Pastebin" },
+  { id: 13, to: "/repl", icon: <FaCode />, text: "ScratchPad" },
+  { id: 14, to: "/image", icon: <FaFileImage />, text: "Image Tools" },
+  { id: 15, to: "/units", icon: <FaExchangeAlt />, text: "Unit Converter" },
+  { id: 16, to: "/playground", icon: <FaReact />, text: "React" },
+  { id: 17, to: "/rest", icon: <MdHttp />, text: "REST API" },
 ];
 
 export const Navbar = () => {
+  const { classes } = useStyles();
   const location = useLocation();
   const [navItems, setNavItems] = useState(data);
   const [showIcon, setShowIcon] = useState(-99);
@@ -59,80 +87,109 @@ export const Navbar = () => {
   };
 
   return (
-    <Flex
-      h="full"
-      bg={"gray.800"}
-      shadow={"inner"}
-      p="3"
-      flexDirection={"column"}
-      overflow={"scroll"}
-      pos={"relative"}
-      minW="48"
-      borderRight={"thin solid tomato"}
-      fontSize={14}
-    >
-      <Input
+    <Stack className={classes.navbar}>
+      <TextInput
         id="search"
-        pos={"sticky"}
         placeholder="Search..."
-        size={"sm"}
+        size={"xs"}
         onChange={filterItems}
+        sx={() => ({
+          width: "95%",
+          alignSelf: "center",
+          marginTop: "15px",
+        })}
       />
-      <Box mt="2">
-        <Link to={"/"}>
-          <HStack p="1" pl="1.5">
-            <Icon as={MdOutlineHome} w={4} h={4}></Icon>
-            <Text>{"Home"}</Text>
-          </HStack>
-        </Link>
-      </Box>
-      <Box borderBottom={"1px solid tomato"}> </Box>
+      <Group
+        mt="2"
+        pl="10px"
+        sx={(theme) => ({
+          color:
+            theme.colorScheme === "dark"
+              ? theme.colors.dark[1]
+              : theme.colors.dark[8],
+        })}
+      >
+        <MdOutlineHome size={"20px"} />
+        <Text
+          variant={location.pathname === "/" ? "gradient" : "text"}
+          component={Link}
+          to="/"
+          weight={location.pathname === "/" ? "bold" : "normal"}
+        >
+          {"Home"}
+        </Text>
+      </Group>
+      <Divider />
+      {/* ====== One Title */}
       {navItems.map((e) => {
         const pinExists = db.data.pinned.includes(e.id);
 
         return (
-          <Box
+          <Group
+            grow
+            spacing={"xs"}
             key={e.id}
-            mt="2"
-            w="full"
-            position={"relative"}
-            bg={location.pathname === e.to ? "red.500" : ""}
-            borderRadius={4}
-            shadow={location.pathname === e.to ? "md" : ""}
+            sx={(t) => ({
+              backgroundColor:
+                location.pathname === e.to
+                  ? t.colorScheme === "dark"
+                    ? t.colors.gray[2]
+                    : t.colors.gray[8]
+                  : "inherit",
+              padding: 4,
+              paddingLeft: 15,
+              borderRadius: 4,
+            })}
             onMouseMove={() => {
               setShowIcon(e.id);
             }}
             onMouseLeave={() => setShowIcon(-99)}
           >
-            <Link to={e.to}>
-              <HStack p="1" pl="1.5">
-                <Icon as={e.icon} w={4} h={4}></Icon>
-                <Text>{e.text}</Text>
-              </HStack>
-            </Link>
-            {e.id === showIcon || pinExists ? (
-              <Icon
-                pos={"absolute"}
-                right={"1"}
-                top="1"
-                as={pinExists ? VscPinned : VscPin}
-                w={5}
-                h={5}
-                onClick={() => {
-                  const { pinned } = db.data;
-                  if (pinned.includes(e.id)) {
-                    db.data.pinned = pinned.filter((i: number) => i !== e.id);
-                  } else {
-                    db.data.pinned = [...db.data.pinned, e.id];
-                  }
-                  db.write();
-                  handleState(db.data.pinned);
-                }}
-              ></Icon>
-            ) : null}
-          </Box>
+            <Group mt="2">
+              <Text
+                sx={(theme) => ({
+                  color:
+                    theme.colorScheme === "dark" && location.pathname === e.to
+                      ? theme.colors.dark[9]
+                      : theme.colors.dark[1],
+                })}
+              >
+                {e.icon}
+              </Text>
+              <Text
+                variant={location.pathname === e.to ? "gradient" : "text"}
+                weight={location.pathname === e.to ? "bold" : "normal"}
+                component={Link}
+                to={e.to}
+              >
+                {e.text}
+              </Text>
+              {e.id === showIcon || pinExists ? (
+                <ActionIcon
+                  color={"cyan"}
+                  size={"sm"}
+                  onClick={() => {
+                    const { pinned } = db.data;
+                    if (pinned.includes(e.id)) {
+                      db.data.pinned = pinned.filter((i: number) => i !== e.id);
+                    } else {
+                      db.data.pinned = [...db.data.pinned, e.id];
+                    }
+                    db.write();
+                    handleState(db.data.pinned);
+                  }}
+                >
+                  {pinExists ? (
+                    <VscPinned size="15px" />
+                  ) : (
+                    <VscPin size="15px" />
+                  )}
+                </ActionIcon>
+              ) : null}
+            </Group>
+          </Group>
         );
       })}
-    </Flex>
+    </Stack>
   );
 };

@@ -1,4 +1,4 @@
-import { Flex, Heading } from "@chakra-ui/react";
+import { Stack } from "@mantine/core";
 import { decodeJwt, decodeProtectedHeader } from "jose";
 import { useEffect, useState } from "react";
 
@@ -12,7 +12,6 @@ const JWT = () => {
   });
 
   useEffect(() => {
-    console.log("jrw", jwt);
     if (jwt.token) {
       try {
         let decoded = decodeJwt(jwt.token);
@@ -26,8 +25,8 @@ const JWT = () => {
   }, [jwt]);
 
   return (
-    <Flex h="full" w="100%" gap={3} alignSelf={"start"} flexDir="column" pl="2">
-      <Heading>JWT</Heading>
+    <Stack p={2} style={{ width: "100%", height: "100%" }}>
+      Token:
       <Monaco
         language="text"
         height="30%"
@@ -35,18 +34,18 @@ const JWT = () => {
       />
       Payload:
       <Monaco
-        language="text"
+        language="json"
         height="30%"
         value={JSON.stringify(jwt.decoded, null, 2)}
         extraOptions={{ readOnly: true }}
       />
       Headers:
       <Monaco
-        language="text"
+        language="json"
         value={JSON.stringify(jwt.headers, null, 2)}
         extraOptions={{ readOnly: true }}
       />
-    </Flex>
+    </Stack>
   );
 };
 

@@ -1,22 +1,11 @@
-import { Box, Flex, Heading, Select } from "@chakra-ui/react";
-import { DiffEditor, DiffOnMount } from "@monaco-editor/react";
+import { NativeSelect, Stack } from "@mantine/core";
 import { useState } from "react";
+
+import { Monaco } from "../../Components/MonacoWrapper";
 
 const TextDiff = () => {
   const [lang, setLang] = useState("javascript");
 
-  const onMount: DiffOnMount = (editor, monaco) => {
-    // disable TS incorrect diagnostic
-    monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
-      noSemanticValidation: true,
-      noSyntaxValidation: true,
-    });
-
-    import("monaco-themes/themes/Dracula.json").then((data: any) => {
-      monaco.editor.defineTheme("dracula", data);
-      monaco.editor.setTheme("dracula");
-    });
-  };
   const languages = [
     "Text",
     "JavaScript",
@@ -33,45 +22,28 @@ const TextDiff = () => {
   ].sort();
 
   return (
-    <Flex h="full" w="100%" gap={3} alignSelf={"start"} flexDir="column" p="2">
-      <Heading>Diff tools</Heading>
-      <Select
+    <Stack style={{ height: "100%", width: "100%" }} p="2">
+      <NativeSelect
+        data={languages}
         value={lang}
         placeholder="Select Language"
         onChange={(e) => {
-          setLang(e.target.value);
+          setLang(e.currentTarget.value);
         }}
-      >
-        {languages.map((e, i) => (
-          <option value={e.toLowerCase()} key={i}>
-            {e}
-          </option>
-        ))}
-      </Select>
-      <Box
-        w={"100%"}
-        h={"100%"}
-        sx={{
-          "& table": {
-            height: "100%",
-          },
+      ></NativeSelect>
+
+      <Monaco
+        mode="diff"
+        language={lang}
+        diffProps={{
+          original: "const x = 10;",
+          modified: "var x = 11;",
+          modifiedLanguage: lang,
+          originalLanguage: lang,
         }}
-      >
-        <DiffEditor
-          original="const x = 10;"
-          modified="var x = 11;"
-          onMount={onMount}
-          height="100%"
-          width="100%"
-          theme="dracula"
-          modifiedLanguage={lang}
-          originalLanguage={lang}
-          options={{
-            originalEditable: true,
-          }}
-        />
-      </Box>
-    </Flex>
+        extraOptions={{ originalEditable: true }}
+      />
+    </Stack>
   );
 };
 

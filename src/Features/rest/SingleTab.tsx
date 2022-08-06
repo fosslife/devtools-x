@@ -2,30 +2,23 @@ import {
   Box,
   Button,
   Divider,
-  Flex,
-  Input,
-  Select,
-  Tab,
+  Group,
+  NativeSelect,
+  Stack,
   Table,
-  TabList,
-  TabPanel,
-  TabPanels,
   Tabs,
-  Tbody,
-  Td,
   Text,
-  Tr,
-  useMediaQuery,
-} from "@chakra-ui/react";
+  TextInput,
+} from "@mantine/core";
 import axios, { AxiosResponse } from "axios";
 import { useState } from "react";
-import { Monaco } from "../../Components/MonacoWrapper";
 
+import { Monaco } from "../../Components/MonacoWrapper";
 import { Params } from "./Params";
 
 export type ParamType = { key: string; value: string; enabled: boolean };
 
-export const IsolateTab = ({ t }: { t: number }) => {
+export const SingleTab = ({ t }: { t: number }) => {
   const methods = ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"] as const;
   type Methods = typeof methods[number];
   const [method, setMethod] = useState<Methods>("GET");
@@ -48,9 +41,6 @@ export const IsolateTab = ({ t }: { t: number }) => {
     statusText: "",
     request: "",
   });
-
-  // FIXME: Height is totally broken in responsive screens.
-  const isSmallScreen = useMediaQuery("(min-height: 850px)");
 
   const makeRequest = async () => {
     function parseKV(arr: ParamType[]) {
@@ -78,45 +68,40 @@ export const IsolateTab = ({ t }: { t: number }) => {
     );
     setResponse(res);
   };
+
   return (
-    <Flex gap={3} direction="column" w="100%" h="100%">
-      <Flex w="100%" gap={4}>
-        <Flex flex={"1"}>
-          <Select
-            w={"36"}
-            borderRightRadius="0"
-            value={method}
-            onChange={(e) => setMethod(e.target.value as Methods)}
-          >
-            {methods.map((m) => (
-              <option value={m} key={m}>
-                {m}
-              </option>
-            ))}
-          </Select>
-          <Input
-            borderLeftRadius={0}
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-          />
-        </Flex>
-        <Button colorScheme={"red"} onClick={makeRequest}>
+    <Stack sx={{ width: "100%" }} mt="sm">
+      <Group spacing={10}>
+        <NativeSelect
+          placeholder="Method"
+          sx={{ width: "15%" }}
+          data={methods.map((m) => ({ value: m, label: m }))}
+          value={method}
+          onChange={(e) => setMethod(e.currentTarget.value as Methods)}
+        ></NativeSelect>
+        <TextInput
+          sx={{ flex: 1 }}
+          size="sm"
+          value={url}
+          onChange={(e) => setUrl(e.currentTarget.value)}
+        />
+        <Button onClick={makeRequest} size="sm">
           Send
         </Button>
-      </Flex>
-      <Flex h="100%" w="100%" direction={"column"} gap="2">
-        <Flex>
-          <Tabs h="100%" w="100%">
-            <TabList>
-              <Tab>Params</Tab>
-              <Tab>Headers</Tab>
-              <Tab>Authorization</Tab>
-              <Tab>Body</Tab>
-            </TabList>
+      </Group>
+      {/* Bottom panels */}
+      <Stack>
+        {/* Request configuration */}
+        <Group align="start" grow>
+          <Tabs defaultValue={"params"}>
+            <Tabs.List>
+              <Tabs.Tab value="params">Params</Tabs.Tab>
+              <Tabs.Tab value="headers">Headers</Tabs.Tab>
+              <Tabs.Tab value="body">Body</Tabs.Tab>
+            </Tabs.List>
 
-            {/* FIXME: should not in pixels */}
-            <TabPanels h={"150px"} overflow={"scroll"}>
-              <TabPanel h="100%">
+            <Box sx={{ height: "200px", overflow: "auto" }}>
+              <Tabs.Panel value="params">
                 {/* ============= PARAMS ========== */}
                 {params.length === 0 ? (
                   <Button
@@ -129,8 +114,8 @@ export const IsolateTab = ({ t }: { t: number }) => {
                 ) : (
                   <Params params={params} setParams={setParams} />
                 )}
-              </TabPanel>
-              <TabPanel>
+              </Tabs.Panel>
+              <Tabs.Panel value="headers">
                 {headers.length === 0 ? (
                   <Button
                     onClick={() =>
@@ -142,67 +127,60 @@ export const IsolateTab = ({ t }: { t: number }) => {
                 ) : (
                   <Params params={headers} setParams={setHeaders} />
                 )}
-              </TabPanel>
-              <TabPanel>
-                <p>authorization!</p>
-              </TabPanel>
-              <TabPanel>
-                <p>body!</p>
-              </TabPanel>
-            </TabPanels>
+              </Tabs.Panel>
+              <Tabs.Panel value="body" sx={{ height: "100%" }}>
+                <Monaco language="json" />
+              </Tabs.Panel>
+            </Box>
           </Tabs>
-        </Flex>
+        </Group>
 
-        {/* TODO: make draggable */}
-        <Divider my={2} cursor={"ns-resize"} />
-        <Flex
-          h={"50vh"}
-          w="100%"
-          overflow="auto"
-          justify={"stretch"}
-          flexDir="column"
-          align="tr"
-        >
-          <Text unselectable={"on"} style={{ userSelect: "none" }}>
+        {/* TODO: make draggable? */}
+        <Divider />
+        <Stack>
+          {/* TODO: unselectable={"on"} style={{ userSelect: "none" }} */}
+          <Text color={"dimmed"} size="xs">
             Response {respText}
           </Text>
           {response.data && (
-            <Tabs h="100%">
-              <TabList>
-                <Tab>Response</Tab>
-                <Tab>Headers</Tab>
-              </TabList>
+            <Tabs defaultValue={"response"}>
+              <Tabs.List>
+                <Tabs.Tab value="response">Response</Tabs.Tab>
+                <Tabs.Tab value="headers">Headers</Tabs.Tab>
+              </Tabs.List>
 
-              <TabPanels h="100%">
-                <TabPanel h="100%">
+              {/* FIXME: If possible fix the Pixels hardcoding.  */}
+              <Box sx={{ height: "404px", overflow: "auto" }}>
+                <Tabs.Panel value="response" sx={{ height: "100%" }}>
                   <Monaco
+                    height="100%"
                     language="json"
                     value={JSON.stringify(response.data, null, 2)}
                   />
-                </TabPanel>
-                <TabPanel>
-                  <Table variant={"striped"} size="sm">
-                    <Tbody>
+                </Tabs.Panel>
+                <Tabs.Panel value="headers">
+                  <Table>
+                    <tbody>
                       {Object.entries(response.headers).map(
                         ([key, value]: any) => {
                           return (
-                            <Tr key={key}>
-                              <Td>{key}</Td>
-                              <Td>{value}</Td>
-                            </Tr>
+                            <tr key={key}>
+                              <td>{key}</td>
+                              <td>{value}</td>
+                            </tr>
                           );
                         }
                       )}
-                    </Tbody>
+                    </tbody>
                   </Table>
-                </TabPanel>
-              </TabPanels>
+                </Tabs.Panel>
+              </Box>
             </Tabs>
           )}
-        </Flex>
+        </Stack>
 
         {/* =========== RESPONSE */}
-      </Flex>
-    </Flex>
+      </Stack>
+    </Stack>
   );
 };

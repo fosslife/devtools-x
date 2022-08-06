@@ -10,6 +10,7 @@
       window.vips = await Vips({
         print: (stdout) => console.log(stdout.replace(/\033\[[0-9;]*m/g, "")),
         preRun: (module) => {
+          return;
           module.ENV.VIPS_INFO = "1";
           // FIXME: not require preload
           // module.FS.createPreloadedFile(
@@ -21,6 +22,7 @@
           // );
         },
         postRun: (module) => {
+          return;
           const pad = 30;
           const have = (name) =>
             module.Utils.typeFind("VipsOperation", name) !== 0;
