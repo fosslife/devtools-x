@@ -1,18 +1,20 @@
-import { Box, Flex, Heading } from "@chakra-ui/react";
-import * as chakra from "@chakra-ui/react";
+// import * as chakra from "@chakra-ui/react";
 import { LivePreview, LiveProvider } from "react-live";
 
 import { useState } from "react";
 import { Monaco } from "../../Components/MonacoWrapper";
+import { Group, Stack } from "@mantine/core";
 
 const boilerplate = `
-// Syntax highlighting, autocompletion etc doesn't work.
-// access to entire \`chakra\` and \`React\` is auto injected
+// Syntax highlighting, autocompletion etc 
+// doesn't work for jsx, only TS.
+// access to entire \`React\` is auto injected
+
 function App(){
     const [count, setCount] = React.useState(0);
     return <div>
         <h4>Counter: {count}</h4>
-        <chakra.Button colorScheme='blue' onClick={() => setCount(count+1)}>Add 1</chakra.Button>
+        <button onClick={() => setCount(count + 1)}>add1</button>
     </div>
 }
 
@@ -22,17 +24,10 @@ function Playground() {
   const [code, setCode] = useState(boilerplate);
   // const;
   return (
-    <Flex
-      h="full"
-      w="100%"
-      gap={6}
-      alignSelf={"start"}
-      flexDirection={"column"}
-      p={2}
-    >
-      <Heading>Playground</Heading>
-      <Flex height="100%" gap={5}>
-        <LiveProvider code={code} width="100%" scope={{ chakra }}>
+    <Stack sx={{ height: "100%", width: "100%" }} p={2}>
+      <Group sx={{ height: "100%", width: "100%" }} noWrap>
+        {/* scope={{ chakra }} */}
+        <LiveProvider code={code} width="100%">
           <Monaco
             width="50%"
             value={code}
@@ -82,11 +77,12 @@ function Playground() {
               width: "50%",
               color: "black",
               padding: 15,
+              height: "100%",
             }}
           />
         </LiveProvider>
-      </Flex>
-    </Flex>
+      </Group>
+    </Stack>
   );
 }
 
