@@ -1,4 +1,3 @@
-// import * as chakra from "@chakra-ui/react";
 import { LivePreview, LiveProvider } from "react-live";
 
 import { useState } from "react";
@@ -26,7 +25,6 @@ function Playground() {
   return (
     <Stack sx={{ height: "100%", width: "100%" }} p={2}>
       <Group sx={{ height: "100%", width: "100%" }} noWrap>
-        {/* scope={{ chakra }} */}
         <LiveProvider code={code} width="100%">
           <Monaco
             width="50%"

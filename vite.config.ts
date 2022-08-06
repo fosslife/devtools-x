@@ -32,7 +32,6 @@ export default defineConfig({
           "rehype-parse": ["rehype-parse"],
           "rehype-raw": ["rehype-raw"],
           "react-markdown": ["react-markdown"],
-          "@chakra-ui/react": ["@chakra-ui/react"],
         },
       },
     },

@@ -1,15 +1,5 @@
 import "./App.css";
 
-// import {
-//   Modal,
-//   ModalBody,
-//   ModalCloseButton,
-//   ModalContent,
-//   ModalFooter,
-//   ModalHeader,
-//   ModalOverlay,
-//   useDisclosure,
-// } from "@chakra-ui/react";
 import loadable from "@loadable/component";
 import { loader } from "@monaco-editor/react";
 // import { Select } from "chakra-react-select";
