@@ -1,4 +1,4 @@
-import Editor, { DiffEditor, OnMount, DiffOnMount } from "@monaco-editor/react";
+import Editor, { DiffEditor, DiffOnMount, OnMount } from "@monaco-editor/react";
 import { editor } from "monaco-editor";
 
 type MonacoProps = {

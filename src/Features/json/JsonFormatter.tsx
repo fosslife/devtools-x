@@ -1,9 +1,9 @@
 import { Box, Button, Tabs } from "@mantine/core";
 import { useEffect, useState } from "react";
 
-import { SingleTab } from "./SingleTab";
 import { db } from "../../utils";
 import { useDebouncedCallback } from "../../utils/useDebouceCallback";
+import { SingleTab } from "./SingleTab";
 
 // default state
 const def = {

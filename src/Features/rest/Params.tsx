@@ -1,7 +1,8 @@
-import { Dispatch, SetStateAction } from "react";
-import { ParamType } from "./SingleTab";
-import { Row } from "./Row";
 import { Stack } from "@mantine/core";
+import { Dispatch, SetStateAction } from "react";
+
+import { Row } from "./Row";
+import { ParamType } from "./SingleTab";
 
 export function Params({
   params,

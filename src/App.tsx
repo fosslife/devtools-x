@@ -1,6 +1,8 @@
 import "./App.css";
 
 import loadable from "@loadable/component";
+import { Box, Group, Modal, Select } from "@mantine/core";
+import { useHotkeys } from "@mantine/hooks";
 import { loader } from "@monaco-editor/react";
 // import { Select } from "chakra-react-select";
 import { useEffect, useRef, useState } from "react";
@@ -8,10 +10,7 @@ import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 // NOTE: keep Num converter here, do not lazy load. there's a rare crashing bug.
 import Nums from "./Features/number-tools/Nums";
-
 import { data, Navbar } from "./Layout/Navbar";
-import { Box, Group, Modal, Select } from "@mantine/core";
-import { useHotkeys } from "@mantine/hooks";
 
 // Lazy load components
 const Welcome = loadable(() => import("./Components/Welcome"));

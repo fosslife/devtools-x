@@ -3,9 +3,9 @@ import { dialog, fs } from "@tauri-apps/api";
 import { lib, MD5, SHA1, SHA224, SHA256, SHA512 } from "crypto-js";
 import { useEffect, useState } from "react";
 
-import { HashBox } from "./HashBox";
 import { Monaco } from "../../Components/MonacoWrapper";
 import { db } from "../../utils";
+import { HashBox } from "./HashBox";
 
 const init = {
   md5: "",

@@ -1,12 +1,11 @@
 import {
   ActionIcon,
-  Box,
   createStyles,
   Divider,
   Group,
   Stack,
-  TextInput,
   Text,
+  TextInput,
 } from "@mantine/core";
 import { ChangeEvent, useContext, useState } from "react";
 import { BsSortNumericUpAlt } from "react-icons/bs";

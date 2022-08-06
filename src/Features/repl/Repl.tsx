@@ -1,6 +1,7 @@
 /* eslint-disable no-control-regex */
-import { Alert, Box, Button, Group, Select, Stack, Text } from "@mantine/core";
+import { Box, Button, Group, Select, Stack, Text } from "@mantine/core";
 import { forwardRef, useEffect, useState } from "react";
+
 import { Monaco } from "../../Components/MonacoWrapper";
 
 type Runtimes = {

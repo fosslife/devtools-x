@@ -12,8 +12,8 @@ import {
 } from "@mantine/core";
 import axios, { AxiosResponse } from "axios";
 import { useState } from "react";
-import { Monaco } from "../../Components/MonacoWrapper";
 
+import { Monaco } from "../../Components/MonacoWrapper";
 import { Params } from "./Params";
 
 export type ParamType = { key: string; value: string; enabled: boolean };

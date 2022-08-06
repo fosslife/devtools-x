@@ -1,9 +1,10 @@
 import "./markdown.css";
 
+import { Box, Group } from "@mantine/core";
 import MarkdownPreview from "@uiw/react-markdown-preview";
 import { useState } from "react";
+
 import { Monaco } from "../../Components/MonacoWrapper";
-import { Box, Group, Stack } from "@mantine/core";
 
 const Markdown = () => {
   const [source, setSource] = useState(`

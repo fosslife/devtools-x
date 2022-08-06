@@ -1,17 +1,17 @@
 import { ActionIcon, Box, createStyles, Tooltip } from "@mantine/core";
-
-import { Monaco } from "../../Components/MonacoWrapper";
-import {
-  BsTextIndentLeft,
-  BsTextParagraph,
-  BsArrowReturnLeft,
-} from "react-icons/bs";
 import {
   type MouseEventHandler,
   type ReactNode,
-  useState,
   useEffect,
+  useState,
 } from "react";
+import {
+  BsArrowReturnLeft,
+  BsTextIndentLeft,
+  BsTextParagraph,
+} from "react-icons/bs";
+
+import { Monaco } from "../../Components/MonacoWrapper";
 
 const useStyles = createStyles((theme) => ({
   controls: {

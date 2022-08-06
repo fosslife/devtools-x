@@ -12,7 +12,7 @@ const Rest = () => {
     <Stack sx={{ width: "100%", height: "100%" }}>
       <Tabs value={activeTab} onTabChange={setActiveTab}>
         <Tabs.List>
-          {tabs.map((t, i) => (
+          {tabs.map((t) => (
             <Tabs.Tab
               value={t.toString()}
               key={t}

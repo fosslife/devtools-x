@@ -3,6 +3,7 @@ import sqlFormatter from "@sqltools/formatter";
 import { clipboard } from "@tauri-apps/api";
 import { useEffect, useState } from "react";
 import { FaCopy } from "react-icons/fa";
+
 import { Monaco } from "../../Components/MonacoWrapper";
 
 const firstQuery = `

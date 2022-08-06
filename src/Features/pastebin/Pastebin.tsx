@@ -1,8 +1,8 @@
 import { Alert, Button, NativeSelect, Stack } from "@mantine/core";
-import Editor, { OnMount } from "@monaco-editor/react";
 import { clipboard } from "@tauri-apps/api";
 import { useState } from "react";
 import { FaInfo } from "react-icons/fa";
+
 import { Monaco } from "../../Components/MonacoWrapper";
 
 const langs = [

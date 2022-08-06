@@ -1,4 +1,4 @@
-import { Button, CopyButton, Input, TextInput } from "@mantine/core";
+import { Button, CopyButton, Input } from "@mantine/core";
 import { clipboard } from "@tauri-apps/api";
 import { FaCopy } from "react-icons/fa";
 

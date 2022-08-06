@@ -1,6 +1,7 @@
 import { Button, Divider, Group, NumberInput, Stack } from "@mantine/core";
 import { useState } from "react";
 import { convertBase } from "simple-base-converter";
+
 import { OutputBox } from "../../Components/OutputBox";
 
 const init = {

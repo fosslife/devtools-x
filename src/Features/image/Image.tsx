@@ -7,7 +7,6 @@ import {
   Slider,
   Stack,
   Text,
-  Tooltip,
 } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
 import { dialog, fs } from "@tauri-apps/api";
@@ -21,7 +20,6 @@ function Image() {
   const [downloadBlob, setDownloadBlob] = useState<Blob>();
   const [quality, setQuality] = useState(50);
   const [doubouncedQuality] = useDebouncedValue(quality, 300);
-  const [showTooltip, setShowTooltip] = useState(false);
   const [imageType, setImageType] = useState<"webp" | "jpeg" | "png" | string>(
     "webp"
   );
