@@ -1,94 +1,55 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  Icon,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  Text,
-  Tooltip,
-} from "@chakra-ui/react";
+import { Button, Stack, Tabs } from "@mantine/core";
 import { useState } from "react";
 
-import { MdClose } from "react-icons/md";
-import { IsolateTab } from "./IsolateTab";
+import { SingleTab } from "./SingleTab";
 
 const Rest = () => {
   const [tabs, setTabs] = useState([1, 2]);
   // Note: this controlls the selecting newly created tab on + click
-  const [tidx, setTidx] = useState(0);
+  const [activeTab, setActiveTab] = useState<string | null>("1");
 
   return (
-    <Flex h="full" w="100%" gap={3} p={1} alignSelf={"start"} flexDir="column">
-      <Flex align={"end"} gap="4">
-        <Heading size="sm">REST API</Heading>
-        <Tooltip
-          placement="right-start"
-          label="This module doesn't revolve around
-          &lsquo;correctness&rsquo; it's only meant for quick api testing"
-        >
-          <Text fontSize={12}>Note</Text>
-        </Tooltip>
-      </Flex>
-
-      <Tabs
-        height={"100%"}
-        isLazy
-        index={tidx}
-        onChange={(i) => setTidx(i)}
-        lazyBehavior="keepMounted"
-        variant={"enclosed"}
-        size="sm"
-        // isFitted ??
-      >
-        <TabList>
+    <Stack sx={{ width: "100%", height: "100%" }}>
+      <Tabs value={activeTab} onTabChange={setActiveTab}>
+        <Tabs.List>
           {tabs.map((t, i) => (
-            <Tab key={t}>
-              <Flex align={"center"} gap={4}>
-                {" "}
-                <Text fontSize={"md"}>{t}</Text>
-                <Box
-                  onClick={() => {
-                    tabs.splice(i, 1);
-                    setTabs([...tabs]);
-                    setTidx(i === tabs.length ? i - 1 : i);
-                  }}
-                  width={"14px"}
-                  borderRadius={5}
-                  _hover={{
-                    backgroundColor: "gray",
-                  }}
-                >
-                  {/* TODO: on hover? */}
-                  <Icon w="12px" h="12px" as={MdClose} />
-                </Box>
-              </Flex>
-            </Tab>
+            <Tabs.Tab
+              value={t.toString()}
+              key={t}
+              onMouseDown={async (e) => {
+                if (e.button === 1) {
+                  // const tabid = tabs.find((el) => el === t);
+                  setTabs(tabs.filter((e) => e !== t));
+                }
+              }}
+            >
+              {t}
+            </Tabs.Tab>
           ))}
           <Button
-            variant={"ghost"}
-            onClick={() => {
-              setTabs([...tabs, tabs.length + 1]);
-              setTidx(tabs.length);
+            ml="xs"
+            size="xs"
+            onClick={async () => {
+              const lastTabid = tabs[tabs.length - 1];
+              tabs.push(lastTabid + 1);
+              setTabs([...tabs]);
+              setActiveTab((lastTabid + 1).toString());
             }}
           >
             +
           </Button>
-        </TabList>
+        </Tabs.List>
 
-        <TabPanels height={"95%"}>
-          {tabs.map((t) => (
-            <TabPanel key={t} height={"100%"} w="100%">
-              <IsolateTab t={t} />
-            </TabPanel>
-          ))}
-        </TabPanels>
+        {tabs.map((t) => (
+          <Tabs.Panel key={t} value={t.toString()}>
+            <SingleTab key={t} t={t} />
+          </Tabs.Panel>
+        ))}
+        <Tabs.Panel value="+">
+          <Button mt="lg">Add a new Tab</Button>
+        </Tabs.Panel>
       </Tabs>
-    </Flex>
+    </Stack>
   );
 };
 

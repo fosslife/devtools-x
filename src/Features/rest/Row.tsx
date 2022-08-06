@@ -1,6 +1,6 @@
-import { Box, Flex, Icon, Input } from "@chakra-ui/react";
+import { Group, TextInput, ThemeIcon } from "@mantine/core";
 import { MdCheckCircle, MdCircle, MdDelete } from "react-icons/md";
-import { ParamType } from "./IsolateTab";
+import { ParamType } from "./SingleTab";
 
 export const Row = ({
   id,
@@ -16,59 +16,43 @@ export const Row = ({
   param: ParamType;
 }) => {
   return (
-    <Flex w="100%" align="center" border={"1px solid gray"}>
-      <Input
-        variant={"unstyled"}
-        // w="50%"
+    <Group grow noWrap sx={{ marginTop: "10px" }}>
+      <TextInput
+        autoComplete="off"
+        sx={{ minWidth: "40%" }}
         placeholder="Param 1"
-        borderRadius={0}
-        borderRight="1px solid gray"
-        padding={"2"}
-        paddingLeft="3"
-        size="sm"
+        size="xs"
         value={param.key}
         onChange={(e) => {
           onChange("key", e.target.value, id);
         }}
       />
-      <Input
-        variant={"unstyled"}
-        // w="48%"
+      <TextInput
+        autoComplete="off"
+        sx={{ minWidth: "40%" }}
         placeholder="Value 1"
-        padding={"2"}
-        borderRadius={0}
-        borderLeft="none"
-        paddingLeft="3"
-        size="sm"
+        size="xs"
         value={param.value}
         onChange={(e) => {
           onChange("value", e.target.value, id);
         }}
       />
-      <Box
-        borderLeft="1px solid gray"
-        p="2"
-        _hover={{ bg: "#cbcbcb92" }}
+      <ThemeIcon
         onClick={() => {
           onChange("status", "", id);
         }}
+        color={param.enabled ? "green" : "gray"}
       >
-        <Icon
-          fontSize="18px"
-          as={param.enabled ? MdCheckCircle : MdCircle}
-          color="red.400"
-        />
-      </Box>
-      <Box
-        borderLeft="1px solid gray"
-        p="2"
-        _hover={{ bg: "#cbcbcb92" }}
+        {param.enabled ? <MdCheckCircle /> : <MdCircle />}
+      </ThemeIcon>
+
+      <ThemeIcon
         onClick={() => {
           onChange("delete", "", id);
         }}
       >
-        <Icon fontSize="18px" as={MdDelete} color="red.400" />
-      </Box>
-    </Flex>
+        <MdDelete />
+      </ThemeIcon>
+    </Group>
   );
 };

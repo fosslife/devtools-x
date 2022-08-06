@@ -1,7 +1,7 @@
-import { Flex } from "@chakra-ui/react";
 import { Dispatch, SetStateAction } from "react";
-import { ParamType } from "./IsolateTab";
+import { ParamType } from "./SingleTab";
 import { Row } from "./Row";
+import { Stack } from "@mantine/core";
 
 export function Params({
   params,
@@ -47,12 +47,10 @@ export function Params({
     }
   };
   return (
-    <Flex direction={"column"} h="100%">
+    <Stack sx={{ gap: "0px" }}>
       {params.map((e, i) => (
-        <Flex w="100%" key={i} align="center" gap={3}>
-          <Row id={i} param={e} onChange={handleChange} />
-        </Flex>
+        <Row key={i} id={i} param={e} onChange={handleChange} />
       ))}
-    </Flex>
+    </Stack>
   );
 }
