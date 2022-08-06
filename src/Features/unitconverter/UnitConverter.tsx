@@ -1,58 +1,14 @@
 import {
-  chakra,
-  Flex,
-  Heading,
-  Icon,
-  Input,
-  InputProps,
+  ActionIcon,
+  Group,
   Select,
-} from "@chakra-ui/react";
+  Stack,
+  TextInput,
+  Tooltip,
+} from "@mantine/core";
 import Convert, { Unit } from "convert-units";
-import { forwardRef, Ref, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { FaExchangeAlt } from "react-icons/fa";
-
-const StyledInput = forwardRef(function mInput(
-  props: InputProps,
-  ref: Ref<HTMLInputElement>
-) {
-  return (
-    <Input
-      ref={ref}
-      placeholder="Enter Value"
-      borderBottom={"none"}
-      borderBottomLeftRadius={0}
-      borderBottomRightRadius={0}
-      borderColor={"inherit"}
-      _focus={{
-        boxShadow: "none",
-        borderColor: "inherit",
-      }}
-      _readOnly={{
-        cursor: "not-allowed",
-      }}
-      _hover={{
-        borderColor: "inherit",
-      }}
-      {...props}
-    />
-  );
-});
-
-const StyledSelect = chakra(Select, {
-  baseStyle: {
-    _focus: {
-      boxShadow: "none",
-      borderColor: "inherit",
-    },
-    _hover: {
-      borderColor: "inherit",
-    },
-    borderColor: "inherit",
-    borderTop: "none",
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
-  },
-});
 
 const UnitConverter = () => {
   const [category, setCategory] = useState<Convert.Measure>("length");
@@ -100,88 +56,75 @@ const UnitConverter = () => {
     } else {
       setToValue(Number(v).toFixed(2));
     }
-
-    // let v = Convert(Number(fromRef.current.value)).from(fromUnit).to(toUnit);
-    // setToValue(v.toString());
   };
 
   return (
-    <Flex h="full" w="100%" gap={3} alignSelf={"start"} flexDir="column" p="2">
-      <Heading>Unit Converter</Heading>
+    <Stack
+      sx={{ height: "100%", width: "100%" }}
+      p="lg"
+      align={"center"}
+      justify="start"
+    >
       <Select
+        sx={{ width: "100%" }}
+        label="Category"
         value={category}
-        onChange={(e) => {
-          handleCategory(e.target.value as Convert.Measure);
-          // setValue("");
+        data={Convert()
+          .measures()
+          .map((m) => ({ value: m, label: m }))}
+        onChange={(e: Convert.Measure) => {
+          handleCategory(e);
         }}
       >
-        {Convert()
-          .measures()
-          .map((m) => (
-            <option value={m} key={m}>
-              {m}
-            </option>
-          ))}
+        {}
       </Select>
-
-      <Flex gap="5" py="3" w="100%" align={"center"}>
-        <Flex direction={"column"} w="48%">
-          <StyledInput
-            placeholder="Enter From Value"
-            ref={fromRef}
-            onChange={() => calculate()}
-          />
-          <StyledSelect
+      <Group sx={{ width: "100%" }} align={"center"} position="apart">
+        <Stack sx={{ width: "45%" }}>
+          <TextInput label="From" ref={fromRef} onChange={() => calculate()} />
+          <Select
+            label="Unit"
             value={fromUnit}
+            data={possibilities.map((c) => ({
+              value: Convert().describe(c).abbr,
+              label: Convert().describe(c).plural,
+            }))}
             onChange={(e: any) => {
-              setFromUnit(e.target.value);
-              calculate(e.target.value, toUnit);
+              setFromUnit(e);
+              calculate(e, toUnit);
+            }}
+          ></Select>
+        </Stack>
+
+        <Tooltip label="Swap" position="bottom">
+          <ActionIcon
+            onClick={() => {
+              calculate(toUnit, fromUnit);
+              setToUnit(fromUnit);
+              setFromUnit(toUnit);
             }}
           >
-            {possibilities.map((c) => (
-              <option value={c} key={c}>
-                {Convert().describe(c).plural}
-              </option>
-            ))}
-          </StyledSelect>
-        </Flex>
+            <FaExchangeAlt />
+          </ActionIcon>
+        </Tooltip>
 
-        <Icon
-          as={FaExchangeAlt}
-          // p="2.5"
-          padding="2px"
-          w="4%"
-          h="24px"
-          onClick={() => {
-            calculate(toUnit, fromUnit);
-            setToUnit(fromUnit);
-            setFromUnit(toUnit);
-          }}
-          _hover={{
-            bg: "#adadad53",
-            borderRadius: 4,
-          }}
-        />
-
-        <Flex direction={"column"} w="48%">
+        <Stack sx={{ width: "45%" }}>
           {/* FIXME: make second inputbox as editable */}
-          <StyledInput placeholder="Output" isReadOnly value={toValue} />
-          <StyledSelect
+          <TextInput label="To" readOnly value={toValue} />
+          <Select
+            label="Unit"
             value={toUnit}
+            data={possibilities.map((c) => ({
+              value: Convert().describe(c).abbr,
+              label: Convert().describe(c).plural,
+            }))}
             onChange={(e: any) => {
-              setToUnit(e.target.value);
-              calculate(fromUnit, e.target.value);
+              setToUnit(e);
+              calculate(fromUnit, e);
             }}
-          >
-            {possibilities.map((c) => (
-              <option value={c} key={c}>
-                {Convert().describe(c).plural}
-              </option>
-            ))}
-          </StyledSelect>
-        </Flex>
-      </Flex>
-    </Flex>
+          ></Select>
+        </Stack>
+      </Group>
+    </Stack>
   );
 };
 
