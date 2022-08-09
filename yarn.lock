@@ -455,6 +455,13 @@
   resolved "https://registry.yarnpkg.com/@mantine/hooks/-/hooks-5.0.0.tgz#24fe9f945810d02ad7d933b8aecc646cf10f96dc"
   integrity sha512-IKqqnukPPyBMYRKz4VIhz7hNRe3p8B7RUyvFLaWc9l69ZO/b5atNuesE1ThuMQYc7tBobQbU4myHuhQc/csyLA==
 
+"@mantine/spotlight@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@mantine/spotlight/-/spotlight-5.1.1.tgz#1c0c0a83a33cae481e9f0708812493127472296f"
+  integrity sha512-WaMSd3AjohTDcO4vr51unh9z01wrC/DdrnNz32PUS3XwhaOcbjEeQIW4dr5otyAUjT8jM6aHfaTTdOK47OpxLw==
+  dependencies:
+    "@mantine/utils" "5.1.1"
+
 "@mantine/styles@5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@mantine/styles/-/styles-5.0.0.tgz#526fb8fea1be280b18f852d790a6b8d05c9c97e5"
@@ -467,6 +474,11 @@
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@mantine/utils/-/utils-5.0.0.tgz#576ebab6b0980b996ecb70b277f4ea378dcfb474"
   integrity sha512-Fy9BdxWvrXkplWua8ZKmsBQODo24QB8OPn6BEmvXUt4O+3qoP27VaAWQVea4opWZsy+L5dtEe/kOXY/Q/kC2qg==
+
+"@mantine/utils@5.1.1":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@mantine/utils/-/utils-5.1.1.tgz#2fa9ecaac4fe61cc3e07c4953ca23a1bc9ac765c"
+  integrity sha512-2FiSrD1lYuDHSGVi1QL5iskO8/Bnd6eDrwdpEWS/PJfg6iEz80HnmBxf/xzkDBaNdK3/n8g2kOaOcw5Ff1OFkA==
 
 "@monaco-editor/loader@^1.3.2":
   version "1.3.2"
