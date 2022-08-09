@@ -36,8 +36,9 @@ const Nums = () => {
   };
   return (
     <Stack style={{ width: "100%", height: "100%" }} align="center">
-      <Group>
+      <Group align={"end"}>
         <NumberInput
+          label="Number"
           value={input}
           onChange={(e) => {
             if (!e) return;
@@ -46,7 +47,7 @@ const Nums = () => {
           }}
         ></NumberInput>
 
-        <NumberInput value={base} onChange={setBase}></NumberInput>
+        <NumberInput label="Base" value={base} onChange={setBase}></NumberInput>
 
         <Button onClick={() => convertInput(input)} mt="8">
           Calculate
