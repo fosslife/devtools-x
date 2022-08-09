@@ -1,4 +1,4 @@
-import { Box, Button, Tabs } from "@mantine/core";
+import { Button, Stack, Tabs } from "@mantine/core";
 import { useEffect, useState } from "react";
 
 import { db } from "../../utils";
@@ -53,7 +53,7 @@ const JsonFormatter = () => {
   );
 
   return (
-    <Box style={{ width: "100%" }}>
+    <Stack style={{ height: "100%", width: "100%" }}>
       <Tabs
         value={activeTab}
         onTabChange={setActiveTab}
@@ -71,9 +71,11 @@ const JsonFormatter = () => {
               onMouseDown={async (e) => {
                 if (e.button === 1) {
                   const tabid = tabs.find((el) => el.tab === t.tab);
-                  console.log("closing", tabid);
+
+                  const lastTabid = tabs[tabs.length - 1].tab;
                   if (tabid) delete db.data.jsoneditor.tabsstate[tabid.tab];
                   setTabs(tabs.filter((e) => e.tab !== t.tab));
+                  setActiveTab(lastTabid.toString());
                   await db.write();
                 }
               }}
@@ -81,11 +83,16 @@ const JsonFormatter = () => {
               {t.tab}
             </Tabs.Tab>
           ))}
-
           <Button
             ml="xs"
             size="xs"
             onClick={async () => {
+              if (!tabs.length) {
+                setTabs([{ tab: 1, data: { tab: 1, ...def } }]);
+                setActiveTab("1");
+                return;
+              }
+
               const lastTabid = tabs[tabs.length - 1].tab;
               tabs.push({
                 tab: lastTabid + 1,
@@ -97,6 +104,7 @@ const JsonFormatter = () => {
                 tab: lastTabid + 1,
                 ...def,
               }; // save this new tab to db
+              // setActiveTab("+");
               await db.write();
             }}
           >
@@ -118,7 +126,7 @@ const JsonFormatter = () => {
           <Button mt="lg">Add a new Tab</Button>
         </Tabs.Panel>
       </Tabs>
-    </Box>
+    </Stack>
   );
 };
 
