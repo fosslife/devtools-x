@@ -19,8 +19,21 @@ import { Params } from "./Params";
 export type ParamType = { key: string; value: string; enabled: boolean };
 
 export const SingleTab = ({ t }: { t: number }) => {
-  const methods = ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"] as const;
+  const methods = [
+    "GET",
+    "DELETE",
+    "HEAD",
+    "OPTIONS",
+    "POST",
+    "PUT",
+    "PATCH",
+    // "PURGE", FIXME: Enable these?
+    // "LINK",
+    // "UNLINK",
+  ] as const;
+
   type Methods = typeof methods[number];
+
   const [method, setMethod] = useState<Methods>("GET");
   const [url, setUrl] = useState<string>(
     `https://jsonplaceholder.typicode.com/users/${t}`
