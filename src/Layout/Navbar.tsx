@@ -1,5 +1,6 @@
 import {
   ActionIcon,
+  Box,
   createStyles,
   Divider,
   Group,
@@ -31,7 +32,7 @@ import { db } from "../utils";
 const useStyles = createStyles((theme) => ({
   navbar: {
     height: "100%",
-    width: "100%",
+    width: "230px", // FIXME: remove hardcodings
     padding: "10px",
     // FIXME: HACKS!!!
     marginTop: -10,
@@ -44,7 +45,20 @@ const useStyles = createStyles((theme) => ({
         ? theme.colors.dark[7]
         : theme.colors.gray[1],
   },
-  navIcon: {},
+  topSection: {
+    position: "fixed",
+    zIndex: 2,
+    top: 0,
+    width: "200px",
+    background:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[7]
+        : theme.colors.gray[1],
+  },
+  bottomSection: {
+    position: "relative",
+    top: "120px",
+  },
 }));
 
 export const data = [
@@ -88,108 +102,114 @@ export const Navbar = () => {
 
   return (
     <Stack className={classes.navbar}>
-      <TextInput
-        id="search"
-        placeholder="Search..."
-        size={"xs"}
-        onChange={filterItems}
-        sx={() => ({
-          width: "95%",
-          alignSelf: "center",
-          marginTop: "15px",
-        })}
-      />
-      <Group
-        mt="2"
-        pl="10px"
-        sx={(theme) => ({
-          color:
-            theme.colorScheme === "dark"
-              ? theme.colors.dark[1]
-              : theme.colors.dark[8],
-        })}
-      >
-        <MdOutlineHome size={"20px"} />
-        <Text
-          variant={location.pathname === "/" ? "gradient" : "text"}
-          component={Link}
-          to="/"
-          weight={location.pathname === "/" ? "bold" : "normal"}
+      <Stack className={classes.topSection}>
+        <TextInput
+          id="search"
+          placeholder="Search..."
+          size={"xs"}
+          onChange={filterItems}
+          sx={() => ({
+            width: "95%",
+            alignSelf: "center",
+            marginTop: "15px",
+          })}
+        />
+        <Group
+          mt="2"
+          pl="10px"
+          sx={(theme) => ({
+            color:
+              theme.colorScheme === "dark"
+                ? theme.colors.dark[1]
+                : theme.colors.dark[8],
+          })}
         >
-          {"Home"}
-        </Text>
-      </Group>
-      <Divider />
-      {/* ====== One Title */}
-      {navItems.map((e) => {
-        const pinExists = db.data.pinned.includes(e.id);
-
-        return (
-          <Group
-            grow
-            spacing={"xs"}
-            key={e.id}
-            sx={(t) => ({
-              backgroundColor:
-                location.pathname === e.to
-                  ? t.colorScheme === "dark"
-                    ? t.colors.gray[2]
-                    : t.colors.gray[8]
-                  : "inherit",
-              padding: 4,
-              paddingLeft: 15,
-              borderRadius: 4,
-            })}
-            onMouseMove={() => {
-              setShowIcon(e.id);
-            }}
-            onMouseLeave={() => setShowIcon(-99)}
+          <MdOutlineHome size={"20px"} />
+          <Text
+            variant={location.pathname === "/" ? "gradient" : "text"}
+            component={Link}
+            to="/"
+            weight={location.pathname === "/" ? "bold" : "normal"}
           >
-            <Group mt="2">
-              <Text
-                sx={(theme) => ({
-                  color:
-                    theme.colorScheme === "dark" && location.pathname === e.to
-                      ? theme.colors.dark[9]
-                      : theme.colors.dark[1],
-                })}
-              >
-                {e.icon}
-              </Text>
-              <Text
-                variant={location.pathname === e.to ? "gradient" : "text"}
-                weight={location.pathname === e.to ? "bold" : "normal"}
-                component={Link}
-                to={e.to}
-              >
-                {e.text}
-              </Text>
-              {e.id === showIcon || pinExists ? (
-                <ActionIcon
-                  color={"cyan"}
-                  size={"sm"}
-                  onClick={() => {
-                    const { pinned } = db.data;
-                    if (pinned.includes(e.id)) {
-                      db.data.pinned = pinned.filter((i: number) => i !== e.id);
-                    } else {
-                      db.data.pinned = [...db.data.pinned, e.id];
-                    }
-                    db.write();
-                    handleState(db.data.pinned);
-                  }}
+            {"Home"}
+          </Text>
+        </Group>
+        <Divider />
+      </Stack>
+      {/* ====== One Title */}
+      <Stack className={classes.bottomSection}>
+        {navItems.map((e) => {
+          const pinExists = db.data.pinned.includes(e.id);
+
+          return (
+            <Group
+              grow
+              spacing={"xs"}
+              key={e.id}
+              sx={(t) => ({
+                backgroundColor:
+                  location.pathname === e.to
+                    ? t.colorScheme === "dark"
+                      ? t.colors.gray[2]
+                      : t.colors.gray[8]
+                    : "inherit",
+                padding: 4,
+                paddingLeft: 15,
+                borderRadius: 4,
+              })}
+              onMouseMove={() => {
+                setShowIcon(e.id);
+              }}
+              onMouseLeave={() => setShowIcon(-99)}
+            >
+              <Group mt="2">
+                <Text
+                  sx={(theme) => ({
+                    color:
+                      theme.colorScheme === "dark" && location.pathname === e.to
+                        ? theme.colors.dark[9]
+                        : theme.colors.dark[1],
+                  })}
                 >
-                  {pinExists ? (
-                    <VscPinned size="15px" />
-                  ) : (
-                    <VscPin size="15px" />
-                  )}
-                </ActionIcon>
-              ) : null}
+                  {e.icon}
+                </Text>
+                <Text
+                  variant={location.pathname === e.to ? "gradient" : "text"}
+                  weight={location.pathname === e.to ? "bold" : "normal"}
+                  component={Link}
+                  to={e.to}
+                >
+                  {e.text}
+                </Text>
+                {e.id === showIcon || pinExists ? (
+                  <ActionIcon
+                    color={"cyan"}
+                    size={"sm"}
+                    onClick={() => {
+                      const { pinned } = db.data;
+                      if (pinned.includes(e.id)) {
+                        db.data.pinned = pinned.filter(
+                          (i: number) => i !== e.id
+                        );
+                      } else {
+                        db.data.pinned = [...db.data.pinned, e.id];
+                      }
+                      db.write();
+                      handleState(db.data.pinned);
+                    }}
+                  >
+                    {pinExists ? (
+                      <VscPinned size="15px" />
+                    ) : (
+                      <VscPin size="15px" />
+                    )}
+                  </ActionIcon>
+                ) : null}
+              </Group>
             </Group>
-          </Group>
-        );
-      })}
+          );
+        })}
+      </Stack>
     </Stack>
   );
 };
