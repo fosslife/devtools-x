@@ -15,7 +15,10 @@ import { Monaco } from "../../Components/MonacoWrapper";
 
 const useStyles = createStyles((theme) => ({
   controls: {
-    background: theme.colors.dark[4],
+    background:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[4]
+        : theme.colors.gray[2],
     height: "30px",
     marginBlock: 5,
     fontSize: 22,
@@ -24,6 +27,7 @@ const useStyles = createStyles((theme) => ({
     alignItems: "center",
     gap: 10,
     paddingInline: 10,
+    paddingBlock: 20,
   },
 }));
 

@@ -101,7 +101,7 @@ function Repl() {
       ></Select>
 
       <Box sx={{ width: "100%", height: "100%" }}>
-        <Group sx={{ width: "100%", height: "86%" }} align="start">
+        <Group sx={{ width: "100%", height: "86%" }} align="start" noWrap>
           <Monaco
             setValue={(e) => setCodeValue(e || "")}
             value={codeValue}
@@ -109,7 +109,17 @@ function Repl() {
             height="95%"
             width={"50%"}
           />
-          <Box>
+          <Box
+            sx={(theme) => ({
+              height: "95%",
+              overflow: "auto",
+              width: "50%",
+              backgroundColor: theme.colors.dark[5],
+              padding: 10,
+              paddingTop: 0,
+              fontFamily: '"Ubuntu Mono", monospace',
+            })}
+          >
             <Text component="pre">{output}</Text>
           </Box>
         </Group>

@@ -49,7 +49,7 @@ const useStyles = createStyles((theme) => ({
     position: "fixed",
     zIndex: 2,
     top: 0,
-    width: "200px",
+    width: "210px",
     background:
       theme.colorScheme === "dark"
         ? theme.colors.dark[7]
@@ -62,7 +62,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export const data = [
-  { id: 1, to: "/json-formatter", icon: <MdAnchor />, text: "Json Tools" },
+  { id: 1, to: "/json-formatter", icon: <MdAnchor />, text: "JSON Tools" },
   { id: 2, to: "/hash", icon: <FiHash />, text: "Hashing Tools" },
   { id: 3, to: "/random", icon: <FaRandom />, text: "Random Text" },
   { id: 4, to: "/jwt", icon: <SiJsonwebtokens />, text: "JWT Tools" },
@@ -77,7 +77,7 @@ export const data = [
   { id: 13, to: "/repl", icon: <FaCode />, text: "ScratchPad" },
   { id: 14, to: "/image", icon: <FaFileImage />, text: "Image Tools" },
   { id: 15, to: "/units", icon: <FaExchangeAlt />, text: "Unit Converter" },
-  { id: 16, to: "/playground", icon: <FaReact />, text: "React" },
+  { id: 16, to: "/playground", icon: <FaReact />, text: "React Pad" },
   { id: 17, to: "/rest", icon: <MdHttp />, text: "REST API" },
 ];
 
@@ -109,7 +109,7 @@ export const Navbar = () => {
           size={"xs"}
           onChange={filterItems}
           sx={() => ({
-            width: "95%",
+            width: "100%",
             alignSelf: "center",
             marginTop: "15px",
           })}
@@ -150,8 +150,8 @@ export const Navbar = () => {
                 backgroundColor:
                   location.pathname === e.to
                     ? t.colorScheme === "dark"
-                      ? t.colors.gray[2]
-                      : t.colors.gray[8]
+                      ? t.colors.gray[8]
+                      : t.colors.gray[6]
                     : "inherit",
                 padding: 4,
                 paddingLeft: 15,
@@ -166,15 +166,14 @@ export const Navbar = () => {
                 <Text
                   sx={(theme) => ({
                     color:
-                      theme.colorScheme === "dark" && location.pathname === e.to
-                        ? theme.colors.dark[9]
-                        : theme.colors.dark[1],
+                      theme.colorScheme === "dark"
+                        ? theme.colors.dark[1]
+                        : theme.colors.dark[4],
                   })}
                 >
                   {e.icon}
                 </Text>
                 <Text
-                  variant={location.pathname === e.to ? "gradient" : "text"}
                   weight={location.pathname === e.to ? "bold" : "normal"}
                   component={Link}
                   to={e.to}
@@ -183,7 +182,12 @@ export const Navbar = () => {
                 </Text>
                 {e.id === showIcon || pinExists ? (
                   <ActionIcon
-                    color={"cyan"}
+                    sx={(theme) => ({
+                      color:
+                        theme.colorScheme === "dark"
+                          ? theme.colors.dark[1]
+                          : theme.colors.dark[9],
+                    })}
                     size={"sm"}
                     onClick={() => {
                       const { pinned } = db.data;

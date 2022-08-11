@@ -1,14 +1,18 @@
 import "./index.css";
 
-import { MantineProvider } from "@mantine/core";
+import {
+  ColorScheme,
+  ColorSchemeProvider,
+  MantineProvider,
+} from "@mantine/core";
 import { Global } from "@mantine/core";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
 import { AppContextProvider } from "./Contexts/AppContextProvider";
-import theme from "./theme";
+import { db } from "./utils";
 
 const root = createRoot(document.getElementById("root") as Element);
 
@@ -22,11 +26,40 @@ root.render(
           },
         })}
       ></Global>
-      <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
+      <Main>
         <AppContextProvider>
           <App />
         </AppContextProvider>
-      </MantineProvider>
+      </Main>
     </BrowserRouter>
   </React.StrictMode>
 );
+
+function Main({ children }: any) {
+  const [colorScheme, setColorScheme] = useState<ColorScheme>(
+    db.data.theme || "dark"
+  );
+  const toggleColorScheme = (value?: ColorScheme) =>
+    setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
+
+  useEffect(() => {
+    console.log("color changed");
+    db.data.theme = colorScheme;
+    db.write();
+  }, [colorScheme]);
+
+  return (
+    <ColorSchemeProvider
+      colorScheme={colorScheme}
+      toggleColorScheme={toggleColorScheme}
+    >
+      <MantineProvider
+        theme={{ colorScheme }}
+        withGlobalStyles
+        withNormalizeCSS
+      >
+        {children}
+      </MantineProvider>
+    </ColorSchemeProvider>
+  );
+}
