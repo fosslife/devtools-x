@@ -97,6 +97,7 @@ function Image() {
         directory: false,
       })
       .then(async (p) => {
+        if (!p) return; // no path
         let path = p as string;
         let size =
           (await fetch(convertFileSrc(path))

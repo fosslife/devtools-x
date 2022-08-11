@@ -33,7 +33,7 @@ const Colors = () => {
           setColor(e);
         }}
       />
-      <Group spacing={10} noWrap>
+      <Group spacing={10}>
         <OutputBox
           label="RGB:"
           value={`${color.r}, ${color.g}, ${color.b}, ${color.a}`}
