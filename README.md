@@ -97,4 +97,8 @@ Absolutely not. I don't know rust myself and I have a complete application creat
 
 - More features
 - Testing
+- LOGO PLS.
+- Regex Tester is kinda broken, monaco gives headache
+- Fix ALL FIXME: s and TODO: s
+- a db integration for storing configuration? optional
 - Security. Check CSP and fix the worker loading
