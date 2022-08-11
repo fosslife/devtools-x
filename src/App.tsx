@@ -1,16 +1,18 @@
 import "./App.css";
 
 import loadable from "@loadable/component";
-import { Box, Group } from "@mantine/core";
+import { Box, createStyles, Drawer, Group, Text } from "@mantine/core";
 import { SpotlightProvider } from "@mantine/spotlight";
 import { loader } from "@monaco-editor/react";
 import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
+import { FiSettings } from "react-icons/fi";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 // NOTE: keep Num converter here, do not lazy load. there's a rare crashing bug.
 import Nums from "./Features/number-tools/Nums";
 import { data, Navbar } from "./Layout/Navbar";
+import { Settings } from "./Layout/Settings";
 
 // Lazy load components
 const Welcome = loadable(() => import("./Components/Welcome"));
@@ -34,12 +36,42 @@ const UnitConverter = loadable(
   () => import("./Features/unitconverter/UnitConverter")
 );
 
+const useStyles = createStyles((theme) => ({
+  settings: {
+    position: "fixed",
+    bottom: 0,
+    left: 0,
+    display: "inline-flex",
+    alignItems: "center",
+    width: "236px",
+    height: "46px",
+    backgroundColor:
+      theme.colorScheme === "dark"
+        ? theme.colors.gray[8]
+        : theme.colors.gray[3],
+    cursor: "pointer",
+    userSelect: "none",
+    "& svg": {
+      marginLeft: 30,
+      marginRight: 15,
+    },
+    "&:hover": {
+      backgroundColor:
+        theme.colorScheme === "dark"
+          ? theme.colors.gray[7]
+          : theme.colors.gray[4],
+    },
+  },
+}));
+
 function App() {
   const location = useLocation();
   const nav = useNavigate();
+  const { classes } = useStyles();
 
   const [displayLocation, setDisplayLocation] = useState(location);
   const [transitionStage, setTransistionStage] = useState("fadeIn");
+  const [settingsOpened, setSettingsOpened] = useState(false);
 
   useEffect(() => {
     if (location !== displayLocation) setTransistionStage("fadeOut");
@@ -114,8 +146,28 @@ function App() {
             <Route path="/rest" element={<Rest />}></Route>
           </Routes>
         </Group>
+        <Box
+          className={classes.settings}
+          onClick={() => setSettingsOpened(true)}
+        >
+          <FiSettings />
+          <Text>Settings</Text>
+        </Box>
       </Box>
+      <Drawer
+        position="right"
+        overlayOpacity={0.55}
+        overlayBlur={3}
+        opened={settingsOpened}
+        onClose={() => setSettingsOpened(false)}
+        title="Settings"
+        padding="xl"
+        size="xl"
+      >
+        <Settings />
+      </Drawer>
     </SpotlightProvider>
+    // </ColorSchemeProvider>
   );
 }
 
