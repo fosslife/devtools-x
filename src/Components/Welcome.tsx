@@ -1,4 +1,4 @@
-import { createStyles, Group, Stack, Text, Title } from "@mantine/core";
+import { createStyles, SimpleGrid, Stack, Text, Title } from "@mantine/core";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -53,7 +53,7 @@ const Welcome = () => {
         </Title>
       )}
       <br />
-      <Group mt="4" spacing={"xl"}>
+      <SimpleGrid mt="4" spacing={"xl"} cols={5}>
         {actualRows.map((pin: number) => {
           return (
             <Stack
@@ -72,7 +72,7 @@ const Welcome = () => {
             </Stack>
           );
         })}
-      </Group>
+      </SimpleGrid>
     </Stack>
   );
 };
