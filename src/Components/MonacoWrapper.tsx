@@ -54,10 +54,45 @@ export const Monaco = ({
       noSemanticValidation: true,
       noSyntaxValidation: true,
     });
+    // theme command
+    editor.addAction({
+      id: "change-theme-dark",
+      label: "Dark Theme",
+      keybindings: [
+        monaco.KeyMod.chord(
+          monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyK,
+          monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyD
+        ),
+      ],
+      contextMenuOrder: -1,
+      run: function () {
+        monaco.editor.setTheme("tmnight");
+      },
+    });
+
+    editor.addAction({
+      id: "change-theme-light",
+      label: "Light Theme",
+      keybindings: [
+        monaco.KeyMod.chord(
+          monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyK,
+          monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyL
+        ),
+      ],
+      contextMenuOrder: -1,
+      run: function () {
+        monaco.editor.setTheme("dawn");
+      },
+    });
+    //
 
     import("monaco-themes/themes/Tomorrow-Night.json").then((data: any) => {
       monaco.editor.defineTheme("tmnight", data);
       monaco.editor.setTheme("tmnight");
+    });
+
+    import("monaco-themes/themes/Dawn.json").then((data: any) => {
+      monaco.editor.defineTheme("dawn", data);
     });
 
     if (onEditorMounted) {
