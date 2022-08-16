@@ -62,6 +62,12 @@ const RegexTester = () => {
       );
     } catch (e) {
       console.log("Error occurred", e);
+      editor.setSelection({
+        startLineNumber: 0,
+        startColumn: 0,
+        endColumn: 0,
+        endLineNumber: 0,
+      });
       // ignore invalid regex errors
     }
   };
