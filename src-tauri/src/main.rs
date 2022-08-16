@@ -5,6 +5,7 @@
 
 use std::collections::HashMap;
 use std::convert::TryInto;
+use std::env;
 use tauri::{
   http::header::HeaderValue,
   utils::config::{Csp, CspDirectiveSources},
@@ -59,7 +60,11 @@ fn main() {
         })
         .build()?;
       // #[cfg(debug_assertions)]
-      app.get_window("main").unwrap().open_devtools();
+      let process_arg: Vec<String> = env::args().collect();
+      if process_arg.contains(&"--debug".to_string()) {
+        app.get_window("main").unwrap().open_devtools();
+      }
+      // println!("Proces args {:?}", processArg);
       Ok(())
     })
     .run(tauri::generate_context!())
