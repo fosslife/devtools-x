@@ -62,6 +62,22 @@ const useStyles = createStyles((theme) => ({
           : theme.colors.gray[4],
     },
   },
+  container: {
+    height: "100%",
+    width: "100%",
+    padding: 10,
+    display: "flex",
+    gap: 10,
+  },
+  navbar: {
+    minWidth: "230px",
+    height: "100%",
+    paddingLeft: 0,
+  },
+  body: {
+    height: "100%",
+    width: "100%",
+  },
 }));
 
 function App() {
@@ -94,30 +110,12 @@ function App() {
         icon: a.icon,
       }))}
     >
-      <Box
-        sx={() => ({
-          height: "100%",
-          width: "100%",
-          padding: 10,
-          display: "flex",
-          gap: 10,
-        })}
-      >
-        <Box
-          sx={() => ({
-            minWidth: "230px",
-            height: "100%",
-            paddingLeft: 0,
-          })}
-        >
+      <Box className={classes.container}>
+        <Box className={classes.navbar}>
           <Navbar />
         </Box>
         <Group
-          sx={() => ({
-            height: "100%",
-            width: "100%",
-          })}
-          className={`${transitionStage}`}
+          className={`${transitionStage} ${classes.body}`}
           onAnimationEnd={() => {
             if (transitionStage === "fadeOut") {
               setTransistionStage("fadeIn");

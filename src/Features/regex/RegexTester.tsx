@@ -41,17 +41,18 @@ const RegexTester = () => {
 
   // Highlight logic
   const matchReg = () => {
-    if (!rg) {
+    if (!rg || !editor) {
+      // sanity checks
       return;
     }
     const results = editor
       ?.getModel()
-      ?.findMatches(rg, true, true, false, null, true);
-    if (!results?.length) {
+      ?.findMatches(rg, true, true, true, null, true);
+    if (!results) {
       return;
     }
     try {
-      editor?.setSelections(
+      editor.setSelections(
         results.map((r) => ({
           selectionStartLineNumber: r.range.startLineNumber,
           selectionStartColumn: r.range.startColumn,
@@ -59,14 +60,15 @@ const RegexTester = () => {
           positionColumn: r.range.endColumn,
         }))
       );
-    } catch {
+    } catch (e) {
+      console.log("Error occurred", e);
       // ignore invalid regex errors
     }
   };
 
   useEffect(() => {
     matchReg();
-  }, [rg]);
+  }, [editor, rg]);
 
   return (
     <Stack style={{ width: "100%", height: "100%" }}>

@@ -1,12 +1,12 @@
 import {
   ActionIcon,
-  Box,
   createStyles,
   Divider,
   Group,
   Stack,
   Text,
   TextInput,
+  Tooltip,
 } from "@mantine/core";
 import { ChangeEvent, useContext, useState } from "react";
 import { BsSortNumericUpAlt } from "react-icons/bs";
@@ -69,7 +69,13 @@ export const data = [
   { id: 5, to: "/nums", icon: <BsSortNumericUpAlt />, text: "Number Tools" },
   { id: 6, to: "/sql", icon: <SiPostgresql />, text: "SQL Formatter" },
   { id: 7, to: "/colors", icon: <MdColorize />, text: "Color Utils" },
-  { id: 8, to: "/regex", icon: <VscRegex />, text: "Regex Tester" },
+  {
+    id: 8,
+    to: "/regex",
+    icon: <VscRegex />,
+    text: "Regex Tester",
+    extra: "Unstable feature",
+  },
   { id: 9, to: "/text", icon: <VscDiff />, text: "Diff Tools" },
   { id: 10, to: "/markdown", icon: <FaMarkdown />, text: "Markdown" },
   { id: 11, to: "/yamljson", icon: <FaYinYang />, text: "Yaml JSON" },
@@ -162,7 +168,8 @@ export const Navbar = () => {
               }}
               onMouseLeave={() => setShowIcon(-99)}
             >
-              <Group mt="2">
+              {/* ROW */}
+              <Group mt={1}>
                 <Text
                   sx={(theme) => ({
                     color:
@@ -173,13 +180,28 @@ export const Navbar = () => {
                 >
                   {e.icon}
                 </Text>
-                <Text
-                  weight={location.pathname === e.to ? "bold" : "normal"}
-                  component={Link}
-                  to={e.to}
-                >
-                  {e.text}
-                </Text>
+
+                {e.extra ? (
+                  <Tooltip label={e.extra}>
+                    <Text
+                      weight={location.pathname === e.to ? "bold" : "normal"}
+                      color="red"
+                      component={Link}
+                      to={e.to}
+                    >
+                      {e.text}
+                    </Text>
+                  </Tooltip>
+                ) : (
+                  <Text
+                    weight={location.pathname === e.to ? "bold" : "normal"}
+                    component={Link}
+                    to={e.to}
+                  >
+                    {e.text}
+                  </Text>
+                )}
+
                 {e.id === showIcon || pinExists ? (
                   <ActionIcon
                     sx={(theme) => ({
