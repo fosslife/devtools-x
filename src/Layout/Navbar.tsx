@@ -31,7 +31,7 @@ import { db } from "../utils";
 
 const useStyles = createStyles((theme) => ({
   navbar: {
-    height: "100%",
+    height: "95%",
     width: "230px", // FIXME: remove hardcodings
     padding: "10px",
     // FIXME: HACKS!!!
