@@ -119,6 +119,7 @@ export const Monaco = ({
       height={height}
       width={width}
       options={{
+        fontSize: 16,
         minimap: {
           enabled: false,
         },
