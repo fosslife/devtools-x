@@ -24,24 +24,101 @@ Entire project is a webapp. it uses `monaco editor` as text editor everywhere. s
 Ctrl-F or Ctrl-X will work just fine. or even opening vscode command menu to perform complicated operations like format or set language etc
 
 
-- JSON format and minify
-- Hashing of text and files
-- Random text generator (for passwords)
-- JWT
-- Number convertor
-- SQL formatter
-- Color picker and converter
-- Regex Tester
-- Text Diff (with syntax highlight and code editing)
-- Markdown write and preview
-- Yaml-Json converter
-- A Pastebin
-- Language scratchpad
-- Image Compressor with preview
-- Unit converter
-- React live playground (without a server)
-- Rest API tester
-- And many more to come...
+### JSON format and minify
+
+https://user-images.githubusercontent.com/24642451/184825668-4f3e17cf-e505-4a99-b84d-fa306c4a439e.mp4
+
+### Hashing of text and files
+
+https://user-images.githubusercontent.com/24642451/184825782-7fb37a03-d097-4c30-a4a1-12e580a0fea0.mp4
+
+### Random text generator (for passwords)
+
+https://user-images.githubusercontent.com/24642451/184825847-47ecd257-7bbc-4187-9667-10e8a3635ae7.mp4
+
+### JWT
+
+https://user-images.githubusercontent.com/24642451/184825910-53b35492-4f89-4ba2-b402-02382c35fee7.mp4
+
+### Number convertor
+
+https://user-images.githubusercontent.com/24642451/184826029-f4c777bc-fdb7-48a2-aebc-f0f31e927d58.mp4
+
+
+### SQL formatter
+
+https://user-images.githubusercontent.com/24642451/184826126-0d6d939c-3ebd-4f53-a628-8fd1f32c478b.mp4
+
+
+
+### Color picker and converter
+
+
+https://user-images.githubusercontent.com/24642451/184826188-b853a282-8ebd-48c0-8cbb-0f94efa979b5.mp4
+
+
+### Regex Tester
+
+https://user-images.githubusercontent.com/24642451/184826215-5d607477-bb69-4a45-bf3f-4d0709b445e9.mp4
+
+
+
+### Text Diff (with syntax highlight and code editing)
+
+https://user-images.githubusercontent.com/24642451/184826243-9c9c72ab-9386-4120-9dbb-a05490013cfa.mp4
+
+
+
+
+
+### Markdown write and preview
+https://user-images.githubusercontent.com/24642451/184826282-c897b5d4-a370-4317-9251-2a1e63cbbd73.mp4
+
+
+
+### Yaml-Json converter
+
+https://user-images.githubusercontent.com/24642451/184826317-ac4c366a-2579-47b0-861f-83847ddef77b.mp4
+
+
+
+### A Pastebin
+Video WIP
+
+### Language scratchpad
+
+https://user-images.githubusercontent.com/24642451/184826344-8497f7e6-45b0-4ea9-a399-7115b0044b37.mp4
+
+
+
+### Image Compressor with preview
+
+https://user-images.githubusercontent.com/24642451/184826392-6378ee66-187b-4bf0-8c08-fcacbb3836c1.mp4
+
+
+
+### Unit converter
+
+https://user-images.githubusercontent.com/24642451/184826530-e5ecfca2-f987-47b3-9d96-5e47f486c758.mp4
+
+
+
+
+### React live playground (without a server)
+
+
+https://user-images.githubusercontent.com/24642451/184826571-6dd2e7cf-8481-47ae-b716-ba5fb5445846.mp4
+
+
+### Rest API tester
+
+
+https://user-images.githubusercontent.com/24642451/184827036-ee6a1a54-5add-4583-ac83-6927a49b7fdb.mp4
+
+
+### And many more to come...
+
+
 
 
 
