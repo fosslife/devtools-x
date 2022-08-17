@@ -35,6 +35,10 @@ if you are on windows 10 and want to install rustc on WSL, you might need a remo
 
 on windows 11, WSL2 now supports native GUI so you __should__ be fine, although I haven't tested that as well.
 
+### Tauri
+Tauri is native webview, it needs few system specific libraries for running and bundling the application. 
+they may change over time so follow the official [tauri documentation](https://tauri.app/v1/guides/getting-started/prerequisites) to install tauri dependencies
+
 
 ### Checkout
 
