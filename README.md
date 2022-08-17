@@ -9,11 +9,11 @@ so heres devtools-x a x-platform collection of dev-tools, lighter, probably safe
 
 ## Badges
 
-[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
+![MIT License](https://img.shields.io/github/license/fosslife/devtools-x.svg) 
+![GitHub issues](https://badgen.net/github/issues/fosslife/devtools-x) ![GitHub stars](https://badgen.net/github/stars/fosslife/devtools-x)
+![Latest release](https://badgen.net/github/release/fosslife/devtools-x)
 
-[![GitHub issues](https://img.shields.io/github/issues/fosslife/devtools-x)](https://github.com/fosslife/devtools-x/issues)
 
-[![GitHub stars](https://img.shields.io/github/stars/fosslife/devtools-x)](https://github.com/fosslife/devtools-x/stargazers)
 
 
 
