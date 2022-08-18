@@ -31,7 +31,7 @@ import { db } from "../utils";
 
 const useStyles = createStyles((theme) => ({
   navbar: {
-    height: "100%",
+    height: "95%",
     width: "230px", // FIXME: remove hardcodings
     padding: "10px",
     // FIXME: HACKS!!!
@@ -160,7 +160,7 @@ export const Navbar = () => {
                       : t.colors.gray[6]
                     : "inherit",
                 padding: 4,
-                paddingLeft: 15,
+                paddingLeft: 5,
                 borderRadius: 4,
               })}
               onMouseMove={() => {
