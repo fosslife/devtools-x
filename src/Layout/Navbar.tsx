@@ -160,7 +160,7 @@ export const Navbar = () => {
                       : t.colors.gray[6]
                     : "inherit",
                 padding: 4,
-                paddingLeft: 15,
+                paddingLeft: 5,
                 borderRadius: 4,
               })}
               onMouseMove={() => {
