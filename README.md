@@ -5,7 +5,7 @@
 ### inspiration
 
 `devutils` is mac only and `devtoys` is windows only.
-so heres devtools-x a x-platform collection of dev-tools, lighter, probably safer, and feature rich collection of devepment utilities.
+so heres devtools-x a x-platform collection of dev-tools, lighter, probably safer, and feature rich devepment utilities.
 
 
 
@@ -18,12 +18,43 @@ so heres devtools-x a x-platform collection of dev-tools, lighter, probably safe
 
 
 
+## Installation
+
+Download the correct package from github releases section. and start using it :D. more ways to installing are coming soon.
+
 
 
 ## Features
 
-Entire project is a webapp. it uses `monaco editor` as text editor everywhere. so if you use vs-code then all the keyboard shortcuts like
-Ctrl-F or Ctrl-X will work just fine. or even opening vscode command menu to perform complicated operations like format or set language etc
+Entire project is a webapp (not electron, read below). it uses `monaco editor` as text editor everywhere. so if you use vs-code then all the keyboard shortcuts like
+`Ctrl-F` or `Ctrl-X` will work just fine. or even opening vscode command menu to perform complicated operations like format or set language etc
+rest of the features are pretty straightforward.
+
+
+DevTools-X comes with following features (with demo video):
+
+### Image Compressor with preview
+
+https://user-images.githubusercontent.com/24642451/184826392-6378ee66-187b-4bf0-8c08-fcacbb3836c1.mp4
+
+### Rest API
+
+
+https://user-images.githubusercontent.com/24642451/184827036-ee6a1a54-5add-4583-ac83-6927a49b7fdb.mp4
+
+### React live playground (without a server)
+
+
+https://user-images.githubusercontent.com/24642451/184826571-6dd2e7cf-8481-47ae-b716-ba5fb5445846.mp4
+
+### Color picker and converter
+
+
+https://user-images.githubusercontent.com/24642451/184826188-b853a282-8ebd-48c0-8cbb-0f94efa979b5.mp4
+
+### Regex Tester
+
+https://user-images.githubusercontent.com/24642451/184826215-5d607477-bb69-4a45-bf3f-4d0709b445e9.mp4
 
 
 ### JSON format and minify
@@ -37,6 +68,11 @@ https://user-images.githubusercontent.com/24642451/184825782-7fb37a03-d097-4c30-
 ### Random text generator (for passwords)
 
 https://user-images.githubusercontent.com/24642451/184825847-47ecd257-7bbc-4187-9667-10e8a3635ae7.mp4
+
+### Language scratchpad
+
+https://user-images.githubusercontent.com/24642451/184826344-8497f7e6-45b0-4ea9-a399-7115b0044b37.mp4
+
 
 ### JWT
 
@@ -53,23 +89,9 @@ https://user-images.githubusercontent.com/24642451/184826126-0d6d939c-3ebd-4f53-
 
 
 
-### Color picker and converter
-
-
-https://user-images.githubusercontent.com/24642451/184826188-b853a282-8ebd-48c0-8cbb-0f94efa979b5.mp4
-
-
-### Regex Tester
-
-https://user-images.githubusercontent.com/24642451/184826215-5d607477-bb69-4a45-bf3f-4d0709b445e9.mp4
-
-
-
 ### Text Diff (with syntax highlight and code editing)
 
 https://user-images.githubusercontent.com/24642451/184826243-9c9c72ab-9386-4120-9dbb-a05490013cfa.mp4
-
-
 
 
 
@@ -87,17 +109,6 @@ https://user-images.githubusercontent.com/24642451/184826317-ac4c366a-2579-47b0-
 ### A Pastebin
 Video WIP
 
-### Language scratchpad
-
-https://user-images.githubusercontent.com/24642451/184826344-8497f7e6-45b0-4ea9-a399-7115b0044b37.mp4
-
-
-
-### Image Compressor with preview
-
-https://user-images.githubusercontent.com/24642451/184826392-6378ee66-187b-4bf0-8c08-fcacbb3836c1.mp4
-
-
 
 ### Unit converter
 
@@ -105,29 +116,9 @@ https://user-images.githubusercontent.com/24642451/184826530-e5ecfca2-f987-47b3-
 
 
 
-
-### React live playground (without a server)
-
-
-https://user-images.githubusercontent.com/24642451/184826571-6dd2e7cf-8481-47ae-b716-ba5fb5445846.mp4
-
-
-### Rest API tester
-
-
-https://user-images.githubusercontent.com/24642451/184827036-ee6a1a54-5add-4583-ac83-6927a49b7fdb.mp4
-
-
 ### And many more to come...
 
 
-
-
-
-
-## Installation
-
-Download the correct package from github releases section. and start using it :D
 
 ## Tech Stack
 
@@ -136,17 +127,16 @@ just because it's electron. and the hate is justifiable. I personally don't want
 
 Which is why devtool-x is **NOT WRITTEN IN ELECTRON**
 
-Devtools-X uses native webview to achieve the desktop application, called as [Tauri](tauri.studio/). native webview gives me
+Devtools-X uses native webview to achieve the desktop application, called as [Tauri](https://tauri.studio/). native webview gives me
 development speed of electron (react+ts) while being secure and low on ram, and staying cross platform at the same time.
 
-
+UI uses React + TS + [Mantine](https://mantine.dev/)
+Backend is Rust
 
 ## Authors
 
 - [@Sparkenstein](https://www.github.com/Sparkenstein)
 - You?
-
-
 
 
 ## Contributing
@@ -159,12 +149,11 @@ Please adhere to this project's `code of conduct`.
 
 
 
-
 ## FAQ
 
 #### Whats up with the bad looking UI
 
-It was even worse. I am not a UI developer, I understand react, not colors. 
+It was even worse before. I am not a UI developer, I understand react but not colors. 
 feel free to contribute
 
 #### Do I need to know rust to get started?
@@ -172,7 +161,7 @@ feel free to contribute
 Absolutely not. I don't know rust myself and I have a complete application created from scratch.
 
 
-## NEED HELP
+## NEED HELP IN:
 
 - More features
 - Testing
