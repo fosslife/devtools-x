@@ -59,6 +59,11 @@ const useStyles = createStyles((theme) => ({
     position: "relative",
     top: "120px",
   },
+  item: {
+    "&:hover": {
+      backgroundColor: "red",
+    },
+  },
 }));
 
 export const data = [
@@ -162,6 +167,12 @@ export const Navbar = () => {
                 padding: 4,
                 paddingLeft: 5,
                 borderRadius: 4,
+                ":hover": {
+                  backgroundColor:
+                    t.colorScheme === "dark"
+                      ? t.colors.gray[8]
+                      : t.colors.gray[6],
+                },
               })}
               onMouseMove={() => {
                 setShowIcon(e.id);
@@ -169,7 +180,7 @@ export const Navbar = () => {
               onMouseLeave={() => setShowIcon(-99)}
             >
               {/* ROW */}
-              <Group mt={1}>
+              <Group>
                 <Text
                   sx={(theme) => ({
                     color:
@@ -184,21 +195,23 @@ export const Navbar = () => {
                 {e.extra ? (
                   <Tooltip label={e.extra}>
                     <Text
+                      size="sm"
                       weight={location.pathname === e.to ? "bold" : "normal"}
                       color="red"
                       component={Link}
                       to={e.to}
                     >
-                      {e.text}
+                      {e.text.toUpperCase()}
                     </Text>
                   </Tooltip>
                 ) : (
                   <Text
+                    size="sm"
                     weight={location.pathname === e.to ? "bold" : "normal"}
                     component={Link}
                     to={e.to}
                   >
-                    {e.text}
+                    {e.text.toUpperCase()}
                   </Text>
                 )}
 
