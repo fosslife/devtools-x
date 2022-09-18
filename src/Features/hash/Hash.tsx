@@ -4,7 +4,7 @@ import { lib, MD5, SHA1, SHA224, SHA256, SHA512 } from "crypto-js";
 import { useEffect, useState } from "react";
 
 import { Monaco } from "../../Components/MonacoWrapper";
-import { db } from "../../utils";
+// import { db } from "../../utils";
 import { HashBox } from "./HashBox";
 
 const init = {
