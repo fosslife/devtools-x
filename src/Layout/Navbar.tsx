@@ -24,7 +24,7 @@ import { FiHash } from "react-icons/fi";
 import { MdAnchor, MdColorize, MdHttp, MdOutlineHome } from "react-icons/md";
 import { SiJsonwebtokens, SiPostgresql } from "react-icons/si";
 import { VscDiff, VscPin, VscPinned, VscRegex } from "react-icons/vsc";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { AppContext } from "../Contexts/AppContextProvider";
 import { db } from "../utils";
@@ -95,6 +95,7 @@ export const data = [
 export const Navbar = () => {
   const { classes } = useStyles();
   const location = useLocation();
+  const nav = useNavigate();
   const [navItems, setNavItems] = useState(data);
   const [showIcon, setShowIcon] = useState(-99);
   const { handleState } = useContext(AppContext);
@@ -180,7 +181,7 @@ export const Navbar = () => {
               onMouseLeave={() => setShowIcon(-99)}
             >
               {/* ROW */}
-              <Group>
+              <Group onClick={() => nav(e.to)} sx={{ cursor: "pointer" }}>
                 <Text
                   sx={(theme) => ({
                     color:
