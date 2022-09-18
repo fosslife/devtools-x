@@ -1,5 +1,5 @@
-import { Button, Divider, Group, NumberInput, Stack } from "@mantine/core";
-import { useState } from "react";
+import { Button, Divider, Group, Stack, TextInput } from "@mantine/core";
+import { useEffect, useState } from "react";
 import { convertBase } from "simple-base-converter";
 
 import { OutputBox } from "../../Components/OutputBox";
@@ -15,11 +15,10 @@ const init = {
 
 const Nums = () => {
   const [output, setOutput] = useState(init);
-  const [input, setInput] = useState(0);
-  const [base, setBase] = useState<number | undefined>(10);
+  const [input, setInput] = useState("afc3d1");
+  const [base, setBase] = useState<number | undefined>(16);
 
-  const convertInput = (ip: number) => {
-    console.log(ip, base);
+  const convertInput = (ip: string) => {
     if (!ip) {
       setOutput({ ...init });
       return;
@@ -34,20 +33,28 @@ const Nums = () => {
       base64: convertBase(ip, base, 16),
     });
   };
+
+  useEffect(() => {
+    convertInput(input);
+  }, [input, base]);
+
   return (
-    <Stack style={{ width: "100%", height: "100%" }} align="center">
-      <Group align={"end"}>
-        <NumberInput
-          label="Number"
+    <Stack style={{ width: "100%", height: "100%" }} px="lg">
+      <Group align={"end"} grow>
+        <TextInput
+          label="INPUT"
           value={input}
           onChange={(e) => {
             if (!e) return;
-            setInput(e);
-            convertInput(e);
+            setInput(e.currentTarget.value);
           }}
-        ></NumberInput>
+        ></TextInput>
 
-        <NumberInput label="Base" value={base} onChange={setBase}></NumberInput>
+        <TextInput
+          label="BASE"
+          value={base}
+          onChange={(e) => setBase(Number(e.currentTarget.value))}
+        ></TextInput>
 
         <Button onClick={() => convertInput(input)} mt="8">
           Calculate
@@ -55,11 +62,10 @@ const Nums = () => {
       </Group>
 
       <Divider />
-
-      <OutputBox label="to binary" value={output.binary} />
-      <OutputBox label="to decimal" value={output.decimal} />
-      <OutputBox label="to octal" value={output.octal} />
-      <OutputBox label="to hexadecimal" value={output.hexadecimal} />
+      <OutputBox label="BINARY" value={output.binary} />
+      <OutputBox label="DECIMAL" value={output.decimal} />
+      <OutputBox label="OCTAL" value={output.octal} />
+      <OutputBox label="HEX" value={output.hexadecimal} />
     </Stack>
   );
 };
