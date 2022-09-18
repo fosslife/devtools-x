@@ -24,7 +24,7 @@ import { FiHash } from "react-icons/fi";
 import { MdAnchor, MdColorize, MdHttp, MdOutlineHome } from "react-icons/md";
 import { SiJsonwebtokens, SiPostgresql } from "react-icons/si";
 import { VscDiff, VscPin, VscPinned, VscRegex } from "react-icons/vsc";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { AppContext } from "../Contexts/AppContextProvider";
 import { db } from "../utils";
@@ -59,6 +59,11 @@ const useStyles = createStyles((theme) => ({
     position: "relative",
     top: "120px",
   },
+  item: {
+    "&:hover": {
+      backgroundColor: "red",
+    },
+  },
 }));
 
 export const data = [
@@ -90,6 +95,7 @@ export const data = [
 export const Navbar = () => {
   const { classes } = useStyles();
   const location = useLocation();
+  const nav = useNavigate();
   const [navItems, setNavItems] = useState(data);
   const [showIcon, setShowIcon] = useState(-99);
   const { handleState } = useContext(AppContext);
@@ -162,6 +168,12 @@ export const Navbar = () => {
                 padding: 4,
                 paddingLeft: 5,
                 borderRadius: 4,
+                ":hover": {
+                  backgroundColor:
+                    t.colorScheme === "dark"
+                      ? t.colors.gray[8]
+                      : t.colors.gray[6],
+                },
               })}
               onMouseMove={() => {
                 setShowIcon(e.id);
@@ -169,7 +181,7 @@ export const Navbar = () => {
               onMouseLeave={() => setShowIcon(-99)}
             >
               {/* ROW */}
-              <Group mt={1}>
+              <Group onClick={() => nav(e.to)} sx={{ cursor: "pointer" }}>
                 <Text
                   sx={(theme) => ({
                     color:
@@ -184,21 +196,23 @@ export const Navbar = () => {
                 {e.extra ? (
                   <Tooltip label={e.extra}>
                     <Text
+                      size="sm"
                       weight={location.pathname === e.to ? "bold" : "normal"}
                       color="red"
                       component={Link}
                       to={e.to}
                     >
-                      {e.text}
+                      {e.text.toUpperCase()}
                     </Text>
                   </Tooltip>
                 ) : (
                   <Text
+                    size="sm"
                     weight={location.pathname === e.to ? "bold" : "normal"}
                     component={Link}
                     to={e.to}
                   >
-                    {e.text}
+                    {e.text.toUpperCase()}
                   </Text>
                 )}
 

@@ -3,6 +3,7 @@ import {
   Button,
   Divider,
   Group,
+  LoadingOverlay,
   NativeSelect,
   Slider,
   Stack,
@@ -18,8 +19,9 @@ import { ReactCompareSlider, styleFitContainer } from "react-compare-slider";
 function Image() {
   let rightRef = useRef<HTMLImageElement>(null);
   const [downloadBlob, setDownloadBlob] = useState<Blob>();
+  const [loading, setLoading] = useState(false);
   const [quality, setQuality] = useState(50);
-  const [doubouncedQuality] = useDebouncedValue(quality, 300);
+  const [doubouncedQuality] = useDebouncedValue(quality, 500);
   const [imageType, setImageType] = useState<"webp" | "jpeg" | "png" | string>(
     "webp"
   );
@@ -51,8 +53,12 @@ function Image() {
 
   const resize = async () => {
     let { vips } = self;
+
+    if (!imageSrc.left) return;
     if (!rightRef.current) return; // typescript check
 
+    console.log("Resize: all checks pass");
+    setLoading(true);
     let arr = await fs.readBinaryFile(imageSrc.right);
     console.log("Quality", quality);
 
@@ -87,9 +93,11 @@ function Image() {
       (await fetch(blobURL).then((x) => x.headers.get("content-length"))) || 0;
     setSizes({ ...sizes, conv: (Number(size) / 1024).toFixed(2) });
     setDownloadBlob(blob);
+    setLoading(false);
   };
 
   const selectImage = () => {
+    console.log("selecting image");
     dialog
       .open({
         multiple: false,
@@ -99,10 +107,14 @@ function Image() {
       .then(async (p) => {
         if (!p) return; // no path
         let path = p as string;
+        console.log("Got image", p);
         let size =
           (await fetch(convertFileSrc(path))
             .then((x) => x.blob())
-            .then((d) => d.size)) || 0;
+            .then((d) => d.size)
+            .catch((err) =>
+              console.error("Error while selecting image", err)
+            )) || 0;
         setSizes({ ...sizes, og: (Number(size) / 1024).toFixed(2) });
         setImageSrc({
           left: path,
@@ -122,6 +134,7 @@ function Image() {
     <Stack sx={{ width: "100%", height: "100%" }}>
       {imageSrc.left ? (
         <Box>
+          <LoadingOverlay visible={loading} overlayBlur={2} />
           <ReactCompareSlider
             style={{
               height: "80vh",
@@ -179,29 +192,36 @@ function Image() {
               }}
             ></NativeSelect>
             <Divider />
+
             <Slider
-              // onMouseEnter={() => setShowTooltip(true)}
-              // onMouseLeave={() => setShowTooltip(false)}
-              // onChangeEnd={resize}
               min={0}
               max={100}
               value={quality}
               onChange={(e) => {
                 setQuality(e);
               }}
-              // setValue={}
+              label={quality + "%"}
               aria-label="slider-ex-1"
               defaultValue={30}
-            >
-              {/* <Tooltip label="label" color="white" opened={showTooltip}>
-                Quality: ${quality}%
-              </Tooltip> */}
-            </Slider>
+              labelTransition="skew-down"
+              labelTransitionDuration={150}
+              labelTransitionTimingFunction="ease"
+            ></Slider>
             <Box>
-              <Text>Original: {sizes.og}kb</Text>{" "}
-              <Text>Converted: {sizes.conv}kb</Text>
+              <Text color={"blue"}>Original: {sizes.og}kb</Text>{" "}
+              <Text
+                color={Number(sizes.conv) > Number(sizes.og) ? "red" : "green"}
+              >
+                Converted: {sizes.conv}kb
+              </Text>
             </Box>
           </Stack>
+          {imageSrc.left && (
+            <Text color={"dimmed"} size="xs">
+              NOTE: Not recommended using extremly large images like 8k or so
+              on. full HD images and below should work fine
+            </Text>
+          )}
         </Box>
       ) : null}
     </Stack>

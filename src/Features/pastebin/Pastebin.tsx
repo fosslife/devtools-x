@@ -31,7 +31,7 @@ function Pastebin() {
     <Stack sx={{ width: "100%", height: "100%" }} p={2}>
       <NativeSelect
         value={lang}
-        data={langs.map((e) => e.toLowerCase())}
+        data={langs.map((e) => e.toUpperCase())}
         onChange={(e) => {
           setLang(e.target.value);
         }}

@@ -1,10 +1,10 @@
-import { Box, Button, Stack, Text } from "@mantine/core";
+import { Box, Button, LoadingOverlay, Stack, Text } from "@mantine/core";
 import { dialog, fs } from "@tauri-apps/api";
 import { lib, MD5, SHA1, SHA224, SHA256, SHA512 } from "crypto-js";
 import { useEffect, useState } from "react";
 
 import { Monaco } from "../../Components/MonacoWrapper";
-import { db } from "../../utils";
+// import { db } from "../../utils";
 import { HashBox } from "./HashBox";
 
 const init = {
@@ -18,11 +18,12 @@ const init = {
 const Hash = () => {
   const [hashes, setHashes] = useState(init);
   const [filePath, setFilePath] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     // calculate dummy hashes of first text
     onChange("Enter Text");
-    console.log(db.data);
+    // console.log(db.data);
   }, []);
 
   // const ellipsify = (state: HashState) =>
@@ -41,6 +42,7 @@ const Hash = () => {
       setHashes({ ...init });
       return;
     }
+    setLoading(true);
     const md5hash = MD5(val).toString().toUpperCase();
     const sha1Hash = SHA1(val).toString().toUpperCase();
     const sha256Hash = SHA256(val).toString().toUpperCase();
@@ -56,6 +58,7 @@ const Hash = () => {
     // set state
     // setHashes(ellipsify(state));
     setHashes(state);
+    setLoading(false);
   };
 
   const selectFile = async () => {
@@ -64,8 +67,9 @@ const Hash = () => {
     })) as string; // Multiple is false
     setFilePath(filePath);
 
+    console.time("t1");
     const fileContent = await fs.readBinaryFile(filePath);
-
+    setLoading(true);
     const wordArray = byteArrayToWordArray(fileContent);
     const md5 = MD5(wordArray).toString().toUpperCase();
     const sha1 = SHA1(wordArray).toString().toUpperCase();
@@ -82,10 +86,13 @@ const Hash = () => {
     };
     // setHashes(ellipsify(state));
     setHashes(state);
+    console.timeEnd("t1");
+    setLoading(false);
   };
 
   return (
     <Stack style={{ height: "100%", width: "100%" }} p="xs" spacing={"lg"}>
+      <LoadingOverlay visible={loading} />
       <Monaco
         language="text"
         height="50%"

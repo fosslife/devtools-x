@@ -6,7 +6,7 @@ function OutputBox({ label, value }: { label: string; value: string }) {
   return (
     <Input.Wrapper label={label}>
       <Input
-        size="sm"
+        size="xs"
         rightSectionWidth={100}
         rightSection={
           <CopyButton value={value}>

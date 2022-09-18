@@ -68,7 +68,9 @@ const Welcome = () => {
               }}
             >
               {data.find((e) => e.id === pin)?.icon}
-              <Text>{data.find((e) => e.id === pin)?.text}</Text>
+              <Text size={"sm"}>
+                {data.find((e) => e.id === pin)?.text.toUpperCase()}
+              </Text>
             </Stack>
           );
         })}

@@ -16,7 +16,7 @@ const SelectItem = forwardRef<HTMLDivElement, Runtimes>(
     <div ref={ref} {...others}>
       <Group noWrap>
         <div>
-          <Text size="sm">{language}</Text>
+          <Text size="sm">{language.toUpperCase()}</Text>
           <Text size="xs" color="dimmed">
             v{version} {runtime ? `runtime - ${runtime}` : null}
           </Text>
