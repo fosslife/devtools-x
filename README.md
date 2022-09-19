@@ -7,6 +7,8 @@
 `devutils` is mac only and `devtoys` is windows only.
 so heres devtools-x a x-platform collection of dev-tools, lighter, probably safer, and feature rich devepment utilities.
 
+> Note: Application is under development, expect some bugs. 
+
 ## Badges
 
 ![MIT License](https://img.shields.io/github/license/fosslife/devtools-x.svg)
