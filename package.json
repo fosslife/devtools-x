@@ -39,8 +39,7 @@
     "react-icons": "^4.4.0",
     "react-live": "^2.4.1",
     "react-router-dom": "6.4.0",
-    "simple-base-converter": "^1.0.16",
-    "wasm-vips": "^0.0.3"
+    "simple-base-converter": "^1.0.16"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1.1.1",

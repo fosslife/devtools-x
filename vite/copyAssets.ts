@@ -10,32 +10,6 @@ export default (): PluginOption => {
         overwrite: true,
         recursive: true,
       });
-
-      // VIPS
-      copySync(
-        "./node_modules/wasm-vips/lib/vips.js",
-        "./dist/src/vips/vips.js",
-        {
-          overwrite: true,
-          recursive: true,
-        }
-      );
-      copySync(
-        "./node_modules/wasm-vips/lib/vips.worker.js",
-        "./dist/src/vips/vips.worker.js",
-        {
-          overwrite: true,
-          recursive: true,
-        }
-      );
-      copySync(
-        "./node_modules/wasm-vips/lib/vips.wasm",
-        "./dist/src/vips/vips.wasm",
-        {
-          overwrite: true,
-          recursive: true,
-        }
-      );
     },
   };
 };
