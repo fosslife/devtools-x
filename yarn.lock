@@ -4368,11 +4368,6 @@ vlq@^1.0.0:
   resolved "https://registry.yarnpkg.com/vlq/-/vlq-1.0.1.tgz#c003f6e7c0b4c1edd623fd6ee50bbc0d6a1de468"
   integrity sha512-gQpnTgkubC6hQgdIcRdYGDSDc+SaujOdyesZQMv6JlfQee/9Mp0Qhnys6WxDWvQnL5WZdT7o2Ul187aSt0Rq+w==
 
-wasm-vips@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/wasm-vips/-/wasm-vips-0.0.3.tgz#5f106369b6dfe6819928b25dc164db0ee68e8475"
-  integrity sha512-WUdgm+JwFScz/sxN61P542lcf0j0yL7KyNk6CMZmkPplpJBWjx7zHELn85WuFUJ/IWIlutTBS5fFVLD3yZ8Vjw==
-
 web-namespaces@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/web-namespaces/-/web-namespaces-2.0.1.tgz#1010ff7c650eccb2592cebeeaf9a1b253fd40692"
