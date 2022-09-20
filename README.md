@@ -25,7 +25,7 @@ rest of the features are pretty straightforward.
 
 DevTools-X comes with following features (with demo video):
 
-### Image Compressor with preview
+### Image Compressor with preview [REMOVED TEMPORARILY]
 
 https://user-images.githubusercontent.com/24642451/184826392-6378ee66-187b-4bf0-8c08-fcacbb3836c1.mp4
 
