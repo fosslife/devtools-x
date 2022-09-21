@@ -38,9 +38,9 @@
         "entitlements": null
       },
       "windows": {
-        "certificateThumbprint": null,
+        "certificateThumbprint": "CD80C75FD87A3CCC419AE17468B5B888A60B3D28",
         "digestAlgorithm": "sha256",
-        "timestampUrl": ""
+        "timestampUrl": "http://timestamp.comodoca.com"
       }
     },
     "updater": {
