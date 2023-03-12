@@ -3,9 +3,9 @@ import {
   Box,
   createStyles,
   Divider,
+  Flex,
   Group,
   Stack,
-  Table,
   Text,
   TextInput,
   Tooltip,
@@ -15,14 +15,13 @@ import { BsSortNumericUpAlt } from "react-icons/bs";
 import {
   FaCode,
   FaExchangeAlt,
-  FaFileImage,
   FaMarkdown,
   FaPaste,
   FaRandom,
   FaReact,
   FaYinYang,
 } from "react-icons/fa";
-import { FiHash } from "react-icons/fi";
+import { FiHash, FiSettings } from "react-icons/fi";
 import { MdAnchor, MdColorize, MdHttp, MdOutlineHome } from "react-icons/md";
 import { SiJsonwebtokens, SiPostgresql } from "react-icons/si";
 import { VscDiff, VscPin, VscPinned, VscRegex } from "react-icons/vsc";
@@ -33,7 +32,7 @@ import { db } from "../utils";
 
 const useStyles = createStyles((theme) => ({
   navbar: {
-    height: "95%",
+    height: "100%",
     padding: "10px",
     paddingTop: 0,
     overflow: "scroll",
@@ -117,7 +116,7 @@ export const data = [
   { id: 17, to: "/rest", icon: <MdHttp />, text: "REST API" },
 ];
 
-export const Navbar = () => {
+export const Navbar = ({ openSettings }: any) => {
   const { classes, cx } = useStyles();
   const location = useLocation();
   const nav = useNavigate();
@@ -153,23 +152,29 @@ export const Navbar = () => {
         />
         <Group
           mt="2"
-          pl="10px"
           sx={(theme) => ({
+            display: "flex",
+            justifyContent: "space-between",
             color:
               theme.colorScheme === "dark"
                 ? theme.colors.dark[1]
                 : theme.colors.dark[8],
           })}
         >
-          <MdOutlineHome size={"20px"} />
-          <Text
-            variant={location.pathname === "/" ? "gradient" : "text"}
-            component={Link}
-            to="/"
-            weight={location.pathname === "/" ? "bold" : "normal"}
-          >
-            {"Home"}
-          </Text>
+          <Flex gap={15}>
+            <MdOutlineHome size={"20px"} />
+            <Text
+              variant={location.pathname === "/" ? "gradient" : "text"}
+              component={Link}
+              to="/"
+              weight={location.pathname === "/" ? "bold" : "normal"}
+            >
+              {"Home"}
+            </Text>
+          </Flex>
+          <ActionIcon onClick={() => openSettings(true)}>
+            <FiSettings />
+          </ActionIcon>
         </Group>
         <Divider />
       </Stack>

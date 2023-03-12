@@ -1,12 +1,11 @@
 import "./App.css";
 
 import loadable from "@loadable/component";
-import { Box, createStyles, Drawer, Group, Text } from "@mantine/core";
+import { Box, createStyles, Drawer, Group } from "@mantine/core";
 import { SpotlightProvider } from "@mantine/spotlight";
 import { loader } from "@monaco-editor/react";
 import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import { FiSettings } from "react-icons/fi";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 // NOTE: keep Num converter here, do not lazy load. there's a rare crashing bug.
@@ -43,7 +42,7 @@ const useStyles = createStyles((theme) => ({
     left: 0,
     display: "inline-flex",
     alignItems: "center",
-    width: "236px",
+    width: "200px",
     height: "46px",
     backgroundColor:
       theme.colorScheme === "dark"
@@ -113,7 +112,7 @@ function App() {
     >
       <Box className={classes.container}>
         <Box className={classes.navbar}>
-          <Navbar />
+          <Navbar openSettings={(t: boolean) => setSettingsOpened(t)} />
         </Box>
         <Group
           className={`${transitionStage} ${classes.body}`}
@@ -145,13 +144,6 @@ function App() {
             <Route path="/rest" element={<Rest />}></Route>
           </Routes>
         </Group>
-        <Box
-          className={classes.settings}
-          onClick={() => setSettingsOpened(true)}
-        >
-          <FiSettings />
-          <Text>Settings</Text>
-        </Box>
       </Box>
       <Drawer
         position="right"
