@@ -70,7 +70,6 @@ const useStyles = createStyles((theme) => ({
     gap: 10,
   },
   navbar: {
-    minWidth: "230px",
     height: "100%",
     paddingLeft: 0,
   },
@@ -103,6 +102,7 @@ function App() {
 
   return (
     <SpotlightProvider
+      shortcut={["mod + k", "/"]}
       searchIcon={<FaSearch />}
       searchPlaceholder="Jump to"
       actions={data.map((a) => ({
@@ -155,8 +155,6 @@ function App() {
       </Box>
       <Drawer
         position="right"
-        overlayOpacity={0.55}
-        overlayBlur={3}
         opened={settingsOpened}
         onClose={() => setSettingsOpened(false)}
         title="Settings"

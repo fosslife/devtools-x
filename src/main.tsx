@@ -43,7 +43,6 @@ function Main({ children }: any) {
     setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
 
   useEffect(() => {
-    console.log("color changed");
     db.data.theme = colorScheme;
     db.write();
   }, [colorScheme]);

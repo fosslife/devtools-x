@@ -1,9 +1,11 @@
 import {
   ActionIcon,
+  Box,
   createStyles,
   Divider,
   Group,
   Stack,
+  Table,
   Text,
   TextInput,
   Tooltip,
@@ -32,11 +34,8 @@ import { db } from "../utils";
 const useStyles = createStyles((theme) => ({
   navbar: {
     height: "95%",
-    width: "230px", // FIXME: remove hardcodings
     padding: "10px",
-    // FIXME: HACKS!!!
-    marginTop: -10,
-    marginLeft: -4,
+    paddingTop: 0,
     overflow: "scroll",
     borderRight: "thin solid white",
     fontSize: "15px",
@@ -46,23 +45,49 @@ const useStyles = createStyles((theme) => ({
         : theme.colors.gray[1],
   },
   topSection: {
-    position: "fixed",
-    zIndex: 2,
+    position: "sticky",
     top: 0,
-    width: "210px",
+    zIndex: 2,
     background:
       theme.colorScheme === "dark"
         ? theme.colors.dark[7]
         : theme.colors.gray[1],
   },
+  row: {
+    cursor: "pointer",
+    padding: 4,
+    paddingLeft: 5,
+    borderRadius: 4,
+    display: "flex",
+    gap: 20,
+    justifyContent: "space-between",
+    ":hover": {
+      backgroundColor:
+        theme.colorScheme === "dark"
+          ? theme.colors.gray[8]
+          : theme.colors.gray[6],
+    },
+  },
+  listTitle: {
+    display: "flex",
+    gap: 15,
+    alignItems: "center",
+    flexDirection: "row",
+    textAlign: "center",
+  },
   bottomSection: {
-    position: "relative",
-    top: "120px",
+    width: "max-content",
   },
   item: {
     "&:hover": {
       backgroundColor: "red",
     },
+  },
+  active: {
+    backgroundColor:
+      theme.colorScheme === "dark"
+        ? theme.colors.gray[8]
+        : theme.colors.gray[6],
   },
 }));
 
@@ -93,7 +118,7 @@ export const data = [
 ];
 
 export const Navbar = () => {
-  const { classes } = useStyles();
+  const { classes, cx } = useStyles();
   const location = useLocation();
   const nav = useNavigate();
   const [navItems, setNavItems] = useState(data);
@@ -153,35 +178,21 @@ export const Navbar = () => {
         {navItems.map((e) => {
           const pinExists = db.data.pinned.includes(e.id);
 
+          {
+            /* ROW */
+          }
           return (
-            <Group
-              grow
-              spacing={"xs"}
+            <Box
               key={e.id}
-              sx={(t) => ({
-                backgroundColor:
-                  location.pathname === e.to
-                    ? t.colorScheme === "dark"
-                      ? t.colors.gray[8]
-                      : t.colors.gray[6]
-                    : "inherit",
-                padding: 4,
-                paddingLeft: 5,
-                borderRadius: 4,
-                ":hover": {
-                  backgroundColor:
-                    t.colorScheme === "dark"
-                      ? t.colors.gray[8]
-                      : t.colors.gray[6],
-                },
+              className={cx(classes.row, {
+                [classes.active]: location.pathname === e.to,
               })}
               onMouseMove={() => {
                 setShowIcon(e.id);
               }}
               onMouseLeave={() => setShowIcon(-99)}
             >
-              {/* ROW */}
-              <Group onClick={() => nav(e.to)} sx={{ cursor: "pointer" }}>
+              <Box className={classes.listTitle} onClick={() => nav(e.to)}>
                 <Text
                   sx={(theme) => ({
                     color:
@@ -196,7 +207,7 @@ export const Navbar = () => {
                 {e.extra ? (
                   <Tooltip label={e.extra}>
                     <Text
-                      size="sm"
+                      size="xs"
                       weight={location.pathname === e.to ? "bold" : "normal"}
                       color="red"
                       component={Link}
@@ -207,46 +218,43 @@ export const Navbar = () => {
                   </Tooltip>
                 ) : (
                   <Text
-                    size="sm"
+                    size="xs"
                     weight={location.pathname === e.to ? "bold" : "normal"}
-                    component={Link}
-                    to={e.to}
                   >
                     {e.text.toUpperCase()}
                   </Text>
                 )}
-
-                {e.id === showIcon || pinExists ? (
-                  <ActionIcon
-                    sx={(theme) => ({
-                      color:
-                        theme.colorScheme === "dark"
-                          ? theme.colors.dark[1]
-                          : theme.colors.dark[9],
-                    })}
-                    size={"sm"}
-                    onClick={() => {
-                      const { pinned } = db.data;
-                      if (pinned.includes(e.id)) {
-                        db.data.pinned = pinned.filter(
-                          (i: number) => i !== e.id
-                        );
-                      } else {
-                        db.data.pinned = [...db.data.pinned, e.id];
-                      }
-                      db.write();
-                      handleState(db.data.pinned);
-                    }}
-                  >
-                    {pinExists ? (
-                      <VscPinned size="15px" />
-                    ) : (
-                      <VscPin size="15px" />
-                    )}
-                  </ActionIcon>
-                ) : null}
-              </Group>
-            </Group>
+              </Box>
+              <Box>
+                <ActionIcon
+                  sx={(theme) => ({
+                    visibility:
+                      e.id === showIcon || pinExists ? "visible" : "hidden",
+                    color:
+                      theme.colorScheme === "dark"
+                        ? theme.colors.dark[1]
+                        : theme.colors.dark[9],
+                  })}
+                  size={"sm"}
+                  onClick={() => {
+                    const { pinned } = db.data;
+                    if (pinned.includes(e.id)) {
+                      db.data.pinned = pinned.filter((i: number) => i !== e.id);
+                    } else {
+                      db.data.pinned = [...db.data.pinned, e.id];
+                    }
+                    db.write();
+                    handleState(db.data.pinned);
+                  }}
+                >
+                  {pinExists ? (
+                    <VscPinned size="15px" />
+                  ) : (
+                    <VscPin size="15px" />
+                  )}
+                </ActionIcon>
+              </Box>
+            </Box>
           );
         })}
       </Stack>
