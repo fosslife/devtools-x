@@ -102,18 +102,16 @@ export const Navbar = ({ openSettings }: any) => {
                 : theme.colors.dark[8],
           })}
         >
-          <Flex gap={15}>
+          <Flex gap={15} onClick={() => nav("/")} className={classes.home}>
             <MdOutlineHome size={"20px"} />
             <Text
               variant={location.pathname === "/" ? "gradient" : "text"}
-              component={Link}
-              to="/"
               weight={location.pathname === "/" ? "bold" : "normal"}
             >
               {"Home"}
             </Text>
           </Flex>
-          <ActionIcon onClick={() => openSettings(true)}>
+          <ActionIcon variant={"filled"} onClick={() => openSettings(true)}>
             <FiSettings />
           </ActionIcon>
         </Group>
@@ -173,6 +171,7 @@ export const Navbar = ({ openSettings }: any) => {
               </Box>
               <Box>
                 <ActionIcon
+                  variant={pinExists ? "subtle" : "outline"}
                   sx={(theme) => ({
                     visibility:
                       e.id === showIcon || pinExists ? "visible" : "hidden",

@@ -47,11 +47,19 @@ export const useStyles = createStyles((theme) => ({
     width: "max-content",
     overflowY: "auto",
   },
-  item: {
-    "&:hover": {
-      backgroundColor: "red",
+  home: {
+    padding: 5,
+    cursor: "pointer",
+    paddingInlineEnd: 35,
+    borderRadius: 4,
+    ":hover": {
+      background:
+        theme.colorScheme === "dark"
+          ? theme.colors.gray[8]
+          : theme.colors.gray[6],
     },
   },
+
   active: {
     backgroundColor:
       theme.colorScheme === "dark"
