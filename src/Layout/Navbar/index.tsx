@@ -154,7 +154,7 @@ export const Navbar = ({ openSettings }: any) => {
                   <Tooltip label={e.extra}>
                     <Text
                       size="xs"
-                      weight={location.pathname === e.to ? "bold" : "normal"}
+                      weight={location.pathname === e.to ? "500" : "400"}
                       color="red"
                       component={Link}
                       to={e.to}
@@ -165,7 +165,7 @@ export const Navbar = ({ openSettings }: any) => {
                 ) : (
                   <Text
                     size="xs"
-                    weight={location.pathname === e.to ? "bold" : "normal"}
+                    weight={location.pathname === e.to ? "500" : "400"}
                   >
                     {e.text.toUpperCase()}
                   </Text>
