@@ -32,7 +32,7 @@ export const SingleTab = ({ t }: { t: number }) => {
     // "UNLINK",
   ] as const;
 
-  type Methods = typeof methods[number];
+  type Methods = (typeof methods)[number];
 
   const [method, setMethod] = useState<Methods>("GET");
   const [url, setUrl] = useState<string>(
@@ -46,14 +46,7 @@ export const SingleTab = ({ t }: { t: number }) => {
   ]);
 
   const [respText, setRespText] = useState<string>("");
-  const [response, setResponse] = useState<AxiosResponse>({
-    config: {},
-    data: null,
-    headers: {},
-    status: 1,
-    statusText: "",
-    request: "",
-  });
+  const [response, setResponse] = useState<any>(null);
 
   const makeRequest = async () => {
     function parseKV(arr: ParamType[]) {
