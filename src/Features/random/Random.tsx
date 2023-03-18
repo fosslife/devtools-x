@@ -78,16 +78,19 @@ const Random = () => {
 
   return (
     <Stack style={{ height: "100%", width: "100%" }} p={"sm"}>
-      <Group align={"center"} style={{ height: "8%" }}>
+      <Group align={"center"}>
         <Checkbox.Group value={checkboxes} onChange={setCheckboxes}>
-          <Checkbox label="lowercase" value={"lowercase"} />
-          <Checkbox label="uppercase" value={"uppercase"} />
-          <Checkbox label="numbers" value={"numbers"} />
-          <Checkbox label="symbols" value={"symbols"} />
-          <Checkbox
-            label="exclude similar chars"
-            value={"excludeSimilarCharacters"}
-          />
+          <Group>
+            {" "}
+            <Checkbox label="lowercase" value={"lowercase"} />
+            <Checkbox label="uppercase" value={"uppercase"} />
+            <Checkbox label="numbers" value={"numbers"} />
+            <Checkbox label="symbols" value={"symbols"} />
+            <Checkbox
+              label="exclude similar chars"
+              value={"excludeSimilarCharacters"}
+            />
+          </Group>
         </Checkbox.Group>
       </Group>
       <Group align={"flex-end"}>
