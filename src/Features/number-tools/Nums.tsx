@@ -1,4 +1,4 @@
-import { Button, Divider, Group, Stack, TextInput } from "@mantine/core";
+import { Button, Divider, Group, Stack, Text, TextInput } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { convertBase } from "simple-base-converter";
 
@@ -17,6 +17,7 @@ const Nums = () => {
   const [output, setOutput] = useState(init);
   const [input, setInput] = useState("afc3d1");
   const [base, setBase] = useState<number | undefined>(16);
+  const [error, setError] = useState("");
 
   const convertInput = (ip: string) => {
     if (!ip) {
@@ -24,14 +25,25 @@ const Nums = () => {
       return;
     }
     if (!base) return; //TS
-    setOutput({
-      binary: convertBase(ip, base, 2),
-      decimal: convertBase(ip, base, 10),
-      octal: convertBase(ip, base, 8),
-      hexadecimal: convertBase(ip, base, 16),
-      base32: convertBase(ip, base, 16),
-      base64: convertBase(ip, base, 16),
-    });
+    if (base < 2) return;
+    let op = {};
+
+    try {
+      op = {
+        binary: convertBase(ip, base, 2),
+        decimal: convertBase(ip, base, 10),
+        octal: convertBase(ip, base, 8),
+        hexadecimal: convertBase(ip, base, 16),
+        base32: convertBase(ip, base, 16),
+        base64: convertBase(ip, base, 16),
+      };
+      setError("");
+    } catch (er: any) {
+      setError(er.message);
+      return;
+    }
+
+    setOutput(op as any);
   };
 
   useEffect(() => {
@@ -60,7 +72,7 @@ const Nums = () => {
           Calculate
         </Button>
       </Group>
-
+      {error && <Text color={"red"}>{error}</Text>}
       <Divider />
       <OutputBox label="BINARY" value={output.binary} />
       <OutputBox label="DECIMAL" value={output.decimal} />

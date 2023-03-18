@@ -1,11 +1,20 @@
-import { Box, Group, Stack } from "@mantine/core";
+import {
+  Box,
+  Group,
+  Stack,
+  Switch,
+  useMantineColorScheme,
+} from "@mantine/core";
 import cc from "color-convert";
 import { useState } from "react";
 import { RgbaColor, RgbaColorPicker } from "react-colorful";
+import { BsMoon, BsSun } from "react-icons/bs";
 
 import { OutputBox } from "../../Components/OutputBox";
 
 const Colors = () => {
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+
   const [color, setColor] = useState<RgbaColor>({
     r: 34,
     g: 135,
@@ -33,7 +42,7 @@ const Colors = () => {
           setColor(e);
         }}
       />
-      <Group spacing={10}>
+      <Group spacing={10} grow>
         <OutputBox
           label="RGB:"
           value={`${color.r}, ${color.g}, ${color.b}, ${color.a}`}
@@ -62,15 +71,14 @@ const Colors = () => {
         })}
       ></Box>
 
-      {/* FIXME: Enable when themes are working */}
-      {/* <Flex gap={3} display="none">
-        <FormControl display="flex" alignItems="center">
-          <FormLabel htmlFor="theme" mb="0">
-            Toggle theme
-          </FormLabel>
-          <Switch id="theme" onChange={toggleColorMode} />
-        </FormControl>
-      </Flex> */}
+      <Switch
+        checked={colorScheme === "dark"}
+        id="theme"
+        onLabel={<BsSun size={15} />}
+        offLabel={<BsMoon size={15} />}
+        size={"lg"}
+        onChange={() => toggleColorScheme()}
+      />
     </Stack>
   );
 };

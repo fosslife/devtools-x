@@ -88,3 +88,5 @@ const Sql = () => {
 };
 
 export default Sql;
+
+// TODO: Save previous query

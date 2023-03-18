@@ -27,6 +27,8 @@ const SelectItem = forwardRef<HTMLDivElement, Runtimes>(
 );
 
 SelectItem.displayName = "Select";
+const ANSI_ESCAPE_REGEX =
+  /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g;
 
 function Repl() {
   const [codeValue, setCodeValue] = useState(``);
@@ -73,7 +75,9 @@ function Repl() {
         setLoading(false);
         console.log("resp", l);
         // output will always be stderr or stdout
-        setOutput(l.compile?.output ? l.compile.output : l.run.output);
+        let op = l.compile?.output ? l.compile.output : l.run.output;
+
+        setOutput(op.replace(ANSI_ESCAPE_REGEX, ""));
       })
       .catch((err) => {
         setOutput(err.message);
@@ -113,8 +117,13 @@ function Repl() {
             sx={(theme) => ({
               height: "95%",
               overflow: "auto",
-              width: "50%",
-              backgroundColor: theme.colors.dark[5],
+              width: "47%",
+              maxWidth: "47%",
+              backgroundColor:
+                theme.colorScheme === "dark"
+                  ? theme.colors.dark[5]
+                  : theme.colors.dark[5],
+              color: "white",
               padding: 10,
               paddingTop: 0,
               fontFamily: '"Ubuntu Mono", monospace',
@@ -123,9 +132,26 @@ function Repl() {
             <Text component="pre">{output}</Text>
           </Box>
         </Group>
-        <Button size={"md"} fullWidth loading={loading} onClick={handleSubmit}>
-          Run
-        </Button>
+        <Group noWrap px={15}>
+          <Button
+            size={"md"}
+            fullWidth
+            loading={loading}
+            onClick={handleSubmit}
+            title="Powered by engineer-man/piston"
+          >
+            Run
+          </Button>
+          <Button
+            size={"md"}
+            loading={loading}
+            onClick={() => {
+              //
+            }}
+          >
+            Copy output
+          </Button>
+        </Group>
       </Box>
     </Stack>
   );
