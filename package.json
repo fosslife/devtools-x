@@ -16,9 +16,9 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@loadable/component": "^5.15.3",
-    "@mantine/core": "^6.0.1",
-    "@mantine/hooks": "^6.0.1",
-    "@mantine/spotlight": "^6.0.1",
+    "@mantine/core": "^6.0.2",
+    "@mantine/hooks": "^6.0.2",
+    "@mantine/spotlight": "^6.0.2",
     "@monaco-editor/react": "^4.4.6",
     "@sqltools/formatter": "^1.2.5",
     "@tauri-apps/api": "^1.2.0",
@@ -52,8 +52,8 @@
     "@types/prismjs": "^1.26.0",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
-    "@typescript-eslint/eslint-plugin": "^5.54.1",
-    "@typescript-eslint/parser": "^5.54.1",
+    "@typescript-eslint/eslint-plugin": "^5.55.0",
+    "@typescript-eslint/parser": "^5.55.0",
     "@vitejs/plugin-react": "^3.1.0",
     "@vitejs/plugin-react-swc": "^3.2.0",
     "eslint": "^8.36.0",
@@ -67,7 +67,7 @@
     "monaco-editor": "^0.36.1",
     "prettier": "^2.8.4",
     "rollup-plugin-visualizer": "^5.9.0",
-    "typescript": "^4.9.5",
-    "vite": "^4.1.4"
+    "typescript": "^5.0.2",
+    "vite": "^4.2.0"
   }
 }
