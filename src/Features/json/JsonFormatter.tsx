@@ -2,7 +2,7 @@ import { Button, Stack, Tabs } from "@mantine/core";
 import { useEffect, useState } from "react";
 
 import { db } from "../../utils";
-import { useDebouncedCallback } from "../../utils/useDebouceCallback";
+import { useDebouncedCallback } from "../../utils/";
 import { SingleTab } from "./SingleTab";
 
 // default state
