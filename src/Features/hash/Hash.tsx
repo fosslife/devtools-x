@@ -4,7 +4,7 @@ import { lib, MD5, SHA1, SHA224, SHA256, SHA512 } from "crypto-js";
 import { useEffect, useState } from "react";
 
 import { Monaco } from "../../Components/MonacoWrapper";
-// import { db } from "../../utils";
+import { db } from "../../utils";
 import { HashBox } from "./HashBox";
 
 const init = {
@@ -19,11 +19,19 @@ const Hash = () => {
   const [hashes, setHashes] = useState(init);
   const [filePath, setFilePath] = useState("");
   const [loading, setLoading] = useState(false);
+  const [editorText, setEditorText] = useState("Hello World");
 
   useEffect(() => {
     // calculate dummy hashes of first text
-    onChange("Enter Text");
-    // console.log(db.data);
+    async function firsthashes() {
+      const firstText = await db.get<string>("hash");
+      if (firstText) {
+        onChange(firstText);
+        return;
+      }
+      onChange("Enter Text");
+    }
+    firsthashes();
   }, []);
 
   // const ellipsify = (state: HashState) =>
@@ -55,10 +63,13 @@ const Hash = () => {
       sha512: sha512Hash,
       sha224: sha224Hash,
     };
+
+    db.set("hash", val);
     // set state
     // setHashes(ellipsify(state));
     setHashes(state);
     setLoading(false);
+    setEditorText(val);
   };
 
   const selectFile = async () => {
@@ -96,7 +107,7 @@ const Hash = () => {
       <Monaco
         language="text"
         height="50%"
-        value={"Enter Text"}
+        value={editorText}
         setValue={onChange}
       />
       <Stack spacing={"lg"} pr={"sm"}>

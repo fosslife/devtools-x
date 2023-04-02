@@ -5,7 +5,7 @@ const db = new Store("settings.conf");
 if (!(await db.length())) {
   await Promise.all([
     db.set("jsoneditor", {}),
-    db.set("hashes", {}),
+    db.set("hashes", ""),
     db.set("pinned", []),
     db.set("theme", "dark"),
   ]);
