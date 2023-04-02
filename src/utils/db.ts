@@ -12,4 +12,7 @@ if (!(await db.length())) {
   await db.save();
 }
 
+if (import.meta.env.DEV) {
+  window.db = db;
+}
 export { db };
