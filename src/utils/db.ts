@@ -13,6 +13,6 @@ if (!(await db.length())) {
 }
 
 if (import.meta.env.DEV) {
-  window.db = db;
+  (window as any).db = db;
 }
 export { db };
