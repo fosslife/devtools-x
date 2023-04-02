@@ -10,6 +10,8 @@ import {
   Textarea,
   TextInput,
 } from "@mantine/core";
+import { confirm, save } from "@tauri-apps/api/dialog";
+import { writeTextFile } from "@tauri-apps/api/fs";
 import { generate } from "generate-password-ts";
 import { useEffect, useState } from "react";
 
@@ -52,10 +54,9 @@ const Random = () => {
         {}
       ),
     };
-    // console.log(checkboxes, "Check", options);
+
     const pass = generate(options);
 
-    // FIXME: Entropy calculation, broken!
     let passwordLength = pass.length;
     let poolsize = 0;
     if (checkboxes.includes("lowercase")) poolsize += 26;
@@ -144,6 +145,32 @@ const Random = () => {
 
       <Textarea autosize readOnly value={pass.pass} />
 
+      <Box>
+        <Button
+          onClick={async () => {
+            const filePath = await save({
+              title: "Save Passwords",
+              defaultPath: "passwords.txt",
+              filters: [{ name: "text file", extensions: ["txt"] }],
+            });
+
+            if (filePath) {
+              let confirmation = await confirm(
+                "[Warning] saving passwords as plain text is not secure, are you sure you want to continue?",
+                {
+                  title: "Warning",
+                  type: "warning",
+                }
+              );
+              if (confirmation) {
+                await writeTextFile(filePath, pass.pass);
+              }
+            }
+          }}
+        >
+          Save Passwords as File
+        </Button>
+      </Box>
       <Box>Entropy: {pass.entropy}</Box>
       <Text size="xs" color={"dimmed"}>
         Note: entropy calculation might be broken.
