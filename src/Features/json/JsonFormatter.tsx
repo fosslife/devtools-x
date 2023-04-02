@@ -27,26 +27,39 @@ const JsonFormatter = () => {
   const [activeTab, setActiveTab] = useState<string | null>("1");
 
   useEffect(() => {
-    const { tabsstate } = db.data.jsoneditor;
-    const saved = Object.keys(tabsstate);
-
-    if (saved.length > 0) {
-      setTabs(saved.map((e) => ({ tab: Number(e), data: tabsstate[e] })));
-      setActiveTab(saved[0]);
+    async function getExistingTabs() {
+      const existing = await db.get<any>("jsoneditor");
+      console.log("existing", existing);
+      if (existing) {
+        const saved = Object.keys(existing);
+        if (saved.length > 0) {
+          setTabs(
+            saved.map((e) => {
+              try {
+                return {
+                  tab: Number(e),
+                  data: JSON.parse(existing[e]),
+                };
+              } catch {
+                return {
+                  tab: Number(e),
+                  data: String.raw(existing[e]),
+                };
+              }
+            })
+          );
+          setActiveTab(saved[0]);
+        }
+      }
     }
+    getExistingTabs();
   }, []);
 
   const handleTabChange = useDebouncedCallback(
     async (e: string = "", t: any) => {
-      let isJson;
-      try {
-        isJson = JSON.parse(e);
-      } catch {
-        isJson = e;
-      }
-
-      db.data.jsoneditor.tabsstate[t] = isJson;
-      await db.write();
+      const existingtabs = await db.get<any>("jsoneditor");
+      await db.set("jsoneditor", { ...existingtabs, [t]: e });
+      await db.save();
     },
     500,
     []
@@ -71,12 +84,15 @@ const JsonFormatter = () => {
               onMouseDown={async (e) => {
                 if (e.button === 1) {
                   const tabid = tabs.find((el) => el.tab === t.tab);
-
                   const lastTabid = tabs[tabs.length - 1].tab;
-                  if (tabid) delete db.data.jsoneditor.tabsstate[tabid.tab];
+                  let jsoneditor = await db.get<any>("jsoneditor");
+                  if (tabid) {
+                    delete jsoneditor[tabid.tab];
+                    await db.set("jsoneditor", { ...jsoneditor });
+                    await db.save();
+                  }
                   setTabs(tabs.filter((e) => e.tab !== t.tab));
-                  setActiveTab(lastTabid.toString());
-                  await db.write();
+                  setActiveTab((lastTabid - 1).toString());
                 }
               }}
             >
@@ -100,12 +116,16 @@ const JsonFormatter = () => {
               });
               setTabs([...tabs]);
               setActiveTab((lastTabid + 1).toString());
-              db.data.jsoneditor.tabsstate[lastTabid + 1] = {
+              const newTab = {
                 tab: lastTabid + 1,
                 ...def,
-              }; // save this new tab to db
-              // setActiveTab("+");
-              await db.write();
+              };
+              const currDbTabs = await db.get<any>("jsoneditor");
+              await db.set("jsoneditor", {
+                ...currDbTabs,
+                [lastTabid + 1]: newTab,
+              });
+              await db.save();
             }}
           >
             +

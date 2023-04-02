@@ -36,20 +36,32 @@ root.render(
 );
 
 function Main({ children }: any) {
-  const [colorScheme, setColorScheme] = useState<ColorScheme>(
-    db.data.theme || "dark"
-  );
+  const [colorScheme, setColorScheme] = useState<ColorScheme>();
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
 
   useEffect(() => {
-    db.data.theme = colorScheme;
-    db.write();
+    async function getTheme() {
+      const existing = await db.get<ColorScheme>("theme");
+      setColorScheme(existing!);
+    }
+    getTheme();
+  }, []);
+
+  useEffect(() => {
+    async function getTheme() {
+      if (colorScheme) {
+        setColorScheme(colorScheme);
+        await db.set("theme", colorScheme);
+        await db.save();
+      }
+    }
+    getTheme();
   }, [colorScheme]);
 
   return (
     <ColorSchemeProvider
-      colorScheme={colorScheme}
+      colorScheme={colorScheme!}
       toggleColorScheme={toggleColorScheme}
     >
       <MantineProvider

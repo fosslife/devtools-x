@@ -47,10 +47,7 @@
       "active": false
     },
     "allowlist": {
-      "all": true,
-      "fs": {
-        "scope": ["*"]
-      }
+      "all": true
     },
     "windows": [],
     "security": {

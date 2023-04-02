@@ -2,8 +2,8 @@ import { createContext, useState } from "react";
 import { type ElementType } from "react";
 
 type AppContextType = {
-  pinned: string[];
-  handleState: (newPin: string[]) => void;
+  pinned: number[];
+  handleState: (newPin: number[]) => void;
 };
 
 const init = {
@@ -14,9 +14,9 @@ const init = {
 export const AppContext = createContext<AppContextType>(init);
 
 export const AppContextProvider: ElementType = ({ children }) => {
-  const [pinned, setPinned] = useState<string[]>([]);
+  const [pinned, setPinned] = useState<number[]>([]);
 
-  const handleState = (newPins: string[]) => {
+  const handleState = (newPins: number[]) => {
     setPinned(newPins);
   };
   return (

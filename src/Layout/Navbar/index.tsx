@@ -1,7 +1,6 @@
 import {
   ActionIcon,
   Box,
-  createStyles,
   Divider,
   Flex,
   Group,
@@ -10,7 +9,7 @@ import {
   TextInput,
   Tooltip,
 } from "@mantine/core";
-import { ChangeEvent, useContext, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { BsSortNumericUpAlt } from "react-icons/bs";
 import {
   FaCode,
@@ -63,7 +62,7 @@ export const Navbar = ({ openSettings }: any) => {
   const nav = useNavigate();
   const [navItems, setNavItems] = useState(data);
   const [showIcon, setShowIcon] = useState(-99);
-  const { handleState } = useContext(AppContext);
+  const { pinned, handleState } = useContext(AppContext);
 
   const filterItems = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value) {
@@ -76,6 +75,15 @@ export const Navbar = ({ openSettings }: any) => {
       setNavItems([...data]);
     }
   };
+
+  useEffect(() => {
+    async function pinnedItems() {
+      const pinnedStore = (await db.get<number[]>("pinned")) || [];
+
+      handleState([...pinnedStore]);
+    }
+    pinnedItems();
+  }, []);
 
   return (
     <Stack className={classes.navbar}>
@@ -120,7 +128,7 @@ export const Navbar = ({ openSettings }: any) => {
       {/* ====== One Title */}
       <Stack className={classes.bottomSection}>
         {navItems.map((e) => {
-          const pinExists = db.data.pinned.includes(e.id);
+          const pinExists = pinned?.includes(e.id);
 
           {
             /* ROW */
@@ -181,15 +189,23 @@ export const Navbar = ({ openSettings }: any) => {
                         : theme.colors.dark[9],
                   })}
                   size={"sm"}
-                  onClick={() => {
-                    const { pinned } = db.data;
-                    if (pinned.includes(e.id)) {
-                      db.data.pinned = pinned.filter((i: number) => i !== e.id);
+                  onClick={async () => {
+                    // get existing pins from db
+                    const pinned = await db.get<number[]>("pinned");
+                    // if pin you cliked already exists in db, remove it.
+                    if (pinned?.includes(e.id)) {
+                      await db.set(
+                        "pinned",
+                        pinned.filter((i: number) => i !== e.id)
+                      );
                     } else {
-                      db.data.pinned = [...db.data.pinned, e.id];
+                      // add existing to db
+                      let existing = (await db.get<number[]>("pinned")) || [];
+                      await db.set("pinned", [...existing, e.id]);
                     }
-                    db.write();
-                    handleState(db.data.pinned);
+                    await db.save();
+                    const newPinned = await db.get<number[]>("pinned");
+                    handleState(newPinned as number[]);
                   }}
                 >
                   {pinExists ? (

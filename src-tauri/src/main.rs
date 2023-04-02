@@ -8,6 +8,7 @@ use tauri::{Manager, WindowBuilder, WindowUrl};
 
 fn main() {
   tauri::Builder::default()
+    .plugin(tauri_plugin_store::Builder::default().build())
     .setup(|app| {
       WindowBuilder::new(app, "main", WindowUrl::App("index.html".into()))
         .title("DevTools-X")
