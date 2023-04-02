@@ -99,7 +99,7 @@ export const SingleTab = ({ t }: { t: number }) => {
       <Stack>
         {/* Request configuration */}
         <Group align="start" grow>
-          <Tabs defaultValue={"params"}>
+          <Tabs defaultValue={"params"} variant="outline">
             <Tabs.List>
               <Tabs.Tab value="params">Params</Tabs.Tab>
               <Tabs.Tab value="headers">Headers</Tabs.Tab>
@@ -148,8 +148,8 @@ export const SingleTab = ({ t }: { t: number }) => {
           <Text color={"dimmed"} size="xs">
             Response {respText}
           </Text>
-          {response.data && (
-            <Tabs defaultValue={"response"}>
+          {response?.data && (
+            <Tabs defaultValue={"response"} variant="outline">
               <Tabs.List>
                 <Tabs.Tab value="response">Response</Tabs.Tab>
                 <Tabs.Tab value="headers">Headers</Tabs.Tab>
@@ -165,7 +165,7 @@ export const SingleTab = ({ t }: { t: number }) => {
                   />
                 </Tabs.Panel>
                 <Tabs.Panel value="headers">
-                  <Table>
+                  <Table striped>
                     <tbody>
                       {Object.entries(response.headers).map(
                         ([key, value]: any) => {
