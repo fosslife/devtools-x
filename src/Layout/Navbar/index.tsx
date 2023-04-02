@@ -20,7 +20,7 @@ import {
   FaReact,
   FaYinYang,
 } from "react-icons/fa";
-import { FiHash, FiSettings } from "react-icons/fi";
+import { FiFile, FiHash, FiSettings } from "react-icons/fi";
 import { MdAnchor, MdColorize, MdHttp, MdOutlineHome } from "react-icons/md";
 import { SiJsonwebtokens, SiPostgresql } from "react-icons/si";
 import { VscDiff, VscPin, VscPinned, VscRegex } from "react-icons/vsc";
@@ -32,7 +32,8 @@ import { useStyles } from "./styles";
 
 export const data = [
   { id: 1, to: "/json-formatter", icon: <MdAnchor />, text: "JSON Tools" },
-  { id: 2, to: "/hash", icon: <FiHash />, text: "Hashing Tools" },
+  { id: 2, to: "/hash-text", icon: <FiHash />, text: "Hashing Text" },
+  { id: 18, to: "/hash-file", icon: <FiFile />, text: "Hashing Files" },
   { id: 3, to: "/random", icon: <FaRandom />, text: "Random Text" },
   { id: 4, to: "/jwt", icon: <SiJsonwebtokens />, text: "JWT Tools" },
   { id: 5, to: "/nums", icon: <BsSortNumericUpAlt />, text: "Number Tools" },

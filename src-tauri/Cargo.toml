@@ -2,7 +2,7 @@
 name = "app"
 version = "1.7.2"
 description = "Developer tools desktop application"
-authors = [ "Sparkenstein" ]
+authors = ["Sparkenstein"]
 license = "MIT"
 repository = "https://github.com/fosslife/devtools-x"
 default-run = "app"
@@ -13,18 +13,22 @@ build = "src/build.rs"
 tauri-build = { version = "1.2.1", features = [] }
 
 [dependencies]
-serde_json = "1.0.83"
-serde = { version = "1.0.143", features = [ "derive" ] }
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
 tauri = { version = "1.2.4", features = ["api-all", "devtools"] }
 tauri-plugin-store = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "dev" }
+md-5 = "0.10.5"
+base16ct = { version = "0.2.0", features = ["alloc"] }
+rayon = "1.7.0"
+dashmap = { version = "5.4.0", features = ["serde"] }
 
 [features]
-default = [ "custom-protocol" ]
-custom-protocol = [ "tauri/custom-protocol" ]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]
 
 [profile.release]
 panic = "abort"
 codegen-units = 1
 lto = true
 incremental = false
-opt-level = "s"  # can experiment with 'z' as well
+opt-level = "s"     # can experiment with 'z' as well

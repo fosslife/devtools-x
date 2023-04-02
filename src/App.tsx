@@ -16,6 +16,7 @@ import { Settings } from "./Layout/Settings";
 // Lazy load components
 const Welcome = loadable(() => import("./Components/Welcome"));
 const Hash = loadable(() => import("./Features/hash/Hash"));
+const FileHash = loadable(() => import("./Features/hash/FileHash"));
 const JsonFormatter = loadable(() => import("./Features/json/JsonFormatter"));
 const Random = loadable(() => import("./Features/random/Random"));
 const JWT = loadable(() => import("./Features/jwt/JWT"));
@@ -126,7 +127,8 @@ function App() {
           <Routes location={displayLocation}>
             <Route path="/" element={<Welcome />}></Route>
             <Route path="/json-formatter" element={<JsonFormatter />}></Route>
-            <Route path="/hash" element={<Hash />}></Route>
+            <Route path="/hash-text" element={<Hash />}></Route>
+            <Route path="/hash-file" element={<FileHash />}></Route>
             <Route path="/random" element={<Random />}></Route>
             <Route path="/jwt" element={<JWT />}></Route>
             <Route path="/nums" element={<Nums />}></Route>
