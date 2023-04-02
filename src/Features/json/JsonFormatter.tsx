@@ -43,7 +43,7 @@ const JsonFormatter = () => {
               } catch {
                 return {
                   tab: Number(e),
-                  data: String.raw(existing[e]),
+                  data: existing[e],
                 };
               }
             })
@@ -137,7 +137,11 @@ const JsonFormatter = () => {
             <SingleTab
               key={t.tab}
               tabid={t.tab}
-              tabdata={JSON.stringify(t.data, null, 2)}
+              tabdata={
+                typeof t.data === "object"
+                  ? JSON.stringify(t.data, null, 2)
+                  : t.data
+              }
               onChange={handleTabChange}
             />
           </Tabs.Panel>
