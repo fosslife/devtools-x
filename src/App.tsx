@@ -35,6 +35,7 @@ const Rest = loadable(() => import("./Features/rest/Rest"));
 const UnitConverter = loadable(
   () => import("./Features/unitconverter/UnitConverter")
 );
+const Epoch = loadable(() => import("./Features/epoch/Epoch"));
 
 const useStyles = createStyles((theme) => ({
   settings: {
@@ -144,6 +145,7 @@ function App() {
             <Route path="/units" element={<UnitConverter />}></Route>
             <Route path="/playground" element={<Playground />}></Route>
             <Route path="/rest" element={<Rest />}></Route>
+            <Route path="/epoch" element={<Epoch />}></Route>
           </Routes>
         </Group>
       </Box>

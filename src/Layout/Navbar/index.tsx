@@ -20,7 +20,7 @@ import {
   FaReact,
   FaYinYang,
 } from "react-icons/fa";
-import { FiFile, FiHash, FiSettings } from "react-icons/fi";
+import { FiClock, FiFile, FiHash, FiSettings } from "react-icons/fi";
 import { MdAnchor, MdColorize, MdHttp, MdOutlineHome } from "react-icons/md";
 import { SiJsonwebtokens, SiPostgresql } from "react-icons/si";
 import { VscDiff, VscPin, VscPinned, VscRegex } from "react-icons/vsc";
@@ -55,6 +55,7 @@ export const data = [
   { id: 15, to: "/units", icon: <FaExchangeAlt />, text: "Unit Converter" },
   { id: 16, to: "/playground", icon: <FaReact />, text: "React Pad" },
   { id: 17, to: "/rest", icon: <MdHttp />, text: "REST API" },
+  { id: 19, to: "/epoch", icon: <FiClock />, text: "Epoch Converter" },
 ];
 
 export const Navbar = ({ openSettings }: any) => {

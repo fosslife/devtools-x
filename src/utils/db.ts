@@ -8,6 +8,7 @@ if (!(await db.length())) {
     db.set("hashes", ""),
     db.set("pinned", []),
     db.set("theme", "dark"),
+    db.set("epoch", {}),
   ]);
   await db.save();
 }
