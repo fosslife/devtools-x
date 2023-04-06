@@ -50,7 +50,7 @@ function Pastebin() {
         onClick={() => {
           setLoading(true);
           // Make Call
-          fetch("https://bin.fosslife.com/api", {
+          fetch("https://bin.fosslife.com/", {
             method: "POST",
             body: codeValue,
             headers: {
