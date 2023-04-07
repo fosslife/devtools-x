@@ -56,6 +56,7 @@ export const data = [
   { id: 16, to: "/playground", icon: <FaReact />, text: "React Pad" },
   { id: 17, to: "/rest", icon: <MdHttp />, text: "REST API" },
   { id: 19, to: "/epoch", icon: <FiClock />, text: "Epoch Converter" },
+  { id: 20, to: "/stateless", icon: <FaYinYang />, text: "Stateless Password" },
 ];
 
 export const Navbar = ({ openSettings }: any) => {

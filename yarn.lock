@@ -1303,6 +1303,11 @@ bcp-47-match@^2.0.0:
   resolved "https://registry.yarnpkg.com/bcp-47-match/-/bcp-47-match-2.0.3.tgz#603226f6e5d3914a581408be33b28a53144b09d0"
   integrity sha512-JtTezzbAibu8G0R9op9zb3vcWZd9JF6M0xOYGPn0fNCd7wOpRB1mU2mH9T8gaBGbAAyIIVgB2G7xG0GP98zMAQ==
 
+big-integer@1.6.22:
+  version "1.6.22"
+  resolved "https://registry.yarnpkg.com/big-integer/-/big-integer-1.6.22.tgz#487c95fce886022ea48ff5f19e388932df46dd2e"
+  integrity sha512-TJVGlTcP8M2bq3Pr2gA/vbEDt4jT0+t2cVFaQ8ljoIRe+aXzcqku3lf1Tzg93nijRha9gQVcrj6Xz5XKYstoAQ==
+
 boolbase@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
@@ -2796,6 +2801,41 @@ language-tags@=1.0.5:
   integrity sha512-qJhlO9cGXi6hBGKoxEG/sKZDAHD5Hnu9Hs4WbOY3pCWXDhw0N8x1NenNzm2EnNLkLkk7J2SdxAkDSbb6ftT+UQ==
   dependencies:
     language-subtag-registry "~0.3.2"
+
+lesspass-crypto@9.1.9:
+  version "9.1.9"
+  resolved "https://registry.yarnpkg.com/lesspass-crypto/-/lesspass-crypto-9.1.9.tgz#dfb1b27fe77eeaa876946fca420d20e00ea0afe1"
+  integrity sha512-ugp1TQUoo7Ir0C+1z62IcAhCQ3FlERYu/J9z00LBdl4x79iBhRZnr/LxM5yiuTIdsan3wjriNfxCncoBlBEDZg==
+
+lesspass-entropy@9.1.9:
+  version "9.1.9"
+  resolved "https://registry.yarnpkg.com/lesspass-entropy/-/lesspass-entropy-9.1.9.tgz#9f3d6914e72c80a7ec189ffe2b8f6419ece13fb3"
+  integrity sha512-agvluCcSX4i7/E1Ip2gc4+XDnDXc5tUatPCb2Z8R9NQIjKyC3ANxQoby6GzbqC6BcRgsf9vfmvGMMdePEqk9YQ==
+  dependencies:
+    lesspass-crypto "9.1.9"
+
+lesspass-fingerprint@9.1.9:
+  version "9.1.9"
+  resolved "https://registry.yarnpkg.com/lesspass-fingerprint/-/lesspass-fingerprint-9.1.9.tgz#6509c020acd0bafe16337f6521edbd1b2c71ebd9"
+  integrity sha512-HYFHgDM/xzgPyoyaUgdVYOCwPXPXfjELTXJVd0Rzy6bYPf5+Qz7NyingXDeVj0WxilJmeSO+/7uwBt7i14pV/w==
+  dependencies:
+    lesspass-crypto "9.1.9"
+
+lesspass-render-password@9.1.9:
+  version "9.1.9"
+  resolved "https://registry.yarnpkg.com/lesspass-render-password/-/lesspass-render-password-9.1.9.tgz#944bc3f053180248615c993b8b2dd0053373aa68"
+  integrity sha512-GcYIC3YaY+LeFEcr/mMdcRfn52CiM8fFiertHkRgDn5XH0FwnYBuw8ZsLz1jD97OEbTJfo6n7Ru75Mgt+UNTGg==
+  dependencies:
+    big-integer "1.6.22"
+
+lesspass@^9.2.0:
+  version "9.2.0"
+  resolved "https://registry.yarnpkg.com/lesspass/-/lesspass-9.2.0.tgz#41d3eec3d76ff9eca7c828d4391f5a4964ed5870"
+  integrity sha512-Vx6ft2F9j8iIgMQ0D9RFgUNO0MXtz2+SWtu85GmXQL8A7MLAVloMNw2JShTI5VDRroR3mMeT2CybwfN3sbt56Q==
+  dependencies:
+    lesspass-entropy "9.1.9"
+    lesspass-fingerprint "9.1.9"
+    lesspass-render-password "9.1.9"
 
 levn@^0.4.1:
   version "0.4.1"

@@ -36,6 +36,7 @@ const UnitConverter = loadable(
   () => import("./Features/unitconverter/UnitConverter")
 );
 const Epoch = loadable(() => import("./Features/epoch/Epoch"));
+const Stateless = loadable(() => import("./Features/password"));
 
 const useStyles = createStyles((theme) => ({
   settings: {
@@ -146,6 +147,7 @@ function App() {
             <Route path="/playground" element={<Playground />}></Route>
             <Route path="/rest" element={<Rest />}></Route>
             <Route path="/epoch" element={<Epoch />}></Route>
+            <Route path="/stateless" element={<Stateless />}></Route>
           </Routes>
         </Group>
       </Box>
