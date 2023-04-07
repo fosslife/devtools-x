@@ -12,6 +12,7 @@ import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
 import { AppContextProvider } from "./Contexts/AppContextProvider";
+import { components } from "./Theme";
 import { db } from "./utils";
 
 const root = createRoot(document.getElementById("root") as Element);
@@ -65,7 +66,10 @@ function Main({ children }: any) {
       toggleColorScheme={toggleColorScheme}
     >
       <MantineProvider
-        theme={{ colorScheme }}
+        theme={{
+          colorScheme,
+          components,
+        }}
         withGlobalStyles
         withNormalizeCSS
       >
