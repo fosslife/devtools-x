@@ -1,30 +1,62 @@
-import { Button, CopyButton, Input } from "@mantine/core";
+import {
+  ActionIcon,
+  Button,
+  CopyButton,
+  Group,
+  Input,
+  MantineSize,
+} from "@mantine/core";
 import { clipboard } from "@tauri-apps/api";
-import { FaCopy } from "react-icons/fa";
+import { HTMLInputTypeAttribute, useState } from "react";
+import { FaCopy, FaEye } from "react-icons/fa";
 
-function OutputBox({ label, value }: { label: string; value: string }) {
+function OutputBox({
+  label,
+  value,
+  type: propType,
+  size,
+}: {
+  label: string;
+  value: string;
+  type?: HTMLInputTypeAttribute;
+  size?: MantineSize;
+}) {
+  const [type, setType] = useState(propType);
+
   return (
     <Input.Wrapper label={label}>
       <Input
-        size="xs"
+        type={type}
+        size={size || "xs"}
         rightSectionWidth={100}
         rightSection={
-          <CopyButton value={value}>
-            {({ copied, copy }) => (
-              <Button
-                leftIcon={<FaCopy />}
-                size="xs"
-                fullWidth={true}
-                color={copied ? "teal" : "blue"}
-                onClick={() => {
-                  copy(); //  copy doesn't work but need this function for animation.
-                  clipboard.writeText(value);
-                }}
+          <Group noWrap>
+            {propType === "password" ? (
+              <ActionIcon<"button">
+                onClick={() =>
+                  setType(type === "password" ? "text" : "password")
+                }
               >
-                {copied ? "Copied" : `Copy`}
-              </Button>
-            )}
-          </CopyButton>
+                <FaEye />
+              </ActionIcon>
+            ) : null}
+            <CopyButton value={value}>
+              {({ copied, copy }) => (
+                <Button
+                  leftIcon={<FaCopy />}
+                  size={size || "xs"}
+                  // fullWidth={true}
+                  color={copied ? "teal" : "blue"}
+                  onClick={() => {
+                    copy(); //  copy doesn't work but need this function for animation.
+                    clipboard.writeText(value);
+                  }}
+                >
+                  {copied ? "Copied" : `Copy`}
+                </Button>
+              )}
+            </CopyButton>
+          </Group>
         }
         value={value}
         readOnly
