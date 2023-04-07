@@ -29,7 +29,7 @@ const JsonFormatter = () => {
   useEffect(() => {
     async function getExistingTabs() {
       const existing = await db.get<any>("jsoneditor");
-      console.log("existing", existing);
+
       if (existing) {
         const saved = Object.keys(existing);
         if (saved.length > 0) {
