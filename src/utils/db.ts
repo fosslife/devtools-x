@@ -9,6 +9,7 @@ if (!(await db.length())) {
     db.set("pinned", []),
     db.set("theme", "dark"),
     db.set("epoch", {}),
+    db.set("password", {}),
   ]);
   await db.save();
 }

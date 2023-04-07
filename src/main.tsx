@@ -6,6 +6,7 @@ import {
   MantineProvider,
 } from "@mantine/core";
 import { Global } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
@@ -73,6 +74,7 @@ function Main({ children }: any) {
         withGlobalStyles
         withNormalizeCSS
       >
+        <Notifications />
         {children}
       </MantineProvider>
     </ColorSchemeProvider>

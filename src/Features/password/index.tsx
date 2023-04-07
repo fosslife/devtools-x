@@ -1,17 +1,35 @@
 import {
+  Badge,
   Button,
   Checkbox,
   Group,
   PasswordInput,
+  ScrollArea,
   Stack,
+  Table,
+  Text,
   TextInput,
+  Tooltip,
 } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 //@ts-ignore
 import { generatePassword } from "lesspass";
 import { useEffect, useState } from "react";
+import { FaCheck } from "react-icons/fa";
 
 import { OutputBox } from "../../Components/OutputBox";
+import { db } from "../../utils";
 import { QuantityInput } from "./Counter";
+
+type Config = {
+  options: string[];
+  counter: number;
+  length: number;
+};
+
+type StoredData = {
+  site: Config;
+};
 
 const StatelessPassword = () => {
   const [site, setSite] = useState("");
@@ -27,6 +45,56 @@ const StatelessPassword = () => {
   const [counter, setCounter] = useState(1);
   const [generated, setGenerated] = useState("");
   const [val, setVal] = useState("");
+  const [prevData, setPrevData] = useState<StoredData>();
+
+  const loadConfig = (site: string, config: Config) => {
+    setSite(site);
+    setOptions([...config.options]);
+    setLength(config.length);
+    setCounter(config.counter);
+  };
+
+  const store = async () => {
+    const prev = await db.get<StoredData>("password");
+    if (!site || !masterPassword || !login) return;
+    await db
+      .set("password", {
+        ...prev,
+        [site]: {
+          counter,
+          length,
+          options,
+        },
+      })
+      .then(() => {
+        if (prevData) {
+          setPrevData({
+            ...prevData,
+            [site]: {
+              counter,
+              length,
+              options,
+            },
+          });
+        }
+
+        notifications.show({
+          title: "Done",
+          icon: <FaCheck />,
+          message: "Data stored to db",
+        });
+      });
+  };
+
+  useEffect(() => {
+    async function getPrevData() {
+      const data = await db.get<StoredData>("password");
+      if (data) {
+        setPrevData({ ...data });
+      }
+    }
+    getPrevData();
+  }, []);
 
   useEffect(() => {
     if (!site || !login || !masterPassword) {
@@ -112,9 +180,12 @@ const StatelessPassword = () => {
           onChange={setCounter}
         />
       </Group>
-      <Button onClick={() => setVal(generated)} fullWidth>
-        Generate
-      </Button>
+      <Group grow>
+        <Button onClick={() => setVal(generated)}>Generate</Button>
+        <Tooltip label="This will store site, options and counter to a volatile DB. Think carefully">
+          <Button onClick={store}>Store</Button>
+        </Tooltip>
+      </Group>
       {val && (
         <Group grow mr={20}>
           <OutputBox
@@ -125,6 +196,48 @@ const StatelessPassword = () => {
           />
         </Group>
       )}
+      <Stack>
+        <Text size={"sm"} color="dimmed">
+          NOTE: This is just a custom implementation of lesspass.com. Visit
+          their site and github to know more about it
+        </Text>
+      </Stack>
+
+      <ScrollArea>
+        <Table>
+          <thead>
+            <tr>
+              <th>Site</th>
+              <th>Options</th>
+              <th>Length</th>
+              <th>Counter</th>
+              <th>Load</th>
+            </tr>
+          </thead>
+          <tbody>
+            {prevData &&
+              Object.entries(prevData).map(([site, config]) => (
+                <tr key={site}>
+                  <td>{site}</td>
+                  <td>
+                    {config.options.map((o) => (
+                      <Badge size="xs" key={o}>
+                        {o}
+                      </Badge>
+                    ))}
+                  </td>
+                  <td>{config.length}</td>
+                  <td>{config.counter}</td>
+                  <td>
+                    <Button size="xs" onClick={() => loadConfig(site, config)}>
+                      load config
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </Table>
+      </ScrollArea>
     </Stack>
   );
 };
