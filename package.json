@@ -1,6 +1,6 @@
 {
   "name": "dev-tools",
-  "version": "1.8.1",
+  "version": "1.9.1",
   "license": "MIT",
   "scripts": {
     "start": "tauri dev",
