@@ -1,10 +1,10 @@
 import {
+  ActionIcon,
   Badge,
   Button,
   Checkbox,
   Group,
   PasswordInput,
-  ScrollArea,
   Stack,
   Table,
   Text,
@@ -16,6 +16,8 @@ import { notifications } from "@mantine/notifications";
 import { generatePassword } from "lesspass";
 import { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
+import { FiCheck } from "react-icons/fi";
+import { MdDelete } from "react-icons/md";
 
 import { OutputBox } from "../../Components/OutputBox";
 import { db } from "../../utils";
@@ -121,7 +123,11 @@ const StatelessPassword = () => {
   }, [site, login, masterPassword, options, length, counter]);
 
   return (
-    <Stack sx={{ width: "100%", height: "100%" }} p={2} spacing={"xl"}>
+    <Stack
+      sx={{ width: "100%", height: "100%", overflow: "auto" }}
+      p={2}
+      spacing={"xl"}
+    >
       <TextInput
         error={site.length < 1}
         value={site}
@@ -203,41 +209,57 @@ const StatelessPassword = () => {
         </Text>
       </Stack>
 
-      <ScrollArea>
-        <Table>
-          <thead>
-            <tr>
-              <th>Site</th>
-              <th>Options</th>
-              <th>Length</th>
-              <th>Counter</th>
-              <th>Load</th>
-            </tr>
-          </thead>
-          <tbody>
-            {prevData &&
-              Object.entries(prevData).map(([site, config]) => (
-                <tr key={site}>
-                  <td>{site}</td>
-                  <td>
-                    {config.options.map((o) => (
-                      <Badge size="xs" key={o}>
-                        {o}
-                      </Badge>
-                    ))}
-                  </td>
-                  <td>{config.length}</td>
-                  <td>{config.counter}</td>
-                  <td>
-                    <Button size="xs" onClick={() => loadConfig(site, config)}>
-                      load config
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </Table>
-      </ScrollArea>
+      <Table>
+        <thead>
+          <tr>
+            <th>Site</th>
+            <th>Options</th>
+            <th>Length</th>
+            <th>Counter</th>
+            <th>manage</th>
+          </tr>
+        </thead>
+        <tbody>
+          {prevData &&
+            Object.entries(prevData).map(([site, config]) => (
+              <tr key={site}>
+                <td>{site}</td>
+                <td>
+                  {config.options.map((o) => (
+                    <Badge size="xs" key={o}>
+                      {o}
+                    </Badge>
+                  ))}
+                </td>
+                <td>{config.length}</td>
+                <td>{config.counter}</td>
+                <td>
+                  <Group>
+                    <ActionIcon
+                      title="Load config"
+                      onClick={() => loadConfig(site, config)}
+                      variant="filled"
+                    >
+                      <FiCheck />
+                    </ActionIcon>
+                    <ActionIcon
+                      title="Delete Record"
+                      onClick={() => {
+                        // @ts-ignore
+                        delete prevData[site];
+                        setPrevData({ ...prevData });
+                        db.set("password", { ...prevData });
+                      }}
+                      variant="filled"
+                    >
+                      <MdDelete />
+                    </ActionIcon>
+                  </Group>
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </Table>
     </Stack>
   );
 };
