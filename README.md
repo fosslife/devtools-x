@@ -2,10 +2,10 @@
 
 ![image](assets/banner.png)
 
-### inspiration
+### Inspiration
 
-`devutils` is mac only and `devtoys` is windows only.
-so heres devtools-x a x-platform collection of dev-tools, lighter, probably safer, and feature rich devepment utilities.
+`devutils` is macOS-only, and `devtoys` is Windows-only.  
+So here's DevTools-X -- an x-platform collection of dev-tools that is lighter, safer, and full of feature rich development utilities.
 
 > Note: Application is under development, expect some bugs. 
 
@@ -17,13 +17,12 @@ so heres devtools-x a x-platform collection of dev-tools, lighter, probably safe
 
 ## Installation
 
-Download the correct package from github releases section. and start using it :D. more ways to installing are coming soon.
+Download the relevant package from Github Releases section, and start using it! :D  
+More ways to install are on their way.
 
 ## Features
 
-Entire project is a webapp (not electron, read below). it uses `monaco editor` as text editor everywhere. so if you use vs-code then all the keyboard shortcuts like
-`Ctrl-F` or `Ctrl-X` will work just fine. or even opening vscode command menu to perform complicated operations like format or set language etc
-rest of the features are pretty straightforward.
+The entire project is a web app (not Electron, read below). It uses Monaco as the text editor everywhere, so just like VS Code, all the keyboard shortcuts like `Ctrl-F` or `Ctrl-X` will work just fine, even opening the VS Code command menu to perform complicated operations such 'format' or 'set language' and so on. The rest of the features are pretty straightforward.
 
 DevTools-X comes with following features (with demo video):
 
@@ -100,15 +99,15 @@ https://user-images.githubusercontent.com/24642451/184826530-e5ecfca2-f987-47b3-
 ## Tech Stack
 
 It's very important for everyone to understand this section. People have choices, just like me. Some of you may not use a tool
-just because it's electron. and the hate is justifiable. I personally don't want to run a chrome + nodejs for every app I launch
+just because it uses Electron, and the hate is justifiable. I personally don't want to run a Chrome + NodeJS instance for every app I launch.
 
-Which is why devtool-x is **NOT WRITTEN IN ELECTRON**
+Which is why DevTools-X is **NOT WRITTEN IN ELECTRON**.
 
-Devtools-X uses native webview to achieve the desktop application, called as [Tauri](https://tauri.studio/). native webview gives me
-development speed of electron (react+ts) while being secure and low on ram, and staying cross platform at the same time.
+Devtools-X uses a native webview to achieve the same purpose using [Tauri](https://tauri.studio/). Native webview gives me the
+development speed of Electron (React + TS) while being secure and efficient on RAM and staying cross platform at the same time.
 
-UI uses React + TS + [Mantine](https://mantine.dev/)
-Backend is Rust
+The UI uses React + TS + [Mantine](https://mantine.dev/).
+The backend is Rust.
 
 ## Authors
 
@@ -121,26 +120,26 @@ Contributions are always welcome!
 
 See `contributing.md` for ways to get started.
 
-Please adhere to this project's `code of conduct`.
+Please adhere to this project's Code of Conduct.
 
 ## FAQ
 
-#### Whats up with the bad looking UI
+#### What's up with the bad looking UI?
 
-It was even worse before. I am not a UI developer, I understand react but not colors.
-feel free to contribute
+Well, it was even worse previously! I am not a UI developer. I understand React, but not colors.
+Feel free to contribute any changes that you think might make it look better.
 
-#### Do I need to know rust to get started?
+#### Do I need to know Rust to get started?
 
-Absolutely not. I don't know rust myself and I have a complete application created from scratch.
+Absolutely not. I don't know Rust myself and I have a complete application that I created from scratch.
 
-## NEED HELP IN:
+## NEED HELP WITH:
 
 - More features
 - Testing
-- Can logo be improved?
+- Can the logo be improved?
 - Regex Tester is kinda broken, monaco gives headache
 - Fix ALL FIXME: s and TODO: s
-- a db integration for storing configuration? optional
-- Security. Check CSP and fix the worker loading
-- Stress testing especially hashers and image compressor
+- Database integration for storing configuration? (low priority)
+- Security. Check CSP and fix the worker loading.
+- Stress testing, especially for hashers and the image compressor
