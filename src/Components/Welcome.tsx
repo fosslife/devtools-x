@@ -12,6 +12,7 @@ const useStyles = createStyles((theme) => ({
     borderRadius: 5,
     alignSelf: "stretch",
     flex: "1 1 0",
+    minWidth: 150,
     backgroundColor:
       theme.colorScheme === "dark"
         ? theme.colors.dark[0]
