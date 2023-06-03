@@ -1,4 +1,4 @@
-import { createStyles, SimpleGrid, Stack, Text, Title } from "@mantine/core";
+import { createStyles, Group, Stack, Text, Title } from "@mantine/core";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -10,6 +10,8 @@ const useStyles = createStyles((theme) => ({
     padding: 15,
     cursor: "pointer",
     borderRadius: 5,
+    alignSelf: "stretch",
+    flex: "1 1 0",
     backgroundColor:
       theme.colorScheme === "dark"
         ? theme.colors.dark[0]
@@ -50,7 +52,7 @@ const Welcome = () => {
         </Title>
       )}
       <br />
-      <SimpleGrid mt="4" spacing={"xl"} cols={5}>
+      <Group>
         {[...pinned]
           .sort((a, b) => (a > b ? 1 : a < b ? -1 : 0))
           .map((pin: number) => {
@@ -73,7 +75,7 @@ const Welcome = () => {
               </Stack>
             );
           })}
-      </SimpleGrid>
+      </Group>
     </Stack>
   );
 };
