@@ -1,13 +1,11 @@
 import "./markdown.css";
 
 import { Box, Button, Group, Stack } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
-import { open, save } from "@tauri-apps/api/dialog";
-import { readTextFile, writeFile } from "@tauri-apps/api/fs";
 import MarkdownPreview from "@uiw/react-markdown-preview";
 import { useState } from "react";
 
 import { Monaco } from "../../Components/MonacoWrapper";
+import { openFileAndGetData, saveDataToFile } from "../../utils/functions";
 
 const Markdown = () => {
   const [source, setSource] = useState(`
@@ -25,41 +23,18 @@ const codeblock = () => {
 `);
 
   const openFile = async () => {
-    const file = await open({
-      multiple: false,
-      filters: [{ name: "Markdown", extensions: ["md"] }],
-      directory: false,
-      title: "Open Markdown File",
-    });
-
-    if (!file) {
-      return notifications.show({
-        title: "Error!",
-        message: "No file selected",
-        color: "red",
-      });
-    } else {
-      const data = await readTextFile(file as string);
-      setSource(data);
-    }
+    const data = await openFileAndGetData(
+      "Open Markdown File",
+      [{ name: "Markdown", extensions: ["md"] }],
+      "text"
+    );
+    setSource(data);
   };
 
   const saveFile = async () => {
-    const path = await save({
-      title: "Save Markdown File",
-      filters: [{ name: "Markdown", extensions: ["md"] }],
-    });
-    if (!path) {
-      return notifications.show({
-        title: "Error!",
-        message: "No path selected",
-        color: "red",
-      });
-    }
-    await writeFile({
-      path: path as string,
-      contents: source,
-    });
+    saveDataToFile(source, "Save Markdown File", [
+      { name: "Markdown", extensions: ["md"] },
+    ]);
   };
 
   return (

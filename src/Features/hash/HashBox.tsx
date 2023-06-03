@@ -1,6 +1,6 @@
-import { Button, CopyButton, Input, Tooltip } from "@mantine/core";
-import { clipboard } from "@tauri-apps/api";
-import { FaCopy } from "react-icons/fa";
+import { Input } from "@mantine/core";
+
+import { Copy } from "../../Components/Copy";
 
 type HashBoxProps = {
   value: string;
@@ -12,26 +12,7 @@ export const HashBox = ({ value, hashtype }: HashBoxProps) => {
     <Input
       size="xs"
       rightSectionWidth={100}
-      rightSection={
-        <CopyButton value={value}>
-          {({ copied, copy }) => (
-            <Tooltip label="Copy" position="bottom">
-              <Button
-                leftIcon={<FaCopy />}
-                size="xs"
-                fullWidth={true}
-                color={copied ? "teal" : "blue"}
-                onClick={() => {
-                  copy(); //  copy doesn't work but need this function for animation.
-                  clipboard.writeText(value);
-                }}
-              >
-                {copied ? "Copied" : `${hashtype}`}
-              </Button>
-            </Tooltip>
-          )}
-        </CopyButton>
-      }
+      rightSection={<Copy value={value} label={hashtype} />}
       value={value}
       readOnly
     ></Input>

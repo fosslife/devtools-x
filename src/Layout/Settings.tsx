@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Checkbox,
   Divider,
@@ -8,13 +7,54 @@ import {
   useMantineColorScheme,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { fs } from "@tauri-apps/api";
-import { open, save } from "@tauri-apps/api/dialog";
 
 import { db } from "../utils";
+import { openFileAndGetData, saveDataToFile } from "../utils/functions";
 
 export const Settings = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+
+  const backup = async () => {
+    const entries = await db.entries();
+
+    await saveDataToFile(
+      JSON.stringify(
+        entries.reduce((acc, curr) => ({ ...acc, [curr[0]]: curr[1] }), {})
+      ),
+      "Backup current configuration",
+      [{ name: "json", extensions: ["json"] }],
+      {
+        title: "Backup success",
+        message: "Setting backed up successfully",
+      }
+    );
+  };
+
+  const restore = async () => {
+    const contents = await openFileAndGetData(
+      "Select backup file",
+      [{ name: "json", extensions: ["json"] }],
+      "text"
+    );
+    try {
+      const parsed = JSON.parse(contents);
+      Object.entries(parsed).map(([key, value]) => {
+        db.set(key, value);
+      });
+      notifications.show({
+        title: "Success!",
+        message: "Settings restored successfully, refreshing UI now",
+        autoClose: 2000,
+        onClose: () => window.location.reload(),
+      });
+    } catch {
+      notifications.show({
+        title: "Error!",
+        message: "Invalid backup file",
+      });
+    }
+  };
+
   return (
     <Stack>
       <Checkbox
@@ -24,81 +64,9 @@ export const Settings = () => {
       />
       <Divider />
       <Group>
-        <Button
-          onClick={async () => {
-            const entries = await db.entries();
-            const path = await save({
-              defaultPath: "backup.json",
-              filters: [{ name: "json", extensions: ["json"] }],
-              title: "Backup current configuration",
-            });
-            if (!path) {
-              notifications.show({
-                title: "Error!",
-                color: "red",
-                message: "No path selected",
-              });
-              return;
-            }
-            fs.writeTextFile({
-              path: path,
-              contents: JSON.stringify(
-                entries.reduce(
-                  (acc, curr) => ({ ...acc, [curr[0]]: curr[1] }),
-                  {}
-                )
-              ),
-            }).then(() => {
-              notifications.show({
-                title: "Saved!",
-                message: "Setting backed up successfully",
-              });
-            });
-          }}
-        >
-          Backup Settings
-        </Button>
+        <Button onClick={backup}>Backup Settings</Button>
         <Divider orientation="vertical" />
-        <Button
-          onClick={async () => {
-            const path = (await open({
-              directory: false,
-              multiple: false,
-              title: "Select backup file",
-            })) as string;
-
-            if (!path) {
-              notifications.show({
-                title: "Error!",
-                color: "red",
-                message: "No file selected",
-              });
-              return;
-            }
-            fs.readTextFile(path).then((contents) => {
-              try {
-                const parsed = JSON.parse(contents);
-                Object.entries(parsed).map(([key, value]) => {
-                  db.set(key, value);
-                });
-                notifications.show({
-                  title: "Success!",
-                  message: "Settings restored successfully, refreshing UI now",
-                  onClose: () => window.location.reload(),
-                });
-              } catch (e) {
-                notifications.show({
-                  title: "Error!",
-                  color: "red",
-                  message:
-                    "Error parsing given file. Check if format is correct",
-                });
-              }
-            });
-          }}
-        >
-          Restore Settings
-        </Button>
+        <Button onClick={restore}>Restore Settings</Button>
       </Group>
     </Stack>
   );

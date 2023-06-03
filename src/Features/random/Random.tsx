@@ -10,10 +10,10 @@ import {
   Textarea,
   TextInput,
 } from "@mantine/core";
-import { confirm, save } from "@tauri-apps/api/dialog";
-import { writeTextFile } from "@tauri-apps/api/fs";
 import { generate } from "generate-password-ts";
 import { useEffect, useState } from "react";
+
+import { saveDataToFile } from "../../utils/functions";
 
 const checkboxtypes = [
   "lowercase",
@@ -148,23 +148,13 @@ const Random = () => {
       <Box>
         <Button
           onClick={async () => {
-            const filePath = await save({
-              title: "Save Passwords",
-              defaultPath: "passwords.txt",
-              filters: [{ name: "text file", extensions: ["txt"] }],
-            });
-
-            if (filePath) {
-              let confirmation = await confirm(
-                "[Warning] saving passwords as plain text is not secure, are you sure you want to continue?",
-                {
-                  title: "Warning",
-                  type: "warning",
-                }
-              );
-              if (confirmation) {
-                await writeTextFile(filePath, pass.pass);
-              }
+            const confirmation = confirm(
+              "[WARNING] This will save generated passwords as plaintext file"
+            );
+            if (confirmation) {
+              await saveDataToFile(pass.pass, "Save Passwords", [
+                { name: "Text", extensions: ["txt"] },
+              ]);
             }
           }}
         >

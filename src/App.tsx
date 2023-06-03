@@ -12,6 +12,7 @@ import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Nums from "./Features/number-tools/Nums";
 import { data, Navbar } from "./Layout/Navbar";
 import { Settings } from "./Layout/Settings";
+import { Base64 } from "./Features/base64/Base64";
 
 // Lazy load components
 const Welcome = loadable(() => import("./Components/Welcome"));
@@ -148,6 +149,7 @@ function App() {
             <Route path="/rest" element={<Rest />}></Route>
             <Route path="/epoch" element={<Epoch />}></Route>
             <Route path="/stateless" element={<Stateless />}></Route>
+            <Route path="base64" element={<Base64 />}></Route>
           </Routes>
         </Group>
       </Box>

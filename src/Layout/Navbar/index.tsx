@@ -23,7 +23,13 @@ import {
 import { FiClock, FiFile, FiHash, FiSettings } from "react-icons/fi";
 import { MdAnchor, MdColorize, MdHttp, MdOutlineHome } from "react-icons/md";
 import { SiJsonwebtokens, SiPostgresql } from "react-icons/si";
-import { VscDiff, VscPin, VscPinned, VscRegex } from "react-icons/vsc";
+import {
+  VscDiff,
+  VscPin,
+  VscPinned,
+  VscRegex,
+  VscSymbolString,
+} from "react-icons/vsc";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { AppContext } from "../../Contexts/AppContextProvider";
@@ -57,6 +63,7 @@ export const data = [
   { id: 17, to: "/rest", icon: <MdHttp />, text: "REST API" },
   { id: 19, to: "/epoch", icon: <FiClock />, text: "Epoch Converter" },
   { id: 20, to: "/stateless", icon: <FaYinYang />, text: "Stateless Password" },
+  { id: 21, to: "/base64", icon: <VscSymbolString />, text: "Base64" },
 ];
 
 export const Navbar = ({ openSettings }: any) => {
@@ -146,8 +153,9 @@ export const Navbar = ({ openSettings }: any) => {
                 setShowIcon(e.id);
               }}
               onMouseLeave={() => setShowIcon(-99)}
+              onClick={() => nav(e.to)}
             >
-              <Box className={classes.listTitle} onClick={() => nav(e.to)}>
+              <Box className={classes.listTitle}>
                 <Text
                   sx={(theme) => ({
                     color:
@@ -192,7 +200,8 @@ export const Navbar = ({ openSettings }: any) => {
                         : theme.colors.dark[9],
                   })}
                   size={"sm"}
-                  onClick={async () => {
+                  onClick={async (e2) => {
+                    e2.stopPropagation();
                     // get existing pins from db
                     const pinned = await db.get<number[]>("pinned");
                     // if pin you cliked already exists in db, remove it.

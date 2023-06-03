@@ -50,7 +50,7 @@ function Pastebin() {
         onClick={() => {
           setLoading(true);
           // Make Call
-          fetch("https://bin.fosslife.com/", {
+          fetch("https://bin.prabhanjan.dev/", {
             method: "POST",
             body: codeValue,
             headers: {
@@ -60,7 +60,7 @@ function Pastebin() {
             .then((d) => d.text())
             .then((l) => {
               setLoading(false);
-              const url = `https://bin.fosslife.com/${l.split(" ")[0]}`;
+              const url = `https://bin.prabhanjan.dev/${l.split(" ")[0]}`;
               setLink(url);
             })
             .catch((e) => {

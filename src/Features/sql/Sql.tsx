@@ -1,9 +1,8 @@
-import { Box, Button, CopyButton, Stack } from "@mantine/core";
+import { Box, Stack } from "@mantine/core";
 import sqlFormatter from "@sqltools/formatter";
-import { clipboard } from "@tauri-apps/api";
 import { useEffect, useState } from "react";
-import { FaCopy } from "react-icons/fa";
 
+import { Copy } from "../../Components/Copy";
 import { Monaco } from "../../Components/MonacoWrapper";
 
 const firstQuery = `
@@ -64,22 +63,7 @@ const Sql = () => {
               right: 20,
             })}
           >
-            <CopyButton value={formatted}>
-              {({ copied, copy }) => (
-                <Button
-                  leftIcon={<FaCopy />}
-                  size="xs"
-                  fullWidth={true}
-                  color={copied ? "teal" : "blue"}
-                  onClick={() => {
-                    copy(); //  copy doesn't work but need this function for animation.
-                    clipboard.writeText(formatted);
-                  }}
-                >
-                  {copied ? "Copied" : `Copy`}
-                </Button>
-              )}
-            </CopyButton>
+            <Copy value={formatted} label="Copy" />
           </Box>
         )}
       </Box>

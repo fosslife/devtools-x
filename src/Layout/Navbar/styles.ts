@@ -46,6 +46,7 @@ export const useStyles = createStyles((theme) => ({
   bottomSection: {
     width: "max-content",
     overflowY: "auto",
+    gap: 5,
   },
   home: {
     padding: 5,
