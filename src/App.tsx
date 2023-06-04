@@ -12,7 +12,6 @@ import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Nums from "./Features/number-tools/Nums";
 import { data, Navbar } from "./Layout/Navbar";
 import { Settings } from "./Layout/Settings";
-import { Base64 } from "./Features/base64/Base64";
 
 // Lazy load components
 const Welcome = loadable(() => import("./Components/Welcome"));
@@ -38,6 +37,8 @@ const UnitConverter = loadable(
 );
 const Epoch = loadable(() => import("./Features/epoch/Epoch"));
 const Stateless = loadable(() => import("./Features/password"));
+const Base64 = loadable(() => import("./Features/base64/Base64"));
+const Quicktpe = loadable(() => import("./Features/quicktype/Quicktype"));
 
 const useStyles = createStyles((theme) => ({
   settings: {
@@ -68,9 +69,12 @@ const useStyles = createStyles((theme) => ({
   container: {
     height: "100%",
     width: "100%",
-    padding: 10,
     display: "flex",
     gap: 10,
+    background:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[7]
+        : theme.colors.gray[1],
   },
   navbar: {
     height: "100%",
@@ -79,6 +83,14 @@ const useStyles = createStyles((theme) => ({
   body: {
     height: "100%",
     width: "100%",
+
+    "& > div": {
+      height: "100%",
+      width: "100%",
+      // paddingInline: 10,
+      padding: 10,
+      paddingLeft: 5,
+    },
   },
 }));
 
@@ -150,6 +162,7 @@ function App() {
             <Route path="/epoch" element={<Epoch />}></Route>
             <Route path="/stateless" element={<Stateless />}></Route>
             <Route path="base64" element={<Base64 />}></Route>
+            <Route path="quicktype" element={<Quicktpe />}></Route>
           </Routes>
         </Group>
       </Box>

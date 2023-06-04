@@ -77,7 +77,7 @@ const RegexTester = () => {
   }, [editor, rg]);
 
   return (
-    <Stack style={{ width: "100%", height: "100%" }}>
+    <Stack>
       <Stack spacing={10}>
         <Group spacing={5} grow>
           <TextInput

@@ -66,7 +66,7 @@ const Epoch = () => {
   }, [seconds, millisMode]);
 
   return (
-    <Stack sx={{ height: "100%", width: "100%" }} p="xs" spacing={"lg"}>
+    <Stack>
       <Group grow>
         <Title className={classes.timeBox} order={2}>
           {output}

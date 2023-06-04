@@ -71,7 +71,7 @@ const Hash = () => {
   };
 
   return (
-    <Stack sx={{ height: "100%", width: "100%" }} p="xs" spacing={"lg"}>
+    <Stack>
       <LoadingOverlay visible={loading} />
       <Monaco
         language="text"

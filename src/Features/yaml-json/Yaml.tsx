@@ -12,7 +12,7 @@ const YamlJson = () => {
   - 3`);
 
   return (
-    <Stack sx={{ height: "100%", width: "100%" }}>
+    <Stack>
       <NativeSelect
         data={[
           { value: "json", label: "JSON to YAML" },

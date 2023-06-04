@@ -24,7 +24,6 @@ const Colors = () => {
 
   return (
     <Stack
-      style={{ height: "100%", width: "100%" }}
       align="center"
       sx={{
         "& .react-colorful ": {

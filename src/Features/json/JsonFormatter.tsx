@@ -66,7 +66,7 @@ const JsonFormatter = () => {
   );
 
   return (
-    <Stack style={{ height: "100%", width: "100%" }}>
+    <Stack>
       <Tabs
         value={activeTab}
         onTabChange={setActiveTab}

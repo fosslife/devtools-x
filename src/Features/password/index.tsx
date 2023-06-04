@@ -123,11 +123,7 @@ const StatelessPassword = () => {
   }, [site, login, masterPassword, options, length, counter]);
 
   return (
-    <Stack
-      sx={{ width: "100%", height: "100%", overflow: "auto" }}
-      p={2}
-      spacing={"xl"}
-    >
+    <Stack>
       <TextInput
         error={site.length < 1}
         value={site}

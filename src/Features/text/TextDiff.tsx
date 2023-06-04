@@ -22,7 +22,7 @@ const TextDiff = () => {
   ].sort();
 
   return (
-    <Stack style={{ height: "100%", width: "100%" }} p="2">
+    <Stack>
       <NativeSelect
         data={languages}
         value={lang}

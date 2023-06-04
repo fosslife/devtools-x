@@ -38,7 +38,7 @@ const codeblock = () => {
   };
 
   return (
-    <Stack sx={{ width: "100%", height: "100%" }}>
+    <Stack>
       <Group>
         <Button onClick={openFile}>Open md file</Button>
         <Button onClick={saveFile}>Save md file</Button>

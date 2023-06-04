@@ -59,12 +59,7 @@ const UnitConverter = () => {
   };
 
   return (
-    <Stack
-      sx={{ height: "100%", width: "100%" }}
-      p="lg"
-      align={"center"}
-      justify="start"
-    >
+    <Stack>
       <Select
         sx={{ width: "100%" }}
         label="Category"

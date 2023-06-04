@@ -10,22 +10,23 @@ const useStyles = createStyles((theme) => ({
     padding: 15,
     cursor: "pointer",
     borderRadius: 5,
+    boxShadow: theme.shadows.md,
     alignSelf: "stretch",
     flex: "1 1 0",
     minWidth: 150,
     backgroundColor:
       theme.colorScheme === "dark"
-        ? theme.colors.dark[0]
-        : theme.colors.dark[1],
+        ? theme.colors.blue[9]
+        : theme.colors.blue[8],
     color:
       theme.colorScheme === "dark"
-        ? theme.colors.dark[7]
-        : theme.colors.dark[8],
+        ? theme.colors.dark[0]
+        : theme.colors.gray[1],
     ":hover": {
       backgroundColor:
         theme.colorScheme === "dark"
-          ? theme.colors.dark[1]
-          : theme.colors.dark[2],
+          ? theme.colors.blue[8]
+          : theme.colors.blue[9],
     },
   },
 }));

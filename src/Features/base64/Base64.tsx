@@ -11,7 +11,7 @@ import { useState } from "react";
 import { Copy } from "../../Components/Copy";
 import { openFileAndGetData } from "../../utils/functions";
 
-export const Base64 = () => {
+const Base64 = () => {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
 
@@ -53,7 +53,7 @@ export const Base64 = () => {
   };
 
   return (
-    <Stack sx={{ width: "100%", height: "100%", overflow: "auto" }} px={10}>
+    <Stack>
       <Group>
         <TextInput
           sx={{
@@ -73,3 +73,5 @@ export const Base64 = () => {
     </Stack>
   );
 };
+
+export default Base64;

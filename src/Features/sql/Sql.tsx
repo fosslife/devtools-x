@@ -29,7 +29,7 @@ const Sql = () => {
   }, []);
 
   return (
-    <Stack style={{ height: "100%", width: "100%" }}>
+    <Stack>
       <Box style={{ height: "50%" }}>
         <Monaco
           language="sql"

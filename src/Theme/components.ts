@@ -17,4 +17,22 @@ export const components = {
       },
     },
   },
+  Select: {
+    defaultProps: {
+      styles: {
+        label: {
+          marginBottom: 10,
+        },
+      },
+    },
+  },
+  NativeSelect: {
+    defaultProps: {
+      styles: {
+        label: {
+          marginBottom: 10,
+        },
+      },
+    },
+  },
 };

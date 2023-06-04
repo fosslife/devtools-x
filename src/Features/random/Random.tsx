@@ -78,7 +78,7 @@ const Random = () => {
   }, [length]);
 
   return (
-    <Stack style={{ height: "100%", width: "100%" }} p={"sm"}>
+    <Stack>
       <Group align={"center"}>
         <Checkbox.Group value={checkboxes} onChange={setCheckboxes}>
           <Group>

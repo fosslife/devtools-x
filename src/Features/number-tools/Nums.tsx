@@ -51,7 +51,7 @@ const Nums = () => {
   }, [input, base]);
 
   return (
-    <Stack style={{ width: "100%", height: "100%" }} px="lg">
+    <Stack>
       <Group align={"end"} grow>
         <TextInput
           label="INPUT"
