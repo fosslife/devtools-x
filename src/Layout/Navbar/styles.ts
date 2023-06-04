@@ -86,6 +86,7 @@ export const useStyles = createStyles((theme) => ({
           : theme.colors.blue[6],
     },
   },
+  textInput: { width: "100%", alignSelf: "center", marginTop: "15px" },
   active: {
     fontStyle: "normal",
     fontWeight: "bold",

@@ -129,11 +129,7 @@ export const Navbar = ({ openSettings }: any) => {
               placeholder="Search..."
               size={"xs"}
               onChange={filterItems}
-              sx={() => ({
-                width: "100%",
-                alignSelf: "center",
-                marginTop: "15px",
-              })}
+              className={classes.textInput}
             />
           )}
           <ActionIcon
