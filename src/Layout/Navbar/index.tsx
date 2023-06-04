@@ -10,25 +10,15 @@ import {
   Tooltip,
 } from "@mantine/core";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
-import {
-  BsArrowsAngleContract,
-  BsArrowsAngleExpand,
-  BsArrowsCollapse,
-  BsArrowsExpand,
-  BsSortNumericUpAlt,
-} from "react-icons/bs";
+import { BsSortNumericUpAlt } from "react-icons/bs";
 import {
   FaCode,
-  FaCross,
   FaExchangeAlt,
   FaExpand,
-  FaExpandAlt,
-  FaFileContract,
   FaMarkdown,
   FaPaste,
   FaRandom,
   FaReact,
-  FaSlidersH,
   FaTimes,
   FaYinYang,
 } from "react-icons/fa";
@@ -36,9 +26,7 @@ import { FiClock, FiFile, FiHash, FiSettings } from "react-icons/fi";
 import { MdAnchor, MdColorize, MdHttp, MdOutlineHome } from "react-icons/md";
 import { SiJsonwebtokens, SiPostgresql } from "react-icons/si";
 import {
-  VscCollapseAll,
   VscDiff,
-  VscExpandAll,
   VscPin,
   VscPinned,
   VscRegex,

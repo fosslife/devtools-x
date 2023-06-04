@@ -62,6 +62,7 @@ export const useStyles = createStyles((theme) => ({
     overflowY: "auto",
     gap: 5,
     paddingInline: 5,
+    overflow: "auto",
   },
   homeWrapper: {
     display: "flex",
