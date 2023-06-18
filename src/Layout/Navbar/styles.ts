@@ -59,7 +59,6 @@ export const useStyles = createStyles((theme) => ({
   },
   bottomSection: {
     width: "max-content",
-    overflowY: "auto",
     gap: 5,
     paddingInline: 5,
     overflow: "auto",
@@ -103,6 +102,7 @@ export const useStyles = createStyles((theme) => ({
   iconsBarWrapper: {
     // marginTop: 10,
     padding: 5,
+    overflow: "auto",
   },
   iconsBarRow: {
     fontSize: 18,

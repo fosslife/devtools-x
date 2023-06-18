@@ -1,4 +1,4 @@
-import { Button, createStyles, Group, Stack } from "@mantine/core";
+import { Button, createStyles, Group, Stack, Textarea } from "@mantine/core";
 // import {  } from "quicktype";
 import {
   InputData,
@@ -31,16 +31,23 @@ export default function Quicktype() {
       <Group className={classes.parent}>
         <Stack sx={{ height: "100%", width: "100%" }}>
           <Button>Well</Button>
-          <Group grow sx={{ height: "100%", width: "100%" }}>
-            <Monaco
-              language="json"
-              value="test"
-              setValue={async (e = "") => {
+          <Group noWrap sx={{ height: "100%", width: "100%" }}>
+            <Textarea
+              styles={{
+                wrapper: {
+                  height: "100%",
+                  textarea: {
+                    height: "100%",
+                  },
+                },
+              }}
+              sx={{ height: "100%", width: "25%" }}
+              onChange={async (e) => {
                 try {
                   const jsonInput = jsonInputForTargetLanguage("rust");
                   await jsonInput.addSource({
                     name: "Person",
-                    samples: [e],
+                    samples: [e.target.value],
                   });
                   const inputData = new InputData();
                   inputData.addInput(jsonInput);
@@ -58,6 +65,8 @@ export default function Quicktype() {
               }}
             />
             <Monaco
+              height="100%"
+              width="75%"
               language="rust"
               value={op}
               extraOptions={{
