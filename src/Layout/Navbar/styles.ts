@@ -39,6 +39,9 @@ export const useStyles = createStyles((theme) => ({
     gap: 20,
     justifyContent: "space-between",
     alignItems: "center",
+
+    color: theme.colorScheme === "dark" ? theme.colors.dark[2] : "black",
+    fontWeight: 500,
     ":hover": {
       color:
         theme.colorScheme === "dark"

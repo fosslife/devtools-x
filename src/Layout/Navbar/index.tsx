@@ -172,6 +172,7 @@ export const Navbar = ({ openSettings }: any) => {
                 <Box className={classes.listTitle}>
                   <Text
                     sx={(theme) => ({
+                      fontSize: 13,
                       color:
                         theme.colorScheme === "dark"
                           ? theme.colors.dark[1]
