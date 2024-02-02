@@ -4,12 +4,9 @@ import { useNavigate } from "react-router-dom";
 
 import { AppContext } from "../Contexts/AppContextProvider";
 import { data } from "../Layout/Navbar";
-import { pinnedCard } from "./styles";
+import classes from "./styles.module.css";
 
 const Welcome = () => {
-  const { classes } = {
-    classes: {},
-  };
   const nav = useNavigate();
   const { pinned } = useContext(AppContext);
 
@@ -38,17 +35,17 @@ const Welcome = () => {
             const elem = data.find((e) => e.id === pin);
             return (
               <Stack
-                spacing={"xs"}
+                gap={"xs"}
                 align="center"
                 justify={"center"}
-                className={pinnedCard}
+                className={classes.pinnedCard}
                 key={pin}
                 onClick={() => {
                   nav(elem?.to || "/"); // TS FIX NOTHING ELSE
                 }}
               >
                 {elem?.icon}
-                <Text size={"sm"} align="center" weight={500}>
+                <Text size={"sm"} ta="center" fw={500}>
                   {elem?.text.toUpperCase()}
                 </Text>
               </Stack>

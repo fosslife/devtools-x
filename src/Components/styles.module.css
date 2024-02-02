@@ -1,0 +1,25 @@
+
+.pinnedCard {
+  padding: 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  box-shadow: var(--mantine-shadows-md);
+  align-self: stretch;
+  flex: 1 1 0;
+  min-width: 150px;
+  background-color: light-dark(
+    var(--mantine-color-blue-9),
+    var(--mantine-color-blue-8)
+  );
+  color: light-dark(
+    var(--mantine-color-dark-0),
+    var(--mantine-color-gray-1)
+  )
+}
+
+.pinnedCard:hover {
+  background-color: light-dark(
+    var(--mantine-color-blue-8),
+    var(--mantine-color-blue-9)
+  );
+}

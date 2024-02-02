@@ -1,0 +1,118 @@
+
+.navbar {
+  height: 100%;
+  padding: 10px;
+  padding-top: 0;
+  padding-left: 0;
+  padding-inline: 5;
+  padding-right: 5;
+  box-shadow: var(--mantine-shadow-sm);
+  font-size: 15px;
+  background: light-dark(
+    var(--mantine-color-gray-1),
+    var(--mantine-color-dark-8)
+  );
+}
+
+.topSection {
+  gap: 10;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: light-dark(
+    var(--mantine-color-gray-1),
+    var(--mantine-color-dark-8)
+  );
+}
+
+.row {
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px;
+  padding-left: 10px;
+  border-radius: 4px;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  color: light-dark(black, var(--mantine-color-gray-2));
+  font-weight: 500;
+}
+
+.row:hover {
+  color: light-dark(var(--mantine-color-gray-1),var(--mantine-color-blue-0));
+  background: light-dark(
+    var(--mantine-color-blue-6),
+    var(--mantine-color-blue-9)
+  );
+}
+
+.listTitle {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-direction: row;
+  text-align: center;
+}
+
+.bottomSection {
+  width: max-content;
+  gap: 5px;
+  padding-inline: 5px;
+  overflow: auto;
+}
+
+.homeWrapper {
+  display: flex;
+  justify-content: space-between;
+  color: light-dark(
+    var(--mantine-color-dark-8),
+    var(--mantine-color-dark-1)
+  );
+}
+
+.home {
+  margin-inline: 5;
+  padding: 5px;
+  cursor: pointer;
+  padding-inline-end: 35px;
+  padding-left: 5px;
+  border-radius: 4px;
+}
+
+.textInput {
+  width: 100%;
+  align-self: center;
+  margin-top: 15px;
+}
+
+.active {
+  font-style: normal;
+  font-weight: bold;
+  color: light-dark(var(--mantine-color-gray-1),var(--mantine-color-blue-0));
+  background: light-dark(
+    var(--mantine-color-blue-6),
+    var(--mantine-color-blue-9)
+  );
+}
+
+.iconsbarWrapper {
+  padding: 5px;
+  overflow: auto;
+}
+
+.iconsbarRow {
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  justify-content: start;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.iconsTopSection {
+  margin-top: 10px;
+  margin-bottom: -10px;
+  margin-left: 5px;
+}
+

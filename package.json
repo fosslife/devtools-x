@@ -26,6 +26,7 @@
     "@tauri-apps/api": "^1.5.3",
     "@uiw/react-markdown-preview": "^5.0.7",
     "axios": "^1.6.7",
+    "clsx": "^2.1.0",
     "color-convert": "^2.0.1",
     "convert-units": "^2.3.4",
     "crypto-js": "^4.2.0",

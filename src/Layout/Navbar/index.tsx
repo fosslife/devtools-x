@@ -34,10 +34,11 @@ import {
   VscTypeHierarchySub,
 } from "react-icons/vsc";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import cx from "clsx";
 
 import { AppContext } from "../../Contexts/AppContextProvider";
 import { db } from "../../utils";
-import { useStyles } from "./styles";
+import classes from "./styles.module.css";
 
 export const data = [
   { id: 1, to: "/json-formatter", icon: <MdAnchor />, text: "JSON Tools" },
@@ -76,7 +77,6 @@ export const data = [
 ];
 
 export const Navbar = ({ openSettings }: any) => {
-  const { classes, cx } = useStyles;
   const location = useLocation();
   const nav = useNavigate();
   const [navItems, setNavItems] = useState(data);
@@ -110,7 +110,7 @@ export const Navbar = ({ openSettings }: any) => {
       <Stack
         className={iconMode ? classes.iconsTopSection : classes.topSection}
       >
-        <Group noWrap align="end" py={10}>
+        <Group wrap="nowrap" align="end" py={10}>
           {!iconMode && (
             <TextInput
               id="search"
@@ -132,7 +132,7 @@ export const Navbar = ({ openSettings }: any) => {
           <Group mt="2" className={classes.homeWrapper}>
             <Flex gap={15} onClick={() => nav("/")} className={classes.home}>
               <MdOutlineHome size={"20px"} />
-              <Text weight={location.pathname === "/" ? "bold" : "normal"}>
+              <Text fw={location.pathname === "/" ? "bold" : "normal"}>
                 {"Home"}
               </Text>
             </Flex>
@@ -171,13 +171,11 @@ export const Navbar = ({ openSettings }: any) => {
               >
                 <Box className={classes.listTitle}>
                   <Text
-                    sx={(theme) => ({
+                    style={{
                       fontSize: 13,
                       color:
-                        theme.colorScheme === "dark"
-                          ? theme.colors.dark[1]
-                          : theme.colors.dark[4],
-                    })}
+                        "light-dark(var(--mantine-color-dark-1), var(--mantine-color-dark-4))",
+                    }}
                   >
                     {e.icon}
                   </Text>
@@ -185,8 +183,8 @@ export const Navbar = ({ openSettings }: any) => {
                     <Tooltip label={e.extra}>
                       <Text
                         size="xs"
-                        weight={location.pathname === e.to ? "500" : "400"}
-                        color="red"
+                        fw={location.pathname === e.to ? "500" : "400"}
+                        c="red"
                         component={Link}
                         to={e.to}
                       >
@@ -196,7 +194,7 @@ export const Navbar = ({ openSettings }: any) => {
                   ) : (
                     <Text
                       size="xs"
-                      weight={location.pathname === e.to ? "500" : "400"}
+                      fw={location.pathname === e.to ? "500" : "400"}
                     >
                       {e.text.toUpperCase()}
                     </Text>
@@ -205,14 +203,12 @@ export const Navbar = ({ openSettings }: any) => {
                 <Box>
                   <ActionIcon
                     variant={pinExists ? "subtle" : "outline"}
-                    sx={(theme) => ({
+                    style={{
                       visibility:
                         e.id === showIcon || pinExists ? "visible" : "hidden",
                       color:
-                        theme.colorScheme === "dark"
-                          ? theme.colors.dark[1]
-                          : theme.colors.dark[9],
-                    })}
+                        "light-dark(var(--mantine-color-dark-1), var(--mantine-color-dark-4))",
+                    }}
                     size={"sm"}
                     onClick={async (e2) => {
                       e2.stopPropagation();
