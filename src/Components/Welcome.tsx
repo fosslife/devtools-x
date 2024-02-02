@@ -1,38 +1,15 @@
-import { createStyles, Group, Stack, Text, Title } from "@mantine/core";
+import { Group, Stack, Text, Title } from "@mantine/core";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { AppContext } from "../Contexts/AppContextProvider";
 import { data } from "../Layout/Navbar";
-
-const useStyles = createStyles((theme) => ({
-  pinnedCard: {
-    padding: 15,
-    cursor: "pointer",
-    borderRadius: 5,
-    boxShadow: theme.shadows.md,
-    alignSelf: "stretch",
-    flex: "1 1 0",
-    minWidth: 150,
-    backgroundColor:
-      theme.colorScheme === "dark"
-        ? theme.colors.blue[9]
-        : theme.colors.blue[8],
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[0]
-        : theme.colors.gray[1],
-    ":hover": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.blue[8]
-          : theme.colors.blue[9],
-    },
-  },
-}));
+import { pinnedCard } from "./styles";
 
 const Welcome = () => {
-  const { classes } = useStyles();
+  const { classes } = {
+    classes: {},
+  };
   const nav = useNavigate();
   const { pinned } = useContext(AppContext);
 
@@ -44,7 +21,7 @@ const Welcome = () => {
       mt="xl"
       px={20}
     >
-      <Text transform="uppercase" variant="gradient">
+      <Text tt="uppercase" variant="gradient">
         <Title>DEVTOOLS-X</Title>
       </Text>
 
@@ -64,7 +41,7 @@ const Welcome = () => {
                 spacing={"xs"}
                 align="center"
                 justify={"center"}
-                className={classes.pinnedCard}
+                className={pinnedCard}
                 key={pin}
                 onClick={() => {
                   nav(elem?.to || "/"); // TS FIX NOTHING ELSE

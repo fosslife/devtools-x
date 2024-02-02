@@ -1,8 +1,9 @@
-import "./App.css";
+import "./App.module.css";
+import "@mantine/spotlight/styles.css";
 
 import loadable from "@loadable/component";
-import { Box, createStyles, Drawer, Group } from "@mantine/core";
-import { SpotlightProvider } from "@mantine/spotlight";
+import { Box, Drawer, Group } from "@mantine/core";
+import { Spotlight, SpotlightActionData, spotlight } from "@mantine/spotlight";
 import { loader } from "@monaco-editor/react";
 import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
@@ -39,6 +40,10 @@ const Epoch = loadable(() => import("./Features/epoch/Epoch"));
 const Stateless = loadable(() => import("./Features/password"));
 const Base64 = loadable(() => import("./Features/base64/Base64"));
 const Quicktpe = loadable(() => import("./Features/quicktype/Quicktype"));
+
+function createStyles(fn: any) {
+  return {};
+}
 
 const useStyles = createStyles((theme) => ({
   settings: {
@@ -97,7 +102,7 @@ const useStyles = createStyles((theme) => ({
 function App() {
   const location = useLocation();
   const nav = useNavigate();
-  const { classes } = useStyles();
+  // const { classes } = useStyles();
 
   const [displayLocation, setDisplayLocation] = useState(location);
   const [transitionStage, setTransistionStage] = useState("fadeIn");
@@ -114,18 +119,12 @@ function App() {
       loader.config({ paths: { vs: "/vs" } });
     }
   }, []);
+  console.log("App");
+
+  const classes = {};
 
   return (
-    <SpotlightProvider
-      shortcut={["mod + k", "/"]}
-      searchIcon={<FaSearch />}
-      searchPlaceholder="Jump to"
-      actions={data.map((a) => ({
-        title: a.text,
-        onTrigger: () => nav(a.to),
-        icon: a.icon,
-      }))}
-    >
+    <>
       <Box className={classes.container}>
         <Box className={classes.navbar}>
           <Navbar openSettings={(t: boolean) => setSettingsOpened(t)} />
@@ -176,7 +175,20 @@ function App() {
       >
         <Settings />
       </Drawer>
-    </SpotlightProvider>
+      <Spotlight
+        shortcut={["mod + k", "/"]}
+        searchProps={{
+          leftSection: <FaSearch />,
+          placeholder: "Jump to",
+        }}
+        actions={data.map((a) => ({
+          id: a.to,
+          label: a.text,
+          onClick: () => nav(a.to),
+          icon: a.icon,
+        }))}
+      ></Spotlight>
+    </>
     // </ColorSchemeProvider>
   );
 }

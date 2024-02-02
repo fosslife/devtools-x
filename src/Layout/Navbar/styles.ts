@@ -1,6 +1,4 @@
-import { createStyles } from "@mantine/core";
-
-export const useStyles = createStyles((theme) => ({
+const style = (theme) => ({
   navbar: {
     height: "100%",
     padding: "10px",
@@ -120,4 +118,9 @@ export const useStyles = createStyles((theme) => ({
     marginBottom: -10,
     marginLeft: 5,
   },
-}));
+});
+
+export const useStyles = {
+  classes: {},
+  cx: () => {},
+};

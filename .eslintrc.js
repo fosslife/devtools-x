@@ -30,7 +30,7 @@ module.exports = {
     "plugin:jsx-a11y/recommended",
     "plugin:prettier/recommended", // Make sure this is always the last element in the array.
   ],
-  plugins: ["simple-import-sort", "prettier", "@typescript-eslint"],
+  plugins: ["prettier", "@typescript-eslint"],
   rules: {
     "prettier/prettier": ["error", {}, { usePrettierrc: true }],
     "react/react-in-jsx-scope": "off",
@@ -39,8 +39,6 @@ module.exports = {
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": ["warn"],
     "@typescript-eslint/explicit-function-return-type": "off",
-    "simple-import-sort/imports": "error",
-    "simple-import-sort/exports": "error",
     "jsx-a11y/anchor-is-valid": [
       "error",
       {

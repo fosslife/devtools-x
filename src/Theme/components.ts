@@ -1,4 +1,4 @@
-export const components = {
+export const customComponents = {
   TextInput: {
     defaultProps: {
       styles: {

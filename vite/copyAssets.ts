@@ -1,4 +1,5 @@
-import { copySync } from "fs-extra";
+import { cpSync } from "node:fs";
+
 import { PluginOption } from "vite";
 
 export default (): PluginOption => {
@@ -6,9 +7,9 @@ export default (): PluginOption => {
     name: "vite-plugin-copy-monaco",
     closeBundle: () => {
       // Monaco
-      copySync("./node_modules/monaco-editor/min/vs", "./dist/vs", {
-        overwrite: true,
+      cpSync("./node_modules/monaco-editor/min/vs", "./dist/vs", {
         recursive: true,
+        force: true,
       });
     },
   };

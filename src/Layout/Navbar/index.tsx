@@ -76,7 +76,7 @@ export const data = [
 ];
 
 export const Navbar = ({ openSettings }: any) => {
-  const { classes, cx } = useStyles();
+  const { classes, cx } = useStyles;
   const location = useLocation();
   const nav = useNavigate();
   const [navItems, setNavItems] = useState(data);
