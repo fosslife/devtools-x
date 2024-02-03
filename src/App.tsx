@@ -1,13 +1,23 @@
-import "./App.module.css";
+import classes from "./App.module.css";
 import "@mantine/spotlight/styles.css";
 
 import loadable from "@loadable/component";
 import { Box, Drawer, Group } from "@mantine/core";
-import { Spotlight, SpotlightActionData, spotlight } from "@mantine/spotlight";
+import { Spotlight } from "@mantine/spotlight";
 import { loader } from "@monaco-editor/react";
 import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import {
+  Route,
+  Routes,
+  useLocation,
+  useNavigation,
+  useNavigate,
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider,
+  Outlet,
+} from "react-router-dom";
 
 // NOTE: keep Num converter here, do not lazy load. there's a rare crashing bug.
 import Nums from "./Features/number-tools/Nums";
@@ -41,64 +51,6 @@ const Stateless = loadable(() => import("./Features/password"));
 const Base64 = loadable(() => import("./Features/base64/Base64"));
 const Quicktpe = loadable(() => import("./Features/quicktype/Quicktype"));
 
-function createStyles(fn: any) {
-  return {};
-}
-
-const useStyles = createStyles((theme) => ({
-  settings: {
-    position: "fixed",
-    bottom: 0,
-    left: 0,
-    display: "inline-flex",
-    alignItems: "center",
-    width: "200px",
-    height: "46px",
-    backgroundColor:
-      theme.colorScheme === "dark"
-        ? theme.colors.gray[8]
-        : theme.colors.gray[3],
-    cursor: "pointer",
-    userSelect: "none",
-    "& svg": {
-      marginLeft: 30,
-      marginRight: 15,
-    },
-    "&:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.gray[7]
-          : theme.colors.gray[4],
-    },
-  },
-  container: {
-    height: "100%",
-    width: "100%",
-    display: "flex",
-    gap: 10,
-    background:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[7]
-        : theme.colors.gray[1],
-  },
-  navbar: {
-    height: "100%",
-    paddingLeft: 0,
-  },
-  body: {
-    height: "100%",
-    width: "100%",
-
-    "& > div": {
-      height: "100%",
-      width: "100%",
-      // paddingInline: 10,
-      padding: 10,
-      paddingLeft: 5,
-    },
-  },
-}));
-
 function App() {
   const location = useLocation();
   const nav = useNavigate();
@@ -119,9 +71,6 @@ function App() {
       loader.config({ paths: { vs: "/vs" } });
     }
   }, []);
-  console.log("App");
-
-  const classes = {};
 
   return (
     <>

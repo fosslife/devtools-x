@@ -18,8 +18,8 @@ const Welcome = () => {
       mt="xl"
       px={20}
     >
-      <Text tt="uppercase" variant="gradient">
-        <Title>DEVTOOLS-X</Title>
+      <Text tt="uppercase" variant="gradient" component={Title}>
+        DEVTOOLS-X
       </Text>
 
       {pinned.length === 0 && (

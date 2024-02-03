@@ -29,3 +29,51 @@
     opacity: 0;
   }
 }
+
+.settings {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  display: inline-flex;
+  align-items: center;
+  width: 200px;
+  height: 46px;
+  background-color: light-dark(
+    var(--mantine-color-gray-3, var(--mantine-color-gray-8)),
+  );
+  cursor: pointer;
+  user-select: none;
+}
+
+.settings svg {
+  margin-left: 30px;
+  margin-right: 15px;
+}
+
+.settings:hover {
+  background-color: light-dark(
+    var(--mantine-color-gray-4, var(--mantine-color-gray-7)),
+  );
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  background-color: light-dark(
+    var(var(--mantine-color-gray-7),--mantine-color-gray-1),
+  );
+}
+
+.navbar {
+  height: 100%;
+  padding-left: 0;
+}
+
+.body {
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+  padding-left: 5px;
+}
