@@ -1,4 +1,3 @@
-
 .pinnedCard {
   padding: 15px;
   cursor: pointer;
@@ -11,10 +10,7 @@
     var(--mantine-color-blue-9),
     var(--mantine-color-blue-8)
   );
-  color: light-dark(
-    var(--mantine-color-dark-0),
-    var(--mantine-color-gray-1)
-  )
+  color: light-dark(var(--mantine-color-dark-0), var(--mantine-color-gray-1));
 }
 
 .pinnedCard:hover {

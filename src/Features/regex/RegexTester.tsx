@@ -77,9 +77,9 @@ const RegexTester = () => {
   }, [editor, rg]);
 
   return (
-    <Stack>
-      <Stack spacing={10}>
-        <Group spacing={5} grow>
+    <Stack h="100%">
+      <Stack gap={10}>
+        <Group gap={5} grow>
           <TextInput
             value={rg}
             onChange={(e) => {
