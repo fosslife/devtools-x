@@ -106,7 +106,7 @@ export const Navbar = ({ openSettings }: any) => {
   }, []);
 
   return (
-    <Stack className={classes.navbar}>
+    <Stack className={classes.navbar} align={iconMode ? "center" : undefined}>
       <Stack
         className={iconMode ? classes.iconsTopSection : classes.topSection}
       >
@@ -175,7 +175,7 @@ export const Navbar = ({ openSettings }: any) => {
                 <Box className={classes.listTitle}>
                   <Text
                     style={{
-                      fontSize: 13,
+                      fontSize: 17,
                       color:
                         "light-dark(var(--mantine-color-dark-1), var(--mantine-color-dark-4))",
                     }}

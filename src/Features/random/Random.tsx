@@ -104,7 +104,7 @@ const Random = () => {
         />
         <NumberInput
           min={1}
-          label="total texts"
+          label="total lines to generate"
           defaultValue={1}
           value={total}
           onChange={(e) => {
@@ -143,7 +143,7 @@ const Random = () => {
         />
       </Box>
 
-      <Textarea autosize readOnly value={pass.pass} />
+      <Textarea autosize maxRows={16} readOnly value={pass.pass} />
 
       <Box>
         <Button
@@ -158,7 +158,7 @@ const Random = () => {
             }
           }}
         >
-          Save Passwords as File
+          Save output as File
         </Button>
       </Box>
       <Box>Entropy: {pass.entropy}</Box>

@@ -1,4 +1,3 @@
-
 .settings {
   position: fixed;
   bottom: 0;
@@ -8,7 +7,7 @@
   width: 200px;
   height: 46px;
   background-color: light-dark(
-    var(--mantine-color-gray-3, var(--mantine-color-gray-8)),
+    var(--mantine-color-gray-3, var(--mantine-color-gray-8))
   );
   cursor: pointer;
   user-select: none;
@@ -21,7 +20,7 @@
 
 .settings:hover {
   background-color: light-dark(
-    var(--mantine-color-gray-4, var(--mantine-color-gray-7)),
+    var(--mantine-color-gray-4, var(--mantine-color-gray-7))
   );
 }
 
@@ -30,9 +29,6 @@
   width: 100%;
   display: flex;
   gap: 10px;
-  background-color: light-dark(
-    var(var(--mantine-color-gray-7),--mantine-color-gray-1),
-  );
 }
 
 .navbar {
