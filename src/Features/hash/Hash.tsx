@@ -71,7 +71,11 @@ const Hash = () => {
   };
 
   return (
-    <Stack>
+    <Stack
+      style={{
+        height: "100%",
+      }}
+    >
       <LoadingOverlay visible={loading} />
       <Monaco
         language="text"
@@ -80,7 +84,7 @@ const Hash = () => {
         value={editorText}
         setValue={onChange}
       />
-      <Stack spacing={"lg"} pr={"sm"}>
+      <Stack gap={"lg"} pr={"sm"}>
         <Stack>
           <Box>
             <HashBox value={hashes.md5} hashtype="MD5" />

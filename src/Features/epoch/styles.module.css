@@ -1,0 +1,23 @@
+/* const useStyles = (theme) => ({
+    timeBox: {
+      borderRadius: 8,
+      padding: 6,
+      cursor: "copy",
+      overflow: "auto",
+      backgroundColor:
+        theme.colorScheme === "dark"
+          ? theme.colors.dark[6]
+          : theme.colors.gray[0],
+    },
+  }); */
+
+.timeBox {
+  border-radius: 8px;
+  padding: 6px;
+  cursor: copy;
+  overflow: auto;
+  background-color: light-dark(
+    var(--mantine-colors-gray-0),
+    var(--mantine-colors-dark-6)
+  );
+}

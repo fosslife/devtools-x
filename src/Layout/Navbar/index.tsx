@@ -59,7 +59,7 @@ export const data = [
   { id: 9, to: "/text", icon: <VscDiff />, text: "Diff Tools" },
   { id: 10, to: "/markdown", icon: <FaMarkdown />, text: "Markdown" },
   { id: 11, to: "/yamljson", icon: <FaYinYang />, text: "Yaml JSON" },
-  { id: 12, to: "/pastebin", icon: <FaPaste />, text: "Pastebin" },
+  // { id: 12, to: "/pastebin", icon: <FaPaste />, text: "Pastebin" },
   { id: 13, to: "/repl", icon: <FaCode />, text: "ScratchPad" },
   // { id: 14, to: "/image", icon: <FaFileImage />, text: "Image Tools" },
   { id: 15, to: "/units", icon: <FaExchangeAlt />, text: "Unit Converter" },
@@ -167,7 +167,10 @@ export const Navbar = ({ openSettings }: any) => {
                   setShowIcon(e.id);
                 }}
                 onMouseLeave={() => setShowIcon(-99)}
-                onClick={() => nav(e.to)}
+                onClick={() => {
+                  console.log("e.to", e.to);
+                  nav(e.to);
+                }}
               >
                 <Box className={classes.listTitle}>
                   <Text

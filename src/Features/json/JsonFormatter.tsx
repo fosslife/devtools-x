@@ -1,3 +1,5 @@
+import "./styles.module.css";
+
 import { Button, Stack, Tabs } from "@mantine/core";
 import { useEffect, useState } from "react";
 
@@ -67,15 +69,7 @@ const JsonFormatter = () => {
 
   return (
     <Stack>
-      <Tabs
-        value={activeTab}
-        onTabChange={setActiveTab}
-        sx={() => ({
-          "div[role='tabpanel']": {
-            height: "85vh",
-          },
-        })}
-      >
+      <Tabs value={activeTab} onChange={setActiveTab}>
         <Tabs.List>
           {tabs.map((t) => (
             <Tabs.Tab

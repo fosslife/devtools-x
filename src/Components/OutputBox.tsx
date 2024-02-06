@@ -15,11 +15,13 @@ function OutputBox({
   value,
   type: propType,
   size,
+  onCopy,
 }: {
   label: string;
   value: string;
   type?: HTMLInputTypeAttribute;
   size?: MantineSize;
+  onCopy?: () => void;
 }) {
   const [type, setType] = useState(propType);
 
@@ -28,9 +30,10 @@ function OutputBox({
       <Input
         type={type}
         size={size || "xs"}
-        rightSectionWidth={100}
+        rightSectionWidth={75}
+        rightSectionPointerEvents="auto"
         rightSection={
-          <Group noWrap>
+          <Group wrap="nowrap">
             {propType === "password" ? (
               <ActionIcon<"button">
                 onClick={() =>
@@ -43,13 +46,14 @@ function OutputBox({
             <CopyButton value={value}>
               {({ copied, copy }) => (
                 <Button
-                  leftIcon={<FaCopy />}
+                  leftSection={<FaCopy />}
                   size={size || "xs"}
                   // fullWidth={true}
                   color={copied ? "teal" : "blue"}
                   onClick={() => {
                     copy(); //  copy doesn't work but need this function for animation.
                     clipboard.writeText(value);
+                    onCopy?.();
                   }}
                 >
                   {copied ? "Copied" : `Copy`}

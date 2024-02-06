@@ -76,17 +76,16 @@ export const SingleTab = ({ t }: { t: number }) => {
   };
 
   return (
-    <Stack sx={{ width: "100%" }} mt="sm">
-      <Group spacing={10}>
+    <Stack style={{ width: "100%" }} mt="sm">
+      <Group gap={10}>
         <NativeSelect
-          placeholder="Method"
-          sx={{ width: "15%" }}
+          style={{ width: "15%" }}
           data={methods.map((m) => ({ value: m, label: m }))}
           value={method}
           onChange={(e) => setMethod(e.currentTarget.value as Methods)}
         ></NativeSelect>
         <TextInput
-          sx={{ flex: 1 }}
+          style={{ flex: 1 }}
           size="sm"
           value={url}
           onChange={(e) => setUrl(e.currentTarget.value)}
@@ -106,7 +105,7 @@ export const SingleTab = ({ t }: { t: number }) => {
               <Tabs.Tab value="body">Body</Tabs.Tab>
             </Tabs.List>
 
-            <Box sx={{ height: "200px", overflow: "auto" }}>
+            <Box style={{ height: "200px", overflow: "auto" }}>
               <Tabs.Panel value="params">
                 {/* ============= PARAMS ========== */}
                 {params.length === 0 ? (
@@ -134,7 +133,7 @@ export const SingleTab = ({ t }: { t: number }) => {
                   <Params params={headers} setParams={setHeaders} />
                 )}
               </Tabs.Panel>
-              <Tabs.Panel value="body" sx={{ height: "100%" }}>
+              <Tabs.Panel value="body" style={{ height: "100%" }}>
                 <Monaco language="json" />
               </Tabs.Panel>
             </Box>
@@ -156,8 +155,8 @@ export const SingleTab = ({ t }: { t: number }) => {
               </Tabs.List>
 
               {/* FIXME: If possible fix the Pixels hardcoding.  */}
-              <Box sx={{ height: "404px", overflow: "auto" }}>
-                <Tabs.Panel value="response" sx={{ height: "100%" }}>
+              <Box style={{ height: "404px", overflow: "auto" }}>
+                <Tabs.Panel value="response" style={{ height: "100%" }}>
                   <Monaco
                     height="100%"
                     language="json"

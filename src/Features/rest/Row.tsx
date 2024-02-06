@@ -17,10 +17,10 @@ export const Row = ({
   param: ParamType;
 }) => {
   return (
-    <Group grow noWrap sx={{ marginTop: "10px" }}>
+    <Group grow wrap="nowrap" style={{ marginTop: "10px" }}>
       <TextInput
         autoComplete="off"
-        sx={{ minWidth: "40%" }}
+        style={{ minWidth: "40%" }}
         placeholder="Param 1"
         size="xs"
         value={param.key}
@@ -30,7 +30,7 @@ export const Row = ({
       />
       <TextInput
         autoComplete="off"
-        sx={{ minWidth: "40%" }}
+        style={{ minWidth: "40%" }}
         placeholder="Value 1"
         size="xs"
         value={param.value}

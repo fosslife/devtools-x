@@ -1,3 +1,4 @@
+// @ts-nocheck
 import "./markdown.css";
 
 import { Box, Button, Group, Stack } from "@mantine/core";
@@ -38,24 +39,39 @@ const codeblock = () => {
   };
 
   return (
-    <Stack>
+    <Stack
+      style={{
+        height: "100%",
+      }}
+    >
       <Group>
         <Button onClick={openFile}>Open md file</Button>
         <Button onClick={saveFile}>Save md file</Button>
       </Group>
-      <Group sx={{ width: "100%", height: "100%" }} grow spacing={10}>
-        <Box sx={{ width: "50%", height: "100%" }}>
+      <Group style={{ width: "100%", height: "100%" }} grow gap={10}>
+        <Box style={{ width: "50%", height: "100%" }}>
           <Monaco
             setValue={(e) => setSource(e || "")}
             value={source}
             language="markdown"
+            onEditorMounted={(editor, monaco) => {
+              // eslint-disable-next-line
+              editor.getContribution(
+                "editor.linkDetector"
+              ).openerService._defaultExternalOpener.openExternal = () => {};
+            }}
           />
         </Box>
-        <Box sx={{ width: "50%", height: "100%" }}>
+        <Box style={{ width: "50%", height: "100%" }}>
           <MarkdownPreview
             source={source}
             style={{ padding: "15px", height: "100%", overflow: "scroll" }}
-            linkTarget="_blank"
+            rehypeRewrite={(node, index, parent) => {
+              if (node.tagName === "a") {
+                node.properties.target = "_blank";
+                node.properties.rel = "noopener noreferrer";
+              }
+            }}
           />
         </Box>
       </Group>

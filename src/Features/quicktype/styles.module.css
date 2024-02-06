@@ -1,0 +1,25 @@
+/* 
+const useStyles = (theme) => ({
+    leftBar: {
+      position: "fixed",
+      left: 0,
+      top: 0,
+      backgroundColor: "red",
+    },
+    parent: {
+      height: "100%",
+      width: "100%",
+    },
+  }); */
+
+.leftBar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: red;
+}
+
+.parent {
+  height: 100%;
+  width: 100%;
+}

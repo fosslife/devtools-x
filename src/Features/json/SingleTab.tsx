@@ -1,4 +1,6 @@
-import { ActionIcon, Box, createStyles, Tooltip } from "@mantine/core";
+import classes from "./styles.module.css";
+
+import { ActionIcon, Box, Tooltip } from "@mantine/core";
 import {
   type MouseEventHandler,
   type ReactNode,
@@ -12,24 +14,6 @@ import {
 } from "react-icons/bs";
 
 import { Monaco } from "../../Components/MonacoWrapper";
-
-const useStyles = createStyles((theme) => ({
-  controls: {
-    background:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[4]
-        : theme.colors.gray[2],
-    height: "30px",
-    marginBlock: 5,
-    fontSize: 22,
-    color: theme.colors.dark[8],
-    display: "flex",
-    alignItems: "center",
-    gap: 10,
-    paddingInline: 10,
-    paddingBlock: 20,
-  },
-}));
 
 export const SingleTab = ({
   tabid,
@@ -45,14 +29,12 @@ export const SingleTab = ({
     setCode(tabdata);
   }, [tabdata]);
 
-  const { classes } = useStyles();
-
   const [options, setOptions] = useState<{ wordWrap: "on" | "off" }>({
     wordWrap: "on",
   }); // FIX types?
 
   return (
-    <Box sx={{ height: "100%" }}>
+    <Box style={{ height: "100%" }}>
       <Box className={classes.controls}>
         <ControlIcon
           label="Format JSON"

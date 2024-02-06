@@ -48,7 +48,7 @@ export function Params({
     }
   };
   return (
-    <Stack sx={{ gap: "0px" }}>
+    <Stack style={{ gap: "0px" }}>
       {params.map((e, i) => (
         <Row key={i} id={i} param={e} onChange={handleChange} />
       ))}

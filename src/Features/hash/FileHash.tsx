@@ -39,33 +39,68 @@ const FileHash = () => {
 
   return (
     <Stack
-      sx={{ height: "100%", width: "100%", overflow: "auto" }}
+      style={{ height: "100%", width: "100%", overflow: "auto" }}
       p="xs"
-      spacing={"lg"}
+      gap={"lg"}
     >
       <LoadingOverlay visible={loading} />
 
       <Group>
         <Button onClick={selectFile}>Select Files</Button>
       </Group>
-      <Table striped>
-        <thead>
-          <tr>
-            <th>file</th>
-            <th>hash</th>
-          </tr>
-        </thead>
-        <tbody>
+      <Table
+        // striped
+        verticalSpacing={"md"}
+        highlightOnHover
+        withTableBorder
+        withColumnBorders
+        // withRowBorders
+      >
+        <Table.Thead>
+          <Table.Tr
+            style={
+              {
+                // display: "flex",
+                // justifyContent: "space-around",
+              }
+            }
+          >
+            <Table.Th>file</Table.Th>
+            <Table.Th>hash</Table.Th>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
           {fileHashes.map((el: any) => (
-            <tr key={el.hash}>
-              <td>{el.name}</td>
-              <td>{el.hash}</td>
-            </tr>
+            <Table.Tr
+              key={el.hash}
+              style={
+                {
+                  // display: "flex",
+                  // justifyContent: "space-between",
+                }
+              }
+            >
+              <Table.Td
+                style={{
+                  // width: "50%",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  maxWidth: "45vw",
+                }}
+              >
+                {el.name}
+              </Table.Td>
+              <Table.Td>{el.hash}</Table.Td>
+            </Table.Tr>
           ))}
-        </tbody>
+        </Table.Tbody>
       </Table>
     </Stack>
   );
 };
 
 export default FileHash;
+
+//TODO: export calculated hashes
+//TODO: singular hash box copy button on select

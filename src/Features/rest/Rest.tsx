@@ -9,8 +9,12 @@ const Rest = () => {
   const [activeTab, setActiveTab] = useState<string | null>("1");
 
   return (
-    <Stack>
-      <Tabs value={activeTab} onTabChange={setActiveTab}>
+    <Stack
+      style={{
+        height: "100%",
+      }}
+    >
+      <Tabs value={activeTab} onChange={setActiveTab}>
         <Tabs.List>
           {tabs.map((t) => (
             <Tabs.Tab

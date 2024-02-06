@@ -13,6 +13,7 @@ export const HashBox = ({ value, hashtype }: HashBoxProps) => {
       size="xs"
       rightSectionWidth={100}
       rightSection={<Copy value={value} label={hashtype} />}
+      rightSectionPointerEvents="auto"
       value={value}
       readOnly
     ></Input>

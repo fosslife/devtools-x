@@ -43,8 +43,8 @@ const StatelessPassword = () => {
     "digits",
     "symbols",
   ]);
-  const [length, setLength] = useState(12);
-  const [counter, setCounter] = useState(1);
+  const [length, setLength] = useState<string | number>(12);
+  const [counter, setCounter] = useState<string | number>(1);
   const [generated, setGenerated] = useState("");
   const [val, setVal] = useState("");
   const [prevData, setPrevData] = useState<StoredData>();
@@ -158,7 +158,7 @@ const StatelessPassword = () => {
         label="Options"
         styles={{ label: { marginBlock: 10 } }}
       >
-        <Group spacing={50} grow>
+        <Group gap={50} grow>
           <Checkbox label="lowercase" value={"lowercase"} />
           <Checkbox label="uppercase" value={"uppercase"} />
           <Checkbox label="digits" value={"digits"} />

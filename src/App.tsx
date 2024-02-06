@@ -1,3 +1,4 @@
+import "./anim.css";
 import classes from "./App.module.css";
 import "@mantine/spotlight/styles.css";
 
@@ -7,17 +8,7 @@ import { Spotlight } from "@mantine/spotlight";
 import { loader } from "@monaco-editor/react";
 import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import {
-  Route,
-  Routes,
-  useLocation,
-  useNavigation,
-  useNavigate,
-  createBrowserRouter,
-  createRoutesFromElements,
-  RouterProvider,
-  Outlet,
-} from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 // NOTE: keep Num converter here, do not lazy load. there's a rare crashing bug.
 import Nums from "./Features/number-tools/Nums";
@@ -80,6 +71,8 @@ function App() {
         </Box>
         <Group
           className={`${transitionStage} ${classes.body}`}
+          grow
+          align="start"
           onAnimationEnd={() => {
             if (transitionStage === "fadeOut") {
               setTransistionStage("fadeIn");
@@ -101,7 +94,7 @@ function App() {
             <Route path="/text" element={<TextDiff />}></Route>
             <Route path="/markdown" element={<Markdown />}></Route>
             <Route path="/yamljson" element={<YamlJson />}></Route>
-            <Route path="/pastebin" element={<Pastebin />}></Route>
+            {/* <Route path="/pastebin" element={<Pastebin />}></Route> */}
             <Route path="/repl" element={<Repl />}></Route>
             {/* <Route path="/image" element={<Image />}></Route> */}
             <Route path="/units" element={<UnitConverter />}></Route>

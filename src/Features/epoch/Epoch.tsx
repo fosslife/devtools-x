@@ -1,6 +1,7 @@
+import classes from "./styles.module.css";
+
 import {
   Checkbox,
-  createStyles,
   Divider,
   Grid,
   Group,
@@ -17,19 +18,6 @@ import { FaArrowRight } from "react-icons/fa";
 import { Copy } from "../../Components/Copy";
 import { db } from "../../utils";
 
-const useStyles = createStyles((theme) => ({
-  timeBox: {
-    borderRadius: 8,
-    padding: 6,
-    cursor: "copy",
-    overflow: "auto",
-    backgroundColor:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[6]
-        : theme.colors.gray[0],
-  },
-}));
-
 const formats = [
   "toString",
   "toLocaleString",
@@ -40,7 +28,6 @@ const formats = [
 ] as const;
 
 const Epoch = () => {
-  const { classes } = useStyles();
   const [seconds, setSeconds] = useState(Date.now());
   const interval = useInterval(() => setSeconds(Date.now()), 1000);
   const [dateFormat, setDateFormat] =

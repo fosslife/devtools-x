@@ -1,0 +1,11 @@
+.output {
+  height: 95%;
+  overflow: auto;
+  width: 47%;
+  max-width: 47%;
+  background-color: var(--mantine-colors-dark-5);
+  color: "white";
+  padding: 10px;
+  padding-top: 0;
+  font-family: '"Ubuntu Mono", monospace';
+}

@@ -23,9 +23,13 @@ function Playground() {
   const [code, setCode] = useState(boilerplate);
   // const;
   return (
-    <Stack>
-      <Group sx={{ height: "100%", width: "100%" }} noWrap>
-        <LiveProvider code={code} width="100%">
+    <Stack
+      style={{
+        height: "100%",
+      }}
+    >
+      <Group style={{ height: "100%", width: "100%" }} wrap="nowrap">
+        <LiveProvider code={code}>
           <Monaco
             width="50%"
             value={code}

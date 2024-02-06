@@ -12,7 +12,7 @@ const YamlJson = () => {
   - 3`);
 
   return (
-    <Stack>
+    <Stack style={{ height: "100%" }}>
       <NativeSelect
         data={[
           { value: "json", label: "JSON to YAML" },
@@ -21,11 +21,11 @@ const YamlJson = () => {
         value={mode}
         onChange={(e) => setMode(e.currentTarget.value)}
       ></NativeSelect>
-      <Group position="apart" align={"start"}>
+      <Group justify="space-evenly" align={"start"}>
         <Box>{mode}</Box>
         <Box>{mode == "json" ? "yaml" : "json"}</Box>
       </Group>
-      <Group noWrap sx={{ height: "100%", width: "100%" }}>
+      <Group wrap="nowrap" style={{ height: "100%", width: "100%" }}>
         <Monaco
           width="50%"
           language={mode}

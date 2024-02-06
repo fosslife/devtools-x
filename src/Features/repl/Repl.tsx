@@ -4,6 +4,8 @@ import { forwardRef, useEffect, useState } from "react";
 
 import { Monaco } from "../../Components/MonacoWrapper";
 
+import classes from "./styles.module.css";
+
 type Runtimes = {
   language: string;
   version: string;
@@ -11,22 +13,21 @@ type Runtimes = {
   runtime?: string;
 };
 
-const SelectItem = forwardRef<HTMLDivElement, Runtimes>(
-  ({ language, version, runtime, ...others }: Runtimes, ref) => (
-    <div ref={ref} {...others}>
-      <Group noWrap>
-        <div>
-          <Text size="sm">{language.toUpperCase()}</Text>
-          <Text size="xs" color="dimmed">
-            v{version} {runtime ? `runtime - ${runtime}` : null}
-          </Text>
-        </div>
-      </Group>
-    </div>
-  )
-);
+// const SelectItem = forwardRef<HTMLDivElement, Runtimes>(
+//   ({ language, version, runtime, ...others }: Runtimes, ref) => (
+//     <div ref={ref} {...others}>
+//       <Group wrap="nowrap">
+//         <div>
+//           <Text size="sm">{language.toUpperCase()}</Text>
+//           <Text size="xs" color="dimmed">
+//             v{version} {runtime ? `runtime - ${runtime}` : null}
+//           </Text>
+//         </div>
+//       </Group>
+//     </div>
+//   )
+// );
 
-SelectItem.displayName = "Select";
 const ANSI_ESCAPE_REGEX =
   /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g;
 
@@ -93,7 +94,6 @@ function Repl() {
         placeholder="Select a language"
         required
         value={lang}
-        itemComponent={SelectItem}
         data={runtimes.map((r) => ({
           value: `${r.language}-${r.version}`,
           label: r.language,
@@ -104,8 +104,12 @@ function Repl() {
         onChange={setLang}
       ></Select>
 
-      <Box sx={{ width: "100%", height: "100%" }}>
-        <Group sx={{ width: "100%", height: "86%" }} align="start" noWrap>
+      <Box style={{ width: "100%", height: "100%" }}>
+        <Group
+          style={{ width: "100%", height: "86%" }}
+          align="start"
+          wrap="nowrap"
+        >
           <Monaco
             setValue={(e) => setCodeValue(e || "")}
             value={codeValue}
@@ -113,26 +117,11 @@ function Repl() {
             height="95%"
             width={"50%"}
           />
-          <Box
-            sx={(theme) => ({
-              height: "95%",
-              overflow: "auto",
-              width: "47%",
-              maxWidth: "47%",
-              backgroundColor:
-                theme.colorScheme === "dark"
-                  ? theme.colors.dark[5]
-                  : theme.colors.dark[5],
-              color: "white",
-              padding: 10,
-              paddingTop: 0,
-              fontFamily: '"Ubuntu Mono", monospace',
-            })}
-          >
+          <Box className={classes.output}>
             <Text component="pre">{output}</Text>
           </Box>
         </Group>
-        <Group noWrap px={15}>
+        <Group wrap="nowrap" px={15}>
           <Button
             size={"md"}
             fullWidth
@@ -160,3 +149,4 @@ function Repl() {
 export default Repl;
 
 // FIXME: Editor doesn't support syntax highlighting for wide range of languages like zig bash
+// FIXME: select dropdown should show runtime, version etc. check L16

@@ -1,0 +1,20 @@
+.controls {
+    background-color: light-dark(
+        var(--mantine-color-gray-2),
+        var(--mantine-color-dark-4)
+    );
+
+    height: 30px;
+    margin-block: 5px;
+    font-size: 22px;
+    color: var(--mantine-color-dark-2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-inline: 10px;
+    padding-block: 20px;
+}
+
+div[role="tabpanel"] {
+    height: 85vh;
+}

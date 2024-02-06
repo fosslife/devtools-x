@@ -25,7 +25,11 @@ const JWT = () => {
   }, [jwt]);
 
   return (
-    <Stack>
+    <Stack
+      style={{
+        height: "100%",
+      }}
+    >
       Token:
       <Monaco
         language="text"
