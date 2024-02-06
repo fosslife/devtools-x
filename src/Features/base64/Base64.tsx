@@ -56,9 +56,6 @@ const Base64 = () => {
     <Stack>
       <Group>
         <TextInput
-          sx={{
-            flex: 1,
-          }}
           placeholder="Input"
           onChange={(e) => setInput(e.target.value)}
         />

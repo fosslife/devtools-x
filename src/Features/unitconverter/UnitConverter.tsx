@@ -59,22 +59,22 @@ const UnitConverter = () => {
   };
 
   return (
-    <Stack>
+    <Stack h="100%">
       <Select
-        sx={{ width: "100%" }}
+        style={{ width: "100%" }}
         label="Category"
         value={category}
         data={Convert()
           .measures()
           .map((m) => ({ value: m, label: m }))}
-        onChange={(e: Convert.Measure) => {
-          handleCategory(e);
+        onChange={(e) => {
+          handleCategory(e as Convert.Measure);
         }}
       >
         {}
       </Select>
-      <Group sx={{ width: "100%" }} align={"center"} position="apart">
-        <Stack sx={{ width: "45%" }}>
+      <Group style={{ width: "100%" }} align={"center"} justify="space-between">
+        <Stack style={{ width: "45%" }}>
           <TextInput label="From" ref={fromRef} onChange={() => calculate()} />
           <Select
             label="Unit"
@@ -102,7 +102,7 @@ const UnitConverter = () => {
           </ActionIcon>
         </Tooltip>
 
-        <Stack sx={{ width: "45%" }}>
+        <Stack style={{ width: "45%" }}>
           {/* FIXME: make second inputbox as editable */}
           <TextInput label="To" readOnly value={toValue} />
           <Select
