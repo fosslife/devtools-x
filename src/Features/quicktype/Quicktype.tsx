@@ -87,6 +87,9 @@ export default function Quicktype() {
       const o = await quicktype({
         inputData,
         lang: lang || "rust",
+        rendererOptions: {
+          // "just-types": "true",
+        },
       });
       setOp(o.lines.join("\r\n"));
     } catch (e) {
@@ -148,3 +151,5 @@ export default function Quicktype() {
     </Stack>
   );
 }
+
+// todo: impl lang specific toggle options, sample above
