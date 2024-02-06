@@ -39,10 +39,10 @@
 }
 
 .row:hover {
-  color: light-dark(var(--mantine-color-gray-1), var(--mantine-color-blue-0));
-  background: light-dark(
-    var(--mantine-color-blue-6),
-    var(--mantine-color-blue-9)
+  color: light-dark(var(--mantine-color-gray-8), var(--mantine-color-blue-0));
+  background-color: light-dark(
+    var(--mantine-color-gray-3),
+    var(--mantine-color-gray-8)
   );
 }
 
@@ -86,10 +86,10 @@
 .active {
   font-style: normal;
   font-weight: bold;
-  color: light-dark(var(--mantine-color-gray-1), var(--mantine-color-blue-0));
-  background: light-dark(
-    var(--mantine-color-blue-6),
-    var(--mantine-color-blue-9)
+  color: var(--mantine-color-gray-8);
+  background-color: light-dark(
+    var(--mantine-color-gray-3),
+    var(--mantine-color-gray-8)
   );
 }
 
@@ -111,4 +111,9 @@
   margin-top: 10px;
   margin-bottom: -10px;
   margin-left: 5px;
+}
+
+.rowIcon {
+  font-size: 17px;
+  color: light-dark(var(--mantine-color-dark-7), var(--mantine-color-dark-1));
 }

@@ -173,15 +173,7 @@ export const Navbar = ({ openSettings }: any) => {
                 }}
               >
                 <Box className={classes.listTitle}>
-                  <Text
-                    style={{
-                      fontSize: 17,
-                      color:
-                        "light-dark(var(--mantine-color-dark-1), var(--mantine-color-dark-4))",
-                    }}
-                  >
-                    {e.icon}
-                  </Text>
+                  <Text className={classes.rowIcon}>{e.icon}</Text>
                   {e.extra ? (
                     <Tooltip label={e.extra}>
                       <Text
