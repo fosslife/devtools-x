@@ -41,6 +41,7 @@ const Epoch = loadable(() => import("./Features/epoch/Epoch"));
 const Stateless = loadable(() => import("./Features/password"));
 const Base64 = loadable(() => import("./Features/base64/Base64"));
 const Quicktpe = loadable(() => import("./Features/quicktype/Quicktype"));
+const Ping = loadable(() => import("./Features/ping/Ping"));
 
 function App() {
   const location = useLocation();
@@ -103,7 +104,8 @@ function App() {
             <Route path="/epoch" element={<Epoch />}></Route>
             <Route path="/stateless" element={<Stateless />}></Route>
             <Route path="base64" element={<Base64 />}></Route>
-            <Route path="quicktype" element={<Quicktpe />}></Route>
+            <Route path="/quicktype" element={<Quicktpe />}></Route>
+            <Route path="/ping" element={<Ping />}></Route>
           </Routes>
         </Group>
       </Box>

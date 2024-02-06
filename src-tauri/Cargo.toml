@@ -1,11 +1,11 @@
 [package]
-name = "app"
+name = "devtools-x"
 version = "2.0.0"
 description = "Developer tools desktop application"
 authors = ["Sparkenstein"]
 license = "MIT"
 repository = "https://github.com/fosslife/devtools-x"
-default-run = "app"
+default-run = "devtools-x"
 edition = "2018"
 build = "src/build.rs"
 
@@ -21,6 +21,8 @@ md-5 = "0.10.5"
 base16ct = { version = "0.2.0", features = ["alloc"] }
 rayon = "1.7.0"
 dashmap = { version = "5.4.0", features = ["serde"] }
+surge-ping = "0.8"
+tokio = { version = "1.21.2", features = ["full"] }
 
 [features]
 default = ["custom-protocol"]

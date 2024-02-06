@@ -23,6 +23,7 @@ import {
   FaYinYang,
 } from "react-icons/fa";
 import { FiClock, FiFile, FiHash, FiSettings } from "react-icons/fi";
+import { RiPingPongLine } from "react-icons/ri";
 import { MdAnchor, MdColorize, MdHttp, MdOutlineHome } from "react-icons/md";
 import { SiJsonwebtokens, SiPostgresql } from "react-icons/si";
 import {
@@ -73,6 +74,12 @@ export const data = [
     to: "/quicktype",
     icon: <VscTypeHierarchySub />,
     text: "Quicktype",
+  },
+  {
+    id: 23,
+    to: "/ping",
+    icon: <RiPingPongLine />,
+    text: "Ping",
   },
 ];
 
