@@ -31,7 +31,7 @@ const Markdown = loadable(() => import("./Features/markdown/Markdown"));
 const YamlJson = loadable(() => import("./Features/yaml-json/Yaml"));
 const Pastebin = loadable(() => import("./Features/pastebin/Pastebin"));
 const Repl = loadable(() => import("./Features/repl/Repl"));
-// const Image = loadable(() => import("./Features/image/Image"));
+const Image = loadable(() => import("./Features/image/Image"));
 const Playground = loadable(() => import("./Features/playground/Playground"));
 const Rest = loadable(() => import("./Features/rest/Rest"));
 const UnitConverter = loadable(
@@ -97,7 +97,7 @@ function App() {
             <Route path="/yamljson" element={<YamlJson />}></Route>
             {/* <Route path="/pastebin" element={<Pastebin />}></Route> */}
             <Route path="/repl" element={<Repl />}></Route>
-            {/* <Route path="/image" element={<Image />}></Route> */}
+            <Route path="/image" element={<Image />}></Route>
             <Route path="/units" element={<UnitConverter />}></Route>
             <Route path="/playground" element={<Playground />}></Route>
             <Route path="/rest" element={<Rest />}></Route>

@@ -9,16 +9,36 @@ export default defineConfig({
   server: {
     port: 3000,
   },
-  plugins: [react(), copyMonaco()],
+  plugins: [
+    {
+      name: "configure-response-headers",
+      configureServer: (server) => {
+        server.middlewares.use((_req, res, next) => {
+          res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
+          res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+          next();
+        });
+      },
+    },
+    react(),
+    copyMonaco(),
+  ],
+  optimizeDeps: {
+    exclude: ["wasm-vips"],
+  },
   build: {
     target: ["chrome95", "edge95", "esnext", "firefox95", "safari16"],
     rollupOptions: {
       plugins: [visualizer()],
+      external: ["wasm-vips"],
       output: {
         manualChunks: {
           "rehype-parse": ["rehype-parse"],
           "rehype-raw": ["rehype-raw"],
           "react-markdown": ["react-markdown"],
+          "quicktype-core": ["quicktype-core"],
+          lodash: ["lodash"],
+          // "wasm-vips": ["wasm-vips"],
         },
       },
     },

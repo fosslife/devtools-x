@@ -11,6 +11,33 @@ export default (): PluginOption => {
         recursive: true,
         force: true,
       });
+
+      // VIPS
+      cpSync(
+        "./node_modules/wasm-vips/lib/vips.js",
+        "./dist/src/vips/vips.js",
+        {
+          force: true,
+        }
+      );
+
+      // Webassembly
+      cpSync(
+        "./node_modules/wasm-vips/lib/vips.wasm",
+        "./dist/src/vips/vips.wasm",
+        {
+          force: true,
+        }
+      );
+
+      // worker
+      cpSync(
+        "./node_modules/wasm-vips/lib/vips.worker.js",
+        "./dist/src/vips/vips-worker.js",
+        {
+          force: true,
+        }
+      );
     },
   };
 };

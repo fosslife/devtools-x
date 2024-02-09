@@ -6621,6 +6621,11 @@ vite@^5.0.12:
   optionalDependencies:
     fsevents "~2.3.3"
 
+wasm-vips@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/wasm-vips/-/wasm-vips-0.0.7.tgz#9a745dc6720c67281bf5a3f8bc160f77afaaf025"
+  integrity sha512-5KPwNNRE3GN+Ipb12ce8ArKrB5rgqwRtIiBOIQg/h7gW5TZuAzfPgkSUpGSX0f9br6VQD4Sj+2nXHr++wY0cFQ==
+
 web-namespaces@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/web-namespaces/-/web-namespaces-2.0.1.tgz#1010ff7c650eccb2592cebeeaf9a1b253fd40692"

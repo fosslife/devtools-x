@@ -1,9 +1,23 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
+
+    <script src="src/vips/vips.js"></script>
+    <script type="module">
+      new Vips({
+        dynamicLibraries: [],
+        mainScriptUrlOrBlob: "/src/vips/vips-es6.js",
+        locateFile: (fileName) => {
+          console.log("locateFile", fileName);
+          return "/src/vips/" + fileName;
+        },
+      }).then((vips) => {
+        window.vips = vips;
+      });
+    </script>
     <!-- React-editor -->
     <script>
       const global = globalThis;

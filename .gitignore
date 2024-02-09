@@ -8,3 +8,5 @@ dist-ssr
 stats.html
 
 yarn-error.log
+
+src/vips/
