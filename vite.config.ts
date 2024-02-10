@@ -23,22 +23,19 @@ export default defineConfig({
     react(),
     copyMonaco(),
   ],
-  optimizeDeps: {
-    exclude: ["wasm-vips"],
-  },
+
   build: {
     target: ["chrome95", "edge95", "esnext", "firefox95", "safari16"],
     rollupOptions: {
       plugins: [visualizer()],
-      external: ["wasm-vips"],
       output: {
         manualChunks: {
           "rehype-parse": ["rehype-parse"],
           "rehype-raw": ["rehype-raw"],
           "react-markdown": ["react-markdown"],
           "quicktype-core": ["quicktype-core"],
+          quicktype: ["quicktype"],
           lodash: ["lodash"],
-          // "wasm-vips": ["wasm-vips"],
         },
       },
     },

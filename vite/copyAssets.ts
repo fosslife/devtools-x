@@ -15,7 +15,7 @@ export default (): PluginOption => {
       // VIPS
       cpSync(
         "./node_modules/wasm-vips/lib/vips.js",
-        "./dist/src/vips/vips.js",
+        "./dist/assets/vips/vips.js",
         {
           force: true,
         }
@@ -24,7 +24,7 @@ export default (): PluginOption => {
       // Webassembly
       cpSync(
         "./node_modules/wasm-vips/lib/vips.wasm",
-        "./dist/src/vips/vips.wasm",
+        "./dist/assets/vips/vips.wasm",
         {
           force: true,
         }
@@ -33,7 +33,7 @@ export default (): PluginOption => {
       // worker
       cpSync(
         "./node_modules/wasm-vips/lib/vips.worker.js",
-        "./dist/src/vips/vips-worker.js",
+        "./dist/assets/vips/vips.worker.js",
         {
           force: true,
         }
