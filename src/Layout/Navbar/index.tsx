@@ -24,7 +24,7 @@ import {
   FaYinYang,
 } from "react-icons/fa";
 import { FiClock, FiFile, FiHash, FiSettings } from "react-icons/fi";
-import { RiPingPongLine } from "react-icons/ri";
+// import { RiPingPongLine } from "react-icons/ri";
 import { MdAnchor, MdColorize, MdHttp, MdOutlineHome } from "react-icons/md";
 import { SiJsonwebtokens, SiPostgresql } from "react-icons/si";
 import {
@@ -69,18 +69,23 @@ export const data = [
   { id: 17, to: "/rest", icon: <MdHttp />, text: "REST API" },
   { id: 19, to: "/epoch", icon: <FiClock />, text: "Epoch Converter" },
   { id: 20, to: "/stateless", icon: <FaYinYang />, text: "Stateless Password" },
-  { id: 21, to: "/base64", icon: <VscSymbolString />, text: "Base64" },
+  {
+    id: 21,
+    to: "/base64-text",
+    icon: <VscSymbolString />,
+    text: "Base64 Text",
+  },
   {
     id: 22,
-    to: "/quicktype",
-    icon: <VscTypeHierarchySub />,
-    text: "Quicktype",
+    to: "/base64-image",
+    icon: <VscSymbolString />,
+    text: "Base64 Image",
   },
   {
     id: 23,
-    to: "/ping",
-    icon: <RiPingPongLine />,
-    text: "Ping",
+    to: "/quicktype",
+    icon: <VscTypeHierarchySub />,
+    text: "Quicktype",
   },
 ];
 

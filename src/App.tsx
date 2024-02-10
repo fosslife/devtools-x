@@ -39,7 +39,8 @@ const UnitConverter = loadable(
 );
 const Epoch = loadable(() => import("./Features/epoch/Epoch"));
 const Stateless = loadable(() => import("./Features/password"));
-const Base64 = loadable(() => import("./Features/base64/Base64"));
+const Base64Image = loadable(() => import("./Features/base64/Base64Image"));
+const Base64Text = loadable(() => import("./Features/base64/Base64Text"));
 const Quicktpe = loadable(() => import("./Features/quicktype/Quicktype"));
 const Ping = loadable(() => import("./Features/ping/Ping"));
 
@@ -103,7 +104,8 @@ function App() {
             <Route path="/rest" element={<Rest />}></Route>
             <Route path="/epoch" element={<Epoch />}></Route>
             <Route path="/stateless" element={<Stateless />}></Route>
-            <Route path="base64" element={<Base64 />}></Route>
+            <Route path="/base64-image" element={<Base64Image />}></Route>
+            <Route path="/base64-text" element={<Base64Text />}></Route>
             <Route path="/quicktype" element={<Quicktpe />}></Route>
             <Route path="/ping" element={<Ping />}></Route>
           </Routes>

@@ -58,7 +58,6 @@
 .bottomSection {
   width: max-content;
   gap: 0px;
-  padding-inline: 5px;
   overflow: auto;
 }
 
