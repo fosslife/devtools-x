@@ -43,6 +43,7 @@ const Base64Image = loadable(() => import("./Features/base64/Base64Image"));
 const Base64Text = loadable(() => import("./Features/base64/Base64Text"));
 const Quicktpe = loadable(() => import("./Features/quicktype/Quicktype"));
 const Ping = loadable(() => import("./Features/ping/Ping"));
+const Minify = loadable(() => import("./Features/minifiers/Minify"));
 
 function App() {
   const location = useLocation();
@@ -108,6 +109,7 @@ function App() {
             <Route path="/base64-text" element={<Base64Text />}></Route>
             <Route path="/quicktype" element={<Quicktpe />}></Route>
             <Route path="/ping" element={<Ping />}></Route>
+            <Route path="/minify" element={<Minify />}></Route>
           </Routes>
         </Group>
       </Box>

@@ -26,7 +26,7 @@ import {
 import { FiClock, FiFile, FiHash, FiSettings } from "react-icons/fi";
 // import { RiPingPongLine } from "react-icons/ri";
 import { MdAnchor, MdColorize, MdHttp, MdOutlineHome } from "react-icons/md";
-import { SiJsonwebtokens, SiPostgresql } from "react-icons/si";
+import { SiJsonwebtokens, SiPostgresql, SiPrettier } from "react-icons/si";
 import {
   VscDiff,
   VscPin,
@@ -86,6 +86,12 @@ export const data = [
     to: "/quicktype",
     icon: <VscTypeHierarchySub />,
     text: "Quicktype",
+  },
+  {
+    id: 24,
+    to: "/minify",
+    icon: <SiPrettier />,
+    text: "Minify/Beautify",
   },
 ];
 

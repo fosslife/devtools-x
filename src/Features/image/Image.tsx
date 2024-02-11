@@ -56,8 +56,6 @@ function Image() {
   const resize = async () => {
     let { vips } = window as any;
 
-    console.log("Resize: start", imageSrc.left, rightRef.current, vips);
-
     if (!imageSrc.left) return;
     if (!rightRef.current) return; // typescript check
     if (!vips) return;

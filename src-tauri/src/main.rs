@@ -10,12 +10,13 @@ use tauri::{Manager, WindowBuilder, WindowUrl};
 mod commands;
 
 use commands::hash::hash::hash;
+use commands::minify::minify::minifyhtml;
 use commands::ping::ping::ping;
 
 fn main() {
   tauri::Builder::default()
     .plugin(tauri_plugin_store::Builder::default().build())
-    .invoke_handler(tauri::generate_handler![hash, ping])
+    .invoke_handler(tauri::generate_handler![hash, ping, minifyhtml])
     .setup(|app| {
       WindowBuilder::new(app, "main", WindowUrl::App("index.html".into()))
         .title("DevTools-X")
