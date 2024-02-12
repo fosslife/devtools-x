@@ -14,6 +14,9 @@
         if (e.code === "F3") return false;
       };
     </script>
+    <script>
+      const global = globalThis;
+    </script>
     <style>
       @media print {
         html,
@@ -31,9 +34,5 @@
       );
     </script>
     <script type="module" src="/src/main.tsx"></script>
-    <script type="module">
-      import Vips from "./assets/vips/vips-es6.js";
-      window.Vips = Vips;
-    </script>
   </body>
 </html>

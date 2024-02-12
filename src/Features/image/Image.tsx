@@ -38,23 +38,30 @@ function Image() {
   });
 
   useEffect(() => {
+    let script: HTMLScriptElement | null = null;
     (async () => {
       if (!vips) {
-        let Vips = (window as any).Vips;
-        new Vips({
-          dynamicLibraries: [],
-          locateFile: (fileName: string) => {
-            return "/assets/vips/" + fileName;
-          },
-        }).then((v: any) => {
-          setVips(v);
-        });
+        script = document.createElement("script");
+        script.src = "/assets/vips/vips.js";
+        document.body.appendChild(script);
+        script.onload = () => {
+          let Vips = (window as any).Vips;
+          new Vips({
+            dynamicLibraries: [],
+            locateFile: (fileName: string) => {
+              return "/assets/vips/" + fileName;
+            },
+          }).then((v: any) => {
+            setVips(v);
+          });
+        };
       }
     })();
 
     return () => {
       if (vips) {
         vips.shutdown();
+        script?.remove();
       }
     };
   }, []);
