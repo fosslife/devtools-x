@@ -45,6 +45,9 @@ const Quicktpe = loadable(() => import("./Features/quicktype/Quicktype"));
 const Ping = loadable(() => import("./Features/ping/Ping"));
 const Minify = loadable(() => import("./Features/minifiers/Minify"));
 const UrlParser = loadable(() => import("./Features/url/UrlParser"));
+const HtmlPreview = loadable(
+  () => import("./Features/html-preview/HtmlPreview")
+);
 
 function App() {
   const location = useLocation();
@@ -112,6 +115,7 @@ function App() {
             <Route path="/ping" element={<Ping />}></Route>
             <Route path="/minify" element={<Minify />}></Route>
             <Route path="/url-parser" element={<UrlParser />}></Route>
+            <Route path="/html-preview" element={<HtmlPreview />}></Route>
           </Routes>
         </Group>
       </Box>

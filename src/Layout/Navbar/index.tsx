@@ -28,6 +28,7 @@ import { FiClock, FiFile, FiHash, FiSettings } from "react-icons/fi";
 import {
   MdAnchor,
   MdColorize,
+  MdHtml,
   MdHttp,
   MdOutlineHome,
   MdPassword,
@@ -110,6 +111,12 @@ export const data = [
     to: "/url-parser",
     icon: <MdQuestionMark />,
     text: "URL Parser",
+  },
+  {
+    id: 26,
+    to: "/html-preview",
+    icon: <MdHtml />,
+    text: "HTML Preview",
   },
 ];
 
