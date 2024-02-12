@@ -48,7 +48,6 @@ export default function Minify() {
 
   useEffect(() => {
     setOutput("");
-    // setInput(mode === "Beautify" ? beautifyIp : minifyIp);
   }, [mode]);
 
   const format = useCallback(async () => {
@@ -185,7 +184,7 @@ export default function Minify() {
       <Monaco
         height="40%"
         value={input}
-        setValue={(e) => setInput(e)}
+        setValue={(e) => setInput(e as string)}
         language={lang.toLowerCase()}
       />
       <Divider label="Output" />
