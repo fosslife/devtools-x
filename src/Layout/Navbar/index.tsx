@@ -25,7 +25,14 @@ import {
 } from "react-icons/fa";
 import { FiClock, FiFile, FiHash, FiSettings } from "react-icons/fi";
 // import { RiPingPongLine } from "react-icons/ri";
-import { MdAnchor, MdColorize, MdHttp, MdOutlineHome } from "react-icons/md";
+import {
+  MdAnchor,
+  MdColorize,
+  MdHttp,
+  MdOutlineHome,
+  MdPassword,
+  MdQuestionMark,
+} from "react-icons/md";
 import { SiJsonwebtokens, SiPostgresql, SiPrettier } from "react-icons/si";
 import {
   VscDiff,
@@ -68,7 +75,12 @@ export const data = [
   { id: 16, to: "/playground", icon: <FaReact />, text: "React Pad" },
   { id: 17, to: "/rest", icon: <MdHttp />, text: "REST API" },
   { id: 19, to: "/epoch", icon: <FiClock />, text: "Epoch Converter" },
-  { id: 20, to: "/stateless", icon: <FaYinYang />, text: "Stateless Password" },
+  {
+    id: 20,
+    to: "/stateless",
+    icon: <MdPassword />,
+    text: "Stateless Password",
+  },
   {
     id: 21,
     to: "/base64-text",
@@ -96,7 +108,7 @@ export const data = [
   {
     id: 25,
     to: "/url-parser",
-    icon: <MdHttp />,
+    icon: <MdQuestionMark />,
     text: "URL Parser",
   },
 ];
