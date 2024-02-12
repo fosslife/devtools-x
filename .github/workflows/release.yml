@@ -19,10 +19,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 6.32.9
+
       - name: setup node
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: "pnpm"
 
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
