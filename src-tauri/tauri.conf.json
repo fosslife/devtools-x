@@ -35,7 +35,8 @@
         "minimumSystemVersion": "",
         "exceptionDomain": "",
         "signingIdentity": null,
-        "entitlements": null
+        "entitlements": null,
+        "license": "a"
       },
       "windows": {
         "certificateThumbprint": null,

@@ -93,6 +93,12 @@ export const data = [
     icon: <SiPrettier />,
     text: "Minify/Beautify",
   },
+  {
+    id: 25,
+    to: "/url-parser",
+    icon: <MdHttp />,
+    text: "URL Parser",
+  },
 ];
 
 export const Navbar = ({ openSettings }: any) => {

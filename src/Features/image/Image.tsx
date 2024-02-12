@@ -25,6 +25,7 @@ function Image() {
   const [imageType, setImageType] = useState<"webp" | "jpeg" | "png" | string>(
     "webp"
   );
+  const [vips, setVips] = useState<any>();
 
   const [sizes, setSizes] = useState({
     og: "0",
@@ -35,6 +36,28 @@ function Image() {
     left: "",
     right: "",
   });
+
+  useEffect(() => {
+    (async () => {
+      if (!vips) {
+        let Vips = (window as any).Vips;
+        new Vips({
+          dynamicLibraries: [],
+          locateFile: (fileName: string) => {
+            return "/assets/vips/" + fileName;
+          },
+        }).then((v: any) => {
+          setVips(v);
+        });
+      }
+    })();
+
+    return () => {
+      if (vips) {
+        vips.shutdown();
+      }
+    };
+  }, []);
 
   const download = async () => {
     let downloadPath = await save({
@@ -54,7 +77,7 @@ function Image() {
   };
 
   const resize = async () => {
-    let { vips } = window as any;
+    // let { vips } = window as any;
 
     if (!imageSrc.left) return;
     if (!rightRef.current) return; // typescript check
