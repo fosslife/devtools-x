@@ -10,3 +10,5 @@ stats.html
 yarn-error.log
 
 assets/vips/
+
+.yarn
