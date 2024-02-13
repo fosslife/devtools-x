@@ -11,7 +11,7 @@
     "tauri": "tauri",
     "lint:fix": "eslint ./src --ext .jsx,.js,.ts,.tsx --fix",
     "lint:format": "prettier  --loglevel warn --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\" ",
-    "lint": "pnpm lint:format && pnpm lint:fix ",
+    "lint": "yarn lint:format && yarn lint:fix ",
     "type-check": "tsc"
   },
   "dependencies": {
@@ -54,6 +54,7 @@
     "simple-base-converter": "^1.0.19",
     "tauri-plugin-store-api": "https://github.com/tauri-apps/tauri-plugin-store",
     "terser": "^5.27.0",
+    "typescript-eslint": "^7.0.1",
     "wasm-vips": "^0.0.7"
   },
   "devDependencies": {

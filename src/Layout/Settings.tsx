@@ -4,9 +4,11 @@ import {
   Divider,
   Group,
   Stack,
+  Text,
   useMantineColorScheme,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
+import { version } from "../../package.json";
 
 import { db } from "../utils";
 import { openFileAndGetData, saveDataToFile } from "../utils/functions";
@@ -68,6 +70,12 @@ export const Settings = () => {
         <Divider orientation="vertical" />
         <Button onClick={restore}>Restore Settings</Button>
       </Group>
+      <Divider />
+      <Text c="dimmed">DevTools-X v{version}</Text>
+      <Text c="dimmed">
+        File issue at:{" "}
+        <Text c="blue">https://github.com/fosslife/devtools-x/issues</Text>
+      </Text>
     </Stack>
   );
 };

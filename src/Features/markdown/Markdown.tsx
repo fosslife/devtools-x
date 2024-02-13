@@ -54,7 +54,7 @@ const codeblock = () => {
             setValue={(e) => setSource(e || "")}
             value={source}
             language="markdown"
-            onEditorMounted={(editor, monaco) => {
+            onEditorMounted={(editor) => {
               // eslint-disable-next-line
               editor.getContribution(
                 "editor.linkDetector"
@@ -66,7 +66,7 @@ const codeblock = () => {
           <MarkdownPreview
             source={source}
             style={{ padding: "15px", height: "100%", overflow: "scroll" }}
-            rehypeRewrite={(node, index, parent) => {
+            rehypeRewrite={(node) => {
               if (node.tagName === "a") {
                 node.properties.target = "_blank";
                 node.properties.rel = "noopener noreferrer";

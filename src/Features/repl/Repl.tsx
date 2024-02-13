@@ -1,6 +1,6 @@
 /* eslint-disable no-control-regex */
 import { Box, Button, Group, Select, Stack, Text } from "@mantine/core";
-import { forwardRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Monaco } from "../../Components/MonacoWrapper";
 

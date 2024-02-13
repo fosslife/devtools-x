@@ -1,18 +1,19 @@
 .gridContainer {
-    display: grid;
-    grid-template-columns: repeat(10, 24px); /* Creates 10 columns, each 20px wide */
-    grid-template-rows: repeat(2, 24px); /* Creates 2 rows, each 20px high */
-    gap: 5px; /* Optional: space between the squares */
-  }
-  
+  display: grid;
+  grid-template-columns: repeat(
+    10,
+    24px
+  ); /* Creates 10 columns, each 20px wide */
+  grid-template-rows: repeat(2, 24px); /* Creates 2 rows, each 20px high */
+  gap: 5px; /* Optional: space between the squares */
+}
+
 .gridItem {
-    width: 24px;
-    height: 24px;
-    border: 1px solid light-dark(
-      var(--mantine-color-gray-3),
-      var(--mantine-color-gray-7)
-    ); /* Example border */
-    box-sizing: border-box;
-    height: 24px;
-    width: 24px;
-  }
+  width: 24px;
+  height: 24px;
+  border: 1px solid
+    light-dark(var(--mantine-color-gray-3), var(--mantine-color-gray-7)); /* Example border */
+  box-sizing: border-box;
+  height: 24px;
+  width: 24px;
+}

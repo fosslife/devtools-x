@@ -1,4 +1,4 @@
-import { Divider, Group, Stack, Textarea } from "@mantine/core";
+import { Group, Stack } from "@mantine/core";
 import { Interweave } from "interweave";
 import { useState } from "react";
 import { Monaco } from "../../Components/MonacoWrapper";

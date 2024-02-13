@@ -101,7 +101,7 @@ function App() {
             <Route path="/text" element={<TextDiff />}></Route>
             <Route path="/markdown" element={<Markdown />}></Route>
             <Route path="/yamljson" element={<YamlJson />}></Route>
-            {/* <Route path="/pastebin" element={<Pastebin />}></Route> */}
+            <Route path="/pastebin" element={<Pastebin />}></Route>
             <Route path="/repl" element={<Repl />}></Route>
             <Route path="/image" element={<Image />}></Route>
             <Route path="/units" element={<UnitConverter />}></Route>

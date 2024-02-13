@@ -1,11 +1,4 @@
-import {
-  Button,
-  Checkbox,
-  Group,
-  LoadingOverlay,
-  Stack,
-  Table,
-} from "@mantine/core";
+import { Button, Group, LoadingOverlay, Stack, Table } from "@mantine/core";
 import { dialog, invoke } from "@tauri-apps/api";
 import { useState } from "react";
 

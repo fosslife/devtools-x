@@ -4,9 +4,7 @@ import {
   Group,
   NumberInput,
   Stack,
-  Text,
   TextInput,
-  Textarea,
 } from "@mantine/core";
 import { invoke } from "@tauri-apps/api";
 import { listen } from "@tauri-apps/api/event";

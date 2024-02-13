@@ -10,7 +10,7 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { useState } from "react";
 
 import { Monaco } from "../../Components/MonacoWrapper";

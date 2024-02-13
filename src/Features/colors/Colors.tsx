@@ -2,7 +2,6 @@ import classes from "./styles.module.css";
 
 import {
   Box,
-  Grid,
   Group,
   Stack,
   Switch,
@@ -108,7 +107,7 @@ const Colors = () => {
       </Text>
 
       <Box className={classes.gridContainer}>
-        {history.map((color, i) => (
+        {history.map((color) => (
           <>
             <Tooltip
               label={`Copy rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`}
