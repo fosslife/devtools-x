@@ -7,3 +7,4 @@ node_modules/
 target/
 **/*.d.ts
 vips/
+.eslintrc.cjs
