@@ -72,6 +72,12 @@ export const data = [
   { id: 12, to: "/pastebin", icon: <FaPaste />, text: "Pastebin" },
   { id: 13, to: "/repl", icon: <FaCode />, text: "ScratchPad" },
   { id: 14, to: "/image", icon: <FaFileImage />, text: "Image Compressor" },
+  {
+    id: 27,
+    to: "/bulk-image",
+    icon: <FaFileImage />,
+    text: "Bulk Image Compressor",
+  },
   { id: 15, to: "/units", icon: <FaExchangeAlt />, text: "Unit Converter" },
   { id: 16, to: "/playground", icon: <FaReact />, text: "React Pad" },
   { id: 17, to: "/rest", icon: <MdHttp />, text: "REST API" },

@@ -1,0 +1,22 @@
+/* style={{
+    backgroundColor:
+      "light-dark(var(--mantine-color-red-6), var(--mantine-color-blue-5))",
+    borderRadius: "5px",
+    color: "white",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+  }} */
+
+.row {
+  /* background-color: light-dark(
+    var(--mantine-color-gray-7),
+    var(--mantine-color-gray-2)
+  ); */
+  border-radius: 5px;
+  border: 1px dashed var(--mantine-color-gray-7);
+  color: light-dark(var(--mantine-color-gray-9), var(--mantine-color-gray-2));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
