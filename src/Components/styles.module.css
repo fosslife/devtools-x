@@ -10,7 +10,7 @@
     var(--mantine-color-blue-9),
     var(--mantine-color-blue-8)
   );
-  color: light-dark(var(--mantine-color-dark-0), var(--mantine-color-gray-1));
+  color: light-dark(var(--mantine-color-gray-1), var(--mantine-color-gray-1));
 }
 
 .pinnedCard:hover {
@@ -18,4 +18,14 @@
     var(--mantine-color-blue-8),
     var(--mantine-color-blue-9)
   );
+}
+
+.root {
+  align-items: center;
+  justify-content: start;
+  height: calc(100vh - 70px);
+  width: 100%;
+  overflow: auto;
+  margin-top: var(--mantine-spacing-xl);
+  padding-inline: 20px;
 }

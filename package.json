@@ -40,6 +40,7 @@
     "jose": "^5.2.0",
     "js-yaml": "^4.1.0",
     "lesspass": "^9.2.0",
+    "lorem-ipsum": "^2.0.8",
     "monaco-themes": "^0.4.4",
     "polished": "^4.3.1",
     "quicktype": "^23.0.81",

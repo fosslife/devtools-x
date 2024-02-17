@@ -49,6 +49,7 @@ const HtmlPreview = loadable(
   () => import("./Features/html-preview/HtmlPreview")
 );
 const BulkImage = loadable(() => import("./Features/image/BulkImage"));
+const Lorem = loadable(() => import("./Features/lorem/Lorem"));
 
 function App() {
   const location = useLocation();
@@ -118,6 +119,7 @@ function App() {
             <Route path="/minify" element={<Minify />}></Route>
             <Route path="/url-parser" element={<UrlParser />}></Route>
             <Route path="/html-preview" element={<HtmlPreview />}></Route>
+            <Route path="/lorem" element={<Lorem />}></Route>
           </Routes>
         </Group>
       </Box>
