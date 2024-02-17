@@ -33,6 +33,7 @@ import {
   MdOutlineHome,
   MdPassword,
   MdQuestionMark,
+  MdWork,
 } from "react-icons/md";
 import { SiJsonwebtokens, SiPostgresql, SiPrettier } from "react-icons/si";
 import {
@@ -123,6 +124,12 @@ export const data = [
     to: "/html-preview",
     icon: <MdHtml />,
     text: "HTML Preview",
+  },
+  {
+    id: 28,
+    to: "/lorem",
+    icon: <MdWork />,
+    text: "Lorem Ipsum",
   },
 ];
 

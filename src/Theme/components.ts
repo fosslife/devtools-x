@@ -35,4 +35,13 @@ export const customComponents = {
       },
     },
   },
+  NumberInput: {
+    defaultProps: {
+      styles: {
+        label: {
+          marginBottom: 10,
+        },
+      },
+    },
+  },
 };
