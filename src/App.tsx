@@ -48,6 +48,7 @@ const UrlParser = loadable(() => import("./Features/url/UrlParser"));
 const HtmlPreview = loadable(
   () => import("./Features/html-preview/HtmlPreview")
 );
+const BulkImage = loadable(() => import("./Features/image/BulkImage"));
 
 function App() {
   const location = useLocation();
@@ -104,6 +105,7 @@ function App() {
             <Route path="/pastebin" element={<Pastebin />}></Route>
             <Route path="/repl" element={<Repl />}></Route>
             <Route path="/image" element={<Image />}></Route>
+            <Route path="/bulk-image" element={<BulkImage />}></Route>
             <Route path="/units" element={<UnitConverter />}></Route>
             <Route path="/playground" element={<Playground />}></Route>
             <Route path="/rest" element={<Rest />}></Route>
