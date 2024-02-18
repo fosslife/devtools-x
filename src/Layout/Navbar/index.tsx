@@ -51,6 +51,12 @@ import cx from "clsx";
 import { AppContext } from "../../Contexts/AppContextProvider";
 import { db } from "../../utils";
 import classes from "./styles.module.css";
+import {
+  DragDropContext,
+  Draggable,
+  DraggableStyle,
+  Droppable,
+} from "@hello-pangea/dnd";
 
 export const data = [
   { id: 1, to: "/json-formatter", icon: <MdAnchor />, text: "JSON Tools" },
@@ -214,85 +220,134 @@ export const Navbar = ({ openSettings }: any) => {
       {/* ====== One Title */}
       {!iconMode ? (
         <Stack className={classes.bottomSection}>
-          {navItems.map((e) => {
-            const pinExists = pinned?.includes(e.id);
+          <DragDropContext
+            onDragEnd={(res) => {
+              if (res.destination?.index === res.source.index) return;
+              const items = [...navItems];
+              const [reorderedItem] = items.splice(res.source.index, 1);
+              items.splice(res.destination!.index, 0, reorderedItem);
+              setNavItems(items);
+            }}
+          >
+            <Droppable droppableId="droppable">
+              {(provided) => (
+                <div {...provided.droppableProps} ref={provided.innerRef}>
+                  {navItems.map((e, index) => {
+                    const pinExists = pinned?.includes(e.id);
 
-            {
-              /* ROW */
-            }
-            return (
-              <Box
-                key={e.id}
-                className={cx(classes.row, {
-                  [classes.active]: location.pathname === e.to,
-                })}
-                onClick={() => {
-                  nav(e.to);
-                }}
-              >
-                <Box className={classes.listTitle}>
-                  <Text className={classes.rowIcon}>{e.icon}</Text>
-                  {e.extra ? (
-                    <Tooltip label={e.extra}>
-                      <Text
-                        size="xs"
-                        fw={location.pathname === e.to ? "500" : "400"}
-                        c="red"
-                        component={Link}
-                        to={e.to}
+                    return (
+                      <Draggable
+                        key={e.id}
+                        draggableId={e.id.toString()}
+                        index={index}
                       >
-                        {e.text.toUpperCase()}
-                      </Text>
-                    </Tooltip>
-                  ) : (
-                    <Text
-                      size="xs"
-                      fw={location.pathname === e.to ? "500" : "400"}
-                    >
-                      {e.text.toUpperCase()}
-                    </Text>
-                  )}
-                </Box>
-                <Box>
-                  <ActionIcon
-                    variant={pinExists ? "subtle" : "outline"}
-                    style={{
-                      visibility: pinExists ? "visible" : undefined,
-                      color:
-                        "light-dark(var(--mantine-color-dark-1), var(--mantine-color-dark-4))",
-                    }}
-                    className={classes.pinIcon}
-                    size={"sm"}
-                    onClick={async (e2) => {
-                      e2.stopPropagation();
-                      // get existing pins from db
-                      const pinned = await db.get<number[]>("pinned");
-                      // if pin you cliked already exists in db, remove it.
-                      if (pinned?.includes(e.id)) {
-                        await db.set(
-                          "pinned",
-                          pinned.filter((i: number) => i !== e.id)
-                        );
-                      } else {
-                        // add existing to db
-                        let existing = (await db.get<number[]>("pinned")) || [];
-                        await db.set("pinned", [...existing, e.id]);
-                      }
-                      await db.save();
-                      const newPinned = await db.get<number[]>("pinned");
-                      handleState(newPinned as number[]);
-                    }}
-                  >
-                    {pinExists ? (
-                      <VscPinned size="15px" />
-                    ) : (
-                      <VscPin size="15px" />
-                    )}
-                  </ActionIcon>
-                </Box>
-              </Box>
-            );
-          })}
+                        {(provided) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            style={{
+                              ...provided.draggableProps.style,
+                              userSelect: "none",
+                            }}
+                          >
+                            <Box
+                              key={e.id}
+                              className={cx(classes.row, {
+                                [classes.active]: location.pathname === e.to,
+                              })}
+                              onClick={() => {
+                                nav(e.to);
+                              }}
+                            >
+                              <Box className={classes.listTitle}>
+                                <Text className={classes.rowIcon}>
+                                  {e.icon}
+                                </Text>
+                                {e.extra ? (
+                                  <Tooltip label={e.extra}>
+                                    <Text
+                                      size="xs"
+                                      fw={
+                                        location.pathname === e.to
+                                          ? "500"
+                                          : "400"
+                                      }
+                                      c="red"
+                                      component={Link}
+                                      to={e.to}
+                                    >
+                                      {e.text.toUpperCase()}
+                                    </Text>
+                                  </Tooltip>
+                                ) : (
+                                  <Text
+                                    size="xs"
+                                    fw={
+                                      location.pathname === e.to ? "500" : "400"
+                                    }
+                                  >
+                                    {e.text.toUpperCase()}
+                                  </Text>
+                                )}
+                              </Box>
+                              <Box>
+                                <ActionIcon
+                                  variant={pinExists ? "subtle" : "outline"}
+                                  style={{
+                                    visibility: pinExists
+                                      ? "visible"
+                                      : undefined,
+                                    color:
+                                      "light-dark(var(--mantine-color-dark-1), var(--mantine-color-dark-4))",
+                                  }}
+                                  className={classes.pinIcon}
+                                  size={"sm"}
+                                  onClick={async (e2) => {
+                                    e2.stopPropagation();
+                                    // get existing pins from db
+                                    const pinned =
+                                      await db.get<number[]>("pinned");
+                                    // if pin you cliked already exists in db, remove it.
+                                    if (pinned?.includes(e.id)) {
+                                      await db.set(
+                                        "pinned",
+                                        pinned.filter((i: number) => i !== e.id)
+                                      );
+                                    } else {
+                                      // add existing to db
+                                      let existing =
+                                        (await db.get<number[]>("pinned")) ||
+                                        [];
+                                      await db.set("pinned", [
+                                        ...existing,
+                                        e.id,
+                                      ]);
+                                    }
+                                    await db.save();
+                                    const newPinned =
+                                      await db.get<number[]>("pinned");
+                                    handleState(newPinned as number[]);
+                                  }}
+                                >
+                                  {pinExists ? (
+                                    <VscPinned size="15px" />
+                                  ) : (
+                                    <VscPin size="15px" />
+                                  )}
+                                </ActionIcon>
+                              </Box>
+                            </Box>
+                          </div>
+                        )}
+                      </Draggable>
+                    );
+                  })}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
         </Stack>
       ) : (
         <Stack className={classes.iconsBarWrapper}>
