@@ -50,6 +50,7 @@ const HtmlPreview = loadable(
 );
 const BulkImage = loadable(() => import("./Features/image/BulkImage"));
 const Lorem = loadable(() => import("./Features/lorem/Lorem"));
+const QrCode = loadable(() => import("./Features/qrcode/QrCode"));
 
 function App() {
   const location = useLocation();
@@ -120,6 +121,7 @@ function App() {
             <Route path="/url-parser" element={<UrlParser />}></Route>
             <Route path="/html-preview" element={<HtmlPreview />}></Route>
             <Route path="/lorem" element={<Lorem />}></Route>
+            <Route path="/qrcode" element={<QrCode />}></Route>
           </Routes>
         </Group>
       </Box>

@@ -32,6 +32,7 @@ import {
   MdHttp,
   MdOutlineHome,
   MdPassword,
+  MdQrCode,
   MdQuestionMark,
   MdWork,
 } from "react-icons/md";
@@ -130,6 +131,12 @@ export const data = [
     to: "/lorem",
     icon: <MdWork />,
     text: "Lorem Ipsum",
+  },
+  {
+    id: 29,
+    to: "/qrcode",
+    icon: <MdQrCode />,
+    text: "QR Code Generator",
   },
 ];
 
