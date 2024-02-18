@@ -35,9 +35,10 @@ export default function QrCode() {
     });
 
     if (!downloadPath) return;
+    if (!url) return;
 
     fs.writeBinaryFile({
-      contents: new Uint8Array(ab as ArrayBuffer),
+      contents: await fetch(url).then((res) => res.arrayBuffer()),
       path: downloadPath,
     });
   };
