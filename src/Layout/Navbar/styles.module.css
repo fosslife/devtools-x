@@ -44,6 +44,14 @@
     var(--mantine-color-gray-3),
     var(--mantine-color-gray-8)
   );
+
+  .pinIcon {
+    visibility: visible;
+  }
+}
+
+.pinIcon {
+  visibility: hidden;
 }
 
 .listTitle {

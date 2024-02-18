@@ -144,7 +144,6 @@ export const Navbar = ({ openSettings }: any) => {
   const location = useLocation();
   const nav = useNavigate();
   const [navItems, setNavItems] = useState(data);
-  const [showIcon, setShowIcon] = useState(-99);
   const { pinned, handleState } = useContext(AppContext);
   const [iconMode, setIconMode] = useState(false);
 
@@ -227,12 +226,7 @@ export const Navbar = ({ openSettings }: any) => {
                 className={cx(classes.row, {
                   [classes.active]: location.pathname === e.to,
                 })}
-                onMouseMove={() => {
-                  setShowIcon(e.id);
-                }}
-                onMouseLeave={() => setShowIcon(-99)}
                 onClick={() => {
-                  console.log("e.to", e.to);
                   nav(e.to);
                 }}
               >
@@ -263,11 +257,11 @@ export const Navbar = ({ openSettings }: any) => {
                   <ActionIcon
                     variant={pinExists ? "subtle" : "outline"}
                     style={{
-                      visibility:
-                        e.id === showIcon || pinExists ? "visible" : "hidden",
+                      visibility: pinExists ? "visible" : undefined,
                       color:
                         "light-dark(var(--mantine-color-dark-1), var(--mantine-color-dark-4))",
                     }}
+                    className={classes.pinIcon}
                     size={"sm"}
                     onClick={async (e2) => {
                       e2.stopPropagation();
@@ -309,10 +303,6 @@ export const Navbar = ({ openSettings }: any) => {
                 className={cx(classes.iconsBarRow, {
                   [classes.active]: location.pathname === e.to,
                 })}
-                onMouseMove={() => {
-                  setShowIcon(e.id);
-                }}
-                onMouseLeave={() => setShowIcon(-99)}
                 onClick={() => nav(e.to)}
               >
                 {e.icon}
