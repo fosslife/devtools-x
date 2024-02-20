@@ -9,7 +9,13 @@ import {
   TextInput,
   Tooltip,
 } from "@mantine/core";
-import { ChangeEvent, useContext, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  MouseEventHandler,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { BsSortNumericUpAlt } from "react-icons/bs";
 import {
   FaCode,
@@ -54,9 +60,10 @@ import classes from "./styles.module.css";
 import {
   DragDropContext,
   Draggable,
-  DraggableStyle,
   Droppable,
+  OnDragEndResponder,
 } from "@hello-pangea/dnd";
+import { useWindowEvent } from "@mantine/hooks";
 
 export const data = [
   { id: 1, to: "/json-formatter", icon: <MdAnchor />, text: "JSON Tools" },
@@ -149,7 +156,7 @@ export const data = [
 export const Navbar = ({ openSettings }: any) => {
   const location = useLocation();
   const nav = useNavigate();
-  const [navItems, setNavItems] = useState(data);
+  const [navItems, setNavItems] = useState<any[]>([]);
   const { pinned, handleState } = useContext(AppContext);
   const [iconMode, setIconMode] = useState(false);
 
@@ -173,6 +180,62 @@ export const Navbar = ({ openSettings }: any) => {
     }
     pinnedItems();
   }, []);
+
+  useEffect(() => {
+    async function sidebar() {
+      const savedSidebaritems = (await db.get<number[]>("sidebar")) || [];
+      if (savedSidebaritems.length > 0) {
+        const newNavItems = savedSidebaritems.map((i) => {
+          return data.find((d) => d.id === i)!;
+        });
+        setNavItems(newNavItems);
+      } else {
+        setNavItems([...data]);
+      }
+    }
+
+    sidebar();
+  }, []);
+
+  const onPinClicked = async (item: any) => {
+    // get existing pins from db
+    const pinned = await db.get<number[]>("pinned");
+    // if pin you cliked already exists in db, remove it.
+    if (pinned?.includes(item.id)) {
+      await db.set(
+        "pinned",
+        pinned.filter((i: number) => i !== item.id)
+      );
+    } else {
+      // add existing to db
+      let existing = (await db.get<number[]>("pinned")) || [];
+      await db.set("pinned", [...existing, item.id]);
+    }
+    await db.save();
+    const newPinned = await db.get<number[]>("pinned");
+    handleState(newPinned as number[]);
+  };
+
+  const onDragEnd: OnDragEndResponder = (res) => {
+    if (res.destination?.index === res.source.index) return;
+    const items = [...navItems];
+    const [reorderedItem] = items.splice(res.source.index, 1);
+    items.splice(res.destination!.index, 0, reorderedItem);
+    setNavItems(items);
+    db.set(
+      "sidebar",
+      items.map((i) => i.id)
+    );
+    db.save();
+  };
+
+  const listener = (e: KeyboardEvent) => {
+    if (e.ctrlKey && e.key === "b") {
+      setIconMode(!iconMode);
+    }
+  };
+
+  useWindowEvent("keydown", listener);
 
   return (
     <Stack className={classes.navbar} align={iconMode ? "center" : undefined}>
@@ -220,15 +283,7 @@ export const Navbar = ({ openSettings }: any) => {
       {/* ====== One Title */}
       {!iconMode ? (
         <Stack className={classes.bottomSection}>
-          <DragDropContext
-            onDragEnd={(res) => {
-              if (res.destination?.index === res.source.index) return;
-              const items = [...navItems];
-              const [reorderedItem] = items.splice(res.source.index, 1);
-              items.splice(res.destination!.index, 0, reorderedItem);
-              setNavItems(items);
-            }}
-          >
+          <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="droppable">
               {(provided) => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
@@ -303,31 +358,9 @@ export const Navbar = ({ openSettings }: any) => {
                                   }}
                                   className={classes.pinIcon}
                                   size={"sm"}
-                                  onClick={async (e2) => {
+                                  onClick={(e2) => {
                                     e2.stopPropagation();
-                                    // get existing pins from db
-                                    const pinned =
-                                      await db.get<number[]>("pinned");
-                                    // if pin you cliked already exists in db, remove it.
-                                    if (pinned?.includes(e.id)) {
-                                      await db.set(
-                                        "pinned",
-                                        pinned.filter((i: number) => i !== e.id)
-                                      );
-                                    } else {
-                                      // add existing to db
-                                      let existing =
-                                        (await db.get<number[]>("pinned")) ||
-                                        [];
-                                      await db.set("pinned", [
-                                        ...existing,
-                                        e.id,
-                                      ]);
-                                    }
-                                    await db.save();
-                                    const newPinned =
-                                      await db.get<number[]>("pinned");
-                                    handleState(newPinned as number[]);
+                                    onPinClicked(e);
                                   }}
                                 >
                                   {pinExists ? (
@@ -350,7 +383,7 @@ export const Navbar = ({ openSettings }: any) => {
           </DragDropContext>
         </Stack>
       ) : (
-        <Stack className={classes.iconsBarWrapper}>
+        <Stack className={classes.iconsbarWrapper}>
           {navItems.map((e) => {
             return (
               <Box

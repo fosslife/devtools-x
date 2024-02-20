@@ -12,6 +12,7 @@ import { version } from "../../package.json";
 
 import { db } from "../utils";
 import { openFileAndGetData, saveDataToFile } from "../utils/functions";
+import { confirm } from "@tauri-apps/api/dialog";
 
 export const Settings = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
@@ -57,6 +58,17 @@ export const Settings = () => {
     }
   };
 
+  const resetSidebar = async () => {
+    let c = await confirm("reset sidebar order?", {
+      title: "Reset sidebar",
+      type: "warning",
+    });
+    if (c) {
+      await db.set("sidebar", []);
+      window.location.reload();
+    }
+  };
+
   return (
     <Stack>
       <Checkbox
@@ -70,12 +82,15 @@ export const Settings = () => {
         <Divider orientation="vertical" />
         <Button onClick={restore}>Restore Settings</Button>
       </Group>
+
+      <Divider />
+      <Group>
+        <Button onClick={resetSidebar}>Reset sidebar order</Button>
+      </Group>
       <Divider />
       <Text c="dimmed">DevTools-X v{version}</Text>
-      <Text c="dimmed">
-        File issue at:{" "}
-        <Text c="blue">https://github.com/fosslife/devtools-x/issues</Text>
-      </Text>
+      <Text c="dimmed">File issue at: </Text>
+      <Text c="blue">https://github.com/fosslife/devtools-x/issues</Text>
     </Stack>
   );
 };

@@ -1,4 +1,6 @@
-export const customComponents = {
+import { MantineThemeComponents } from "@mantine/core";
+
+export const customComponents: MantineThemeComponents = {
   TextInput: {
     defaultProps: {
       styles: {

@@ -55,7 +55,6 @@ function Repl() {
     if (!lang) {
       return;
     }
-    // console.log("lang", lang);
     // return;
     // Make Call
     fetch("https://emkc.org/api/v2/piston/execute", {
@@ -74,7 +73,6 @@ function Repl() {
       .then((d) => d.json())
       .then((l) => {
         setLoading(false);
-        console.log("resp", l);
         // output will always be stderr or stdout
         let op = l.compile?.output ? l.compile.output : l.run.output;
 

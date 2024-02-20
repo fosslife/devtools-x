@@ -93,7 +93,7 @@ export default function Minify() {
         const op = await invoke<string>("minifyhtml", { input: input });
         setOutput(op);
       } catch (e) {
-        console.log(e);
+        console.error(e);
         setOutput("Error:" + (e as any).message);
       }
       return;
@@ -108,7 +108,7 @@ export default function Minify() {
       });
       setOutput(op.code!);
     } catch (e) {
-      console.log(e);
+      console.error(e);
       setOutput("Error:" + (e as any).message);
     }
   }, [input, lang, minifyControls]);

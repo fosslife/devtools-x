@@ -68,7 +68,7 @@ export const SingleTab = ({ t }: { t: number }) => {
       params: parseKV(paramsCopy),
     });
     const t2 = performance.now();
-    console.log(res); // Keeping for dbg
+    console.debug(res); // Keeping for dbg
     setRespText(
       `${res.status} - ${res.statusText}  Time: ${(t2 - t1).toFixed(2)}ms`
     );

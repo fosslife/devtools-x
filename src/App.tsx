@@ -3,7 +3,16 @@ import classes from "./App.module.css";
 import "@mantine/spotlight/styles.css";
 
 import loadable from "@loadable/component";
-import { Box, Drawer, Group } from "@mantine/core";
+import {
+  Box,
+  Drawer,
+  Group,
+  Modal,
+  Stack,
+  Table,
+  Text,
+  useMantineColorScheme,
+} from "@mantine/core";
 import { Spotlight } from "@mantine/spotlight";
 import { loader } from "@monaco-editor/react";
 import { useEffect, useState } from "react";
@@ -14,6 +23,7 @@ import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Nums from "./Features/number-tools/Nums";
 import { data, Navbar } from "./Layout/Navbar";
 import { Settings } from "./Layout/Settings";
+import { useDisclosure, useWindowEvent } from "@mantine/hooks";
 
 // Lazy load components
 const Welcome = loadable(() => import("./Components/Welcome"));
@@ -52,10 +62,35 @@ const BulkImage = loadable(() => import("./Features/image/BulkImage"));
 const Lorem = loadable(() => import("./Features/lorem/Lorem"));
 const QrCode = loadable(() => import("./Features/qrcode/QrCode"));
 
+const shortCuts = [
+  {
+    key: "mod + k",
+    action: "Open spotlight",
+  },
+  {
+    key: "/",
+    action: "Open spotlight",
+  },
+  {
+    key: "shift + ?",
+    action: "Open shortcuts and help",
+  },
+  {
+    key: "mod + t",
+    action: "Toggle theme",
+  },
+  {
+    key: "mod + b",
+    action: "toggle sidebar collapse",
+  },
+];
+
 function App() {
   const location = useLocation();
   const nav = useNavigate();
-  // const { classes } = useStyles();
+  const [opened, { open, close }] = useDisclosure();
+
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
   const [displayLocation, setDisplayLocation] = useState(location);
   const [transitionStage, setTransistionStage] = useState("fadeIn");
@@ -72,6 +107,20 @@ function App() {
       loader.config({ paths: { vs: "/vs" } });
     }
   }, []);
+
+  const listener = (e: KeyboardEvent) => {
+    if (e.shiftKey && e.key === "?") {
+      open();
+    }
+    if (e.key === "Escape") {
+      close();
+    }
+    if (e.ctrlKey && e.key === "t") {
+      toggleColorScheme();
+    }
+  };
+
+  useWindowEvent("keydown", listener);
 
   return (
     <>
@@ -148,8 +197,40 @@ function App() {
           icon: a.icon,
         }))}
       ></Spotlight>
+      <Modal
+        opened={opened}
+        onClose={close}
+        size="75%"
+        title="Shortcuts and help"
+      >
+        <Modal.Body>
+          <Text c="dimmed">mod is ctrl on windows/linux</Text>
+          <Table>
+            <Table.Thead>
+              <Table.Tr>
+                <Table.Th>Shortcut</Table.Th>
+                <Table.Th>Action</Table.Th>
+              </Table.Tr>
+            </Table.Thead>
+            <Table.Tbody>
+              {shortCuts.map((s) => (
+                <Table.Tr key={s.key}>
+                  <Table.Td>{s.key}</Table.Td>
+                  <Table.Td>{s.action}</Table.Td>
+                </Table.Tr>
+              ))}
+            </Table.Tbody>
+          </Table>
+          <br />
+          <Text size={"md"}>Help:</Text>
+          <Stack>
+            <ul>
+              <li>You can re-order items on the sidebar by dragging </li>
+            </ul>
+          </Stack>
+        </Modal.Body>
+      </Modal>
     </>
-    // </ColorSchemeProvider>
   );
 }
 
