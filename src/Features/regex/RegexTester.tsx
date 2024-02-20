@@ -61,7 +61,7 @@ const RegexTester = () => {
         }))
       );
     } catch (e) {
-      console.log("Error occurred", e);
+      console.error("Error occurred", e);
       editor.setSelection({
         startLineNumber: 0,
         startColumn: 0,

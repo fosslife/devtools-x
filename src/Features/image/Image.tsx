@@ -90,10 +90,10 @@ function Image() {
     if (!rightRef.current) return; // typescript check
     if (!vips) return;
 
-    console.log("Resize: all checks pass");
+    console.debug("Resize: all checks pass");
     setLoading(true);
     let arr = await fs.readBinaryFile(imageSrc.right);
-    console.log("Quality", quality);
+    console.debug("Quality", quality);
 
     let im = vips.Image.newFromBuffer(arr);
     console.time("compress");
@@ -127,7 +127,7 @@ function Image() {
   };
 
   const selectImage = () => {
-    console.log("selecting image");
+    console.debug("selecting image");
     dialog
       .open({
         multiple: false,
@@ -137,7 +137,7 @@ function Image() {
       .then(async (p) => {
         if (!p) return; // no path
         let path = p as string;
-        console.log("Got image", p);
+        console.debug("Got image", p);
         let size =
           (await fetch(convertFileSrc(path))
             .then((x) => x.blob())
@@ -152,7 +152,7 @@ function Image() {
         });
       })
       .catch((e) => {
-        console.log("Something went wrong, while selecting image", e);
+        console.debug("Something went wrong, while selecting image", e);
       });
   };
 

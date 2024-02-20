@@ -72,7 +72,6 @@ export default function Quicktype() {
   const [structName, setStructName] = useState("Person");
 
   const calcOP = async (e: string) => {
-    console.log("e", e, "lang", lang);
     try {
       const jsonInput = jsonInputForTargetLanguage(lang || "rust");
 

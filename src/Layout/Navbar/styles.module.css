@@ -44,6 +44,14 @@
     var(--mantine-color-gray-3),
     var(--mantine-color-gray-8)
   );
+
+  .pinIcon {
+    visibility: visible;
+  }
+}
+
+.pinIcon {
+  visibility: hidden;
 }
 
 .listTitle {
@@ -85,7 +93,7 @@
 .active {
   font-style: normal;
   font-weight: bold;
-  color: var(--mantine-color-gray-8);
+  color: light-dark(var(--mantine-color-gray-8), var(--mantine-color-gray-2));
   background-color: light-dark(
     var(--mantine-color-gray-3),
     var(--mantine-color-gray-8)
@@ -93,7 +101,7 @@
 }
 
 .iconsbarWrapper {
-  padding: 5px;
+  padding: 10px;
   overflow: auto;
 }
 
