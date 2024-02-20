@@ -61,6 +61,7 @@ const HtmlPreview = loadable(
 const BulkImage = loadable(() => import("./Features/image/BulkImage"));
 const Lorem = loadable(() => import("./Features/lorem/Lorem"));
 const QrCode = loadable(() => import("./Features/qrcode/QrCode"));
+const PdfReader = loadable(() => import("./Features/pdf/PdfReader"));
 
 const shortCuts = [
   {
@@ -90,7 +91,7 @@ function App() {
   const nav = useNavigate();
   const [opened, { open, close }] = useDisclosure();
 
-  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const { toggleColorScheme } = useMantineColorScheme();
 
   const [displayLocation, setDisplayLocation] = useState(location);
   const [transitionStage, setTransistionStage] = useState("fadeIn");
@@ -171,6 +172,7 @@ function App() {
             <Route path="/html-preview" element={<HtmlPreview />}></Route>
             <Route path="/lorem" element={<Lorem />}></Route>
             <Route path="/qrcode" element={<QrCode />}></Route>
+            <Route path="/pdf-reader" element={<PdfReader />}></Route>
           </Routes>
         </Group>
       </Box>

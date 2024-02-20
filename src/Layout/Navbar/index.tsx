@@ -16,7 +16,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { BsSortNumericUpAlt } from "react-icons/bs";
+import { BsFilePdf, BsSortNumericUpAlt } from "react-icons/bs";
 import {
   FaCode,
   FaExchangeAlt,
@@ -151,6 +151,12 @@ export const data = [
     icon: <MdQrCode />,
     text: "QR Code Generator",
   },
+  {
+    id: 30,
+    to: "/pdf-reader",
+    icon: <BsFilePdf />,
+    text: "PDF Reader",
+  },
 ];
 
 export const Navbar = ({ openSettings }: any) => {
@@ -185,9 +191,15 @@ export const Navbar = ({ openSettings }: any) => {
     async function sidebar() {
       const savedSidebaritems = (await db.get<number[]>("sidebar")) || [];
       if (savedSidebaritems.length > 0) {
+        if (savedSidebaritems.length !== data.length) {
+          setNavItems([...data]);
+          db.set("sidebar", []);
+          return;
+        }
         const newNavItems = savedSidebaritems.map((i) => {
           return data.find((d) => d.id === i)!;
         });
+
         setNavItems(newNavItems);
       } else {
         setNavItems([...data]);
