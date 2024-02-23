@@ -1,7 +1,13 @@
-import { Alert, Button, NativeSelect, Stack } from "@mantine/core";
-import { clipboard } from "@tauri-apps/api";
+import {
+  Button,
+  Checkbox,
+  Group,
+  NativeSelect,
+  Stack,
+  Text,
+  TextInput,
+} from "@mantine/core";
 import { useState } from "react";
-import { FaInfo } from "react-icons/fa";
 
 import { Monaco } from "../../Components/MonacoWrapper";
 
@@ -26,71 +32,118 @@ function Pastebin() {
   const [lang, setLang] = useState("typescript");
   const [link, setLink] = useState("");
   const [loading, setLoading] = useState(false);
+  const [apiKey, setApiKey] = useState(
+    localStorage.getItem("github-api-key") || ""
+  );
+  const [description, setDescription] = useState("Example gist");
+  const [publicGist, setPublicGist] = useState(false);
+  const [filename, setFilename] = useState("paste.txt");
+
+  const createPaste = async () => {
+    setLoading(true);
+    const res = await fetch("https://api.github.com/gists", {
+      method: "POST",
+      headers: {
+        Accept: "application/vnd.github+json",
+        Authorization: `Bearer ${apiKey}`,
+        "X-GitHub-Api-Version": "2022-11-28",
+      },
+      body: JSON.stringify({
+        description: description,
+        public: publicGist,
+        files: {
+          [filename]: {
+            content: codeValue,
+          },
+        },
+      }),
+    })
+      .then((e) => e.json())
+      .catch((e) => {
+        console.error(e);
+        return {};
+      });
+
+    setLoading(false);
+    setLink(res?.html_url);
+  };
 
   return (
-    <Stack>
-      <NativeSelect
-        value={lang}
-        data={langs.map((e) => e.toUpperCase())}
-        onChange={(e) => {
-          setLang(e.target.value);
-        }}
-      ></NativeSelect>
+    <Stack
+      h="100%"
+      style={{
+        overflow: "auto",
+      }}
+    >
+      <Group>
+        <NativeSelect
+          label="Language"
+          value={lang}
+          data={langs.map((e) => e.toUpperCase())}
+          onChange={(e) => {
+            setLang(e.target.value);
+          }}
+        ></NativeSelect>
+        <TextInput
+          label="API Key"
+          value={apiKey}
+          placeholder="Enter GitHub API key"
+          onChange={(e) => {
+            localStorage.setItem("github-api-key", e.currentTarget.value);
+            setApiKey(e.currentTarget.value);
+          }}
+        ></TextInput>
+      </Group>
       <Monaco
         setValue={(e) => setCodeValue(e || "")}
         value={codeValue}
         language={lang.toLowerCase()}
-        height="67%"
+        height="60%"
         extraOptions={{
           fontSize: 15,
         }}
       />
-      <Button
-        loading={loading}
-        onClick={() => {
-          setLoading(true);
-          // Make Call
-          fetch("https://bin.prabhanjan.dev/", {
-            method: "POST",
-            body: codeValue,
-            headers: {
-              "X-Language": lang,
-            },
-          })
-            .then((d) => d.text())
-            .then((l) => {
-              setLoading(false);
-              const url = `https://bin.prabhanjan.dev/${l.split(" ")[0]}`;
-              setLink(url);
-            })
-            .catch((e) => {
-              console.error("error", e);
-              setLoading(false);
-            });
-        }}
-      >
+      <Group align="end">
+        <TextInput
+          label="Description"
+          value={description}
+          onChange={(e) => setDescription(e.currentTarget.value)}
+        ></TextInput>
+        <TextInput
+          label="Filename"
+          value={filename}
+          onChange={(e) => setFilename(e.currentTarget.value)}
+        ></TextInput>
+        <Checkbox
+          label="Public"
+          type="checkbox"
+          checked={publicGist}
+          onChange={(e) => setPublicGist(e.currentTarget.checked)}
+        />
+      </Group>
+      <Button loading={loading} onClick={createPaste}>
         Create Paste
       </Button>
       {link ? (
-        <Alert
-          icon={<FaInfo />}
-          variant="filled"
-          title="Bin created!"
-          color={"blue"}
-        >
-          {link}
-          <Button
-            size={"sm"}
-            onClick={() => {
-              clipboard.writeText(link);
+        <>
+          <Text
+            bg="green.8"
+            p="xs"
+            c="white"
+            style={{
+              borderRadius: 5,
             }}
           >
-            Copy
-          </Button>
-        </Alert>
+            {link}
+          </Text>
+        </>
       ) : null}
     </Stack>
   );
 }
 
 export default Pastebin;
+
+// TODO: Add a button to copy the link to clipboard
+// TODO: store settings to db
+// TODO: store prev generated URLS?
