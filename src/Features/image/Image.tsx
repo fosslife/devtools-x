@@ -158,7 +158,7 @@ function Image() {
 
   useEffect(() => {
     resize();
-  }, [doubouncedQuality, sizes.og]);
+  }, [doubouncedQuality, sizes.og, imageType, imageSrc.right]);
 
   return (
     <Stack w="100%" h="100%">

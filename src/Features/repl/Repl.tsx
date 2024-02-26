@@ -85,7 +85,7 @@ function Repl() {
   };
 
   return (
-    <Stack>
+    <Stack h="100%">
       <Select
         searchable
         clearable

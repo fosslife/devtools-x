@@ -145,7 +145,7 @@ function App() {
             <Route path="/json-formatter" element={<JsonFormatter />}></Route>
             <Route path="/hash-text" element={<Hash />}></Route>
             <Route path="/hash-file" element={<FileHash />}></Route>
-            <Route path="/random" element={<Random />}></Route>
+            <Route path="/password" element={<Random />}></Route>
             <Route path="/jwt" element={<JWT />}></Route>
             <Route path="/nums" element={<Nums />}></Route>
             <Route path="/sql" element={<Sql />}></Route>
