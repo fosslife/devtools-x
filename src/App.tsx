@@ -62,6 +62,7 @@ const BulkImage = loadable(() => import("./Features/image/BulkImage"));
 const Lorem = loadable(() => import("./Features/lorem/Lorem"));
 const QrCode = loadable(() => import("./Features/qrcode/QrCode"));
 const PdfReader = loadable(() => import("./Features/pdf/PdfReader"));
+const Base64ToImage = loadable(() => import("./Features/image/Base64ToImage"));
 
 const shortCuts = [
   {
@@ -173,6 +174,7 @@ function App() {
             <Route path="/lorem" element={<Lorem />}></Route>
             <Route path="/qrcode" element={<QrCode />}></Route>
             <Route path="/pdf-reader" element={<PdfReader />}></Route>
+            <Route path="/base64-to-image" element={<Base64ToImage />}></Route>
           </Routes>
         </Group>
       </Box>

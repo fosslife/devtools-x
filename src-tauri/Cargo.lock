@@ -856,6 +856,7 @@ version = "2.2.0"
 dependencies = [
  "anyhow",
  "base16ct",
+ "base64 0.21.7",
  "dashmap",
  "fast_image_resize",
  "image",

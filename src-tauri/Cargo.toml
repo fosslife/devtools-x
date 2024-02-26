@@ -35,6 +35,7 @@ oxipng = { version = "9.0", features = [
     "filetime",
 ], default-features = false }
 webp = "0.2"
+base64 = "0.21.7"
 
 [features]
 default = ["custom-protocol"]
