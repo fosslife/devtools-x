@@ -60,103 +60,132 @@ import {
 import { useWindowEvent } from "@mantine/hooks";
 
 export const data = [
-  { id: 1, to: "/json-formatter", icon: <MdAnchor />, text: "JSON Tools" },
-  { id: 2, to: "/hash-text", icon: <FiHash />, text: "Hashing Text" },
-  { id: 18, to: "/hash-file", icon: <FiFile />, text: "Hashing Files" },
-  { id: 3, to: "/random", icon: <FaRandom />, text: "Random Text" },
-  { id: 4, to: "/jwt", icon: <SiJsonwebtokens />, text: "JWT Tools" },
-  { id: 5, to: "/nums", icon: <BsSortNumericUpAlt />, text: "Number Tools" },
-  { id: 6, to: "/sql", icon: <SiPostgresql />, text: "SQL Formatter" },
-  { id: 7, to: "/colors", icon: <MdColorize />, text: "Color Utils" },
   {
-    id: 8,
+    id: "json-formatter",
+    to: "/json-formatter",
+    icon: <MdAnchor />,
+    text: "JSON Tools",
+  },
+  {
+    id: "hash-text",
+    to: "/hash-text",
+    icon: <FiHash />,
+    text: "Hashing Text",
+  },
+  {
+    id: "hash-file",
+    to: "/hash-file",
+    icon: <FiFile />,
+    text: "Hashing Files",
+  },
+  {
+    id: "password",
+    to: "/password",
+    icon: <FaRandom />,
+    text: "Password Generator",
+  },
+  { id: "jwt", to: "/jwt", icon: <SiJsonwebtokens />, text: "JWT Tools" },
+  {
+    id: "nums",
+    to: "/nums",
+    icon: <BsSortNumericUpAlt />,
+    text: "Number Tools",
+  },
+  { id: "sql", to: "/sql", icon: <SiPostgresql />, text: "SQL Formatter" },
+  { id: "colors", to: "/colors", icon: <MdColorize />, text: "Color Utils" },
+  {
+    id: "regex",
     to: "/regex",
     icon: <VscRegex />,
     text: "Regex Tester",
-    extra: "Unstable feature",
   },
-  { id: 9, to: "/text", icon: <VscDiff />, text: "Diff Tools" },
-  { id: 10, to: "/markdown", icon: <FaMarkdown />, text: "Markdown" },
-  { id: 11, to: "/yamljson", icon: <FaYinYang />, text: "Yaml JSON" },
-  { id: 12, to: "/pastebin", icon: <FaPaste />, text: "Pastebin" },
-  { id: 13, to: "/repl", icon: <FaCode />, text: "ScratchPad" },
-  { id: 14, to: "/image", icon: <FaFileImage />, text: "Image Compressor" },
+  { id: "text", to: "/text", icon: <VscDiff />, text: "Diff Tools" },
+  { id: "markdown", to: "/markdown", icon: <FaMarkdown />, text: "Markdown" },
+  { id: "yamljson", to: "/yamljson", icon: <FaYinYang />, text: "Yaml JSON" },
+  { id: "pastebin", to: "/pastebin", icon: <FaPaste />, text: "Pastebin" },
+  { id: "repl", to: "/repl", icon: <FaCode />, text: "ScratchPad" },
   {
-    id: 27,
+    id: "image",
+    to: "/image",
+    icon: <FaFileImage />,
+    text: "Image Compressor",
+  },
+  {
+    id: "bulk-image",
     to: "/bulk-image",
     icon: <FaFileImage />,
     text: "Bulk Image Compressor",
   },
-  { id: 15, to: "/units", icon: <FaExchangeAlt />, text: "Unit Converter" },
-  { id: 16, to: "/playground", icon: <FaReact />, text: "React Pad" },
-  { id: 17, to: "/rest", icon: <MdHttp />, text: "REST API" },
-  { id: 19, to: "/epoch", icon: <FiClock />, text: "Epoch Converter" },
   {
-    id: 20,
+    id: "units",
+    to: "/units",
+    icon: <FaExchangeAlt />,
+    text: "Unit Converter",
+  },
+  {
+    id: "playground",
+    to: "/playground",
+    icon: <FaReact />,
+    text: "React Pad",
+  },
+  { id: "rest", to: "/rest", icon: <MdHttp />, text: "REST API" },
+  { id: "epoch", to: "/epoch", icon: <FiClock />, text: "Epoch Converter" },
+  {
+    id: "stateless",
     to: "/stateless",
     icon: <MdPassword />,
     text: "Stateless Password",
   },
   {
-    id: 21,
+    id: "base64-text",
     to: "/base64-text",
     icon: <VscSymbolString />,
     text: "Base64 Text",
   },
   {
-    id: 22,
+    id: "base64-image",
     to: "/base64-image",
     icon: <VscSymbolString />,
     text: "Base64 Image",
   },
   {
-    id: 23,
+    id: "quicktype",
     to: "/quicktype",
     icon: <VscTypeHierarchySub />,
     text: "Quicktype",
   },
   {
-    id: 24,
+    id: "minify",
     to: "/minify",
     icon: <SiPrettier />,
     text: "Minify/Beautify",
   },
   {
-    id: 25,
+    id: "url-parser",
     to: "/url-parser",
     icon: <MdQuestionMark />,
     text: "URL Parser",
   },
   {
-    id: 26,
+    id: "html-preview",
     to: "/html-preview",
     icon: <MdHtml />,
     text: "HTML Preview",
   },
+  { id: "lorem", to: "/lorem", icon: <MdWork />, text: "Lorem Ipsum" },
   {
-    id: 28,
-    to: "/lorem",
-    icon: <MdWork />,
-    text: "Lorem Ipsum",
-  },
-  {
-    id: 29,
+    id: "qrcode",
     to: "/qrcode",
     icon: <MdQrCode />,
     text: "QR Code Generator",
   },
   {
-    id: 30,
+    id: "pdf-reader",
     to: "/pdf-reader",
     icon: <BsFilePdf />,
     text: "PDF Reader",
   },
-  {
-    id: 31,
-    to: "/ping",
-    icon: <RiPingPongLine />,
-    text: "Ping",
-  },
+  { id: "ping", to: "/ping", icon: <RiPingPongLine />, text: "Ping" },
 ];
 
 export const Navbar = ({ openSettings }: any) => {
@@ -180,7 +209,7 @@ export const Navbar = ({ openSettings }: any) => {
 
   useEffect(() => {
     async function pinnedItems() {
-      const pinnedStore = (await db.get<number[]>("pinned")) || [];
+      const pinnedStore = (await db.get<string[]>("pinned")) || [];
 
       handleState([...pinnedStore]);
     }
@@ -189,7 +218,7 @@ export const Navbar = ({ openSettings }: any) => {
 
   useEffect(() => {
     async function sidebar() {
-      const savedSidebaritems = (await db.get<number[]>("sidebar")) || [];
+      const savedSidebaritems = (await db.get<string[]>("sidebar")) || [];
       if (savedSidebaritems.length > 0) {
         if (savedSidebaritems.length !== data.length) {
           setNavItems([...data]);
@@ -219,21 +248,21 @@ export const Navbar = ({ openSettings }: any) => {
 
   const onPinClicked = async (item: any) => {
     // get existing pins from db
-    const pinned = await db.get<number[]>("pinned");
+    const pinned = await db.get<string[]>("pinned");
     // if pin you cliked already exists in db, remove it.
     if (pinned?.includes(item.id)) {
       await db.set(
         "pinned",
-        pinned.filter((i: number) => i !== item.id)
+        pinned.filter((i: string) => i !== item.id)
       );
     } else {
       // add existing to db
-      let existing = (await db.get<number[]>("pinned")) || [];
+      let existing = (await db.get<string[]>("pinned")) || [];
       await db.set("pinned", [...existing, item.id]);
     }
     await db.save();
-    const newPinned = await db.get<number[]>("pinned");
-    handleState(newPinned as number[]);
+    const newPinned = await db.get<string[]>("pinned");
+    handleState(newPinned as string[]);
   };
 
   const onDragEnd: OnDragEndResponder = (res) => {
