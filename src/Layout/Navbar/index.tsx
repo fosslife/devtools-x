@@ -30,7 +30,7 @@ import {
   FaYinYang,
 } from "react-icons/fa";
 import { FiClock, FiFile, FiHash, FiSettings } from "react-icons/fi";
-// import { RiPingPongLine } from "react-icons/ri";
+import { RiPingPongLine } from "react-icons/ri";
 import {
   MdAnchor,
   MdColorize,
@@ -113,7 +113,13 @@ export const data = [
     id: 22,
     to: "/base64-image",
     icon: <VscSymbolString />,
-    text: "Base64 Image",
+    text: "Image to Base64",
+  },
+  {
+    id: 31,
+    to: "/base64-to-image",
+    icon: <FaFileImage />,
+    text: "Base64 to Image",
   },
   {
     id: 23,
@@ -156,6 +162,12 @@ export const data = [
     to: "/pdf-reader",
     icon: <BsFilePdf />,
     text: "PDF Reader",
+  },
+  {
+    id: 32,
+    to: "/ping",
+    icon: <RiPingPongLine />,
+    text: "Ping",
   },
 ];
 
@@ -208,6 +220,15 @@ export const Navbar = ({ openSettings }: any) => {
 
     sidebar();
   }, []);
+
+  useEffect(() => {
+    // scroll to active item
+    const active = document.querySelector(`.${classes.active}`);
+    console.log("navbar active?", classes.active);
+    if (active) {
+      active.scrollIntoView({ block: "center", behavior: "smooth" });
+    }
+  }, [classes.active, location.pathname, navItems]);
 
   const onPinClicked = async (item: any) => {
     // get existing pins from db

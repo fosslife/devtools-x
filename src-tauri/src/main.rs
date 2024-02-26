@@ -9,6 +9,7 @@ use tauri::{Manager, WindowBuilder, WindowUrl};
 
 mod commands;
 
+use commands::base64_image::base64_image::base64_image;
 use commands::hash::hash::hash;
 use commands::image::images::compress_images;
 use commands::minify::minify::minifyhtml;
@@ -21,7 +22,8 @@ fn main() {
       hash,
       ping,
       minifyhtml,
-      compress_images
+      compress_images,
+      base64_image
     ])
     .setup(|app| {
       WindowBuilder::new(app, "main", WindowUrl::App("index.html".into()))
