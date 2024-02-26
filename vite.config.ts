@@ -4,6 +4,8 @@ import { visualizer } from "rollup-plugin-visualizer";
 import { defineConfig } from "vite";
 import copyMonaco from "./vite/copyAssets";
 
+import alias from "@rollup/plugin-alias";
+
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
@@ -27,7 +29,17 @@ export default defineConfig({
   build: {
     target: ["chrome95", "edge95", "esnext", "firefox95", "safari16"],
     rollupOptions: {
-      plugins: [visualizer()],
+      plugins: [
+        alias({
+          entries: [
+            { find: "react", replacement: "preact/compat" },
+            { find: "react-dom/test-utils", replacement: "preact/test-utils" },
+            { find: "react-dom", replacement: "preact/compat" },
+            { find: "react/jsx-runtime", replacement: "preact/jsx-runtime" },
+          ],
+        }),
+        visualizer(),
+      ],
       output: {
         manualChunks: {
           "rehype-parse": ["rehype-parse"],
