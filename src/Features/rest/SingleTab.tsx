@@ -165,18 +165,18 @@ export const SingleTab = ({ t }: { t: number }) => {
                 </Tabs.Panel>
                 <Tabs.Panel value="headers">
                   <Table striped>
-                    <tbody>
+                    <Table.Tbody>
                       {Object.entries(response.headers).map(
                         ([key, value]: any) => {
                           return (
-                            <tr key={key}>
-                              <td>{key}</td>
-                              <td>{value}</td>
-                            </tr>
+                            <Table.Tr key={key}>
+                              <Table.Td>{key}</Table.Td>
+                              <Table.Td>{value}</Table.Td>
+                            </Table.Tr>
                           );
                         }
                       )}
-                    </tbody>
+                    </Table.Tbody>
                   </Table>
                 </Tabs.Panel>
               </Box>

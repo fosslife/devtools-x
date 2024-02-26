@@ -206,30 +206,30 @@ const StatelessPassword = () => {
       </Stack>
 
       <Table>
-        <thead>
-          <tr>
-            <th>Site</th>
-            <th>Options</th>
-            <th>Length</th>
-            <th>Counter</th>
-            <th>manage</th>
-          </tr>
-        </thead>
-        <tbody>
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th>Site</Table.Th>
+            <Table.Th>Options</Table.Th>
+            <Table.Th>Length</Table.Th>
+            <Table.Th>Counter</Table.Th>
+            <Table.Th>manage</Table.Th>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
           {prevData &&
             Object.entries(prevData).map(([site, config]) => (
-              <tr key={site}>
-                <td>{site}</td>
-                <td>
+              <Table.Tr key={site}>
+                <Table.Td>{site}</Table.Td>
+                <Table.Td>
                   {config.options.map((o) => (
                     <Badge size="xs" key={o}>
                       {o}
                     </Badge>
                   ))}
-                </td>
-                <td>{config.length}</td>
-                <td>{config.counter}</td>
-                <td>
+                </Table.Td>
+                <Table.Td>{config.length}</Table.Td>
+                <Table.Td>{config.counter}</Table.Td>
+                <Table.Td>
                   <Group>
                     <ActionIcon
                       title="Load config"
@@ -251,10 +251,10 @@ const StatelessPassword = () => {
                       <MdDelete />
                     </ActionIcon>
                   </Group>
-                </td>
-              </tr>
+                </Table.Td>
+              </Table.Tr>
             ))}
-        </tbody>
+        </Table.Tbody>
       </Table>
     </Stack>
   );
