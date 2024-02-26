@@ -9,13 +9,7 @@ import {
   TextInput,
   Tooltip,
 } from "@mantine/core";
-import {
-  ChangeEvent,
-  MouseEventHandler,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { BsFilePdf, BsSortNumericUpAlt } from "react-icons/bs";
 import {
   FaCode,
@@ -113,13 +107,7 @@ export const data = [
     id: 22,
     to: "/base64-image",
     icon: <VscSymbolString />,
-    text: "Image to Base64",
-  },
-  {
-    id: 31,
-    to: "/base64-to-image",
-    icon: <FaFileImage />,
-    text: "Base64 to Image",
+    text: "Base64 Image",
   },
   {
     id: 23,
@@ -164,7 +152,7 @@ export const data = [
     text: "PDF Reader",
   },
   {
-    id: 32,
+    id: 31,
     to: "/ping",
     icon: <RiPingPongLine />,
     text: "Ping",
@@ -224,7 +212,6 @@ export const Navbar = ({ openSettings }: any) => {
   useEffect(() => {
     // scroll to active item
     const active = document.querySelector(`.${classes.active}`);
-    console.log("navbar active?", classes.active);
     if (active) {
       active.scrollIntoView({ block: "center", behavior: "smooth" });
     }
