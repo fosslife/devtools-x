@@ -12,7 +12,7 @@ pub mod images {
   use tokio::time::Instant;
   use webp::Encoder as WebPEncoder;
 
-  pub fn compress(img_path: &String, destination: &String, quality: u8) {
+  pub fn compress(img_path: &String, destination: &String, quality: u8) -> Result<()> {
     let path = std::path::Path::new(img_path);
     let destination_path = std::path::Path::new(destination);
     let img: image::DynamicImage = image::open(path).unwrap();
@@ -65,6 +65,8 @@ pub mod images {
         webpfile.write_all(&webpmem.deref()).unwrap();
       }
     }
+
+    Ok(())
   }
 
   #[derive(Debug, Clone, Copy, Deserialize)]
@@ -79,11 +81,18 @@ pub mod images {
     images: Vec<String>,
     destination: String,
     quality: u8,
+    window: tauri::Window,
   ) -> Result<String, String> {
     let parent_start = Instant::now();
     images.par_iter().for_each(|image| {
       let start = Instant::now();
-      compress(image, &destination, quality);
+      let done = compress(image, &destination, quality);
+      match done {
+        Ok(_) => {
+          window.emit("image_compressor_progress", image).unwrap();
+        }
+        Err(e) => println!("{} failed to compress: {:?}", image, e),
+      }
       let end = start.elapsed();
       println!("{} compressed in: {:?} ms", image, end.as_millis());
     });

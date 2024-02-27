@@ -20,3 +20,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.done {
+  border: 1px dashed var(--mantine-color-green-7);
+}

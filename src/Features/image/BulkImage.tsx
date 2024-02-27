@@ -11,13 +11,20 @@ import {
 } from "@mantine/core";
 import { invoke } from "@tauri-apps/api";
 import { open } from "@tauri-apps/api/dialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import classes from "./styles.module.css";
 import { MdInfo } from "react-icons/md";
 import { useDisclosure } from "@mantine/hooks";
+import { listen } from "@tauri-apps/api/event";
+import clsx from "clsx";
+
+type Images = {
+  image: string;
+  done: boolean;
+};
 
 export default function BulkImageCompressor() {
-  const [images, setImages] = useState<string[]>([]);
+  const [images, setImages] = useState<Images[]>([]);
   const [destination, setDestination] = useState<string | null>(null);
   const [quality, setQuality] = useState<number>(50);
   const [output, setOutput] = useState<string>("");
@@ -30,8 +37,9 @@ export default function BulkImageCompressor() {
       directory: false,
       multiple: true,
     }).then((result) => {
-      if (result) {
-        setImages(result as string[]);
+      let res = result as string[];
+      if (res) {
+        setImages(res.map((image) => ({ image, done: false })));
       }
     });
   };
@@ -47,6 +55,22 @@ export default function BulkImageCompressor() {
     });
   };
 
+  useEffect(() => {
+    let unlisten = listen<string>("image_compressor_progress", (event) => {
+      setImages((prev) => {
+        let index = prev.findIndex((image) => image.image === event.payload);
+        prev[index].done = true;
+        return [...prev];
+      });
+    });
+
+    return () => {
+      unlisten.then((result) => {
+        result();
+      });
+    };
+  }, []);
+
   const convert = () => {
     if (!destination || !images.length) {
       return;
@@ -54,11 +78,13 @@ export default function BulkImageCompressor() {
     if (quality < 0 || quality > 100) {
       return;
     }
-    invoke("compress_images", { images, destination, quality }).then(
-      (result) => {
-        setOutput(result as string);
-      }
-    );
+    invoke("compress_images", {
+      images: images.map((i) => i.image),
+      destination,
+      quality,
+    }).then((result) => {
+      setOutput(result as string);
+    });
   };
 
   return (
@@ -107,8 +133,15 @@ export default function BulkImageCompressor() {
       </Stack>
       <Stack>
         {images.map((image) => (
-          <Box p="xs" className={classes.row} key={image}>
-            <Text>{image}</Text>
+          <Box
+            p="xs"
+            className={clsx({
+              [classes.row]: true,
+              [classes.done]: image.done,
+            })}
+            key={image.image}
+          >
+            <Text>{image.image}</Text>
           </Box>
         ))}
       </Stack>
