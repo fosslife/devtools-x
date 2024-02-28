@@ -264,5 +264,4 @@ export default Image;
 
 // TODO:
 // generate thumbnail? https://www.libvips.org/API/current/Using-vipsthumbnail.md.html
-// show changed sizes in red/green color and/or icons up/down arrow
 // strip as a state, more params

@@ -31,7 +31,6 @@ export const Monaco = ({
   onDiffEditorMounted,
   diffProps,
 }: MonacoProps) => {
-  // FIXME: (Typescript); both onMount are exactly same, absolutely reusable;
   const diffOnMount: DiffOnMount = (editor, monaco) => {
     // disable TS incorrect diagnostic
     monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({

@@ -213,5 +213,4 @@ export default function BulkImageCompressor() {
 }
 
 // TODO: give more config for png/webp
-// TODO: show progress
 // TODO: open output folder after conversion

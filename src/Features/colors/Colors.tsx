@@ -132,6 +132,3 @@ const Colors = () => {
 };
 
 export default Colors;
-
-// TODO: save prev color and compare. p1
-// TODO: Color keywords? p2

@@ -107,7 +107,4 @@ const Hash = () => {
   );
 };
 
-// TODO: show loading spinner for heavy files?
-// HELP: use this to verify : https://www.browserling.com/tools/all-hashes
-
 export default Hash;

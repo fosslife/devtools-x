@@ -94,6 +94,3 @@ const FileHash = () => {
 };
 
 export default FileHash;
-
-//TODO: export calculated hashes
-//TODO: singular hash box copy button on select
