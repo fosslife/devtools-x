@@ -17,6 +17,7 @@
   "dependencies": {
     "@hello-pangea/dnd": "^16.5.0",
     "@loadable/component": "^5.16.3",
+    "@mantine/charts": "^7.6.1",
     "@mantine/core": "^7.5.1",
     "@mantine/dates": "^7.5.1",
     "@mantine/hooks": "^7.5.1",
@@ -58,6 +59,7 @@
     "react-pdf": "^7.7.0",
     "react-router-dom": "6.21.3",
     "react-sizeme": "^3.0.2",
+    "recharts": "2",
     "simple-base-converter": "^1.0.19",
     "tauri-plugin-store-api": "https://github.com/tauri-apps/tauri-plugin-store",
     "terser": "^5.27.0",

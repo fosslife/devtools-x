@@ -1,8 +1,29 @@
 pub mod ping {
-  use std::time::Duration;
+  use serde::{Deserialize, Serialize};
+  use std::{net::IpAddr, time::Duration};
   use surge_ping::{Client, Config, IcmpPacket, PingIdentifier, PingSequence, ICMP};
   use tauri::Runtime;
   use tokio::time;
+
+  #[derive(Debug, Clone, Deserialize, Serialize)]
+  struct Response {
+    size: usize,
+    source: std::net::IpAddr,
+    sequence: u16,
+    ttl: u8,
+    time: u128,
+  }
+
+  #[derive(Debug, Clone, Deserialize, Serialize)]
+  struct Summary {
+    host: String,
+    transmitted: usize,
+    received: usize,
+    min: f64,
+    avg: f64,
+    max: f64,
+    mdev: f64,
+  }
 
   #[derive(Default, Debug)]
   struct Answer {
@@ -70,30 +91,18 @@ pub mod ping {
       }
     }
 
-    fn output(&self) -> String {
-      let mut result = String::new();
+    fn output(&self) -> Summary {
+      let summary = Summary {
+        host: self.host.clone(),
+        transmitted: self.transmitted,
+        received: self.received,
+        min: self.min().unwrap(),
+        avg: self.avg().unwrap(),
+        max: self.max().unwrap(),
+        mdev: self.mdev().unwrap(),
+      };
 
-      result.push_str(&format!("\n--- {} ping statistics ---\n", self.host));
-
-      result.push_str(&format!(
-        "{} packets transmitted, {} packets received, {:.2}% packet loss\n
-",
-        self.transmitted,
-        self.received,
-        (self.transmitted - self.received) as f64 / self.transmitted as f64 * 100_f64
-      ));
-
-      if self.received > 1 {
-        result.push_str(&format!("round-trip min = {:.3} ms\n", self.min().unwrap(),));
-        result.push_str(&format!("round-trip avg = {:.3} ms\n", self.avg().unwrap(),));
-        result.push_str(&format!("round-trip max = {:.3} ms\n", self.max().unwrap(),));
-        result.push_str(&format!(
-          "round-trip mdev = {:.3} ms\n",
-          self.mdev().unwrap(),
-        ));
-      }
-
-      result
+      summary
     }
   }
 
@@ -135,14 +144,13 @@ pub mod ping {
           window
             .emit(
               "ping-response",
-              format!(
-                "{} bytes from {}: icmp_seq={} ttl={:?} time={:0.3?}",
-                reply.get_size(),
-                reply.get_source(),
-                reply.get_sequence(),
-                reply.get_ttl(),
-                dur
-              ),
+              Response {
+                size: reply.get_size(),
+                source: IpAddr::V4(reply.get_source()),
+                sequence: reply.get_sequence().0,
+                ttl: reply.get_ttl().expect("couldnn't get ttl"),
+                time: dur.as_millis(),
+              },
             )
             .unwrap();
           answer.update(Some(dur));
@@ -151,14 +159,13 @@ pub mod ping {
           window
             .emit(
               "ping-response",
-              format!(
-                "{} bytes from {}: icmp_seq={} ttl={:?} time={:0.3?}",
-                reply.get_size(),
-                reply.get_source(),
-                reply.get_sequence(),
-                reply.get_max_hop_limit(),
-                dur
-              ),
+              Response {
+                size: reply.get_size(),
+                source: IpAddr::V6(reply.get_source()),
+                sequence: reply.get_sequence().0,
+                ttl: reply.get_max_hop_limit(),
+                time: dur.as_millis(),
+              },
             )
             .unwrap();
           answer.update(Some(dur));
@@ -170,7 +177,7 @@ pub mod ping {
     }
     let summary = answer.output();
 
-    window.emit("ping-response", summary).unwrap();
+    window.emit("ping-summary", summary).unwrap();
 
     Ok(())
   }
