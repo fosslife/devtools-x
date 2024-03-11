@@ -24,6 +24,7 @@ import Nums from "./Features/number-tools/Nums";
 import { data, Navbar } from "./Layout/Navbar";
 import { Settings } from "./Layout/Settings";
 import { useDisclosure, useWindowEvent } from "@mantine/hooks";
+import { trackOtherEvent, trackPageView } from "./utils/analytics";
 
 // Lazy load components
 const Welcome = loadable(() => import("./Components/Welcome"));
@@ -84,6 +85,14 @@ const shortCuts = [
     key: "mod + b",
     action: "toggle sidebar collapse",
   },
+  {
+    key: "(mod + k) + (mod + d)",
+    action: "editor dark theme, anywhere",
+  },
+  {
+    key: "(mod + k) + (mod + l)",
+    action: "editor light theme, anywhere",
+  },
 ];
 
 function App() {
@@ -109,14 +118,26 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    trackPageView(location.pathname);
+  }, [location]);
+
   const listener = (e: KeyboardEvent) => {
     if (e.shiftKey && e.key === "?") {
+      trackOtherEvent("shortcut", {
+        key: "shift + ?",
+        action: "open-shortcut",
+      });
       open();
     }
     if (e.key === "Escape") {
       close();
     }
     if (e.ctrlKey && e.key === "t") {
+      trackOtherEvent("shortcut", {
+        key: "mod + t",
+        action: "toggle-theme",
+      });
       toggleColorScheme();
     }
   };
@@ -195,7 +216,14 @@ function App() {
         actions={data.map((a) => ({
           id: a.to,
           label: a.text,
-          onClick: () => nav(a.to),
+          onClick: () => {
+            trackOtherEvent("shortcut", {
+              key: "mod + k",
+              action: "spotlight-search",
+              to: a.to,
+            });
+            nav(a.to);
+          },
           icon: a.icon,
         }))}
       ></Spotlight>

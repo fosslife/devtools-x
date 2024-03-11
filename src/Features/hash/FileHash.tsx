@@ -1,6 +1,7 @@
 import { Button, Group, LoadingOverlay, Stack, Table } from "@mantine/core";
 import { dialog, invoke } from "@tauri-apps/api";
 import { useState } from "react";
+import { trackOtherEvent } from "../../utils/analytics";
 
 const FileHash = () => {
   const [fileHashes, setFileHashes] = useState<
@@ -28,6 +29,9 @@ const FileHash = () => {
     );
     console.timeEnd("t1");
     setLoading(false);
+    trackOtherEvent("file_hash", {
+      files: filePaths.length,
+    });
   };
 
   return (

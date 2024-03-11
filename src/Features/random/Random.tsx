@@ -163,11 +163,7 @@ const Random = () => {
       </Box>
       <Box>Entropy: {pass.entropy}</Box>
       <Text size="xs" color={"dimmed"}>
-        Note: entropy calculation might be broken.
-      </Text>
-      <Text size="xs" color={"dimmed"}>
-        And even if it&apos;s correct, entropy is not everything do not rely on
-        it
+        note: entropy is not everything do not rely on it
       </Text>
     </Stack>
   );

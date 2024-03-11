@@ -9,7 +9,7 @@ import {
   TextInput,
   Tooltip,
 } from "@mantine/core";
-import { ChangeEvent, useContext, useEffect, useState } from "react";
+import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 import { BsFilePdf, BsSortNumericUpAlt } from "react-icons/bs";
 import {
   FaCode,
@@ -57,9 +57,22 @@ import {
   Droppable,
   OnDragEndResponder,
 } from "@hello-pangea/dnd";
-import { useWindowEvent } from "@mantine/hooks";
+import {
+  useDebouncedState,
+  useDebouncedValue,
+  useWindowEvent,
+} from "@mantine/hooks";
+import { trackButtonClick, trackOtherEvent } from "../../utils/analytics";
 
-export const data = [
+type NavItem = {
+  id: string;
+  to: string;
+  icon: React.ReactNode;
+  text: string;
+  extra?: string;
+};
+
+export const data: NavItem[] = [
   {
     id: "json-formatter",
     to: "/json-formatter",
@@ -191,21 +204,11 @@ export const data = [
 export const Navbar = ({ openSettings }: any) => {
   const location = useLocation();
   const nav = useNavigate();
-  const [navItems, setNavItems] = useState<any[]>([]);
+  const [navItems, setNavItems] = useState<NavItem[]>([]);
   const { pinned, handleState } = useContext(AppContext);
   const [iconMode, setIconMode] = useState(false);
-
-  const filterItems = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value) {
-      setNavItems(
-        data.filter((i) =>
-          i.text.toLowerCase().includes(e.target.value.toLowerCase())
-        )
-      );
-    } else {
-      setNavItems([...data]);
-    }
-  };
+  const [search, setSearch] = useState("");
+  const [debouncedSearch] = useDebouncedValue(search, 300);
 
   useEffect(() => {
     async function pinnedItems() {
@@ -215,6 +218,12 @@ export const Navbar = ({ openSettings }: any) => {
     }
     pinnedItems();
   }, []);
+
+  useEffect(() => {
+    if (debouncedSearch) {
+      trackOtherEvent("navbar-search", { search: debouncedSearch });
+    }
+  }, [debouncedSearch]);
 
   useEffect(() => {
     async function sidebar() {
@@ -270,6 +279,10 @@ export const Navbar = ({ openSettings }: any) => {
     const items = [...navItems];
     const [reorderedItem] = items.splice(res.source.index, 1);
     items.splice(res.destination!.index, 0, reorderedItem);
+    trackOtherEvent("navbar-reorder", {
+      fromItem: res.source.index,
+      toItem: res.destination!.index,
+    });
     setNavItems(items);
     db.set(
       "sidebar",
@@ -280,6 +293,10 @@ export const Navbar = ({ openSettings }: any) => {
 
   const listener = (e: KeyboardEvent) => {
     if (e.ctrlKey && e.key === "b") {
+      trackOtherEvent("shortcut", {
+        key: "mod + b",
+        action: "toggle-sidebar-collapse",
+      });
       setIconMode(!iconMode);
     }
   };
@@ -297,14 +314,22 @@ export const Navbar = ({ openSettings }: any) => {
               id="search"
               placeholder="Search..."
               size={"xs"}
-              onChange={filterItems}
+              value={search}
+              onChange={(e) => setSearch(e.currentTarget.value)}
               className={classes.textInput}
+              miw={180}
             />
           )}
           <ActionIcon
             color="blue.9"
             variant={"filled"}
-            onClick={() => setIconMode(!iconMode)}
+            onClick={() => {
+              trackButtonClick({
+                name: "toggle-icon-mode",
+                value: !iconMode,
+              });
+              setIconMode(!iconMode);
+            }}
           >
             {iconMode ? <FaTimes /> : <FaExpand />}
           </ActionIcon>
@@ -321,7 +346,13 @@ export const Navbar = ({ openSettings }: any) => {
             <ActionIcon
               color="blue.9"
               variant={"filled"}
-              onClick={() => openSettings(true)}
+              onClick={() => {
+                trackButtonClick({
+                  name: "open-settings",
+                  value: true,
+                });
+                openSettings(true);
+              }}
             >
               <FiSettings />
             </ActionIcon>
@@ -336,40 +367,61 @@ export const Navbar = ({ openSettings }: any) => {
             <Droppable droppableId="droppable">
               {(provided) => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {navItems.map((e, index) => {
-                    const pinExists = pinned?.includes(e.id);
+                  {navItems
+                    .filter((n) =>
+                      n.text
+                        .toLowerCase()
+                        .includes(debouncedSearch.toLowerCase())
+                    )
+                    .map((e, index) => {
+                      const pinExists = pinned?.includes(e.id);
 
-                    return (
-                      <Draggable
-                        key={e.id}
-                        draggableId={e.id.toString()}
-                        index={index}
-                      >
-                        {(provided) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            style={{
-                              ...provided.draggableProps.style,
-                              userSelect: "none",
-                            }}
-                          >
-                            <Box
-                              key={e.id}
-                              className={cx(classes.row, {
-                                [classes.active]: location.pathname === e.to,
-                              })}
-                              onClick={() => {
-                                nav(e.to);
+                      return (
+                        <Draggable
+                          key={e.id}
+                          draggableId={e.id.toString()}
+                          index={index}
+                        >
+                          {(provided) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={{
+                                ...provided.draggableProps.style,
+                                userSelect: "none",
                               }}
                             >
-                              <Box className={classes.listTitle}>
-                                <Text className={classes.rowIcon}>
-                                  {e.icon}
-                                </Text>
-                                {e.extra ? (
-                                  <Tooltip label={e.extra}>
+                              <Box
+                                key={e.id}
+                                className={cx(classes.row, {
+                                  [classes.active]: location.pathname === e.to,
+                                })}
+                                onClick={() => {
+                                  nav(e.to);
+                                }}
+                              >
+                                <Box className={classes.listTitle}>
+                                  <Text className={classes.rowIcon}>
+                                    {e.icon}
+                                  </Text>
+                                  {e.extra ? (
+                                    <Tooltip label={e.extra}>
+                                      <Text
+                                        size="xs"
+                                        fw={
+                                          location.pathname === e.to
+                                            ? "500"
+                                            : "400"
+                                        }
+                                        c="red"
+                                        component={Link}
+                                        to={e.to}
+                                      >
+                                        {e.text.toUpperCase()}
+                                      </Text>
+                                    </Tooltip>
+                                  ) : (
                                     <Text
                                       size="xs"
                                       fw={
@@ -377,54 +429,41 @@ export const Navbar = ({ openSettings }: any) => {
                                           ? "500"
                                           : "400"
                                       }
-                                      c="red"
-                                      component={Link}
-                                      to={e.to}
                                     >
                                       {e.text.toUpperCase()}
                                     </Text>
-                                  </Tooltip>
-                                ) : (
-                                  <Text
-                                    size="xs"
-                                    fw={
-                                      location.pathname === e.to ? "500" : "400"
-                                    }
-                                  >
-                                    {e.text.toUpperCase()}
-                                  </Text>
-                                )}
-                              </Box>
-                              <Box>
-                                <ActionIcon
-                                  variant={pinExists ? "subtle" : "outline"}
-                                  style={{
-                                    visibility: pinExists
-                                      ? "visible"
-                                      : undefined,
-                                    color:
-                                      "light-dark(var(--mantine-color-dark-1), var(--mantine-color-dark-4))",
-                                  }}
-                                  className={classes.pinIcon}
-                                  size={"sm"}
-                                  onClick={(e2) => {
-                                    e2.stopPropagation();
-                                    onPinClicked(e);
-                                  }}
-                                >
-                                  {pinExists ? (
-                                    <VscPinned size="15px" />
-                                  ) : (
-                                    <VscPin size="15px" />
                                   )}
-                                </ActionIcon>
+                                </Box>
+                                <Box>
+                                  <ActionIcon
+                                    variant={pinExists ? "subtle" : "outline"}
+                                    style={{
+                                      visibility: pinExists
+                                        ? "visible"
+                                        : undefined,
+                                      color:
+                                        "light-dark(var(--mantine-color-dark-1), var(--mantine-color-dark-4))",
+                                    }}
+                                    className={classes.pinIcon}
+                                    size={"sm"}
+                                    onClick={(e2) => {
+                                      e2.stopPropagation();
+                                      onPinClicked(e);
+                                    }}
+                                  >
+                                    {pinExists ? (
+                                      <VscPinned size="15px" />
+                                    ) : (
+                                      <VscPin size="15px" />
+                                    )}
+                                  </ActionIcon>
+                                </Box>
                               </Box>
-                            </Box>
-                          </div>
-                        )}
-                      </Draggable>
-                    );
-                  })}
+                            </div>
+                          )}
+                        </Draggable>
+                      );
+                    })}
                   {provided.placeholder}
                 </div>
               )}

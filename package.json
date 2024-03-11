@@ -15,6 +15,7 @@
     "type-check": "tsc"
   },
   "dependencies": {
+    "@aptabase/tauri": "^0.4.1",
     "@hello-pangea/dnd": "^16.5.0",
     "@loadable/component": "^5.16.3",
     "@mantine/charts": "^7.6.1",

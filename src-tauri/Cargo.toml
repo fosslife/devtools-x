@@ -36,6 +36,7 @@ oxipng = { version = "9.0", features = [
 ], default-features = false }
 webp = "0.2"
 base64 = "0.21.7"
+tauri-plugin-aptabase = "0.4"
 
 [features]
 default = ["custom-protocol"]

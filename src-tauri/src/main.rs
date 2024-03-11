@@ -18,6 +18,7 @@ use commands::ping::ping::ping;
 fn main() {
   tauri::Builder::default()
     .plugin(tauri_plugin_store::Builder::default().build())
+    .plugin(tauri_plugin_aptabase::Builder::new("A-EU-0242299228").build())
     .invoke_handler(tauri::generate_handler![
       hash,
       ping,
