@@ -1,6 +1,7 @@
 import { Group, NumberInput, Select, Stack, Textarea } from "@mantine/core";
 import { loremIpsum } from "lorem-ipsum";
 import { useEffect, useState } from "react";
+import { Copy } from "../../Components/Copy";
 
 type mode = "paragraphs" | "sentences" | "words";
 
@@ -44,6 +45,8 @@ export default function Lorem() {
         />
       </Group>
       <Textarea value={generated} readOnly minRows={10} maxRows={15} autosize />
+
+      <Copy value={generated} label="Copy" />
     </Stack>
   );
 }
