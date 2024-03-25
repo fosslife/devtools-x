@@ -5,10 +5,6 @@ import { getOctokit, context } from "@actions/github";
 const UPDATER_TAG = "updater";
 const UPDATER_FILE = "release.json";
 
-if (process.env.GITHUB_TOKEN === undefined) {
-  throw new Error("GITHUB_TOKEN not found.");
-}
-
 const getSignature = async (url) => {
   const response = await fetch(url, {
     method: "GET",
@@ -32,10 +28,10 @@ const releaseData = {
   notes: `https://github.com/${repoMetaData.owner}/${repoMetaData.repo}/releases/tag/${latestRelease.tag_name}`,
   pub_date: new Date().toISOString(),
   platforms: {
-    "darwin-aarch64": {
-      signature: "",
-      url: "",
-    },
+    // "darwin-aarch64": {
+    //   signature: "",
+    //   url: "",
+    // },
     "darwin-x86_64": {
       signature: "",
       url: "",
@@ -56,12 +52,12 @@ const promises = latestRelease.assets.map(
     const signature = await getSignature(browser_download_url);
 
     if (name.endsWith(".app.tar.gz")) {
-      releaseData.platforms["darwin-aarch64"].url = browser_download_url;
+      // releaseData.platforms["darwin-aarch64"].url = browser_download_url;
       releaseData.platforms["darwin-x86_64"].url = browser_download_url;
     }
 
     if (name.endsWith(".app.tar.gz.sig")) {
-      releaseData.platforms["darwin-aarch64"].signature = signature;
+      // releaseData.platforms["darwin-aarch64"].signature = signature;
       releaseData.platforms["darwin-x86_64"].signature = signature;
     }
 
@@ -85,9 +81,9 @@ const promises = latestRelease.assets.map(
 
 await Promise.allSettled(promises);
 
-if (!releaseData.platforms["darwin-aarch64"].url) {
-  throw new Error("Failed to get release for MacOS");
-}
+// if (!releaseData.platforms["darwin-aarch64"].url) {
+//   throw new Error("Failed to get release for MacOS");
+// }
 
 if (!releaseData.platforms["linux-x86_64"].url) {
   throw new Error("Failed to get release for Linux");
