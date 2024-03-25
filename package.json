@@ -70,6 +70,7 @@
     "wasm-vips": "^0.0.7"
   },
   "devDependencies": {
+    "@actions/github": "^6.0.0",
     "@linaria/rollup": "^5.0.4",
     "@tauri-apps/cli": "^1.5.9",
     "@types/color-convert": "^2.0.3",
