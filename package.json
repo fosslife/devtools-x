@@ -13,7 +13,7 @@
     "lint:format": "prettier  --loglevel warn --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\" ",
     "lint": "yarn lint:format && yarn lint:fix ",
     "type-check": "tsc",
-    "release": "node scripts/release.mjs",
+    "release": "node scripts/sign.mjs",
     "prepare": "node scripts/prepare.mjs"
   },
   "dependencies": {
