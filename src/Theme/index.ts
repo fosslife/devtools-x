@@ -16,8 +16,9 @@ const myColor: MantineColorsTuple = [
 
 const theme = createTheme({
   components: customComponents,
+  primaryColor: "brand",
   colors: {
-    myColor,
+    brand: myColor,
   },
 });
 

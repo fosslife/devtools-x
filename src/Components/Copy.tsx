@@ -17,7 +17,6 @@ export function Copy({
             leftSection={copied ? <FaCheck /> : <FaCopy />}
             size="xs"
             fullWidth
-            color={copied ? "teal" : "blue"}
             onClick={() => {
               copy(); //  copy doesn't work but need this function for animation.
               clipboard.writeText(value.toString());

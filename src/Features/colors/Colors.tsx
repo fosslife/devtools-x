@@ -107,24 +107,23 @@ const Colors = () => {
       </Text>
 
       <Box className={classes.gridContainer}>
-        {history.map((color) => (
-          <>
-            <Tooltip
-              label={`Copy rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`}
-            >
-              <Box
-                className={classes.gridItem}
-                onClick={() => {
-                  clipboard.writeText(
-                    `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
-                  );
-                }}
-                style={{
-                  backgroundColor: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
-                }}
-              ></Box>
-            </Tooltip>
-          </>
+        {history.map((color, i) => (
+          <Tooltip
+            label={`Copy rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`}
+            key={i}
+          >
+            <Box
+              className={classes.gridItem}
+              onClick={() => {
+                clipboard.writeText(
+                  `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
+                );
+              }}
+              style={{
+                backgroundColor: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+              }}
+            ></Box>
+          </Tooltip>
         ))}
       </Box>
     </Stack>

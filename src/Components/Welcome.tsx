@@ -13,7 +13,7 @@ const Welcome = () => {
 
   return (
     <Stack className={classes.root}>
-      <Text tt="uppercase" variant="gradient" component={Title}>
+      <Text tt="uppercase" c="brand" component={Title}>
         DEVTOOLS-X
       </Text>
       <Switch

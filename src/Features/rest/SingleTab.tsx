@@ -144,7 +144,7 @@ export const SingleTab = ({ t }: { t: number }) => {
         <Divider />
         <Stack>
           {/* TODO: unselectable={"on"} style={{ userSelect: "none" }} */}
-          <Text color={"dimmed"} size="xs">
+          <Text c={"dimmed"} size="xs">
             Response {respText}
           </Text>
           {response?.data && (

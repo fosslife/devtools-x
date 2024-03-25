@@ -6,6 +6,7 @@
   ); /* Creates 10 columns, each 20px wide */
   grid-template-rows: repeat(2, 24px); /* Creates 2 rows, each 20px high */
   gap: 5px; /* Optional: space between the squares */
+  margin-bottom: 15px;
 }
 
 .gridItem {

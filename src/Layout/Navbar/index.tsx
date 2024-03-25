@@ -321,7 +321,6 @@ export const Navbar = ({ openSettings }: any) => {
             />
           )}
           <ActionIcon
-            color="blue.9"
             variant={"filled"}
             onClick={() => {
               trackButtonClick({
@@ -344,7 +343,6 @@ export const Navbar = ({ openSettings }: any) => {
             </Flex>
 
             <ActionIcon
-              color="blue.9"
               variant={"filled"}
               onClick={() => {
                 trackButtonClick({

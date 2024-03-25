@@ -3,23 +3,31 @@ import { useState } from "react";
 
 import { Monaco } from "../../Components/MonacoWrapper";
 
-const TextDiff = () => {
-  const [lang, setLang] = useState("javascript");
+const languages = [
+  "Text",
+  "JavaScript",
+  "TypeScript",
+  "Python",
+  "Rust",
+  "C#",
+  "F#",
+  "Haskell",
+  "Lisp",
+  "Java",
+  "PHP",
+  "Go",
+].sort();
 
-  const languages = [
-    "Text",
-    "JavaScript",
-    "TypeScript",
-    "Python",
-    "Rust",
-    "C#",
-    "F#",
-    "Haskell",
-    "Lisp",
-    "Java",
-    "PHP",
-    "Go",
-  ].sort();
+const codeSample1 = `function add(a, b) {
+  return a + b;
+}`;
+
+const codeSample2 = `function subtract(a, b) {
+  return a - b;
+}`;
+
+const TextDiff = () => {
+  const [lang, setLang] = useState("JavaScript");
 
   return (
     <Stack
@@ -37,10 +45,10 @@ const TextDiff = () => {
 
       <Monaco
         mode="diff"
-        language={lang}
+        language={lang.toLowerCase()}
         diffProps={{
-          original: "const x = 10;",
-          modified: "var x = 11;",
+          original: codeSample1,
+          modified: codeSample2,
           modifiedLanguage: lang,
           originalLanguage: lang,
         }}

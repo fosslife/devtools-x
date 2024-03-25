@@ -8,3 +8,5 @@ target/
 **/*.d.ts
 vips/
 .eslintrc.cjs
+
+scripts/

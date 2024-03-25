@@ -49,7 +49,6 @@ function OutputBox({
                   leftSection={<FaCopy />}
                   size={size || "xs"}
                   // fullWidth={true}
-                  color={copied ? "teal" : "blue"}
                   onClick={() => {
                     copy(); //  copy doesn't work but need this function for animation.
                     clipboard.writeText(value);

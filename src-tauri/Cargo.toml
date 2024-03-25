@@ -48,3 +48,6 @@ codegen-units = 1
 lto = true
 incremental = false
 opt-level = "s"     # can experiment with 'z' as well
+
+[profile.dev]
+incremental = false

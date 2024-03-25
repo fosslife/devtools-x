@@ -72,7 +72,7 @@ const Nums = () => {
           Calculate
         </Button>
       </Group>
-      {error && <Text color={"red"}>{error}</Text>}
+      {error && <Text c={"red"}>{error}</Text>}
       <Divider />
       <OutputBox label="BINARY" value={output.binary} />
       <OutputBox label="DECIMAL" value={output.decimal} />
