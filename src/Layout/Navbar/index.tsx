@@ -23,7 +23,7 @@ import {
   FaTimes,
   FaYinYang,
 } from "react-icons/fa";
-import { FiClock, FiFile, FiHash, FiSettings } from "react-icons/fi";
+import { FiClock, FiFile, FiHash, FiSettings, FiStar } from "react-icons/fi";
 import { RiPingPongLine } from "react-icons/ri";
 import {
   MdAnchor,
@@ -199,6 +199,7 @@ export const data: NavItem[] = [
     text: "PDF Reader",
   },
   { id: "ping", to: "/ping", icon: <RiPingPongLine />, text: "Ping" },
+  { id: "cron", to: "/cron", icon: <FiStar />, text: "Cron" },
 ];
 
 export const Navbar = ({ openSettings }: any) => {
