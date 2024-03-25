@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Button, Group, Stack } from "@mantine/core";
+import { ActionIcon, Box, Button, Group, Stack, Tooltip } from "@mantine/core";
 import { useState } from "react";
 import { pdfjs, Document, Page } from "react-pdf";
 import { convertFileSrc } from "@tauri-apps/api/tauri";
@@ -7,7 +7,12 @@ import { open } from "@tauri-apps/api/dialog";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 import { SizeMe } from "react-sizeme";
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import {
+  MdKeyboardArrowLeft,
+  MdKeyboardArrowRight,
+  MdZoomIn,
+  MdZoomOut,
+} from "react-icons/md";
 
 import classes from "./styles.module.css";
 
@@ -20,6 +25,7 @@ export default function PdfReader() {
   const [pdf, setPdf] = useState<ArrayBuffer>();
   const [numPages, setNumPages] = useState<number>();
   const [page, setPage] = useState<number>(1);
+  const [scale, setScale] = useState(1);
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }): void {
     setNumPages(numPages);
@@ -62,16 +68,34 @@ export default function PdfReader() {
           right: 0,
         }}
       >
-        <Button onClick={openFile}>Open new</Button>
-        <ActionIcon onClick={() => setPage((p) => p - 1)}>
+        <Button size="xs" onClick={openFile}>
+          Open new
+        </Button>
+        <ActionIcon onClick={() => setPage((p) => p - 1)} disabled={page === 1}>
           <MdKeyboardArrowLeft />
         </ActionIcon>
         <Box>
           {page} of {numPages}
         </Box>
-        <ActionIcon onClick={() => setPage((p) => p + 1)}>
+        <ActionIcon
+          onClick={() => setPage((p) => p + 1)}
+          disabled={page === numPages}
+        >
           <MdKeyboardArrowRight />
         </ActionIcon>
+        <Tooltip label="Zoom in">
+          <ActionIcon onClick={() => setScale((scale) => scale + 0.5)}>
+            <MdZoomIn />
+          </ActionIcon>
+        </Tooltip>
+        <Tooltip label="Zoom out">
+          <ActionIcon
+            disabled={scale === 1}
+            onClick={() => setScale((scale) => scale - 0.5)}
+          >
+            <MdZoomOut />
+          </ActionIcon>
+        </Tooltip>
       </Group>
       <SizeMe monitorWidth>
         {({ size }) => (
@@ -79,6 +103,7 @@ export default function PdfReader() {
             <Document onLoadSuccess={onDocumentLoadSuccess} file={pdf}>
               {Array.from(new Array(numPages), (el, index) => (
                 <Page
+                  scale={scale}
                   className={classes.page}
                   pageIndex={index + 1}
                   inputRef={(ref) => {
@@ -87,8 +112,6 @@ export default function PdfReader() {
                         behavior: "smooth",
                         block: "start",
                       });
-                    // scroll about 60px from top
-                    // ref.scrollTop = 60;
                   }}
                   key={`page_${index + 1}`}
                   pageNumber={index + 1}
@@ -103,6 +126,3 @@ export default function PdfReader() {
     </Stack>
   );
 }
-
-// feat: add more controls like zoom,etc
-// optimize virtual dom with react-window?
