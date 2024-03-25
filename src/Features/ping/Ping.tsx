@@ -93,15 +93,17 @@ export default function Ping() {
         />
       </Group>
 
-      <LineChart
-        h={300}
-        data={res?.map((r, i) => ({ seq: r.sequence, time: r.time })) || []}
-        series={[{ name: "time", color: "blue", label: "Time (ms)" }]}
-        dataKey="seq"
-        curveType="natural"
-        gridAxis="x"
-        tickLine="x"
-      />
+      {res && (
+        <LineChart
+          h={300}
+          data={res?.map((r, i) => ({ seq: r.sequence, time: r.time })) || []}
+          series={[{ name: "time", color: "blue", label: "Time (ms)" }]}
+          dataKey="seq"
+          curveType="natural"
+          gridAxis="x"
+          tickLine="x"
+        />
+      )}
       {summary && (
         <Stack>
           <Text>

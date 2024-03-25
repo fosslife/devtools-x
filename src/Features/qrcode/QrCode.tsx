@@ -5,7 +5,7 @@ import QRCodeJS, { QRCodeErrorCorrectionLevel } from "qrcode";
 import { useEffect, useState } from "react";
 
 export default function QrCode() {
-  const [input, setInput] = useState("mantine.dev");
+  const [input, setInput] = useState("https://fosslife.com");
   const [url, setUrl] = useState("");
   const [err, setErr] = useState("");
   const [scale, setScale] = useState(4);
