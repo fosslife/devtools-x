@@ -1,6 +1,5 @@
 // copied from pwltr/tauthy.git. all credits to him.
 
-import fetch from "node-fetch";
 import { getOctokit, context } from "@actions/github";
 
 const UPDATER_TAG = "updater";
