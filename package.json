@@ -12,7 +12,9 @@
     "lint:fix": "eslint ./src --ext .jsx,.js,.ts,.tsx --fix",
     "lint:format": "prettier  --loglevel warn --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\" ",
     "lint": "yarn lint:format && yarn lint:fix ",
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "release": "node scripts/release.mjs",
+    "prepare": "node scripts/prepare.mjs"
   },
   "dependencies": {
     "@aptabase/tauri": "^0.4.1",
