@@ -1172,6 +1172,14 @@
   dependencies:
     "@floating-ui/utils" "^0.2.1"
 
+"@floating-ui/dom@^1.5.1":
+  version "1.6.3"
+  resolved "https://registry.yarnpkg.com/@floating-ui/dom/-/dom-1.6.3.tgz#954e46c1dd3ad48e49db9ada7218b0985cee75ef"
+  integrity sha512-RnDthu3mzPlQ31Ss/BTwQ1zjzIhr3lk1gZB1OC56h/1vEtaXkESrOqL5fQVMfXpwGtRwX+YsZBdyHtJMQnkArw==
+  dependencies:
+    "@floating-ui/core" "^1.0.0"
+    "@floating-ui/utils" "^0.2.0"
+
 "@floating-ui/dom@^1.6.1":
   version "1.6.2"
   resolved "https://registry.yarnpkg.com/@floating-ui/dom/-/dom-1.6.2.tgz#08eb5dd8da69582eeff26144f366b96f131fbd18"
@@ -3327,6 +3335,11 @@ deepmerge@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-2.2.1.tgz#5d3ff22a01c00f645405a2fbc17d0778a1801170"
   integrity sha512-R9hc1Xa/NOBi9WRVUWg19rl1UB7Tt4kuPd+thNJgFZoxXsTz7ncaPaeIm+40oSGuP33DfMb4sZt1QIGiJzC4EA==
+
+deepmerge@^4.3.1:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-4.3.1.tgz#44b5f2147cd3b00d4b56137685966f26fd25dd4a"
+  integrity sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==
 
 define-data-property@^1.0.1, define-data-property@^1.1.2:
   version "1.1.2"
@@ -6489,6 +6502,14 @@ react-router@6.21.3:
   dependencies:
     "@remix-run/router" "1.14.2"
 
+react-shepherd@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/react-shepherd/-/react-shepherd-4.3.0.tgz#7386661eab838c9ab98c0e510f3fd726a04eed23"
+  integrity sha512-zJnFfn9llfyULPPJO/hjD9U1gCH/ylmMcgORt+IcxZ2Yx1DTvUJfsclK/UzIt6Stt63KcqlUCMB4nAMqTecFcQ==
+  dependencies:
+    resize-observer-polyfill "^1.5.1"
+    shepherd.js "^11.0.1"
+
 react-sizeme@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/react-sizeme/-/react-sizeme-3.0.2.tgz#4a2f167905ba8f8b8d932a9e35164e459f9020e4"
@@ -6819,6 +6840,11 @@ require-main-filename@^2.0.0:
   resolved "https://registry.yarnpkg.com/require-main-filename/-/require-main-filename-2.0.0.tgz#d0b329ecc7cc0f61649f62215be69af54aa8989b"
   integrity sha512-NKN5kMDylKuldxYLSUfrbo5Tuzh4hd+2E8NPPX02mZtn1VuREQToYe/ZdlJy+J3uCpfaiGF05e7B8W0iXbQHmg==
 
+resize-observer-polyfill@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz#0e9020dd3d21024458d4ebd27e23e40269810464"
+  integrity sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==
+
 resolve-from@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/resolve-from/-/resolve-from-4.0.0.tgz#4abcd852ad32dd7baabfe9b40e00a36db5f392e6"
@@ -6988,6 +7014,14 @@ shebang-regex@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-3.0.0.tgz#ae16f1644d873ecad843b0307b143362d4c42172"
   integrity sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==
+
+shepherd.js@^11.0.1:
+  version "11.2.0"
+  resolved "https://registry.yarnpkg.com/shepherd.js/-/shepherd.js-11.2.0.tgz#4c45a057aa317841444d265343e0b0b0d6aaa064"
+  integrity sha512-2hbz3N7GuuTjI7y3sfnoqKnH0cNhExx67IJtCTGQI2KhBEyvegsDYW5qjj5BlvvVtQjmL/O/J1GQEciwfoZWpw==
+  dependencies:
+    "@floating-ui/dom" "^1.5.1"
+    deepmerge "^4.3.1"
 
 side-channel@^1.0.4:
   version "1.0.5"

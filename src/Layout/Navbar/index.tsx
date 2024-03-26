@@ -305,7 +305,11 @@ export const Navbar = ({ openSettings }: any) => {
   useWindowEvent("keydown", listener);
 
   return (
-    <Stack className={classes.navbar} align={iconMode ? "center" : undefined}>
+    <Stack
+      className={classes.navbar}
+      id="navbar"
+      align={iconMode ? "center" : undefined}
+    >
       <Stack
         className={iconMode ? classes.iconsTopSection : classes.topSection}
       >

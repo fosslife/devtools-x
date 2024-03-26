@@ -4,6 +4,7 @@ const db = new Store("settings.json");
 
 if (!(await db.length())) {
   await Promise.all([
+    db.set("firstTime", true),
     db.set("jsoneditor", {}),
     db.set("hashes", ""),
     db.set("pinned", []),

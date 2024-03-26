@@ -1,6 +1,7 @@
 import "./anim.css";
 import classes from "./App.module.css";
 import "@mantine/spotlight/styles.css";
+import "shepherd.js/dist/css/shepherd.css";
 
 import loadable from "@loadable/component";
 import {
@@ -17,6 +18,8 @@ import { Spotlight } from "@mantine/spotlight";
 import { loader } from "@monaco-editor/react";
 import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
+import { useShepherdTour } from "react-shepherd";
+import steps from "./utils/steps";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 // NOTE: keep Num converter here, do not lazy load. there's a rare crashing bug.
@@ -25,6 +28,7 @@ import { data, Navbar } from "./Layout/Navbar";
 import { Settings } from "./Layout/Settings";
 import { useDisclosure, useWindowEvent } from "@mantine/hooks";
 import { trackOtherEvent, trackPageView } from "./utils/analytics";
+import { db } from "./utils";
 
 // Lazy load components
 const Welcome = loadable(() => import("./Components/Welcome"));
@@ -103,9 +107,34 @@ function App() {
 
   const { toggleColorScheme } = useMantineColorScheme();
 
+  const tour = useShepherdTour({
+    tourOptions: {
+      defaultStepOptions: {
+        cancelIcon: {
+          enabled: true,
+        },
+      },
+      useModalOverlay: true,
+    },
+    steps: steps,
+  });
+
   const [displayLocation, setDisplayLocation] = useState(location);
   const [transitionStage, setTransistionStage] = useState("fadeIn");
   const [settingsOpened, setSettingsOpened] = useState(false);
+
+  useEffect(() => {
+    async function init() {
+      const isFirstTime = await db.get("firstTime");
+      if (isFirstTime === true) {
+        tour.start();
+        await db.set("firstTime", false);
+        await db.save();
+      }
+    }
+
+    init();
+  }, []);
 
   useEffect(() => {
     if (location.pathname !== displayLocation.pathname)

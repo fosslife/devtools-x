@@ -64,6 +64,7 @@
     "react-live": "^4.1.5",
     "react-pdf": "^7.7.0",
     "react-router-dom": "6.21.3",
+    "react-shepherd": "^4.3.0",
     "react-sizeme": "^3.0.2",
     "recharts": "2",
     "simple-base-converter": "^1.0.19",
