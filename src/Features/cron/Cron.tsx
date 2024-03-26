@@ -31,7 +31,7 @@ export default function Cron() {
       setCronMeaning("Invalid cron expression");
       setParsedString("");
       setNextDate(null);
-      console.error(error.message);
+      console.error((error as Error).message);
     }
   }, [cron]);
 
