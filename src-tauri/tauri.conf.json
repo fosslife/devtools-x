@@ -59,7 +59,7 @@
       },
       "dialog": {
         "all": false,
-        "ask": false,
+        "ask": true,
         "confirm": true,
         "message": false,
         "open": true,

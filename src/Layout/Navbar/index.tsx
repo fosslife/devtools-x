@@ -32,6 +32,7 @@ import {
   MdHttp,
   MdOutlineHome,
   MdPassword,
+  MdPermIdentity,
   MdQrCode,
   MdQuestionMark,
   MdWork,
@@ -57,11 +58,7 @@ import {
   Droppable,
   OnDragEndResponder,
 } from "@hello-pangea/dnd";
-import {
-  useDebouncedState,
-  useDebouncedValue,
-  useWindowEvent,
-} from "@mantine/hooks";
+import { useDebouncedValue, useWindowEvent } from "@mantine/hooks";
 import { trackButtonClick, trackOtherEvent } from "../../utils/analytics";
 
 type NavItem = {
@@ -114,9 +111,9 @@ export const data: NavItem[] = [
   },
   { id: "text", to: "/text", icon: <VscDiff />, text: "Diff Tools" },
   { id: "markdown", to: "/markdown", icon: <FaMarkdown />, text: "Markdown" },
-  { id: "yamljson", to: "/yamljson", icon: <FaYinYang />, text: "Yaml JSON" },
+  { id: "yamljson", to: "/yamljson", icon: <FaYinYang />, text: "Yaml Json" },
   { id: "pastebin", to: "/pastebin", icon: <FaPaste />, text: "Pastebin" },
-  { id: "repl", to: "/repl", icon: <FaCode />, text: "ScratchPad" },
+  { id: "repl", to: "/repl", icon: <FaCode />, text: "Scratchpad" },
   {
     id: "image",
     to: "/image",
@@ -200,6 +197,12 @@ export const data: NavItem[] = [
   },
   { id: "ping", to: "/ping", icon: <RiPingPongLine />, text: "Ping" },
   { id: "cron", to: "/cron", icon: <FiStar />, text: "Cron" },
+  {
+    id: "ids",
+    to: "/ids",
+    icon: <MdPermIdentity />,
+    text: "ID Generator",
+  },
 ];
 
 export const Navbar = ({ openSettings }: any) => {
@@ -421,7 +424,7 @@ export const Navbar = ({ openSettings }: any) => {
                                         component={Link}
                                         to={e.to}
                                       >
-                                        {e.text.toUpperCase()}
+                                        {e.text}
                                       </Text>
                                     </Tooltip>
                                   ) : (
@@ -433,7 +436,7 @@ export const Navbar = ({ openSettings }: any) => {
                                           : "400"
                                       }
                                     >
-                                      {e.text.toUpperCase()}
+                                      {e.text}
                                     </Text>
                                   )}
                                 </Box>

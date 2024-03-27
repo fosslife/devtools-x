@@ -71,6 +71,7 @@
     "tauri-plugin-store-api": "https://github.com/tauri-apps/tauri-plugin-store",
     "terser": "^5.27.0",
     "typescript-eslint": "^7.0.1",
+    "uuid": "^9.0.1",
     "wasm-vips": "^0.0.7"
   },
   "devDependencies": {
@@ -89,6 +90,7 @@
     "@types/qrcode": "^1.5.5",
     "@types/react": "^18.2.49",
     "@types/react-dom": "^18.2.18",
+    "@types/uuid": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^6.20.0",
     "@vitejs/plugin-react": "^4.2.1",
     "@vitejs/plugin-react-swc": "^3.6.0",
