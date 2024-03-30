@@ -70,67 +70,26 @@ type NavItem = {
 };
 
 export const data: NavItem[] = [
-  {
-    id: "json-formatter",
-    to: "/json-formatter",
-    icon: <MdAnchor />,
-    text: "JSON Tools",
-  },
-  {
-    id: "hash-text",
-    to: "/hash-text",
-    icon: <FiHash />,
-    text: "Hashing Text",
-  },
-  {
-    id: "hash-file",
-    to: "/hash-file",
-    icon: <FiFile />,
-    text: "Hashing Files",
-  },
+  { id: "rest", to: "/rest", icon: <MdHttp />, text: "REST API" },
+  { id: "epoch", to: "/epoch", icon: <FiClock />, text: "Epoch Converter" },
+  { id: "ping", to: "/ping", icon: <RiPingPongLine />, text: "Ping" },
   {
     id: "password",
     to: "/password",
     icon: <FaRandom />,
     text: "Password Generator",
   },
-  { id: "jwt", to: "/jwt", icon: <SiJsonwebtokens />, text: "JWT Tools" },
   {
-    id: "nums",
-    to: "/nums",
-    icon: <BsSortNumericUpAlt />,
-    text: "Number Tools",
-  },
-  { id: "sql", to: "/sql", icon: <SiPostgresql />, text: "SQL Formatter" },
-  { id: "colors", to: "/colors", icon: <MdColorize />, text: "Color Utils" },
-  {
-    id: "regex",
-    to: "/regex",
-    icon: <VscRegex />,
-    text: "Regex Tester",
-  },
-  { id: "text", to: "/text", icon: <VscDiff />, text: "Diff Tools" },
-  { id: "markdown", to: "/markdown", icon: <FaMarkdown />, text: "Markdown" },
-  { id: "yamljson", to: "/yamljson", icon: <FaYinYang />, text: "Yaml Json" },
-  { id: "pastebin", to: "/pastebin", icon: <FaPaste />, text: "Pastebin" },
-  { id: "repl", to: "/repl", icon: <FaCode />, text: "Scratchpad" },
-  {
-    id: "image",
-    to: "/image",
-    icon: <FaFileImage />,
-    text: "Image Compressor",
+    id: "qrcode",
+    to: "/qrcode",
+    icon: <MdQrCode />,
+    text: "QR Code Generator",
   },
   {
-    id: "bulk-image",
-    to: "/bulk-image",
-    icon: <FaFileImage />,
-    text: "Bulk Image Compressor",
-  },
-  {
-    id: "units",
-    to: "/units",
-    icon: <FaExchangeAlt />,
-    text: "Unit Converter",
+    id: "minify",
+    to: "/minify",
+    icon: <SiPrettier />,
+    text: "Minify/Beautify",
   },
   {
     id: "playground",
@@ -138,13 +97,20 @@ export const data: NavItem[] = [
     icon: <FaReact />,
     text: "React Pad",
   },
-  { id: "rest", to: "/rest", icon: <MdHttp />, text: "REST API" },
-  { id: "epoch", to: "/epoch", icon: <FiClock />, text: "Epoch Converter" },
+  { id: "lorem", to: "/lorem", icon: <MdWork />, text: "Lorem Ipsum" },
   {
-    id: "stateless",
-    to: "/stateless",
-    icon: <MdPassword />,
-    text: "Stateless Password",
+    id: "image",
+    to: "/image",
+    icon: <FaFileImage />,
+    text: "Image Compressor",
+  },
+  { id: "pastebin", to: "/pastebin", icon: <FaPaste />, text: "Pastebin" },
+  { id: "repl", to: "/repl", icon: <FaCode />, text: "Scratchpad" },
+  {
+    id: "bulk-image",
+    to: "/bulk-image",
+    icon: <FaFileImage />,
+    text: "Bulk Image Compressor",
   },
   {
     id: "base64-text",
@@ -159,17 +125,58 @@ export const data: NavItem[] = [
     text: "Base64 Image",
   },
   {
+    id: "hash-text",
+    to: "/hash-text",
+    icon: <FiHash />,
+    text: "Hashing Text",
+  },
+  {
+    id: "hash-file",
+    to: "/hash-file",
+    icon: <FiFile />,
+    text: "Hashing Files",
+  },
+
+  {
+    id: "json-formatter",
+    to: "/json-formatter",
+    icon: <MdAnchor />,
+    text: "JSON Tools",
+  },
+  { id: "jwt", to: "/jwt", icon: <SiJsonwebtokens />, text: "JWT Tools" },
+  {
+    id: "nums",
+    to: "/nums",
+    icon: <BsSortNumericUpAlt />,
+    text: "Number Tools",
+  },
+  { id: "sql", to: "/sql", icon: <SiPostgresql />, text: "SQL Formatter" },
+  { id: "colors", to: "/colors", icon: <MdColorize />, text: "Color Utils" },
+
+  { id: "text", to: "/text", icon: <VscDiff />, text: "Diff Tools" },
+  { id: "markdown", to: "/markdown", icon: <FaMarkdown />, text: "Markdown" },
+  { id: "yamljson", to: "/yamljson", icon: <FaYinYang />, text: "Yaml Json" },
+  {
+    id: "units",
+    to: "/units",
+    icon: <FaExchangeAlt />,
+    text: "Unit Converter",
+  },
+
+  {
+    id: "stateless",
+    to: "/stateless",
+    icon: <MdPassword />,
+    text: "Stateless Password",
+  },
+
+  {
     id: "quicktype",
     to: "/quicktype",
     icon: <VscTypeHierarchySub />,
     text: "Quicktype",
   },
-  {
-    id: "minify",
-    to: "/minify",
-    icon: <SiPrettier />,
-    text: "Minify/Beautify",
-  },
+
   {
     id: "url-parser",
     to: "/url-parser",
@@ -182,26 +189,26 @@ export const data: NavItem[] = [
     icon: <MdHtml />,
     text: "HTML Preview",
   },
-  { id: "lorem", to: "/lorem", icon: <MdWork />, text: "Lorem Ipsum" },
-  {
-    id: "qrcode",
-    to: "/qrcode",
-    icon: <MdQrCode />,
-    text: "QR Code Generator",
-  },
+
   {
     id: "pdf-reader",
     to: "/pdf-reader",
     icon: <BsFilePdf />,
     text: "PDF Reader",
   },
-  { id: "ping", to: "/ping", icon: <RiPingPongLine />, text: "Ping" },
+
   { id: "cron", to: "/cron", icon: <FiStar />, text: "Cron" },
   {
     id: "ids",
     to: "/ids",
     icon: <MdPermIdentity />,
     text: "ID Generator",
+  },
+  {
+    id: "regex",
+    to: "/regex",
+    icon: <VscRegex />,
+    text: "Regex Tester",
   },
 ];
 

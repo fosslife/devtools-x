@@ -48,7 +48,7 @@
       "active": true,
       "dialog": true,
       "endpoints": [
-        "https://github.com/fosslife/devtools-x/releases/latest/download/latest/json"
+        "https://github.com/fosslife/devtools-x/releases/latest/download/latest.json"
       ],
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IERCN0M1MDY1Q0QwRkM1OEUKUldTT3hRL05aVkI4MjhGUW9LSjhZMldoUmNSYmRNYnl0RGNrUW5NTk1lSmNtc2FJTE5NMUhRTzgK"
     },
