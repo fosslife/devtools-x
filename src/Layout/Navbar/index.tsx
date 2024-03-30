@@ -449,13 +449,13 @@ export const Navbar = ({ openSettings }: any) => {
                                 </Box>
                                 <Box>
                                   <ActionIcon
-                                    variant={pinExists ? "subtle" : "outline"}
+                                    variant={pinExists ? "subtle" : "default"}
                                     style={{
                                       visibility: pinExists
                                         ? "visible"
                                         : undefined,
                                       color:
-                                        "light-dark(var(--mantine-color-dark-1), var(--mantine-color-dark-4))",
+                                        "light-dark(var(--mantine-color-dark-4), var(--mantine-color-dark-1))",
                                     }}
                                     className={classes.pinIcon}
                                     size={"sm"}

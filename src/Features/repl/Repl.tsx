@@ -129,15 +129,6 @@ function Repl() {
           >
             Run
           </Button>
-          <Button
-            size={"md"}
-            loading={loading}
-            onClick={() => {
-              //
-            }}
-          >
-            Copy output
-          </Button>
         </Group>
       </Box>
     </Stack>

@@ -2,7 +2,7 @@ import { Stack, Title, Text } from "@mantine/core";
 import { ChangeEventHandler, useEffect, useRef, useState } from "react";
 import parser from "cron-parser";
 import cronstrue from "cronstrue";
-import { formatDistance, format, set } from "date-fns";
+import { formatDistance, format } from "date-fns";
 
 export default function Cron() {
   const ref = useRef<HTMLInputElement>(null);
