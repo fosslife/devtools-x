@@ -1,7 +1,7 @@
 import "./styles.module.css";
 
 import { Button, Stack, Tabs } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { MouseEvent, MouseEventHandler, useEffect, useState } from "react";
 
 import { db } from "../../utils";
 import { useDebouncedCallback } from "../../utils/";
@@ -21,8 +21,10 @@ const def = {
   string: "Hello World",
 };
 
+type Tab = { tab: number; data: any };
+
 const JsonFormatter = () => {
-  const [tabs, setTabs] = useState<{ tab: number; data: any }[]>([
+  const [tabs, setTabs] = useState<Tab[]>([
     { tab: 1, data: { tab: 1, ...def } },
     { tab: 2, data: { tab: 2, ...def } },
   ]);
@@ -67,6 +69,48 @@ const JsonFormatter = () => {
     []
   );
 
+  const closeTab = async (e: any, t: Tab) => {
+    console.log(t, activeTab);
+    if (e.button === 1) {
+      const tabid = tabs.find((el) => el.tab === t.tab);
+      const lastTabid = tabs[tabs.length - 1].tab;
+      let jsoneditor = await db.get<any>("jsoneditor");
+      if (tabid) {
+        delete jsoneditor[tabid.tab];
+        await db.set("jsoneditor", { ...jsoneditor });
+        await db.save();
+      }
+      setTabs(tabs.filter((e) => e.tab !== t.tab));
+      setActiveTab((lastTabid - 1).toString());
+    }
+  };
+
+  const addTab = async () => {
+    if (!tabs.length) {
+      setTabs([{ tab: 1, data: { tab: 1, ...def } }]);
+      setActiveTab("1");
+      return;
+    }
+
+    const lastTabid = tabs[tabs.length - 1].tab;
+    tabs.push({
+      tab: lastTabid + 1,
+      data: { tab: lastTabid + 1, ...def },
+    });
+    setTabs([...tabs]);
+    setActiveTab((lastTabid + 1).toString());
+    const newTab = {
+      tab: lastTabid + 1,
+      ...def,
+    };
+    const currDbTabs = await db.get<any>("jsoneditor");
+    await db.set("jsoneditor", {
+      ...currDbTabs,
+      [lastTabid + 1]: newTab,
+    });
+    await db.save();
+  };
+
   return (
     <Stack>
       <Tabs value={activeTab} onChange={setActiveTab}>
@@ -75,53 +119,12 @@ const JsonFormatter = () => {
             <Tabs.Tab
               key={t.tab}
               value={t.tab.toString()}
-              onMouseDown={async (e) => {
-                if (e.button === 1) {
-                  const tabid = tabs.find((el) => el.tab === t.tab);
-                  const lastTabid = tabs[tabs.length - 1].tab;
-                  let jsoneditor = await db.get<any>("jsoneditor");
-                  if (tabid) {
-                    delete jsoneditor[tabid.tab];
-                    await db.set("jsoneditor", { ...jsoneditor });
-                    await db.save();
-                  }
-                  setTabs(tabs.filter((e) => e.tab !== t.tab));
-                  setActiveTab((lastTabid - 1).toString());
-                }
-              }}
+              onMouseDown={(e) => closeTab(e, t)}
             >
               {t.tab}
             </Tabs.Tab>
           ))}
-          <Button
-            ml="xs"
-            size="xs"
-            onClick={async () => {
-              if (!tabs.length) {
-                setTabs([{ tab: 1, data: { tab: 1, ...def } }]);
-                setActiveTab("1");
-                return;
-              }
-
-              const lastTabid = tabs[tabs.length - 1].tab;
-              tabs.push({
-                tab: lastTabid + 1,
-                data: { tab: lastTabid + 1, ...def },
-              });
-              setTabs([...tabs]);
-              setActiveTab((lastTabid + 1).toString());
-              const newTab = {
-                tab: lastTabid + 1,
-                ...def,
-              };
-              const currDbTabs = await db.get<any>("jsoneditor");
-              await db.set("jsoneditor", {
-                ...currDbTabs,
-                [lastTabid + 1]: newTab,
-              });
-              await db.save();
-            }}
-          >
+          <Button ml="xs" size="xs" onClick={addTab}>
             +
           </Button>
         </Tabs.List>
