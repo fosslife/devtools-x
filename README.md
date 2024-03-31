@@ -40,6 +40,8 @@ This project exists solely because I was fed up switching between different tool
 
 ## Features
 
+#### Checkout [features.md](features.md) for a short video demo on every feature.
+
 DevTools-X has about **32 features** as of now, and growing. The full list in below, details of each are mentioned in a separate file. One big selling point of DevTools-X is it uses `monaco-editor`, the editor used by vscode, so tons of editor features are
 available to you right from the start, as if you are using vscode. And in the backend we use `rust` so large number of heavy duty operations are given to rust to get it done quickly.
 
