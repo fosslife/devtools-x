@@ -69,6 +69,7 @@ const QrCode = loadable(() => import("./Features/qrcode/QrCode"));
 const PdfReader = loadable(() => import("./Features/pdf/PdfReader"));
 const Cron = loadable(() => import("./Features/cron/Cron"));
 const Ids = loadable(() => import("./Features/ids/Ids"));
+const Compress = loadable(() => import("./Features/text/TextCompress"));
 
 const shortCuts = [
   {
@@ -227,6 +228,7 @@ function App() {
             <Route path="/pdf-reader" element={<PdfReader />}></Route>
             <Route path="/cron" element={<Cron />}></Route>
             <Route path="/ids" element={<Ids />}></Route>
+            <Route path="/compress" element={<Compress />}></Route>
           </Routes>
         </Group>
       </Box>

@@ -791,6 +791,7 @@ dependencies = [
  "base64 0.21.7",
  "dashmap",
  "fast_image_resize",
+ "flate2",
  "image",
  "md-5",
  "minify-html",

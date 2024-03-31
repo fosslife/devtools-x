@@ -13,6 +13,7 @@ import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 import { BsFilePdf, BsSortNumericUpAlt } from "react-icons/bs";
 import {
   FaCode,
+  FaCompress,
   FaExchangeAlt,
   FaExpand,
   FaFileImage,
@@ -162,7 +163,12 @@ export const data: NavItem[] = [
     icon: <FaExchangeAlt />,
     text: "Unit Converter",
   },
-
+  {
+    id: "compress",
+    to: "/compress",
+    icon: <FaCompress />,
+    text: "Compress Text",
+  },
   {
     id: "stateless",
     to: "/stateless",
@@ -332,7 +338,6 @@ export const Navbar = ({ openSettings }: any) => {
               value={search}
               onChange={(e) => setSearch(e.currentTarget.value)}
               className={classes.textInput}
-              miw={180}
             />
           )}
           <ActionIcon
