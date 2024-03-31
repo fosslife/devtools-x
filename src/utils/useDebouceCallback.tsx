@@ -6,7 +6,7 @@ import { DependencyList, useCallback, useEffect, useRef } from "react";
 export function useDebouncedCallback<A extends any[]>(
   callback: (...args: A) => void,
   wait: number,
-  deps: DependencyList[]
+  deps: DependencyList
 ) {
   // track args & timeout handle between calls
   const argsRef = useRef<A>();
