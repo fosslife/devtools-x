@@ -46,42 +46,45 @@ This project exists solely because I was fed up switching between different tool
 
 #### Checkout [features.md](features.md) for a short video demo on every feature.
 
-DevTools-X has about **32 features** as of now, and growing. The full list in below, details of each are mentioned in a separate file. One big selling point of DevTools-X is it uses `monaco-editor`, the editor used by vscode, so tons of editor features are
-available to you right from the start, as if you are using vscode. And in the backend we use `rust` so large number of heavy duty operations are given to rust to get it done quickly.
+DevTools-X has about **34 features** as of now, and growing.
 
-- JSON Editor/Formatter/Fixer/Minifier/Beautifier
-- Text Hashes
-- Hashing Files
-- Password Generator
-- JWT Formatter/Parser
-- Number Convertor Binary/Hex/etc
-- SQL Formatter
-- Color Generator/Picker/Convertor
-- Regex Tester
-- Text/Code Diffing With Syntax Highlighting
-- YAML <> JSON Convertor
-- Pastebin (Github Gists)
-- REST API Tester
-- Programming Scratchpad
-- Beautiful Markdown Preview
-- Image Compressor/Convertor with Preview
-- Bulk Image Compressor with Rust for Speed
-- Unit Convertor (All Major Units Supported)
-- React Scratchpad (Live React Editor to Get Preview)
-- Unix EPOCH Convertor
-- Stateless Password Generator/Manager
-- BASE64 Text Convertor
-- BASE64 Image Convertor
-- Generating Structs/Types from JSON
-- CSS/JS/HTML Minifier/Beautifier
-- URL Parser
-- HTML Preview
-- Lorem Ipsum Sample Text Generator
-- QR Code Generator
-- PDF Reader
-- Ping Command Preview
-- Text Compressor
-- And Many More Coming
+The full list in below, One big selling point of DevTools-X is it uses `monaco-editor`, the editor used by vscode, so tons of editor features are
+available to you right from the start, as if you are using vscode.
+
+1. Basic REST client
+2. Unix epoch timestamp convertor
+3. Graphical ping
+4. Strong password generator
+5. QR code generator
+6. Code format/minify tools
+7. React live scratchpad
+8. Lorem Ipsum text generator
+9. Image compressor/convertor with preview
+10. Pastebin with gist
+11. Programming scratchpad with many languages support
+12. Bulk image compressor with Rust SIMD
+13. Base64 text encode/decode
+14. Base64 image encode/decode
+15. Text hash calculate (md5, sha etc)
+16. Files MD5
+17. JSON formatter/minify etc
+18. JWT decode
+19. Number convertor
+20. SQL formatter
+21. Color convertor/picker
+22. Code/text diff with syntax highlight
+23. Markdown edit/preview
+24. YAML JSON convertor
+25. Multiple units convertor (length/pressure whatnot)
+26. Text gzip/deflate/zlib compression
+27. Stateless password generator
+28. Generate programming Types and Interfaces from json
+29. URL Parser
+30. HTML editor and preview
+31. PDF Reader
+32. Cron edit and explain
+33. UUID generator
+34. Regex Tester
 
 ## Contributing
 
