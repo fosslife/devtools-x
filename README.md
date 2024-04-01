@@ -15,6 +15,12 @@ So here's DevTools-X -- an x-platform collection of dev-tools that is lighter, s
 ![GitHub issues](https://badgen.net/github/issues/fosslife/devtools-x) ![GitHub stars](https://badgen.net/github/stars/fosslife/devtools-x)
 ![Latest release](https://badgen.net/github/release/fosslife/devtools-x)
 
+
+## Screenshot
+
+<img width="1317" alt="Screenshot 2024-04-01 at 12 20 37 PM" src="https://github.com/fosslife/devtools-x/assets/24642451/4ab136a2-e8df-448e-96c2-e6525a35b393">
+
+
 ## Installation
 
 Download the relevant package from Github Releases section, and start using it! :D
