@@ -137,3 +137,7 @@ or compressing image etc.
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=fosslife/devtools-x&type=Date)](https://star-history.com/#fosslife/devtools-x&Date)
