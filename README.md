@@ -15,11 +15,9 @@ So here's DevTools-X -- an x-platform collection of dev-tools that is lighter, s
 ![GitHub issues](https://badgen.net/github/issues/fosslife/devtools-x) ![GitHub stars](https://badgen.net/github/stars/fosslife/devtools-x)
 ![Latest release](https://badgen.net/github/release/fosslife/devtools-x)
 
-
 ## Screenshot
 
 <img width="1317" alt="Screenshot 2024-04-01 at 12 20 37 PM" src="https://github.com/fosslife/devtools-x/assets/24642451/4ab136a2-e8df-448e-96c2-e6525a35b393">
-
 
 ## Installation
 
@@ -110,14 +108,23 @@ That should be enough to tell you it's built on top of [Tauri](https://tauri.app
 
 ## FAQ
 
-#### What's up with the bad looking UI?
+#### Migrate settings?
 
-Well, it was even worse previously! I am not a UI developer. I understand React, but not colors.
-Feel free to contribute any changes that you think might make it look better.
+There's a backup/restore feature available in settings drawer. you can backup manually as well, copy `settings.json` from [appDir](https://tauri.app/v1/api/js/path#appdatadir)
+
+#### App is not starting/showing empty screen
+
+Most likely your db is corrupt. delete `settings.json` file in your [appDir](https://tauri.app/v1/api/js/path#appdatadir).
+Create a issue if you can't find it.
+
+#### I do not like the order of modules
+
+All module can be rearranged with drag-n-drop. order is saved in a local db. you can edit this file manually as well, it's a simple json file.
 
 #### Do I need to know Rust to get started?
 
-Absolutely not. I don't know Rust myself and I have a complete application that I created from scratch.
+Absolutely not. Many modules are written in pure JS, rust is only needed for performance and security sensitive features like calculating hash
+or compressing image etc.
 
 ## NEED HELP WITH:
 
