@@ -62,7 +62,7 @@
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",
     "react-live": "^4.1.5",
-    "react-pdf": "^7.7.1",
+    "react-pdf": "^7.7.3",
     "react-router-dom": "6.22.3",
     "react-shepherd": "^4.3.0",
     "react-sizeme": "^3.0.2",
