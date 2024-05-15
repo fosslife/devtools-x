@@ -1,6 +1,6 @@
 pub mod images {
   use anyhow::Result;
-  use image::codecs::jpeg::JpegEncoder;
+  use image::{codecs::jpeg::JpegEncoder, ImageEncoder};
   use oxipng::{optimize, InFile, Options, OutFile};
   use rayon::prelude::*;
   use serde::Deserialize;
@@ -8,13 +8,14 @@ pub mod images {
     fs::File,
     io::{BufWriter, Write},
     ops::Deref,
+    path::Path,
   };
   use tokio::time::Instant;
   use webp::Encoder as WebPEncoder;
 
   pub fn compress(img_path: &String, destination: &String, quality: u8) -> Result<()> {
-    let path = std::path::Path::new(img_path);
-    let destination_path = std::path::Path::new(destination);
+    let path = Path::new(img_path);
+    let destination_path = Path::new(destination);
     let img: image::DynamicImage = image::open(path).unwrap();
     let width = img.width();
     let height = img.height();
@@ -86,7 +87,8 @@ pub mod images {
     let parent_start = Instant::now();
     images.par_iter().for_each(|image| {
       let start = Instant::now();
-      let done = compress(image, &destination, quality);
+      let done: std::prelude::v1::Result<(), anyhow::Error> =
+        compress(image, &destination, quality);
       match done {
         Ok(_) => {
           window.emit("image_compressor_progress", image).unwrap();

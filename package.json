@@ -71,8 +71,7 @@
     "tauri-plugin-store-api": "https://github.com/tauri-apps/tauri-plugin-store",
     "terser": "^5.30.0",
     "typescript-eslint": "^7.4.0",
-    "uuid": "^9.0.1",
-    "wasm-vips": "^0.0.8"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@actions/github": "^6.0.0",
