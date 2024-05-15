@@ -7858,11 +7858,6 @@ warning@^4.0.0:
   dependencies:
     loose-envify "^1.0.0"
 
-wasm-vips@^0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/wasm-vips/-/wasm-vips-0.0.8.tgz#6f52244d03e95cf155481b64a08d59f1e2e3e149"
-  integrity sha512-2Ghqubm0WfsBT3VsObwnMmEZB3tngCa8/yk7LU3QzOIqSPb0W3FQmgmOpWLg1DS4RMuAEeErLPxwbucdrL2umQ==
-
 web-namespaces@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/web-namespaces/-/web-namespaces-2.0.1.tgz#1010ff7c650eccb2592cebeeaf9a1b253fd40692"
