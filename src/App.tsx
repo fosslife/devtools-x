@@ -70,6 +70,7 @@ const PdfReader = loadable(() => import("./Features/pdf/PdfReader"));
 const Cron = loadable(() => import("./Features/cron/Cron"));
 const Ids = loadable(() => import("./Features/ids/Ids"));
 const Compress = loadable(() => import("./Features/text/TextCompress"));
+const Faker = loadable(() => import("./Features/faker/Faker"));
 
 const shortCuts = [
   {
@@ -229,6 +230,7 @@ function App() {
             <Route path="/cron" element={<Cron />}></Route>
             <Route path="/ids" element={<Ids />}></Route>
             <Route path="/compress" element={<Compress />}></Route>
+            <Route path="/faker" element={<Faker />}></Route>
           </Routes>
         </Group>
       </Box>
