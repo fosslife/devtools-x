@@ -1,21 +1,20 @@
-import {
-    Button,
-    Group,
-    Select,
-    Stack,
-    TextInput,
-} from "@mantine/core";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
+import { Group, Select, TextInput } from "@mantine/core";
 
 // Function to get categories and their subsets dynamically
 const getCategoriesAndSubsets = () => {
     const categories: { [key: string]: string[] } = {};
 
     for (const categoryKey in faker) {
-        if (typeof (faker as any)[categoryKey] === 'object' && (faker as any)[categoryKey] !== null) {
-            const subsets = Object.keys((faker as any)[categoryKey])
-                .filter(subsetKey => typeof (faker as any)[categoryKey][subsetKey] === 'function');
+        if (
+            typeof (faker as any)[categoryKey] === "object" &&
+            (faker as any)[categoryKey] !== null
+        ) {
+            const subsets = Object.keys((faker as any)[categoryKey]).filter(
+                (subsetKey) =>
+                    typeof (faker as any)[categoryKey][subsetKey] === "function"
+            );
             if (subsets.length > 0) {
                 categories[categoryKey] = subsets;
             }
@@ -30,44 +29,61 @@ const getCategoryNames = (): string[] => {
     return Object.keys(categories);
 };
 
-// Function to get subsets for a given category name
-const getSubsetsForCategory = (categoryName: string): string[] => {
+const getDataTypesForCategory = (categoryName: string): string[] => {
     const categories = getCategoriesAndSubsets();
     return categories[categoryName] || [];
 };
 
-console.log(getCategoryNames());
-//console.log(getSubsetsForCategory("animal"));
+interface FakeInputProps {
+    fieldName: string;
+    category: string;
+    dataType: string;
+    onFieldNameChange: (category: string | null) => void;
+    onCategoryChange: (category: string | null) => void;
+    onDataTypeChange: (dataType: string | null) => void;
+}
 
-export default function FakerInput() {
-    const [category, setCategory] = useState<string | null>("datatype");
-    const [categoryTypes, setCategoryTypes] = useState<string[]>([]);
-    const [dataType, setDataType] = useState<string | null>("uuid");
+export const FakerInput: React.FC<FakeInputProps> = ({
+    fieldName,
+    category,
+    dataType,
+    onFieldNameChange,
+    onCategoryChange,
+    onDataTypeChange,
+}) => {
+    const [dataTypes, setDataTypes] = useState<string[]>([]);
 
     useEffect(() => {
         if (category) {
-            const subsets = getSubsetsForCategory(category);
-            setCategoryTypes(subsets);
-            setDataType(null); // Reset subset selection when category changes
+            const dataTypes = getDataTypesForCategory(category);
+            setDataTypes(dataTypes);
+            if (!dataTypes.includes(dataType || "")) {
+                onDataTypeChange("");
+            }
         }
     }, [category]);
 
     return (
         <Group>
-            <TextInput placeholder="Field name" />
+            <TextInput
+                value={fieldName}
+                placeholder="Field name"
+                onChange={(event) => onFieldNameChange(event.currentTarget.value !== "" ? event.currentTarget.value : null)}
+            />
             <Select
-                value={category}
+                value={category || ""}
                 allowDeselect={false}
-                onChange={setCategory}
+                onChange={(value) => onCategoryChange(value !== "" ? value : null)}
                 placeholder="Category"
-                data={getCategoryNames()} />
+                data={getCategoryNames().map((name) => ({ value: name, label: name }))}
+            />
             <Select
-                value={dataType}
-                onChange={setDataType}
-                placeholder="Subset"
-                data={categoryTypes.map(name => ({ value: name, label: name }))}
+                value={dataType || ""}
+                onChange={(value) => onDataTypeChange(value !== "" ? value : null)}
+                placeholder="Data type"
+                data={dataTypes.map((name) => ({ value: name, label: name }))}
                 disabled={!category}
             />
         </Group>
     );
-}
+};
