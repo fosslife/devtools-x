@@ -12,7 +12,7 @@ import {
   Text
 } from "@mantine/core";
 import { FakerInput } from "./FakerInput"
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
 import { Monaco } from "../../Components/MonacoWrapper";
 import {
@@ -23,6 +23,9 @@ import {
 } from "react-icons/md";
 import { notifications } from "@mantine/notifications";
 import { allLocales } from "@faker-js/faker";
+import YAML from "js-yaml";
+import { delimiter } from "@tauri-apps/api/path";
+import { event } from "@tauri-apps/api";
 
 const errorIcon = <MdOutlineClose style={{ width: rem(20), height: rem(20) }} />;
 const successIcon = <MdOutlineCheck style={{ width: rem(20), height: rem(20) }} />;
@@ -30,15 +33,16 @@ const warningIcon = <MdOutlineWarning style={{ width: rem(20), height: rem(20) }
 
 const formats = [
   { format: "json", label: "JSON" },
+  { format: "yaml", label: "YAML" },
   { format: "sql", label: "SQL" },
   { format: "csv", label: "CSV" },
 ];
 
-const generateRandomData = (categoryName: string, subsetName: string): any => {
-  if ((faker as any)[categoryName] && typeof (faker as any)[categoryName][subsetName] === 'function') {
-    return (faker as any)[categoryName][subsetName]();
+const getMockData = (category: string, dataType: string): any => {
+  if ((faker as any)[category] && typeof (faker as any)[category][dataType] === 'function') {
+    return (faker as any)[category][dataType]();
   } else {
-    throw new Error(`Invalid category or subset: ${categoryName}.${subsetName}`);
+    throw new Error(`Invalid category or subset: ${category}.${dataType}`);
   }
 };
 
@@ -55,11 +59,28 @@ interface Field {
 export default function Faker() {
   const [fakeLocale, setFakeLocale] = useState<string>('en_US');
   const [format, setFormat] = useState<string | null>("json");
-  const [fields, setFields] = useState<Field[]>([{ fieldName: '', category: '', dataType: '' }]);
+  const [fields, setFields] = useState<Field[]>([{ fieldName: 'id', category: 'datatype', dataType: 'uuid' }]);
   const [tableName, setTableName] = useState<string>('table-1');
   const [rowCount, setRowCount] = useState<number>(10);
+  const [csvDelimiter, setCsvDelimiter] = useState<string>(",");
+  const [output, setOutput] = useState<string>();
 
-  const handleAdd = () => {
+  const tableNameChange = (event: any) => {
+    console.log(event.target.value);
+    setTableName(event.target.value);
+  }
+
+  const rowCountChange = (event: any) => {
+    console.log(event.target.value);
+    setRowCount(parseInt(event.target.value)) // Check non integer values
+  }
+
+  const csvDelimiterChange = (event: any) => {
+    console.log(event.target.value);
+    setCsvDelimiter(event.target.value);
+  }
+
+  const addField = () => {
     setFields([...fields, { fieldName: '', category: '', dataType: '' }]);
   };
 
@@ -85,20 +106,86 @@ export default function Faker() {
     setFields(updatedFields);
   };
 
-  function handleGenerate() {
+  const generate = useCallback(async () => {
     if (validateFields()) {
-      notifications.show({
-        icon: successIcon,
-        title: 'Success',
-        message: 'Generated.',
-        color: "green",
-      })
+      if (format === "json" || format === "yaml") {
+        let data = [];
+        for (let i = 0; i < rowCount; i++) {
+          data.push(objectFromFields(fields))
+        }
+        if (format !== "yaml") {
+          let input = JSON.stringify(data, undefined, 2);
+          setOutput(input);
+          return;
+        }
+        setOutput(YAML.dump(data, {
+          indent: 2,
+        }))
+      }
+      if (format === "csv") {
+        let output = ""
+        for (let i = 0; i < rowCount; i++) {
+          output += csvRowFromFields(fields, csvDelimiter) + "\n";
+        }
+        setOutput(output);
+      }
     }
+  }, [rowCount, fields, format, csvDelimiter]);
+
+  const objectFromFields = (fields: Field[]) => {
+    let obj: { [key: string]: any } = {};
+    fields.forEach(f => {
+      try {
+        obj[f.fieldName] = getMockData(f.category, f.dataType);
+      } catch (error) {
+        let message
+        if (error instanceof Error) message = error.message
+        else message = String(error);
+        showError("Faker Error", message);
+      }
+    });
+    return obj;
   };
 
-  const objectFromField = (field: Field) => {
-
+  /**
+   * Simply quotes a string of it contains the CSV delimeter
+   * 
+   * @param value The string value to be made safe
+   * @param delimeter The deleimeter to check for in the string
+   */
+  const csvSafe = (value: string, delimeter: string) => {
+    if (value.includes(delimeter)) return `"${value}"`
+    return value;
   };
+
+  const csvRowFromFields = (fields: Field[], delimeter: string) => {
+    let line: string = "";
+    fields.forEach(f => {
+      try {
+        line += `${csvSafe(getMockData(f.category, f.dataType), delimeter)} ${delimeter}`;
+      } catch (error) {
+        let message
+        if (error instanceof Error) message = error.message
+        else message = String(error);
+        showError("Faker Error", message);
+      }
+    });
+    console.log(line);
+    return line.slice(0, -1); // remove trailing delimeter
+  };
+
+  const showError = (title: string, message: string) => {
+    notifications.show({
+      icon: errorIcon,
+      title: title,
+      message: message,
+      color: "red",
+    })
+  }
+
+  const validInput = (val: string) => {
+    return ![null, undefined, ''].includes(val);
+  }
 
   const validateFields = () => {
     if (fields.length < 1) {
@@ -111,7 +198,7 @@ export default function Faker() {
       return false;
     }
     fields.forEach((field, index) => {
-      if (!field.fieldName || field.category || field.dataType) {
+      if (!validInput(field.fieldName) || !validInput(field.category) || !validInput(field.dataType)) {
         notifications.show({
           icon: warningIcon,
           title: 'Warning',
@@ -138,7 +225,7 @@ export default function Faker() {
               }))}
             />
             <Text># Rows: </Text>
-            <TextInput value={rowCount} />
+            <TextInput onChange={rowCountChange} defaultValue={rowCount} />
             <Text>Format: </Text>
             <Select
               value={format}
@@ -149,8 +236,9 @@ export default function Faker() {
                 label: l.label,
               }))}
             />
-            {format === 'sql' ? <Group><Text>Format: </Text> <TextInput value={tableName} placeholder="Table name" /></Group> : null}
-            <Button onClick={handleGenerate}>Generate</Button>
+            {format === 'sql' ? <Group><Text>Table Name: </Text> <TextInput onChange={tableNameChange} defaultValue={tableName} /></Group> : null}
+            {format === 'csv' ? <Group><Text>CSV Delimiter: </Text> <TextInput onChange={csvDelimiterChange} defaultValue={csvDelimiter} /></Group> : null}
+            <Button onClick={generate}>Generate</Button>
           </Group>
           <Divider size="xs" my="xs" />
           <Group wrap="nowrap" style={{ height: "100%", width: "100%" }}>
@@ -172,9 +260,9 @@ export default function Faker() {
                     </ActionIcon>
                   </Group>
                 ))}
-                {/* <pre>{JSON.stringify(fields, null, 2)}</pre> For debugging */}
+                <pre>{JSON.stringify(fields, null, 2)}</pre>
               </ScrollArea.Autosize>
-              <Button onClick={handleAdd}>Add Another Field</Button>
+              <Button onClick={addField}>Add Another Field</Button>
             </Stack>
             <Monaco
               height="100%"
@@ -182,7 +270,7 @@ export default function Faker() {
               language={
                 formats.find((l) => l.format === format)?.format || "text"
               }
-              value={'{}'}
+              value={output}
               extraOptions={{
                 readOnly: true,
               }}

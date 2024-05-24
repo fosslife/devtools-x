@@ -85,6 +85,7 @@ available to you right from the start, as if you are using vscode.
 32. Cron edit and explain
 33. UUID generator
 34. Regex Tester
+35. Generate mock data with Faker
 
 ## Contributing
 

@@ -26,8 +26,12 @@ const getCategoriesAndSubsets = () => {
 
 const getCategoryNames = (): string[] => {
     const categories = getCategoriesAndSubsets();
-    return Object.keys(categories);
+    return Object.keys(categories).filter((value) => {
+        return value != "_randomizer" && value != "helpers";
+    });
 };
+
+console.log(getCategoryNames())
 
 const getDataTypesForCategory = (categoryName: string): string[] => {
     const categories = getCategoriesAndSubsets();
