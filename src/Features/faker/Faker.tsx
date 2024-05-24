@@ -9,7 +9,8 @@ import {
   TextInput,
   Divider,
   rem,
-  Text
+  Text,
+  NumberInput
 } from "@mantine/core";
 import { FakerInput } from "./FakerInput"
 import { useCallback, useEffect, useState } from "react";
@@ -46,12 +47,11 @@ const outputFormats = [
  * 
  * @param category The category for which the fake data falls within
  * @param dataType The specific data type to be fakes
+ * @param locale The locale to be used for generating mock data
  * @returns The faker generated data
  */
 const getMockData = (category: string, dataType: string, locale: string | null): any => {
-  const actualLocale = locale || 'en_US';
-  console.log(`mocking: ${actualLocale}`);
-
+  const actualLocale = locale || 'en_US'; // TODO: Can't seem to get faker to work
   if ((faker as any)[category] && typeof (faker as any)[category][dataType] === 'function') {
     return (faker as any)[category][dataType]();
   } else {
@@ -79,10 +79,6 @@ export default function Faker() {
   const [output, setOutput] = useState<string>();
 
   // #region Change Handlers
-  const rowCountChange = (event: any) => {
-    setRowCount(parseInt(event.target.value)) // TODO: Check non-integer values (error)
-  }
-
   const tableNameChange = (event: any) => {
     setTableName(event.target.value);
   }
@@ -131,7 +127,6 @@ export default function Faker() {
    * Determines the output format and uses some helpers and one js-yaml library
    */
   const generate = useCallback(async () => {
-    console.log("locale:" + fakerLocale)
     const result = validateFields();
     if (!result.valid) {
       showWarning("Validation Error", result.message);
@@ -222,7 +217,6 @@ export default function Faker() {
         showError("Faker Error", message);
       }
     });
-    console.log(line);
     return line.slice(0, -1); // remove trailing delimeter
   };
 
@@ -318,7 +312,7 @@ export default function Faker() {
               }))}
             />
             <Text># Rows: </Text>
-            <TextInput onChange={rowCountChange} defaultValue={rowCount} />
+            <NumberInput onChange={(value: string | number) => setRowCount(Number(value))} defaultValue={rowCount} />
             <Text>Format: </Text>
             <Select
               value={outputFormat}
@@ -353,7 +347,6 @@ export default function Faker() {
                     </ActionIcon>
                   </Group>
                 ))}
-                <pre>{JSON.stringify(fields, null, 2)}</pre>
               </ScrollArea.Autosize>
               <Button onClick={addField}>Add Another Field</Button>
             </Stack>
