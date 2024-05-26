@@ -173,7 +173,7 @@ export default function Faker() {
    * @returns 
    */
   const objectFromFields = (fields: Field[], locale: string | null) => {
-    let obj: { [key: string]: any } = {};
+    let obj: { [key: string]: string } = {};
     fields.forEach(f => {
       try {
         obj[f.fieldName] = getMockData(f.category, f.dataType, locale);
