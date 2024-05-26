@@ -37,6 +37,7 @@ import {
   MdQrCode,
   MdQuestionMark,
   MdWork,
+  MdDataExploration
 } from "react-icons/md";
 import { SiJsonwebtokens, SiPostgresql, SiPrettier } from "react-icons/si";
 import {
@@ -215,6 +216,12 @@ export const data: NavItem[] = [
     to: "/regex",
     icon: <VscRegex />,
     text: "Regex Tester",
+  },
+  {
+    id: "faker",
+    to: "/faker",
+    icon: <MdDataExploration />,
+    text: "Faker",
   },
 ];
 
