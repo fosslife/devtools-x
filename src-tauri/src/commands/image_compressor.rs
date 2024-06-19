@@ -1,5 +1,5 @@
 pub mod images {
-  use std::{ops::Deref, path::Path};
+  use std::path::Path;
 
   use image::{
     codecs::{

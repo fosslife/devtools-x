@@ -1,6 +1,6 @@
 pub mod images {
   use anyhow::Result;
-  use image::{codecs::jpeg::JpegEncoder, ImageEncoder};
+  use image::codecs::jpeg::JpegEncoder;
   use oxipng::{optimize, InFile, Options, OutFile};
   use rayon::prelude::*;
   use serde::Deserialize;
