@@ -15,6 +15,10 @@ So here's DevTools-X -- an x-platform collection of dev-tools that is lighter, s
 ![GitHub issues](https://badgen.net/github/issues/fosslife/devtools-x) ![GitHub stars](https://badgen.net/github/stars/fosslife/devtools-x)
 ![Latest release](https://badgen.net/github/release/fosslife/devtools-x)
 
+## Screenshot
+
+<img width="1317" alt="Screenshot 2024-04-01 at 12 20 37 PM" src="https://github.com/fosslife/devtools-x/assets/24642451/4ab136a2-e8df-448e-96c2-e6525a35b393">
+
 ## Installation
 
 Download the relevant package from Github Releases section, and start using it! :D
@@ -40,42 +44,48 @@ This project exists solely because I was fed up switching between different tool
 
 ## Features
 
-DevTools-X has about **32 features** as of now, and growing. The full list in below, details of each are mentioned in a separate file. One big selling point of DevTools-X is it uses `monaco-editor`, the editor used by vscode, so tons of editor features are
-available to you right from the start, as if you are using vscode. And in the backend we use `rust` so large number of heavy duty operations are given to rust to get it done quickly.
+#### Checkout [features.md](features.md) for a short video demo on every feature.
 
-- JSON Editor/Formatter/Fixer/Minifier/Beautifier
-- Text Hashes
-- Hashing Files
-- Password Generator
-- JWT Formatter/Parser
-- Number Convertor Binary/Hex/etc
-- SQL Formatter
-- Color Generator/Picker/Convertor
-- Regex Tester
-- Text/Code Diffing With Syntax Highlighting
-- YAML <> JSON Convertor
-- Pastebin (Github Gists)
-- REST API Tester
-- Programming Scratchpad
-- Beautiful Markdown Preview
-- Image Compressor/Convertor with Preview
-- Bulk Image Compressor with Rust for Speed
-- Unit Convertor (All Major Units Supported)
-- React Scratchpad (Live React Editor to Get Preview)
-- Unix EPOCH Convertor
-- Stateless Password Generator/Manager
-- BASE64 Text Convertor
-- BASE64 Image Convertor
-- Generating Structs/Types from JSON
-- CSS/JS/HTML Minifier/Beautifier
-- URL Parser
-- HTML Preview
-- Lorem Ipsum Sample Text Generator
-- QR Code Generator
-- PDF Reader
-- Ping Command Preview
-- Text Compressor
-- And Many More Coming
+DevTools-X has about **34 features** as of now, and growing.
+
+The full list in below, One big selling point of DevTools-X is it uses `monaco-editor`, the editor used by vscode, so tons of editor features are
+available to you right from the start, as if you are using vscode.
+
+1. Basic REST client
+2. Unix epoch timestamp convertor
+3. Graphical ping
+4. Strong password generator
+5. QR code generator
+6. Code format/minify tools
+7. React live scratchpad
+8. Lorem Ipsum text generator
+9. Image compressor/convertor with preview
+10. Pastebin with gist
+11. Programming scratchpad with many languages support
+12. Bulk image compressor with Rust SIMD
+13. Base64 text encode/decode
+14. Base64 image encode/decode
+15. Text hash calculate (md5, sha etc)
+16. Files MD5
+17. JSON formatter/minify etc
+18. JWT decode
+19. Number convertor
+20. SQL formatter
+21. Color convertor/picker
+22. Code/text diff with syntax highlight
+23. Markdown edit/preview
+24. YAML JSON convertor
+25. Multiple units convertor (length/pressure whatnot)
+26. Text gzip/deflate/zlib compression
+27. Stateless password generator
+28. Generate programming Types and Interfaces from json
+29. URL Parser
+30. HTML editor and preview
+31. PDF Reader
+32. Cron edit and explain
+33. UUID generator
+34. Regex Tester
+35. Generate mock data with Faker
 
 ## Contributing
 
@@ -102,14 +112,23 @@ That should be enough to tell you it's built on top of [Tauri](https://tauri.app
 
 ## FAQ
 
-#### What's up with the bad looking UI?
+#### Migrate settings?
 
-Well, it was even worse previously! I am not a UI developer. I understand React, but not colors.
-Feel free to contribute any changes that you think might make it look better.
+There's a backup/restore feature available in settings drawer. you can backup manually as well, copy `settings.json` from [appDir](https://tauri.app/v1/api/js/path#appdatadir)
+
+#### App is not starting/showing empty screen
+
+Most likely your db is corrupt. delete `settings.json` file in your [appDir](https://tauri.app/v1/api/js/path#appdatadir).
+Create a issue if you can't find it.
+
+#### I do not like the order of modules
+
+All module can be rearranged with drag-n-drop. order is saved in a local db. you can edit this file manually as well, it's a simple json file.
 
 #### Do I need to know Rust to get started?
 
-Absolutely not. I don't know Rust myself and I have a complete application that I created from scratch.
+Absolutely not. Many modules are written in pure JS, rust is only needed for performance and security sensitive features like calculating hash
+or compressing image etc.
 
 ## NEED HELP WITH:
 
@@ -122,3 +141,7 @@ Absolutely not. I don't know Rust myself and I have a complete application that 
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=fosslife/devtools-x&type=Date)](https://star-history.com/#fosslife/devtools-x&Date)

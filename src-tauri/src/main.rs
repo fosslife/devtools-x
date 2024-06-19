@@ -13,6 +13,7 @@ use commands::base64_image::base64_image::base64_image;
 use commands::compress::compress::compress;
 use commands::hash::hash::hash;
 use commands::image::images::compress_images;
+use commands::image_compressor::images::compress_images_to_buffer;
 use commands::minify::minify::minifyhtml;
 use commands::ping::ping::ping;
 
@@ -26,7 +27,8 @@ fn main() {
       minifyhtml,
       compress_images,
       base64_image,
-      compress
+      compress,
+      compress_images_to_buffer
     ])
     .setup(|app| {
       WindowBuilder::new(app, "main", WindowUrl::App("index.html".into()))
