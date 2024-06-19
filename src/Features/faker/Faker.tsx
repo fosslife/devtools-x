@@ -344,8 +344,8 @@ export default function Faker() {
             />
             {outputFormat === "sql" ? (
               <Group>
-                <Text>Table Name: </Text>{" "}
                 <TextInput
+                  label="Table Name"
                   onChange={tableNameChange}
                   defaultValue={tableName}
                 />
@@ -353,8 +353,8 @@ export default function Faker() {
             ) : null}
             {outputFormat === "csv" ? (
               <Group>
-                <Text>CSV Delimiter: </Text>{" "}
                 <TextInput
+                  label="Delimiter"
                   onChange={csvDelimiterChange}
                   defaultValue={csvDelimiter}
                 />
