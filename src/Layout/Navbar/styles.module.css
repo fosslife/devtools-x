@@ -14,7 +14,6 @@
 }
 
 .topSection {
-  gap: 10px;
   position: sticky;
   top: 0;
   z-index: 2;
@@ -76,18 +75,8 @@
 }
 
 .home {
-  margin-inline: 5px;
-  padding: 5px;
   cursor: pointer;
-  padding-inline-end: 35px;
-  padding-left: 5px;
   border-radius: 4px;
-}
-
-.textInput {
-  width: 100%;
-  align-self: center;
-  margin-top: 15px;
 }
 
 .active {
@@ -121,6 +110,7 @@
 }
 
 .rowIcon {
-  font-size: 17px;
+  margin-top: 5px;
+  font-size: 14px;
   color: light-dark(var(--mantine-color-dark-7), var(--mantine-color-dark-1));
 }

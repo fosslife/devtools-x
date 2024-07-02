@@ -31,8 +31,6 @@ const getCategoryNames = (): string[] => {
   });
 };
 
-console.log(getCategoryNames());
-
 const getDataTypesForCategory = (categoryName: string): string[] => {
   const categories = getCategoriesAndSubsets();
   return categories[categoryName] || [];

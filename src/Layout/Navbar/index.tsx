@@ -2,42 +2,40 @@ import {
   ActionIcon,
   Box,
   Divider,
-  Flex,
   Group,
+  Select,
   Stack,
   Text,
-  TextInput,
   Tooltip,
 } from "@mantine/core";
-import React, { ChangeEvent, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { BsFilePdf, BsSortNumericUpAlt } from "react-icons/bs";
 import {
   FaCode,
   FaCompress,
   FaExchangeAlt,
-  FaExpand,
   FaFileImage,
   FaMarkdown,
   FaPaste,
   FaRandom,
   FaReact,
-  FaTimes,
   FaYinYang,
 } from "react-icons/fa";
-import { FiClock, FiFile, FiHash, FiSettings, FiStar } from "react-icons/fi";
+import { FiClock, FiFile, FiHash, FiStar } from "react-icons/fi";
 import { RiPingPongLine } from "react-icons/ri";
 import {
   MdAnchor,
   MdColorize,
   MdHtml,
   MdHttp,
-  MdOutlineHome,
   MdPassword,
   MdPermIdentity,
   MdQrCode,
   MdQuestionMark,
   MdWork,
-  MdDataExploration
+  MdDataExploration,
+  MdMenu,
+  MdMenuOpen,
 } from "react-icons/md";
 import { SiJsonwebtokens, SiPostgresql, SiPrettier } from "react-icons/si";
 import {
@@ -60,83 +58,137 @@ import {
   Droppable,
   OnDragEndResponder,
 } from "@hello-pangea/dnd";
-import { useDebouncedValue, useWindowEvent } from "@mantine/hooks";
+import { useWindowEvent } from "@mantine/hooks";
 import { trackButtonClick, trackOtherEvent } from "../../utils/analytics";
+
+const Groups = [
+  "Web",
+  "Utilities",
+  "Testing",
+  "Password",
+  "Image",
+  "Generators",
+  "Minifier/Formatters",
+  "Previewers",
+  "Converters",
+  "Hashing",
+] as const;
 
 type NavItem = {
   id: string;
   to: string;
   icon: React.ReactNode;
   text: string;
+  group: (typeof Groups)[number];
   extra?: string;
 };
 
 export const data: NavItem[] = [
-  { id: "rest", to: "/rest", icon: <MdHttp />, text: "REST API" },
-  { id: "epoch", to: "/epoch", icon: <FiClock />, text: "Epoch Converter" },
-  { id: "ping", to: "/ping", icon: <RiPingPongLine />, text: "Ping" },
+  { id: "rest", to: "/rest", icon: <MdHttp />, text: "REST API", group: "Web" },
+  {
+    id: "epoch",
+    to: "/epoch",
+    icon: <FiClock />,
+    text: "Epoch Converter",
+    group: "Web",
+  },
+  {
+    id: "ping",
+    to: "/ping",
+    icon: <RiPingPongLine />,
+    text: "Ping",
+    group: "Utilities",
+  },
   {
     id: "password",
     to: "/password",
     icon: <FaRandom />,
     text: "Password Generator",
+    group: "Password",
   },
   {
     id: "qrcode",
     to: "/qrcode",
     icon: <MdQrCode />,
     text: "QR Code Generator",
+    group: "Generators",
   },
   {
     id: "minify",
     to: "/minify",
     icon: <SiPrettier />,
     text: "Minify/Beautify",
+    group: "Minifier/Formatters",
   },
   {
     id: "playground",
     to: "/playground",
     icon: <FaReact />,
     text: "React Pad",
+    group: "Testing",
   },
-  { id: "lorem", to: "/lorem", icon: <MdWork />, text: "Lorem Ipsum" },
+  {
+    id: "lorem",
+    to: "/lorem",
+    icon: <MdWork />,
+    text: "Lorem Ipsum",
+    group: "Generators",
+  },
   {
     id: "image",
     to: "/image",
     icon: <FaFileImage />,
     text: "Image Compressor",
+    group: "Image",
   },
-  { id: "pastebin", to: "/pastebin", icon: <FaPaste />, text: "Pastebin" },
-  { id: "repl", to: "/repl", icon: <FaCode />, text: "Scratchpad" },
+  {
+    id: "pastebin",
+    to: "/pastebin",
+    icon: <FaPaste />,
+    text: "Pastebin",
+    group: "Utilities",
+  },
+  {
+    id: "repl",
+    to: "/repl",
+    icon: <FaCode />,
+    text: "Scratchpad",
+    group: "Testing",
+  },
   {
     id: "bulk-image",
     to: "/bulk-image",
     icon: <FaFileImage />,
     text: "Bulk Image Compressor",
+    group: "Image",
   },
   {
     id: "base64-text",
     to: "/base64-text",
     icon: <VscSymbolString />,
     text: "Base64 Text",
+    group: "Converters",
   },
   {
     id: "base64-image",
     to: "/base64-image",
     icon: <VscSymbolString />,
     text: "Base64 Image",
+    group: "Converters",
   },
   {
     id: "hash-text",
     to: "/hash-text",
     icon: <FiHash />,
     text: "Hashing Text",
+    group: "Hashing",
   },
   {
     id: "hash-file",
     to: "/hash-file",
     icon: <FiFile />,
     text: "Hashing Files",
+    group: "Hashing",
   },
 
   {
@@ -144,37 +196,78 @@ export const data: NavItem[] = [
     to: "/json-formatter",
     icon: <MdAnchor />,
     text: "JSON Tools",
+    group: "Minifier/Formatters",
   },
-  { id: "jwt", to: "/jwt", icon: <SiJsonwebtokens />, text: "JWT Tools" },
+  {
+    id: "jwt",
+    to: "/jwt",
+    icon: <SiJsonwebtokens />,
+    text: "JWT Tools",
+    group: "Web",
+  },
   {
     id: "nums",
     to: "/nums",
     icon: <BsSortNumericUpAlt />,
     text: "Number Tools",
+    group: "Converters",
   },
-  { id: "sql", to: "/sql", icon: <SiPostgresql />, text: "SQL Formatter" },
-  { id: "colors", to: "/colors", icon: <MdColorize />, text: "Color Utils" },
+  {
+    id: "sql",
+    to: "/sql",
+    icon: <SiPostgresql />,
+    text: "SQL Formatter",
+    group: "Minifier/Formatters",
+  },
+  {
+    id: "colors",
+    to: "/colors",
+    icon: <MdColorize />,
+    text: "Color Utils",
+    group: "Converters",
+  },
 
-  { id: "text", to: "/text", icon: <VscDiff />, text: "Diff Tools" },
-  { id: "markdown", to: "/markdown", icon: <FaMarkdown />, text: "Markdown" },
-  { id: "yamljson", to: "/yamljson", icon: <FaYinYang />, text: "Yaml Json" },
+  {
+    id: "text",
+    to: "/text",
+    icon: <VscDiff />,
+    text: "Diff Tools",
+    group: "Utilities",
+  },
+  {
+    id: "markdown",
+    to: "/markdown",
+    icon: <FaMarkdown />,
+    text: "Markdown",
+    group: "Previewers",
+  },
+  {
+    id: "yamljson",
+    to: "/yamljson",
+    icon: <FaYinYang />,
+    text: "Yaml Json",
+    group: "Converters",
+  },
   {
     id: "units",
     to: "/units",
     icon: <FaExchangeAlt />,
     text: "Unit Converter",
+    group: "Converters",
   },
   {
     id: "compress",
     to: "/compress",
     icon: <FaCompress />,
     text: "Compress Text",
+    group: "Minifier/Formatters",
   },
   {
     id: "stateless",
     to: "/stateless",
     icon: <MdPassword />,
     text: "Stateless Password",
+    group: "Password",
   },
 
   {
@@ -182,6 +275,7 @@ export const data: NavItem[] = [
     to: "/quicktype",
     icon: <VscTypeHierarchySub />,
     text: "Quicktype",
+    group: "Testing",
   },
 
   {
@@ -189,12 +283,14 @@ export const data: NavItem[] = [
     to: "/url-parser",
     icon: <MdQuestionMark />,
     text: "URL Parser",
+    group: "Web",
   },
   {
     id: "html-preview",
     to: "/html-preview",
     icon: <MdHtml />,
     text: "HTML Preview",
+    group: "Previewers",
   },
 
   {
@@ -202,37 +298,45 @@ export const data: NavItem[] = [
     to: "/pdf-reader",
     icon: <BsFilePdf />,
     text: "PDF Reader",
+    group: "Previewers",
   },
 
-  { id: "cron", to: "/cron", icon: <FiStar />, text: "Cron" },
+  {
+    id: "cron",
+    to: "/cron",
+    icon: <FiStar />,
+    text: "Cron",
+    group: "Utilities",
+  },
   {
     id: "ids",
     to: "/ids",
     icon: <MdPermIdentity />,
     text: "ID Generator",
+    group: "Generators",
   },
   {
     id: "regex",
     to: "/regex",
     icon: <VscRegex />,
     text: "Regex Tester",
+    group: "Testing",
   },
   {
     id: "faker",
     to: "/faker",
     icon: <MdDataExploration />,
     text: "Faker",
+    group: "Generators",
   },
 ];
 
-export const Navbar = ({ openSettings }: any) => {
+export const Navbar = () => {
   const location = useLocation();
   const nav = useNavigate();
   const [navItems, setNavItems] = useState<NavItem[]>([]);
   const { pinned, handleState } = useContext(AppContext);
   const [iconMode, setIconMode] = useState(false);
-  const [search, setSearch] = useState("");
-  const [debouncedSearch] = useDebouncedValue(search, 300);
 
   useEffect(() => {
     async function pinnedItems() {
@@ -242,12 +346,6 @@ export const Navbar = ({ openSettings }: any) => {
     }
     pinnedItems();
   }, []);
-
-  useEffect(() => {
-    if (debouncedSearch) {
-      trackOtherEvent("navbar-search", { search: debouncedSearch });
-    }
-  }, [debouncedSearch]);
 
   useEffect(() => {
     async function sidebar() {
@@ -325,6 +423,27 @@ export const Navbar = ({ openSettings }: any) => {
     }
   };
 
+  const dropDownItems = useMemo(() => {
+    const arr = [...Groups].map((i) => ({
+      group: i,
+      items: navItems
+        .filter((n) => n.group === i)
+        .map((n) => ({ label: n.text, value: n.to })),
+    }));
+
+    arr.unshift({
+      group: "All" as any,
+      items: [
+        {
+          label: "Home",
+          value: "/",
+        },
+      ],
+    });
+
+    return arr;
+  }, [navItems]);
+
   useWindowEvent("keydown", listener);
 
   return (
@@ -336,17 +455,26 @@ export const Navbar = ({ openSettings }: any) => {
       <Stack
         className={iconMode ? classes.iconsTopSection : classes.topSection}
       >
-        <Group wrap="nowrap" align="end" py={10}>
-          {!iconMode && (
-            <TextInput
-              id="search"
-              placeholder="Search..."
-              size={"xs"}
-              value={search}
-              onChange={(e) => setSearch(e.currentTarget.value)}
-              className={classes.textInput}
-            />
-          )}
+        <Group wrap="nowrap" align="end" gap={0} pr={10}>
+          <Select
+            data={dropDownItems}
+            // value={group}
+            onChange={(value) => {
+              if (value) {
+                console.log(value);
+                nav(`${value}`);
+              }
+            }}
+            allowDeselect={false}
+            searchable
+            clearable
+            placeholder="Search..."
+            px="sm"
+            size="xs"
+            display={iconMode ? "none" : "block"}
+            mt={15}
+          />
+
           <ActionIcon
             variant={"filled"}
             onClick={() => {
@@ -357,32 +485,9 @@ export const Navbar = ({ openSettings }: any) => {
               setIconMode(!iconMode);
             }}
           >
-            {iconMode ? <FaTimes /> : <FaExpand />}
+            {iconMode ? <MdMenu /> : <MdMenuOpen />}
           </ActionIcon>
         </Group>
-        {!iconMode && (
-          <Group mt="2" className={classes.homeWrapper}>
-            <Flex gap={15} onClick={() => nav("/")} className={classes.home}>
-              <MdOutlineHome size={"20px"} />
-              <Text fw={location.pathname === "/" ? "bold" : "normal"}>
-                {"Home"}
-              </Text>
-            </Flex>
-
-            <ActionIcon
-              variant={"filled"}
-              onClick={() => {
-                trackButtonClick({
-                  name: "open-settings",
-                  value: true,
-                });
-                openSettings(true);
-              }}
-            >
-              <FiSettings />
-            </ActionIcon>
-          </Group>
-        )}
       </Stack>
       <Divider />
       {/* ====== One Title */}
@@ -392,61 +497,40 @@ export const Navbar = ({ openSettings }: any) => {
             <Droppable droppableId="droppable">
               {(provided) => (
                 <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {navItems
-                    .filter((n) =>
-                      n.text
-                        .toLowerCase()
-                        .includes(debouncedSearch.toLowerCase())
-                    )
-                    .map((e, index) => {
-                      const pinExists = pinned?.includes(e.id);
+                  {navItems.map((e, index) => {
+                    const pinExists = pinned?.includes(e.id);
 
-                      return (
-                        <Draggable
-                          key={e.id}
-                          draggableId={e.id.toString()}
-                          index={index}
-                        >
-                          {(provided) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              style={{
-                                ...provided.draggableProps.style,
-                                userSelect: "none",
+                    return (
+                      <Draggable
+                        key={e.id}
+                        draggableId={e.id.toString()}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            style={{
+                              ...provided.draggableProps.style,
+                              userSelect: "none",
+                            }}
+                          >
+                            <Box
+                              key={e.id}
+                              className={cx(classes.row, {
+                                [classes.active]: location.pathname === e.to,
+                              })}
+                              onClick={() => {
+                                nav(e.to);
                               }}
                             >
-                              <Box
-                                key={e.id}
-                                className={cx(classes.row, {
-                                  [classes.active]: location.pathname === e.to,
-                                })}
-                                onClick={() => {
-                                  nav(e.to);
-                                }}
-                              >
-                                <Box className={classes.listTitle}>
-                                  <Text className={classes.rowIcon}>
-                                    {e.icon}
-                                  </Text>
-                                  {e.extra ? (
-                                    <Tooltip label={e.extra}>
-                                      <Text
-                                        size="xs"
-                                        fw={
-                                          location.pathname === e.to
-                                            ? "500"
-                                            : "400"
-                                        }
-                                        c="red"
-                                        component={Link}
-                                        to={e.to}
-                                      >
-                                        {e.text}
-                                      </Text>
-                                    </Tooltip>
-                                  ) : (
+                              <Box className={classes.listTitle}>
+                                <Text className={classes.rowIcon}>
+                                  {e.icon}
+                                </Text>
+                                {e.extra ? (
+                                  <Tooltip label={e.extra}>
                                     <Text
                                       size="xs"
                                       fw={
@@ -454,41 +538,54 @@ export const Navbar = ({ openSettings }: any) => {
                                           ? "500"
                                           : "400"
                                       }
+                                      c="red"
+                                      component={Link}
+                                      to={e.to}
                                     >
                                       {e.text}
                                     </Text>
-                                  )}
-                                </Box>
-                                <Box>
-                                  <ActionIcon
-                                    variant={pinExists ? "subtle" : "default"}
-                                    style={{
-                                      visibility: pinExists
-                                        ? "visible"
-                                        : undefined,
-                                      color:
-                                        "light-dark(var(--mantine-color-dark-4), var(--mantine-color-dark-1))",
-                                    }}
-                                    className={classes.pinIcon}
-                                    size={"sm"}
-                                    onClick={(e2) => {
-                                      e2.stopPropagation();
-                                      onPinClicked(e);
-                                    }}
+                                  </Tooltip>
+                                ) : (
+                                  <Text
+                                    size="xs"
+                                    fw={
+                                      location.pathname === e.to ? "500" : "400"
+                                    }
                                   >
-                                    {pinExists ? (
-                                      <VscPinned size="15px" />
-                                    ) : (
-                                      <VscPin size="15px" />
-                                    )}
-                                  </ActionIcon>
-                                </Box>
+                                    {e.text}
+                                  </Text>
+                                )}
                               </Box>
-                            </div>
-                          )}
-                        </Draggable>
-                      );
-                    })}
+                              <Box>
+                                <ActionIcon
+                                  variant={pinExists ? "subtle" : "default"}
+                                  style={{
+                                    visibility: pinExists
+                                      ? "visible"
+                                      : undefined,
+                                    color:
+                                      "light-dark(var(--mantine-color-dark-4), var(--mantine-color-dark-1))",
+                                  }}
+                                  className={classes.pinIcon}
+                                  size={"sm"}
+                                  onClick={(e2) => {
+                                    e2.stopPropagation();
+                                    onPinClicked(e);
+                                  }}
+                                >
+                                  {pinExists ? (
+                                    <VscPinned size="15px" />
+                                  ) : (
+                                    <VscPin size="15px" />
+                                  )}
+                                </ActionIcon>
+                              </Box>
+                            </Box>
+                          </div>
+                        )}
+                      </Draggable>
+                    );
+                  })}
                   {provided.placeholder}
                 </div>
               )}
@@ -499,15 +596,16 @@ export const Navbar = ({ openSettings }: any) => {
         <Stack className={classes.iconsbarWrapper}>
           {navItems.map((e) => {
             return (
-              <Box
-                key={e.id}
-                className={cx(classes.iconsBarRow, {
-                  [classes.active]: location.pathname === e.to,
-                })}
-                onClick={() => nav(e.to)}
-              >
-                {e.icon}
-              </Box>
+              <Tooltip label={e.text} key={e.id}>
+                <Box
+                  className={cx(classes.iconsBarRow, {
+                    [classes.active]: location.pathname === e.to,
+                  })}
+                  onClick={() => nav(e.to)}
+                >
+                  {e.icon}
+                </Box>
+              </Tooltip>
             );
           })}
         </Stack>
