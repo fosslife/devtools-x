@@ -30,7 +30,6 @@ import { Settings } from "./Layout/Settings";
 import { useDisclosure, useWindowEvent } from "@mantine/hooks";
 import { trackOtherEvent, trackPageView } from "./utils/analytics";
 import { db } from "./utils";
-import { MdOutlineHome } from "react-icons/md";
 
 // Lazy load components
 const Welcome = loadable(() => import("./Components/Welcome"));
@@ -198,7 +197,14 @@ function App() {
         >
           <Stack gap={2} h="100%">
             <Routes location={displayLocation}>
-              <Route path="/" element={<Welcome />}></Route>
+              <Route
+                path="/"
+                element={
+                  <Welcome
+                    openSettings={(t: boolean) => setSettingsOpened(t)}
+                  />
+                }
+              ></Route>
               <Route path="/json-formatter" element={<JsonFormatter />}></Route>
               <Route path="/hash-text" element={<Hash />}></Route>
               <Route path="/hash-file" element={<FileHash />}></Route>

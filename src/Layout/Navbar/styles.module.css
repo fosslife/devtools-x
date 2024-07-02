@@ -101,6 +101,13 @@
   justify-content: start;
   padding: 5px;
   border-radius: 5px;
+
+  &:hover {
+    background-color: light-dark(
+      var(--mantine-color-gray-3),
+      var(--mantine-color-gray-8)
+    );
+  }
 }
 
 .iconsTopSection {

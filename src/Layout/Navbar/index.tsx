@@ -36,6 +36,7 @@ import {
   MdDataExploration,
   MdMenu,
   MdMenuOpen,
+  MdSettings,
 } from "react-icons/md";
 import { SiJsonwebtokens, SiPostgresql, SiPrettier } from "react-icons/si";
 import {
