@@ -250,7 +250,6 @@ function App() {
         onClose={() => setSettingsOpened(false)}
         title="Settings"
         padding="xl"
-        size="xl"
       >
         <Settings />
       </Drawer>
