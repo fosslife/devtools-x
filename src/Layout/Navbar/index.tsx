@@ -133,20 +133,6 @@ export const Navbar = () => {
         .map((n) => ({ label: n.text, value: n.to, icon: n.icon, id: n.id })),
     }));
 
-    // FIXME:
-    // arr.unshift({
-    //   group: "All" as any,
-    //   items: [
-    //     {
-    //       label: "Home",
-    //       value: "/",
-    //       icon: <MdHome />,
-    //       id: "home",
-
-    //     },
-    //   ],
-    // });
-
     return arr;
   }, [navItems]);
 
