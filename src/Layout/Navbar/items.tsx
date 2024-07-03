@@ -2,7 +2,6 @@ import { BsSortNumericUpAlt, BsFilePdf } from "react-icons/bs";
 import {
   FaRandom,
   FaReact,
-  FaFileImage,
   FaPaste,
   FaCode,
   FaMarkdown,
@@ -22,7 +21,20 @@ import {
   MdPermIdentity,
   MdDataExploration,
   MdWeb,
+  MdImage,
 } from "react-icons/md";
+import {
+  FcCamera,
+  FcFactory,
+  FcFilm,
+  FcInTransit,
+  FcOrganization,
+  FcPackage,
+  FcPrivacy,
+  FcProcess,
+  FcRefresh,
+  FcSettings,
+} from "react-icons/fc";
 import { RiPingPongLine } from "react-icons/ri";
 import { SiPrettier, SiJsonwebtokens, SiPostgresql } from "react-icons/si";
 import {
@@ -93,7 +105,7 @@ export const navitems: NavItem[] = [
   {
     id: "image",
     to: "/image",
-    icon: <FaFileImage />,
+    icon: <MdImage />,
     text: "Image Compressor",
     group: "Image",
   },
@@ -114,7 +126,7 @@ export const navitems: NavItem[] = [
   {
     id: "bulk-image",
     to: "/bulk-image",
-    icon: <FaFileImage />,
+    icon: <MdImage />,
     text: "Bulk Compressor",
     group: "Image",
   },
@@ -286,3 +298,17 @@ export const navitems: NavItem[] = [
     group: "Generators",
   },
 ];
+
+// These icons don't make sense, but I don't care
+export const groupIcons = {
+  Web: <FcPackage />,
+  Utilities: <FcInTransit />,
+  Testing: <FcSettings />,
+  Password: <FcPrivacy />,
+  Image: <FcCamera />,
+  Generators: <FcFactory />,
+  "Minifier/Formatters": <FcRefresh />,
+  Previewers: <FcFilm />,
+  Converters: <FcProcess />,
+  Hashing: <FcOrganization />,
+};

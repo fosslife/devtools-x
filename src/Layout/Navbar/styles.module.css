@@ -1,5 +1,5 @@
 .navbar {
-  width: max-content;
+  width: 250px;
   height: 100%;
   padding: 10px;
   padding-top: 0;
@@ -12,6 +12,7 @@
     var(--mantine-color-gray-1),
     var(--mantine-color-dark-8)
   );
+  user-select: none;
 }
 
 .topSection {
@@ -29,6 +30,7 @@
   border-radius: 4px;
   color: light-dark(black, var(--mantine-color-gray-2));
   padding-inline: 10px;
+  user-select: none;
 }
 
 .row:hover {
