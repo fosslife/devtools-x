@@ -1,5 +1,4 @@
 .navbar {
-  width: 250px;
   height: 100%;
   padding: 10px;
   padding-top: 0;
@@ -101,7 +100,7 @@
 }
 
 .iconsTopSection {
-  margin-top: 10px;
+  margin-top: 20px;
   margin-bottom: -10px;
   margin-left: 5px;
 }

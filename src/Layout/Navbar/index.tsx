@@ -140,6 +140,7 @@ export const Navbar = () => {
     <Stack
       className={classes.navbar}
       id="navbar"
+      w={iconMode ? 50 : 250}
       align={iconMode ? "center" : undefined}
     >
       <Stack
