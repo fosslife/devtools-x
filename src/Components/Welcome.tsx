@@ -79,7 +79,7 @@ const Welcome = ({ openSettings }: WelcomeProps) => {
           ))}
         </Group>
       ) : (
-        <Group>
+        <Group grow wrap="wrap">
           {[...pinned]
             .sort((a, b) => (a > b ? 1 : a < b ? -1 : 0))
             .map((pin) => {
@@ -95,8 +95,8 @@ const Welcome = ({ openSettings }: WelcomeProps) => {
                     nav(elem?.to || "/"); // TS FIX NOTHING ELSE
                   }}
                 >
-                  {elem?.icon}
-                  <Text size={"sm"} ta="center" fw={500}>
+                  <Text fz="28px">{elem?.icon}</Text>
+                  <Text size={"sm"} ta="center">
                     {elem?.text.toUpperCase()}
                   </Text>
                 </Stack>
