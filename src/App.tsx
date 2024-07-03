@@ -12,6 +12,7 @@ import {
   Stack,
   Table,
   Text,
+  TextInput,
   useMantineColorScheme,
 } from "@mantine/core";
 import { Spotlight } from "@mantine/spotlight";
@@ -181,7 +182,7 @@ function App() {
     <>
       <Box className={classes.container}>
         <Box className={classes.navbar}>
-          <Navbar openSettings={(t: boolean) => setSettingsOpened(t)} />
+          <Navbar />
         </Box>
         <Group
           className={`${transitionStage} ${classes.body}`}
@@ -194,44 +195,53 @@ function App() {
             }
           }}
         >
-          <Routes location={displayLocation}>
-            <Route path="/" element={<Welcome />}></Route>
-            <Route path="/json-formatter" element={<JsonFormatter />}></Route>
-            <Route path="/hash-text" element={<Hash />}></Route>
-            <Route path="/hash-file" element={<FileHash />}></Route>
-            <Route path="/password" element={<Random />}></Route>
-            <Route path="/jwt" element={<JWT />}></Route>
-            <Route path="/nums" element={<Nums />}></Route>
-            <Route path="/sql" element={<Sql />}></Route>
-            <Route path="/colors" element={<Colors />}></Route>
-            <Route path="/regex" element={<RegexTester />}></Route>
-            <Route path="/text" element={<TextDiff />}></Route>
-            <Route path="/markdown" element={<Markdown />}></Route>
-            <Route path="/yamljson" element={<YamlJson />}></Route>
-            <Route path="/pastebin" element={<Pastebin />}></Route>
-            <Route path="/repl" element={<Repl />}></Route>
-            <Route path="/image" element={<Image />}></Route>
-            <Route path="/bulk-image" element={<BulkImage />}></Route>
-            <Route path="/units" element={<UnitConverter />}></Route>
-            <Route path="/playground" element={<Playground />}></Route>
-            <Route path="/rest" element={<Rest />}></Route>
-            <Route path="/epoch" element={<Epoch />}></Route>
-            <Route path="/stateless" element={<Stateless />}></Route>
-            <Route path="/base64-image" element={<Base64Image />}></Route>
-            <Route path="/base64-text" element={<Base64Text />}></Route>
-            <Route path="/quicktype" element={<Quicktpe />}></Route>
-            <Route path="/ping" element={<Ping />}></Route>
-            <Route path="/minify" element={<Minify />}></Route>
-            <Route path="/url-parser" element={<UrlParser />}></Route>
-            <Route path="/html-preview" element={<HtmlPreview />}></Route>
-            <Route path="/lorem" element={<Lorem />}></Route>
-            <Route path="/qrcode" element={<QrCode />}></Route>
-            <Route path="/pdf-reader" element={<PdfReader />}></Route>
-            <Route path="/cron" element={<Cron />}></Route>
-            <Route path="/ids" element={<Ids />}></Route>
-            <Route path="/compress" element={<Compress />}></Route>
-            <Route path="/faker" element={<Faker />}></Route>
-          </Routes>
+          <Stack gap={2} h="100%">
+            <Routes location={displayLocation}>
+              <Route
+                path="/"
+                element={
+                  <Welcome
+                    openSettings={(t: boolean) => setSettingsOpened(t)}
+                  />
+                }
+              ></Route>
+              <Route path="/json-formatter" element={<JsonFormatter />}></Route>
+              <Route path="/hash-text" element={<Hash />}></Route>
+              <Route path="/hash-file" element={<FileHash />}></Route>
+              <Route path="/password" element={<Random />}></Route>
+              <Route path="/jwt" element={<JWT />}></Route>
+              <Route path="/nums" element={<Nums />}></Route>
+              <Route path="/sql" element={<Sql />}></Route>
+              <Route path="/colors" element={<Colors />}></Route>
+              <Route path="/regex" element={<RegexTester />}></Route>
+              <Route path="/text" element={<TextDiff />}></Route>
+              <Route path="/markdown" element={<Markdown />}></Route>
+              <Route path="/yamljson" element={<YamlJson />}></Route>
+              <Route path="/pastebin" element={<Pastebin />}></Route>
+              <Route path="/repl" element={<Repl />}></Route>
+              <Route path="/image" element={<Image />}></Route>
+              <Route path="/bulk-image" element={<BulkImage />}></Route>
+              <Route path="/units" element={<UnitConverter />}></Route>
+              <Route path="/playground" element={<Playground />}></Route>
+              <Route path="/rest" element={<Rest />}></Route>
+              <Route path="/epoch" element={<Epoch />}></Route>
+              <Route path="/stateless" element={<Stateless />}></Route>
+              <Route path="/base64-image" element={<Base64Image />}></Route>
+              <Route path="/base64-text" element={<Base64Text />}></Route>
+              <Route path="/quicktype" element={<Quicktpe />}></Route>
+              <Route path="/ping" element={<Ping />}></Route>
+              <Route path="/minify" element={<Minify />}></Route>
+              <Route path="/url-parser" element={<UrlParser />}></Route>
+              <Route path="/html-preview" element={<HtmlPreview />}></Route>
+              <Route path="/lorem" element={<Lorem />}></Route>
+              <Route path="/qrcode" element={<QrCode />}></Route>
+              <Route path="/pdf-reader" element={<PdfReader />}></Route>
+              <Route path="/cron" element={<Cron />}></Route>
+              <Route path="/ids" element={<Ids />}></Route>
+              <Route path="/compress" element={<Compress />}></Route>
+              <Route path="/faker" element={<Faker />}></Route>
+            </Routes>
+          </Stack>
         </Group>
       </Box>
       <Drawer
@@ -240,7 +250,6 @@ function App() {
         onClose={() => setSettingsOpened(false)}
         title="Settings"
         padding="xl"
-        size="xl"
       >
         <Settings />
       </Drawer>

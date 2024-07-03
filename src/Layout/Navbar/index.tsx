@@ -1,238 +1,59 @@
 import {
+  Accordion,
   ActionIcon,
   Box,
   Divider,
-  Flex,
   Group,
+  Select,
   Stack,
   Text,
-  TextInput,
   Tooltip,
 } from "@mantine/core";
-import React, { ChangeEvent, useContext, useEffect, useState } from "react";
-import { BsFilePdf, BsSortNumericUpAlt } from "react-icons/bs";
-import {
-  FaCode,
-  FaCompress,
-  FaExchangeAlt,
-  FaExpand,
-  FaFileImage,
-  FaMarkdown,
-  FaPaste,
-  FaRandom,
-  FaReact,
-  FaTimes,
-  FaYinYang,
-} from "react-icons/fa";
-import { FiClock, FiFile, FiHash, FiSettings, FiStar } from "react-icons/fi";
-import { RiPingPongLine } from "react-icons/ri";
-import {
-  MdAnchor,
-  MdColorize,
-  MdHtml,
-  MdHttp,
-  MdOutlineHome,
-  MdPassword,
-  MdPermIdentity,
-  MdQrCode,
-  MdQuestionMark,
-  MdWork,
-  MdDataExploration
-} from "react-icons/md";
-import { SiJsonwebtokens, SiPostgresql, SiPrettier } from "react-icons/si";
-import {
-  VscDiff,
-  VscPin,
-  VscPinned,
-  VscRegex,
-  VscSymbolString,
-  VscTypeHierarchySub,
-} from "react-icons/vsc";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import cx from "clsx";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 
+import { MdMenu, MdMenuOpen, MdHome } from "react-icons/md";
+
+import { useLocation, useNavigate } from "react-router-dom";
+import cx from "clsx";
+import { navitems as data, groupIcons } from "./items";
 import { AppContext } from "../../Contexts/AppContextProvider";
 import { db } from "../../utils";
 import classes from "./styles.module.css";
-import {
-  DragDropContext,
-  Draggable,
-  Droppable,
-  OnDragEndResponder,
-} from "@hello-pangea/dnd";
-import { useDebouncedValue, useWindowEvent } from "@mantine/hooks";
-import { trackButtonClick, trackOtherEvent } from "../../utils/analytics";
 
-type NavItem = {
+import { useWindowEvent } from "@mantine/hooks";
+import { trackButtonClick, trackOtherEvent } from "../../utils/analytics";
+import { VscPin, VscPinned } from "react-icons/vsc";
+
+const Groups = [
+  "Web",
+  "Utilities",
+  "Testing",
+  "Password",
+  "Image",
+  "Generators",
+  "Minifier/Formatters",
+  "Previewers",
+  "Converters",
+  "Hashing",
+] as const;
+
+export type NavItem = {
   id: string;
   to: string;
   icon: React.ReactNode;
   text: string;
+  group: (typeof Groups)[number];
   extra?: string;
 };
 
-export const data: NavItem[] = [
-  { id: "rest", to: "/rest", icon: <MdHttp />, text: "REST API" },
-  { id: "epoch", to: "/epoch", icon: <FiClock />, text: "Epoch Converter" },
-  { id: "ping", to: "/ping", icon: <RiPingPongLine />, text: "Ping" },
-  {
-    id: "password",
-    to: "/password",
-    icon: <FaRandom />,
-    text: "Password Generator",
-  },
-  {
-    id: "qrcode",
-    to: "/qrcode",
-    icon: <MdQrCode />,
-    text: "QR Code Generator",
-  },
-  {
-    id: "minify",
-    to: "/minify",
-    icon: <SiPrettier />,
-    text: "Minify/Beautify",
-  },
-  {
-    id: "playground",
-    to: "/playground",
-    icon: <FaReact />,
-    text: "React Pad",
-  },
-  { id: "lorem", to: "/lorem", icon: <MdWork />, text: "Lorem Ipsum" },
-  {
-    id: "image",
-    to: "/image",
-    icon: <FaFileImage />,
-    text: "Image Compressor",
-  },
-  { id: "pastebin", to: "/pastebin", icon: <FaPaste />, text: "Pastebin" },
-  { id: "repl", to: "/repl", icon: <FaCode />, text: "Scratchpad" },
-  {
-    id: "bulk-image",
-    to: "/bulk-image",
-    icon: <FaFileImage />,
-    text: "Bulk Image Compressor",
-  },
-  {
-    id: "base64-text",
-    to: "/base64-text",
-    icon: <VscSymbolString />,
-    text: "Base64 Text",
-  },
-  {
-    id: "base64-image",
-    to: "/base64-image",
-    icon: <VscSymbolString />,
-    text: "Base64 Image",
-  },
-  {
-    id: "hash-text",
-    to: "/hash-text",
-    icon: <FiHash />,
-    text: "Hashing Text",
-  },
-  {
-    id: "hash-file",
-    to: "/hash-file",
-    icon: <FiFile />,
-    text: "Hashing Files",
-  },
+export { data };
 
-  {
-    id: "json-formatter",
-    to: "/json-formatter",
-    icon: <MdAnchor />,
-    text: "JSON Tools",
-  },
-  { id: "jwt", to: "/jwt", icon: <SiJsonwebtokens />, text: "JWT Tools" },
-  {
-    id: "nums",
-    to: "/nums",
-    icon: <BsSortNumericUpAlt />,
-    text: "Number Tools",
-  },
-  { id: "sql", to: "/sql", icon: <SiPostgresql />, text: "SQL Formatter" },
-  { id: "colors", to: "/colors", icon: <MdColorize />, text: "Color Utils" },
-
-  { id: "text", to: "/text", icon: <VscDiff />, text: "Diff Tools" },
-  { id: "markdown", to: "/markdown", icon: <FaMarkdown />, text: "Markdown" },
-  { id: "yamljson", to: "/yamljson", icon: <FaYinYang />, text: "Yaml Json" },
-  {
-    id: "units",
-    to: "/units",
-    icon: <FaExchangeAlt />,
-    text: "Unit Converter",
-  },
-  {
-    id: "compress",
-    to: "/compress",
-    icon: <FaCompress />,
-    text: "Compress Text",
-  },
-  {
-    id: "stateless",
-    to: "/stateless",
-    icon: <MdPassword />,
-    text: "Stateless Password",
-  },
-
-  {
-    id: "quicktype",
-    to: "/quicktype",
-    icon: <VscTypeHierarchySub />,
-    text: "Quicktype",
-  },
-
-  {
-    id: "url-parser",
-    to: "/url-parser",
-    icon: <MdQuestionMark />,
-    text: "URL Parser",
-  },
-  {
-    id: "html-preview",
-    to: "/html-preview",
-    icon: <MdHtml />,
-    text: "HTML Preview",
-  },
-
-  {
-    id: "pdf-reader",
-    to: "/pdf-reader",
-    icon: <BsFilePdf />,
-    text: "PDF Reader",
-  },
-
-  { id: "cron", to: "/cron", icon: <FiStar />, text: "Cron" },
-  {
-    id: "ids",
-    to: "/ids",
-    icon: <MdPermIdentity />,
-    text: "ID Generator",
-  },
-  {
-    id: "regex",
-    to: "/regex",
-    icon: <VscRegex />,
-    text: "Regex Tester",
-  },
-  {
-    id: "faker",
-    to: "/faker",
-    icon: <MdDataExploration />,
-    text: "Faker",
-  },
-];
-
-export const Navbar = ({ openSettings }: any) => {
+export const Navbar = () => {
   const location = useLocation();
   const nav = useNavigate();
   const [navItems, setNavItems] = useState<NavItem[]>([]);
   const { pinned, handleState } = useContext(AppContext);
   const [iconMode, setIconMode] = useState(false);
-  const [search, setSearch] = useState("");
-  const [debouncedSearch] = useDebouncedValue(search, 300);
 
   useEffect(() => {
     async function pinnedItems() {
@@ -242,12 +63,6 @@ export const Navbar = ({ openSettings }: any) => {
     }
     pinnedItems();
   }, []);
-
-  useEffect(() => {
-    if (debouncedSearch) {
-      trackOtherEvent("navbar-search", { search: debouncedSearch });
-    }
-  }, [debouncedSearch]);
 
   useEffect(() => {
     async function sidebar() {
@@ -298,23 +113,6 @@ export const Navbar = ({ openSettings }: any) => {
     handleState(newPinned as string[]);
   };
 
-  const onDragEnd: OnDragEndResponder = (res) => {
-    if (res.destination?.index === res.source.index) return;
-    const items = [...navItems];
-    const [reorderedItem] = items.splice(res.source.index, 1);
-    items.splice(res.destination!.index, 0, reorderedItem);
-    trackOtherEvent("navbar-reorder", {
-      fromItem: res.source.index,
-      toItem: res.destination!.index,
-    });
-    setNavItems(items);
-    db.set(
-      "sidebar",
-      items.map((i) => i.id)
-    );
-    db.save();
-  };
-
   const listener = (e: KeyboardEvent) => {
     if (e.ctrlKey && e.key === "b") {
       trackOtherEvent("shortcut", {
@@ -325,28 +123,56 @@ export const Navbar = ({ openSettings }: any) => {
     }
   };
 
+  const dropDownItems = useMemo(() => {
+    const arr = [...Groups].map((i) => ({
+      group: i,
+      items: navItems
+        .filter((n) => n.group === i)
+        .map((n) => ({ label: n.text, value: n.to, icon: n.icon, id: n.id })),
+    }));
+
+    return arr;
+  }, [navItems]);
+
   useWindowEvent("keydown", listener);
 
   return (
     <Stack
       className={classes.navbar}
       id="navbar"
+      w={iconMode ? 50 : 250}
       align={iconMode ? "center" : undefined}
     >
       <Stack
         className={iconMode ? classes.iconsTopSection : classes.topSection}
       >
-        <Group wrap="nowrap" align="end" py={10}>
-          {!iconMode && (
-            <TextInput
-              id="search"
-              placeholder="Search..."
-              size={"xs"}
-              value={search}
-              onChange={(e) => setSearch(e.currentTarget.value)}
-              className={classes.textInput}
-            />
-          )}
+        <Group wrap="nowrap" align="end" gap={0} pr={10}>
+          <ActionIcon
+            onClick={() => nav("/")}
+            display={iconMode ? "none" : "flex"}
+          >
+            <MdHome />
+          </ActionIcon>
+          <Select
+            data={dropDownItems}
+            // value={group}
+            onChange={(value) => {
+              if (value) {
+                console.log(value);
+                nav(`${value}`);
+              }
+            }}
+            allowDeselect={false}
+            searchable
+            clearable
+            placeholder="Search..."
+            px="sm"
+            size="xs"
+            display={iconMode ? "none" : "block"}
+            mt={15}
+            width={""}
+          />
+
           <ActionIcon
             variant={"filled"}
             onClick={() => {
@@ -357,157 +183,96 @@ export const Navbar = ({ openSettings }: any) => {
               setIconMode(!iconMode);
             }}
           >
-            {iconMode ? <FaTimes /> : <FaExpand />}
+            {iconMode ? <MdMenu /> : <MdMenuOpen />}
           </ActionIcon>
         </Group>
-        {!iconMode && (
-          <Group mt="2" className={classes.homeWrapper}>
-            <Flex gap={15} onClick={() => nav("/")} className={classes.home}>
-              <MdOutlineHome size={"20px"} />
-              <Text fw={location.pathname === "/" ? "bold" : "normal"}>
-                {"Home"}
-              </Text>
-            </Flex>
-
-            <ActionIcon
-              variant={"filled"}
-              onClick={() => {
-                trackButtonClick({
-                  name: "open-settings",
-                  value: true,
-                });
-                openSettings(true);
-              }}
-            >
-              <FiSettings />
-            </ActionIcon>
-          </Group>
-        )}
       </Stack>
       <Divider />
       {/* ====== One Title */}
       {!iconMode ? (
-        <Stack className={classes.bottomSection}>
-          <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId="droppable">
-              {(provided) => (
-                <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {navItems
-                    .filter((n) =>
-                      n.text
-                        .toLowerCase()
-                        .includes(debouncedSearch.toLowerCase())
-                    )
-                    .map((e, index) => {
-                      const pinExists = pinned?.includes(e.id);
+        <Accordion
+          variant="filled"
+          defaultValue={"Web"}
+          style={{
+            overflow: "auto",
+          }}
+        >
+          {dropDownItems
+            .filter((x) => x.group !== ("All" as any))
+            .map((group) => {
+              return (
+                <Accordion.Item key={group.group} value={group.group}>
+                  <Accordion.Control icon={groupIcons[group.group]}>
+                    <Text fz="1rem">{group.group}</Text>
+                  </Accordion.Control>
+                  <Accordion.Panel>
+                    <Stack gap={5}>
+                      {group.items.map((i) => {
+                        const pinExists = pinned?.includes(i.id);
 
-                      return (
-                        <Draggable
-                          key={e.id}
-                          draggableId={e.id.toString()}
-                          index={index}
-                        >
-                          {(provided) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
+                        return (
+                          <Group
+                            gap={7}
+                            align="center"
+                            key={i.value}
+                            wrap="nowrap"
+                            className={cx(classes.row, {
+                              [classes.active]: location.pathname === i.value,
+                            })}
+                            justify="space-between"
+                            onClick={() => nav(i.value)}
+                          >
+                            <Group wrap="nowrap">
+                              <Text fz="md" mt={7}>
+                                {i.icon}
+                              </Text>
+                              <Text truncate={"end"} fz={"0.9rem"}>
+                                {i.label}
+                              </Text>
+                            </Group>
+                            <ActionIcon
+                              variant={pinExists ? "light" : "default"}
                               style={{
-                                ...provided.draggableProps.style,
-                                userSelect: "none",
+                                visibility: pinExists ? "visible" : undefined,
+                                color:
+                                  "light-dark(var(--mantine-color-dark-4), var(--mantine-color-dark-1))",
+                              }}
+                              className={classes.pinIcon}
+                              size={"sm"}
+                              onClick={(e2) => {
+                                e2.stopPropagation();
+                                onPinClicked(i);
                               }}
                             >
-                              <Box
-                                key={e.id}
-                                className={cx(classes.row, {
-                                  [classes.active]: location.pathname === e.to,
-                                })}
-                                onClick={() => {
-                                  nav(e.to);
-                                }}
-                              >
-                                <Box className={classes.listTitle}>
-                                  <Text className={classes.rowIcon}>
-                                    {e.icon}
-                                  </Text>
-                                  {e.extra ? (
-                                    <Tooltip label={e.extra}>
-                                      <Text
-                                        size="xs"
-                                        fw={
-                                          location.pathname === e.to
-                                            ? "500"
-                                            : "400"
-                                        }
-                                        c="red"
-                                        component={Link}
-                                        to={e.to}
-                                      >
-                                        {e.text}
-                                      </Text>
-                                    </Tooltip>
-                                  ) : (
-                                    <Text
-                                      size="xs"
-                                      fw={
-                                        location.pathname === e.to
-                                          ? "500"
-                                          : "400"
-                                      }
-                                    >
-                                      {e.text}
-                                    </Text>
-                                  )}
-                                </Box>
-                                <Box>
-                                  <ActionIcon
-                                    variant={pinExists ? "subtle" : "default"}
-                                    style={{
-                                      visibility: pinExists
-                                        ? "visible"
-                                        : undefined,
-                                      color:
-                                        "light-dark(var(--mantine-color-dark-4), var(--mantine-color-dark-1))",
-                                    }}
-                                    className={classes.pinIcon}
-                                    size={"sm"}
-                                    onClick={(e2) => {
-                                      e2.stopPropagation();
-                                      onPinClicked(e);
-                                    }}
-                                  >
-                                    {pinExists ? (
-                                      <VscPinned size="15px" />
-                                    ) : (
-                                      <VscPin size="15px" />
-                                    )}
-                                  </ActionIcon>
-                                </Box>
-                              </Box>
-                            </div>
-                          )}
-                        </Draggable>
-                      );
-                    })}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
-        </Stack>
+                              {pinExists ? (
+                                <VscPinned size="15px" />
+                              ) : (
+                                <VscPin size="15px" />
+                              )}
+                            </ActionIcon>
+                          </Group>
+                        );
+                      })}
+                    </Stack>
+                  </Accordion.Panel>
+                </Accordion.Item>
+              );
+            })}
+        </Accordion>
       ) : (
         <Stack className={classes.iconsbarWrapper}>
           {navItems.map((e) => {
             return (
-              <Box
-                key={e.id}
-                className={cx(classes.iconsBarRow, {
-                  [classes.active]: location.pathname === e.to,
-                })}
-                onClick={() => nav(e.to)}
-              >
-                {e.icon}
-              </Box>
+              <Tooltip label={e.text} key={e.id}>
+                <Box
+                  className={cx(classes.iconsBarRow, {
+                    [classes.active]: location.pathname === e.to,
+                  })}
+                  onClick={() => nav(e.to)}
+                >
+                  {e.icon}
+                </Box>
+              </Tooltip>
             );
           })}
         </Stack>
