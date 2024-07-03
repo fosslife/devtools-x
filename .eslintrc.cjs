@@ -41,7 +41,7 @@ module.exports = {
     "jsx-a11y/accessible-emoji": "off",
     "react/prop-types": "off",
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": ["warn"],
+    "@typescript-eslint/no-unused-vars": ["error"],
     "@typescript-eslint/explicit-function-return-type": "off",
     "jsx-a11y/anchor-is-valid": [
       "error",
