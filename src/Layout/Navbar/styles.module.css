@@ -1,4 +1,5 @@
 .navbar {
+  width: max-content;
   height: 100%;
   padding: 10px;
   padding-top: 0;
@@ -24,17 +25,10 @@
 }
 
 .row {
-  font-size: 18px;
   cursor: pointer;
-  padding: 4px;
-  padding-left: 10px;
   border-radius: 4px;
-  display: flex;
-  gap: 20px;
-  justify-content: space-between;
-  align-items: center;
   color: light-dark(black, var(--mantine-color-gray-2));
-  font-weight: 500;
+  padding-inline: 10px;
 }
 
 .row:hover {
@@ -60,12 +54,6 @@
   flex-direction: row;
   text-align: center;
   align-self: center;
-}
-
-.bottomSection {
-  width: max-content;
-  gap: 0px;
-  overflow: auto;
 }
 
 .homeWrapper {
