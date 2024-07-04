@@ -1,0 +1,125 @@
+.navbar {
+  height: 100%;
+  padding: 10px;
+  padding-top: 0;
+  padding-left: 0;
+  padding-inline: 5px;
+  padding-right: 5px;
+  box-shadow: var(--mantine-shadow-sm);
+  font-size: 15px;
+  background: light-dark(
+    var(--mantine-color-gray-1),
+    var(--mantine-color-dark-8)
+  );
+}
+
+.topSection {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: light-dark(
+    var(--mantine-color-gray-1),
+    var(--mantine-color-dark-8)
+  );
+}
+
+.row {
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px;
+  /* padding-left: 10px; */
+  border-radius: 4px;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  color: light-dark(black, var(--mantine-color-gray-2));
+  font-weight: 500;
+}
+
+.row:hover {
+  color: light-dark(var(--mantine-color-gray-8), var(--mantine-color-blue-0));
+  background-color: light-dark(
+    var(--mantine-color-gray-3),
+    var(--mantine-color-gray-8)
+  );
+
+  .pinIcon {
+    visibility: visible;
+  }
+
+  .dragHandle {
+    cursor: grab;
+    visibility: visible;
+  }
+}
+
+.pinIcon {
+  visibility: hidden;
+}
+
+.listTitle {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  flex-direction: row;
+  text-align: center;
+  align-self: center;
+}
+
+.dragHandle {
+  cursor: grab;
+  visibility: hidden;
+}
+
+.bottomSection {
+  gap: 0px;
+  overflow: auto;
+}
+
+.homeWrapper {
+  display: flex;
+  justify-content: space-between;
+  color: light-dark(var(--mantine-color-dark-8), var(--mantine-color-dark-1));
+}
+
+.home {
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.active {
+  font-style: normal;
+  font-weight: bold;
+  color: light-dark(var(--mantine-color-gray-8), var(--mantine-color-gray-2));
+  background-color: light-dark(
+    var(--mantine-color-gray-3),
+    var(--mantine-color-gray-8)
+  );
+}
+
+.iconsbarWrapper {
+  padding: 10px;
+  overflow: auto;
+}
+
+.iconsBarRow {
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  justify-content: start;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.iconsTopSection {
+  margin-top: 10px;
+  margin-bottom: -10px;
+  margin-left: 5px;
+}
+
+.rowIcon {
+  margin-top: 5px;
+  font-size: 14px;
+  color: light-dark(var(--mantine-color-dark-7), var(--mantine-color-dark-1));
+}

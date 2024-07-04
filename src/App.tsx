@@ -12,7 +12,6 @@ import {
   Stack,
   Table,
   Text,
-  TextInput,
   useMantineColorScheme,
 } from "@mantine/core";
 import { Spotlight } from "@mantine/spotlight";

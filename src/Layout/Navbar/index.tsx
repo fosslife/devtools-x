@@ -1,12 +1,10 @@
 import {
-  Accordion,
   ActionIcon,
   Box,
   Divider,
   Group,
   Select,
   Stack,
-  Text,
   Tooltip,
 } from "@mantine/core";
 import React, { useContext, useEffect, useMemo, useState } from "react";
@@ -15,14 +13,15 @@ import { MdMenu, MdMenuOpen, MdHome } from "react-icons/md";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import cx from "clsx";
-import { navitems as data, groupIcons } from "./items";
+import { navitems as data } from "./items";
 import { AppContext } from "../../Contexts/AppContextProvider";
 import { db } from "../../utils";
 import classes from "./styles.module.css";
 
-import { useWindowEvent } from "@mantine/hooks";
+import { useLocalStorage, useWindowEvent } from "@mantine/hooks";
 import { trackButtonClick, trackOtherEvent } from "../../utils/analytics";
-import { VscPin, VscPinned } from "react-icons/vsc";
+import { GroupedView } from "./components/GroupedView";
+import { UngroupedView } from "./components/UngroupedView";
 
 const Groups = [
   "Web",
@@ -46,12 +45,26 @@ export type NavItem = {
   extra?: string;
 };
 
+export type DropDownItem = {
+  group: (typeof Groups)[number];
+  items: {
+    label: string;
+    value: string;
+    icon: React.ReactNode;
+    id: string;
+  }[];
+};
+
 export { data };
 
 export const Navbar = () => {
   const location = useLocation();
   const nav = useNavigate();
   const [navItems, setNavItems] = useState<NavItem[]>([]);
+  const [groupedView] = useLocalStorage({
+    key: "groupItems",
+    defaultValue: true,
+  });
   const { pinned, handleState } = useContext(AppContext);
   const [iconMode, setIconMode] = useState(false);
 
@@ -123,7 +136,7 @@ export const Navbar = () => {
     }
   };
 
-  const dropDownItems = useMemo(() => {
+  const dropDownItems: DropDownItem[] = useMemo(() => {
     const arr = [...Groups].map((i) => ({
       group: i,
       items: navItems
@@ -187,78 +200,24 @@ export const Navbar = () => {
           </ActionIcon>
         </Group>
       </Stack>
+
       <Divider />
       {/* ====== One Title */}
       {!iconMode ? (
-        <Accordion
-          variant="filled"
-          defaultValue={"Web"}
-          style={{
-            overflow: "auto",
-          }}
-        >
-          {dropDownItems
-            .filter((x) => x.group !== ("All" as any))
-            .map((group) => {
-              return (
-                <Accordion.Item key={group.group} value={group.group}>
-                  <Accordion.Control icon={groupIcons[group.group]}>
-                    <Text fz="1rem">{group.group}</Text>
-                  </Accordion.Control>
-                  <Accordion.Panel>
-                    <Stack gap={5}>
-                      {group.items.map((i) => {
-                        const pinExists = pinned?.includes(i.id);
-
-                        return (
-                          <Group
-                            gap={7}
-                            align="center"
-                            key={i.value}
-                            wrap="nowrap"
-                            className={cx(classes.row, {
-                              [classes.active]: location.pathname === i.value,
-                            })}
-                            justify="space-between"
-                            onClick={() => nav(i.value)}
-                          >
-                            <Group wrap="nowrap">
-                              <Text fz="md" mt={7}>
-                                {i.icon}
-                              </Text>
-                              <Text truncate={"end"} fz={"0.9rem"}>
-                                {i.label}
-                              </Text>
-                            </Group>
-                            <ActionIcon
-                              variant={pinExists ? "light" : "default"}
-                              style={{
-                                visibility: pinExists ? "visible" : undefined,
-                                color:
-                                  "light-dark(var(--mantine-color-dark-4), var(--mantine-color-dark-1))",
-                              }}
-                              className={classes.pinIcon}
-                              size={"sm"}
-                              onClick={(e2) => {
-                                e2.stopPropagation();
-                                onPinClicked(i);
-                              }}
-                            >
-                              {pinExists ? (
-                                <VscPinned size="15px" />
-                              ) : (
-                                <VscPin size="15px" />
-                              )}
-                            </ActionIcon>
-                          </Group>
-                        );
-                      })}
-                    </Stack>
-                  </Accordion.Panel>
-                </Accordion.Item>
-              );
-            })}
-        </Accordion>
+        groupedView ? (
+          <GroupedView
+            dropDownItems={dropDownItems}
+            onPinClicked={onPinClicked}
+            pinned={pinned}
+          />
+        ) : (
+          <UngroupedView
+            navItems={navItems}
+            handleNavItems={(items) => setNavItems(items)}
+            onPinClicked={onPinClicked}
+            pinned={pinned}
+          />
+        )
       ) : (
         <Stack className={classes.iconsbarWrapper}>
           {navItems.map((e) => {

@@ -1,21 +1,59 @@
 import {
   Button,
-  Checkbox,
   Divider,
   Group,
+  rem,
   Stack,
+  Switch,
   Text,
   useMantineColorScheme,
+  useMantineTheme,
 } from "@mantine/core";
+import { TbSun, TbMoon, TbCheck, TbX } from "react-icons/tb";
 import { notifications } from "@mantine/notifications";
 import { version } from "../../package.json";
 
 import { db } from "../utils";
 import { openFileAndGetData, saveDataToFile } from "../utils/functions";
 import { confirm } from "@tauri-apps/api/dialog";
+import { useLocalStorage } from "@mantine/hooks";
 
 export const Settings = () => {
-  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const { toggleColorScheme } = useMantineColorScheme();
+  const theme = useMantineTheme();
+
+  const [groupItems, setGroupItems] = useLocalStorage({
+    key: "groupItems",
+    defaultValue: true,
+  });
+
+  const sunIcon = (
+    <TbSun
+      style={{ width: rem(16), height: rem(16) }}
+      color={theme.colors.yellow[4]}
+    />
+  );
+
+  const moonIcon = (
+    <TbMoon
+      style={{ width: rem(16), height: rem(16) }}
+      color={theme.colors.blue[6]}
+    />
+  );
+
+  const yesIcon = (
+    <TbCheck
+      style={{ width: rem(16), height: rem(16) }}
+      color={theme.colors.green[6]}
+    />
+  );
+
+  const noIcon = (
+    <TbX
+      style={{ width: rem(16), height: rem(16) }}
+      color={theme.colors.red[6]}
+    />
+  );
 
   const backup = async () => {
     const entries = await db.entries();
@@ -71,10 +109,22 @@ export const Settings = () => {
 
   return (
     <Stack>
-      <Checkbox
-        label="Dark Theme"
-        checked={colorScheme === "dark"}
-        onChange={() => toggleColorScheme()}
+      <Switch
+        label="Theme"
+        size="md"
+        color="dark.4"
+        onLabel={sunIcon}
+        offLabel={moonIcon}
+        onChange={toggleColorScheme}
+      />
+      <Switch
+        label="Group sidebar items"
+        size="md"
+        color="dark.4"
+        checked={groupItems}
+        onLabel={yesIcon}
+        offLabel={noIcon}
+        onChange={() => setGroupItems(!groupItems)}
       />
       <Divider />
       <Group>
