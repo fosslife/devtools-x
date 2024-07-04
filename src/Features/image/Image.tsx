@@ -13,7 +13,7 @@ import { useDebouncedValue } from "@mantine/hooks";
 import { dialog, fs, invoke } from "@tauri-apps/api";
 import { save } from "@tauri-apps/api/dialog";
 import { convertFileSrc } from "@tauri-apps/api/tauri";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { ReactCompareSlider } from "react-compare-slider";
 
 type ImageType = "Jpeg" | "Png" | "Webp";
@@ -109,7 +109,12 @@ export default function Image2() {
   }, [imageSrc, doubouncedQuality, imageType]);
 
   return (
-    <Stack>
+    <Stack
+      style={{
+        height: "100%",
+        overflow: "auto",
+      }}
+    >
       <Group align={"center"} justify="center">
         <Button onClick={selectImage}>Select image</Button>
         {converted ? <Button onClick={download}>Save</Button> : null}
@@ -123,7 +128,7 @@ export default function Image2() {
           <ReactCompareSlider
             style={{
               width: "100%",
-              height: "100%",
+              height: "100vh",
             }}
             onlyHandleDraggable={true}
             itemOne={
