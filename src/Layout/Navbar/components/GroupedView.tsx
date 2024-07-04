@@ -6,6 +6,7 @@ import { DropDownItem } from "..";
 
 import classes from "../styles.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 type GroupedViewProps = {
   dropDownItems: DropDownItem[];
@@ -21,10 +22,23 @@ export const GroupedView = ({
   const location = useLocation();
   const nav = useNavigate();
 
+  const [openGroup, setOpenGroup] = useState<string | null>("Web");
+
+  useEffect(() => {
+    if (location.pathname !== "/") {
+      const group = dropDownItems.find((x) =>
+        x.items.some((i) => i.value === location.pathname)
+      );
+      if (!group) return;
+      setOpenGroup(group.group);
+    }
+  }, [location.pathname, dropDownItems]);
+
   return (
     <Accordion
       variant="filled"
-      defaultValue={"Web"}
+      value={openGroup}
+      onChange={setOpenGroup}
       style={{
         overflow: "auto",
       }}
