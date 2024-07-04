@@ -31,7 +31,7 @@
     "@prettier/plugin-xml": "^3.4.1",
     "@rollup/plugin-alias": "^5.1.0",
     "@sqltools/formatter": "^1.2.5",
-    "@tauri-apps/api": "^1.5.3",
+    "@tauri-apps/api": "^1.6.0",
     "@uiw/react-markdown-preview": "^5.1.1",
     "angular-html-parser": "^5.2.0",
     "axios": "^1.6.8",
@@ -77,7 +77,7 @@
   "devDependencies": {
     "@actions/github": "^6.0.0",
     "@linaria/rollup": "^5.0.4",
-    "@tauri-apps/cli": "^1.5.11",
+    "@tauri-apps/cli": "^1.6.0",
     "@types/color-convert": "^2.0.3",
     "@types/convert-units": "^2.3.9",
     "@types/crypto-js": "^4.2.2",
