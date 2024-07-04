@@ -10,6 +10,7 @@ import {
 import { useState } from "react";
 
 import { Monaco } from "../../Components/MonacoWrapper";
+import { notifications } from "@mantine/notifications";
 
 const langs = [
   "JavaScript",
@@ -41,6 +42,16 @@ function Pastebin() {
 
   const createPaste = async () => {
     setLoading(true);
+    if (!apiKey) {
+      notifications.show({
+        message: "Please enter a valid GitHub API key",
+        title: "Error",
+        color: "red",
+      });
+      setLoading(false);
+      return;
+    }
+
     const res = await fetch("https://api.github.com/gists", {
       method: "POST",
       headers: {

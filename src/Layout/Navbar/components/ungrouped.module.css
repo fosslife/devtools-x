@@ -11,7 +11,6 @@
     var(--mantine-color-gray-1),
     var(--mantine-color-dark-8)
   );
-  user-select: none;
 }
 
 .topSection {
@@ -25,11 +24,17 @@
 }
 
 .row {
+  font-size: 18px;
   cursor: pointer;
+  padding: 4px;
+  /* padding-left: 10px; */
   border-radius: 4px;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
   color: light-dark(black, var(--mantine-color-gray-2));
-  padding-inline: 10px;
-  user-select: none;
+  font-weight: 500;
 }
 
 .row:hover {
@@ -42,6 +47,11 @@
   .pinIcon {
     visibility: visible;
   }
+
+  .dragHandle {
+    cursor: grab;
+    visibility: visible;
+  }
 }
 
 .pinIcon {
@@ -50,11 +60,21 @@
 
 .listTitle {
   display: flex;
-  gap: 7px;
+  gap: 5px;
   align-items: center;
   flex-direction: row;
   text-align: center;
   align-self: center;
+}
+
+.dragHandle {
+  cursor: grab;
+  visibility: hidden;
+}
+
+.bottomSection {
+  gap: 0px;
+  overflow: auto;
 }
 
 .homeWrapper {
@@ -90,17 +110,10 @@
   justify-content: start;
   padding: 5px;
   border-radius: 5px;
-
-  &:hover {
-    background-color: light-dark(
-      var(--mantine-color-gray-3),
-      var(--mantine-color-gray-8)
-    );
-  }
 }
 
 .iconsTopSection {
-  margin-top: 20px;
+  margin-top: 10px;
   margin-bottom: -10px;
   margin-left: 5px;
 }

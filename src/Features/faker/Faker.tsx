@@ -56,10 +56,10 @@ const getMockData = (category: string, dataType: string): any => {
     typeof (faker as any)[category][dataType] === "function"
   ) {
     const op = (faker as any)[category][dataType]();
-    console.log("generated", op);
-    if (typeof op === "string") return op;
 
-    return JSON.stringify(op);
+    if (typeof op === "object" && typeof op.getMonth !== "function")
+      return JSON.stringify(op);
+    return op;
   } else {
     throw new Error(`Invalid category or subset: ${category}.${dataType}`);
   }
