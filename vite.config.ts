@@ -28,6 +28,7 @@ export default defineConfig({
 
   build: {
     target: ["chrome95", "edge95", "esnext", "firefox95", "safari16"],
+    sourcemap: false,
     rollupOptions: {
       plugins: [
         alias({
