@@ -1,8 +1,9 @@
 // this script will read package.json. tauri.conf.json and Cargo.toml
 // and bump the version number in all of them
 
-import { readFileSync, writeFileSync } from "fs";
+import { readFileSync, writeFileSync, appendFileSync } from "fs";
 import { join } from "path";
+import { EOL } from "os";
 
 const packageJson = JSON.parse(readFileSync("package.json", "utf8"));
 
@@ -39,10 +40,11 @@ const newCargoToml = cargoToml.replace(
   `version = "${newVersion}"`
 );
 
-writeFileSync("package.json", JSON.stringify(packageJson, null, 2));
+writeFileSync("package.json", JSON.stringify(packageJson, null, 2) + EOL);
+
 writeFileSync(
   join("src-tauri", "tauri.conf.json"),
-  JSON.stringify(tauriConf, null, 2)
+  JSON.stringify(tauriConf, null, 2) + EOL
 );
 writeFileSync(join("src-tauri", "Cargo.toml"), newCargoToml);
 
