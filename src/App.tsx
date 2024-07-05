@@ -71,6 +71,7 @@ const Cron = loadable(() => import("./Features/cron/Cron"));
 const Ids = loadable(() => import("./Features/ids/Ids"));
 const Compress = loadable(() => import("./Features/text/TextCompress"));
 const Faker = loadable(() => import("./Features/faker/Faker"));
+const CssPlayground = loadable(() => import("./Features/css/CssPlayground"));
 
 const shortCuts = [
   {
@@ -239,6 +240,7 @@ function App() {
               <Route path="/ids" element={<Ids />}></Route>
               <Route path="/compress" element={<Compress />}></Route>
               <Route path="/faker" element={<Faker />}></Route>
+              <Route path="/cssplayground" element={<CssPlayground />}></Route>
             </Routes>
           </Stack>
         </Group>

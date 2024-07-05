@@ -8,6 +8,7 @@ import {
   FaYinYang,
   FaExchangeAlt,
   FaCompress,
+  FaCss3,
 } from "react-icons/fa";
 import { FiClock, FiHash, FiFile, FiStar } from "react-icons/fi";
 import {
@@ -93,6 +94,13 @@ export const navitems: NavItem[] = [
     to: "/playground",
     icon: <FaReact />,
     text: "React Pad",
+    group: "Testing",
+  },
+  {
+    id: "cssplayground",
+    to: "/cssplayground",
+    icon: <FaCss3 />,
+    text: "CSS Playground",
     group: "Testing",
   },
   {
