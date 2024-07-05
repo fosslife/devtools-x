@@ -14,7 +14,8 @@
     "lint": "yarn lint:format && yarn lint:fix ",
     "type-check": "tsc",
     "release": "node scripts/sign.mjs",
-    "prepare": "node scripts/prepare.mjs"
+    "prepare": "node scripts/prepare.mjs",
+    "bump": "node scripts/bumpVersion.mjs"
   },
   "dependencies": {
     "@aptabase/tauri": "^0.4.1",
