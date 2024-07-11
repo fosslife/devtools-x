@@ -23,6 +23,7 @@ import {
   MdDataExploration,
   MdWeb,
   MdImage,
+  MdQrCode2,
 } from "react-icons/md";
 import {
   FcCamera,
@@ -82,6 +83,13 @@ export const navitems: NavItem[] = [
     icon: <MdQrCode />,
     text: "QR Code Generator",
     group: "Generators",
+  },
+  {
+    id: "qrcode",
+    to: "/qrcode-reader",
+    icon: <MdQrCode2 />,
+    text: "QR Code Reader",
+    group: "Image",
   },
   {
     id: "minify",

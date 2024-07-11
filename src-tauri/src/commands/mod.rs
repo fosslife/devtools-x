@@ -5,3 +5,4 @@ pub mod image;
 pub mod image_compressor;
 pub mod minify;
 pub mod ping;
+pub mod qr;

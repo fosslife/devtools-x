@@ -77,6 +77,8 @@ const Faker = loadable(() => import("./Features/faker/Faker"));
 const CssPlayground = loadable(() => import("./Features/css/CssPlayground"));
 const SvgPreview = loadable(() => import("./Features/svg/Svg"));
 
+const QrReadcer = loadable(() => import("./Features/qrcode/QrCodeReader"));
+
 const shortCuts = [
   {
     key: "mod + k",
@@ -246,6 +248,7 @@ function App() {
               <Route path="/faker" element={<Faker />}></Route>
               <Route path="/cssplayground" element={<CssPlayground />}></Route>
               <Route path="/svg-preview" element={<SvgPreview />}></Route>
+              <Route path="/qrcode-reader" element={<QrReadcer />}></Route>
             </Routes>
           </Stack>
         </Group>

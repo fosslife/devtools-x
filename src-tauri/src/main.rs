@@ -16,6 +16,7 @@ use commands::image::images::compress_images;
 use commands::image_compressor::images::compress_images_to_buffer;
 use commands::minify::minify::minifyhtml;
 use commands::ping::ping::ping;
+use commands::qr::qr::read_qr;
 
 fn main() {
   tauri::Builder::default()
@@ -28,7 +29,8 @@ fn main() {
       compress_images,
       base64_image,
       compress,
-      compress_images_to_buffer
+      compress_images_to_buffer,
+      read_qr
     ])
     .setup(|app| {
       WindowBuilder::new(app, "main", WindowUrl::App("index.html".into()))
