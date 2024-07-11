@@ -21,6 +21,8 @@ So here's DevTools-X -- an x-platform collection of dev-tools that is lighter, s
 
 ## Installation
 
+### Compile yourself
+
 Download the relevant package from Github Releases section, and start using it! :D
 
 If you prefer compiling your own package, make sure you have all tauri pre-requisites installed:
@@ -35,6 +37,17 @@ Then just clone and open the project in terminal and run
 yarn tauri build
 ```
 
+### Download prebuilt binaries
+
+This project runs a github CI to build binaries for all platforms. Head to [Releases](https://github.com/fosslife/devtools-x/releases)
+and download the binary as per your requirements.
+
+NOTE FOR MACOS USERS, you need this to run the app as binaries are not signed yet.
+
+```sh
+xattr -r -c /Applications/dev-tools.app
+```
+
 ## Acknowledgements
 
 This project exists solely because I was fed up switching between different tools on different OSes. Please do star their github repositories, they have inspired many modules in devtools-x
@@ -46,7 +59,7 @@ This project exists solely because I was fed up switching between different tool
 
 #### Checkout [features.md](features.md) for a short video demo on every feature.
 
-DevTools-X has about **36 features** as of now, and growing.
+DevTools-X has about **37 features** as of now, and growing.
 
 The full list in below, One big selling point of DevTools-X is it uses `monaco-editor`, the editor used by vscode, so tons of editor features are
 available to you right from the start, as if you are using vscode.
@@ -87,6 +100,7 @@ available to you right from the start, as if you are using vscode.
 34. Regex Tester
 35. Generate mock data with Faker
 36. CSS live playground
+37. QR Code Reader
 
 ## Contributing
 

@@ -23,6 +23,7 @@ import {
   MdDataExploration,
   MdWeb,
   MdImage,
+  MdQrCode2,
 } from "react-icons/md";
 import {
   FcCamera,
@@ -45,6 +46,7 @@ import {
   VscRegex,
 } from "react-icons/vsc";
 import { NavItem } from ".";
+import { TbFileTypeSvg } from "react-icons/tb";
 
 export const navitems: NavItem[] = [
   {
@@ -81,6 +83,13 @@ export const navitems: NavItem[] = [
     icon: <MdQrCode />,
     text: "QR Code Generator",
     group: "Generators",
+  },
+  {
+    id: "qrcode",
+    to: "/qrcode-reader",
+    icon: <MdQrCode2 />,
+    text: "QR Code Reader",
+    group: "Image",
   },
   {
     id: "minify",
@@ -268,7 +277,13 @@ export const navitems: NavItem[] = [
     text: "HTML Preview",
     group: "Previewers",
   },
-
+  {
+    id: "svg-preview",
+    to: "/svg-preview",
+    icon: <TbFileTypeSvg />,
+    text: "SVG Preview",
+    group: "Previewers",
+  },
   {
     id: "pdf-reader",
     to: "/pdf-reader",

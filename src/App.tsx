@@ -8,6 +8,7 @@ import {
   Box,
   Drawer,
   Group,
+  Kbd,
   Modal,
   Stack,
   Table,
@@ -47,7 +48,9 @@ const YamlJson = loadable(() => import("./Features/yaml-json/Yaml"));
 const Pastebin = loadable(() => import("./Features/pastebin/Pastebin"));
 const Repl = loadable(() => import("./Features/repl/Repl"));
 const Image = loadable(() => import("./Features/image/Image"));
-const Playground = loadable(() => import("./Features/playground/Playground"));
+const Playground = loadable(
+  () => import("./Features/reactPlayground/Playground")
+);
 const Rest = loadable(() => import("./Features/rest/Rest"));
 const UnitConverter = loadable(
   () => import("./Features/unitconverter/UnitConverter")
@@ -72,6 +75,9 @@ const Ids = loadable(() => import("./Features/ids/Ids"));
 const Compress = loadable(() => import("./Features/text/TextCompress"));
 const Faker = loadable(() => import("./Features/faker/Faker"));
 const CssPlayground = loadable(() => import("./Features/css/CssPlayground"));
+const SvgPreview = loadable(() => import("./Features/svg/Svg"));
+
+const QrReadcer = loadable(() => import("./Features/qrcode/QrCodeReader"));
 
 const shortCuts = [
   {
@@ -241,6 +247,8 @@ function App() {
               <Route path="/compress" element={<Compress />}></Route>
               <Route path="/faker" element={<Faker />}></Route>
               <Route path="/cssplayground" element={<CssPlayground />}></Route>
+              <Route path="/svg-preview" element={<SvgPreview />}></Route>
+              <Route path="/qrcode-reader" element={<QrReadcer />}></Route>
             </Routes>
           </Stack>
         </Group>
@@ -281,7 +289,9 @@ function App() {
         title="Shortcuts and help"
       >
         <Modal.Body>
-          <Text c="dimmed">mod is ctrl on windows/linux</Text>
+          <Text c="dimmed">
+            <Kbd>mod</Kbd> is <Kbd>Ctrl</Kbd> on windows/linux
+          </Text>
           <Table>
             <Table.Thead>
               <Table.Tr>
@@ -292,19 +302,15 @@ function App() {
             <Table.Tbody>
               {shortCuts.map((s) => (
                 <Table.Tr key={s.key}>
-                  <Table.Td>{s.key}</Table.Td>
+                  <Table.Td>
+                    <Kbd>{s.key}</Kbd>
+                  </Table.Td>
                   <Table.Td>{s.action}</Table.Td>
                 </Table.Tr>
               ))}
             </Table.Tbody>
           </Table>
           <br />
-          <Text size={"md"}>Help:</Text>
-          <Stack>
-            <ul>
-              <li>You can re-order items on the sidebar by dragging </li>
-            </ul>
-          </Stack>
         </Modal.Body>
       </Modal>
     </>
