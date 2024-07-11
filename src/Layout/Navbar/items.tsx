@@ -45,6 +45,7 @@ import {
   VscRegex,
 } from "react-icons/vsc";
 import { NavItem } from ".";
+import { TbFileTypeSvg } from "react-icons/tb";
 
 export const navitems: NavItem[] = [
   {
@@ -268,7 +269,13 @@ export const navitems: NavItem[] = [
     text: "HTML Preview",
     group: "Previewers",
   },
-
+  {
+    id: "svg-preview",
+    to: "/svg-preview",
+    icon: <TbFileTypeSvg />,
+    text: "SVG Preview",
+    group: "Previewers",
+  },
   {
     id: "pdf-reader",
     to: "/pdf-reader",
