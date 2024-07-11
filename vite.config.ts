@@ -42,6 +42,7 @@ export default defineConfig({
         visualizer(),
       ],
       output: {
+        sourcemap: false,
         manualChunks: {
           "rehype-parse": ["rehype-parse"],
           "rehype-raw": ["rehype-raw"],
