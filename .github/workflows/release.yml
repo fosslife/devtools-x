@@ -55,6 +55,12 @@ jobs:
       - name: install frontend dependencies
         run: yarn install --immutable # change this to npm or pnpm depending on which one you use
 
+      - name: Install UPX
+        if: matrix.settings.platform != 'macos-latest'
+        uses: crazy-max/ghaction-upx@v2
+        with:
+          version: latest
+
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

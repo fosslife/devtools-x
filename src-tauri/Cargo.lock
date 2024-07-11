@@ -801,6 +801,7 @@ dependencies = [
  "fast_image_resize",
  "flate2",
  "image",
+ "imageinfo",
  "md-5",
  "minify-html",
  "oxipng",
@@ -1791,6 +1792,15 @@ dependencies = [
  "png",
  "qoi",
  "tiff",
+]
+
+[[package]]
+name = "imageinfo"
+version = "0.7.17"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5e88f80971fe0070b3cb8af60dd8ff7a1487524f46eabf487c7fb06ad542e60c"
+dependencies = [
+ "serde",
 ]
 
 [[package]]

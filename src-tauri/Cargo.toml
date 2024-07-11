@@ -39,6 +39,7 @@ base64 = "0.21.7"
 tauri-plugin-aptabase = "0.4"
 flate2 = "1.0"
 bardecoder = "0.5.0"
+imageinfo = "0.7.17"
 
 [features]
 default = ["custom-protocol"]
@@ -49,7 +50,8 @@ panic = "abort"
 codegen-units = 1
 lto = true
 incremental = false
-opt-level = "s"     # can experiment with 'z' as well
+opt-level = "z"     # can experiment with 'z' as well
+strip = true
 
 [profile.dev]
 incremental = false

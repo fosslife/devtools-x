@@ -7,7 +7,8 @@
     "distDir": "../dist",
     "devPath": "http://localhost:3000",
     "beforeDevCommand": "yarn dev",
-    "beforeBuildCommand": "yarn build"
+    "beforeBuildCommand": "yarn build",
+    "beforeBundleCommand": "node scripts/compress.mjs"
   },
   "tauri": {
     "bundle": {
