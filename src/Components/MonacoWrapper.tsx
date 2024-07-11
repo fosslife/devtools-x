@@ -1,4 +1,9 @@
-import Editor, { DiffEditor, DiffOnMount, OnMount } from "@monaco-editor/react";
+import Editor, {
+  DiffEditor,
+  DiffOnMount,
+  OnMount,
+  EditorProps,
+} from "@monaco-editor/react";
 import { editor } from "monaco-editor";
 
 type MonacoProps = {
@@ -17,7 +22,7 @@ type MonacoProps = {
     modifiedLanguage: string;
     originalLanguage: string;
   };
-};
+} & EditorProps;
 
 export const Monaco = ({
   value,
@@ -30,6 +35,7 @@ export const Monaco = ({
   mode,
   onDiffEditorMounted,
   diffProps,
+  ...rest
 }: MonacoProps) => {
   const diffOnMount: DiffOnMount = (editor, monaco) => {
     // disable TS incorrect diagnostic
@@ -110,7 +116,7 @@ export const Monaco = ({
 
   return (
     <Editor
-      theme="dracula"
+      theme="tmnight"
       value={value}
       onChange={setValue}
       language={language}
@@ -118,6 +124,7 @@ export const Monaco = ({
       height={height}
       width={width}
       options={{
+        automaticLayout: true,
         fontSize: 16,
         minimap: {
           enabled: false,
@@ -125,6 +132,7 @@ export const Monaco = ({
         lineNumbersMinChars: 3,
         ...extraOptions,
       }}
+      {...rest}
     />
   );
 };
