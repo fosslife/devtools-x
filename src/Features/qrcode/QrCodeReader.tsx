@@ -24,7 +24,13 @@ function QrCodeReader() {
     <Stack align="start">
       <Button onClick={readQR}>Select QR image</Button>
       <Group w="100%">
-        <Textarea w="100%" minRows={15} value={qrData || ""} readOnly />
+        <Textarea
+          w="100%"
+          autosize
+          minRows={10}
+          value={qrData || ""}
+          readOnly
+        />
       </Group>
     </Stack>
   );
