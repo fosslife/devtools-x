@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [devtoolsx-v2.10.0] - 2024-07-05
+## [devtoolsx-v2.10.0] - 2024-07-12
 
 ### 🚀 Features
 
@@ -15,6 +15,14 @@ All notable changes to this project will be documented in this file.
 - Support both grouped and ungrouped views, settings in sidebar
 - Vertical layout
 - Auto open accordion for path
+- Changelog generator
+- Css playground
+- *(ci)* New bump version script
+- Rewrote jwt
+- Rest options for monaco
+- Svg preview
+- QR code reader
+- Compress binaries with upx
 
 ### 🐛 Bug Fixes
 
@@ -22,6 +30,10 @@ All notable changes to this project will be documented in this file.
 - Vertical image overflow
 - Error handling
 - *(ci)* Js heap out of mem
+- *(ci)* Incorrect matrix platforms
+- Autosizing text
+- No sourcemaps
+- Upx script
 
 ### 📚 Documentation
 
@@ -29,6 +41,7 @@ All notable changes to this project will be documented in this file.
 - Update FAQ
 - Star history
 - Reorder features
+- New feature
 
 ### ⚙️ Miscellaneous Tasks
 
@@ -40,6 +53,9 @@ All notable changes to this project will be documented in this file.
 - Cleanup
 - Unused vars rule
 - Deps upgrade
+- *(doc)* Add download instructions
+- *(ui)* Shortcut styling
+- Rename file
 
 ### Deps
 
@@ -49,6 +65,8 @@ All notable changes to this project will be documented in this file.
 
 - V2.10.0
 - V2.11.0
+- V2.11.1
+- V2.12.0
 
 ## [devtoolsx-v2.9.0] - 2024-03-31
 
