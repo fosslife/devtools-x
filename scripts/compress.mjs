@@ -12,7 +12,7 @@ function findBinary(dir) {
     const stat = fs.statSync(filePath);
     if (stat.isDirectory()) {
       // ignore
-    } else if (file === "dev-tool" || file.includes("dev-tools.exe")) {
+    } else if (file === "dev-tools" || file === "dev-tools.exe") {
       return filePath;
     }
   }
@@ -23,6 +23,13 @@ const targetDir = path.join(".", "src-tauri", "target", "release");
 const binaryPath = findBinary(targetDir);
 
 if (binaryPath) {
+  // check if current OS is darwin
+
+  let osname = process.platform;
+  if (osname === "darwin") {
+    console.log("OS is darwin, skipping UPX compression");
+    process.exit(0);
+  }
   console.log(`Found binary: ${binaryPath}`);
   try {
     execSync(`upx --best --lzma "${binaryPath}"`);
@@ -33,5 +40,5 @@ if (binaryPath) {
   }
 } else {
   console.error("Binary not found");
-  process.exit(1);
+  process.exit(0);
 }
