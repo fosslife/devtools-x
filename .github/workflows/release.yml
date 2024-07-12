@@ -35,9 +35,15 @@ jobs:
         # webkitgtk 4.0 is for Tauri v1 - webkitgtk 4.1 is for Tauri v2.
         # You can remove the one that doesn't apply to your app to speed up the workflow a bit.
 
+      - name: Install package manager (from package.json)
+        run: |
+          corepack enable
+          corepack install
+
       - name: setup node
         uses: actions/setup-node@v4
         with:
+          node-version-file: package.json
           node-version: lts/*
           cache: "yarn" # Set this to npm, yarn or pnpm.
 
@@ -57,9 +63,9 @@ jobs:
 
       - name: Install UPX
         if: matrix.settings.platform != 'macos-latest'
-        uses: crazy-max/ghaction-upx@v2
+        uses: crazy-max/ghaction-upx@v3
         with:
-          version: latest
+          install-only: true
 
       - uses: tauri-apps/tauri-action@v0
         env:
