@@ -85,7 +85,7 @@ export const navitems: NavItem[] = [
     group: "Generators",
   },
   {
-    id: "qrcode",
+    id: "qrcode-reader",
     to: "/qrcode-reader",
     icon: <MdQrCode2 />,
     text: "QR Code Reader",
@@ -211,7 +211,13 @@ export const navitems: NavItem[] = [
     text: "Color Utils",
     group: "Converters",
   },
-
+  {
+    id: "colorgenerator",
+    to: "/colorgenerator",
+    icon: <MdColorize />,
+    text: "Color Generator",
+    group: "Generators",
+  },
   {
     id: "text",
     to: "/text",
