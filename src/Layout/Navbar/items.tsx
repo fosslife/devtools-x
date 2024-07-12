@@ -38,7 +38,12 @@ import {
   FcSettings,
 } from "react-icons/fc";
 import { RiPingPongLine } from "react-icons/ri";
-import { SiPrettier, SiJsonwebtokens, SiPostgresql } from "react-icons/si";
+import {
+  SiPrettier,
+  SiJsonwebtokens,
+  SiPostgresql,
+  SiHashnode,
+} from "react-icons/si";
 import {
   VscSymbolString,
   VscDiff,
@@ -175,7 +180,13 @@ export const navitems: NavItem[] = [
     text: "Hashing Files",
     group: "Hashing",
   },
-
+  {
+    id: "hmac-generator",
+    to: "/hmac-generator",
+    icon: <SiHashnode />,
+    text: "HMAC Generator",
+    group: "Hashing",
+  },
   {
     id: "json-formatter",
     to: "/json-formatter",
