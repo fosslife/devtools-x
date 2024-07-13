@@ -24,6 +24,7 @@ import {
   MdWeb,
   MdImage,
   MdQrCode2,
+  MdOutlineImage,
 } from "react-icons/md";
 import {
   FcCamera,
@@ -129,6 +130,13 @@ export const navitems: NavItem[] = [
     to: "/image",
     icon: <MdImage />,
     text: "Image Compressor",
+    group: "Image",
+  },
+  {
+    id: "image-crop",
+    to: "/image-crop",
+    icon: <MdOutlineImage />,
+    text: "Image Cropper",
     group: "Image",
   },
   {

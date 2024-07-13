@@ -81,6 +81,7 @@ const ColorGenerator = loadable(
 );
 const QrReadcer = loadable(() => import("./Features/qrcode/QrCodeReader"));
 const HmacGenerator = loadable(() => import("./Features/hash/HmacGenerator"));
+const ImageCrop = loadable(() => import("./Features/image/ImageCrop"));
 
 const shortCuts = [
   {
@@ -253,6 +254,7 @@ function App() {
               <Route path="/svg-preview" element={<SvgPreview />}></Route>
               <Route path="/qrcode-reader" element={<QrReadcer />}></Route>
               <Route path="/hmac-generator" element={<HmacGenerator />}></Route>
+              <Route path="/image-crop" element={<ImageCrop />}></Route>
               <Route
                 path="/colorgenerator"
                 element={<ColorGenerator />}
