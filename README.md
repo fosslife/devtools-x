@@ -59,7 +59,7 @@ This project exists solely because I was fed up switching between different tool
 
 #### Checkout [features.md](features.md) for a short video demo on every feature.
 
-DevTools-X has about **37 features** as of now, and growing.
+DevTools-X has about **40 features** as of now, and growing.
 
 The full list in below, One big selling point of DevTools-X is it uses `monaco-editor`, the editor used by vscode, so tons of editor features are
 available to you right from the start, as if you are using vscode.
@@ -101,6 +101,9 @@ available to you right from the start, as if you are using vscode.
 35. Generate mock data with Faker
 36. CSS live playground
 37. QR Code Reader
+38. Image cropper
+39. HMAC Generator
+40. Color palette generator
 
 ## Contributing
 
