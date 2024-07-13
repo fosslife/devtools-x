@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [devtoolsx-v2.10.0] - 2024-07-12
+## [devtoolsx-v2.10.0] - 2024-07-13
 
 ### 🚀 Features
 
@@ -23,6 +23,9 @@ All notable changes to this project will be documented in this file.
 - Svg preview
 - QR code reader
 - Compress binaries with upx
+- Color palette generator
+- Hmac generator
+- Image cropper
 
 ### 🐛 Bug Fixes
 
@@ -56,6 +59,7 @@ All notable changes to this project will be documented in this file.
 - *(doc)* Add download instructions
 - *(ui)* Shortcut styling
 - Rename file
+- *(doc)* Changelog
 
 ### Deps
 
