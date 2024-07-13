@@ -24,6 +24,7 @@ import {
   MdWeb,
   MdImage,
   MdQrCode2,
+  MdOutlineImage,
 } from "react-icons/md";
 import {
   FcCamera,
@@ -38,7 +39,12 @@ import {
   FcSettings,
 } from "react-icons/fc";
 import { RiPingPongLine } from "react-icons/ri";
-import { SiPrettier, SiJsonwebtokens, SiPostgresql } from "react-icons/si";
+import {
+  SiPrettier,
+  SiJsonwebtokens,
+  SiPostgresql,
+  SiHashnode,
+} from "react-icons/si";
 import {
   VscSymbolString,
   VscDiff,
@@ -85,7 +91,7 @@ export const navitems: NavItem[] = [
     group: "Generators",
   },
   {
-    id: "qrcode",
+    id: "qrcode-reader",
     to: "/qrcode-reader",
     icon: <MdQrCode2 />,
     text: "QR Code Reader",
@@ -124,6 +130,13 @@ export const navitems: NavItem[] = [
     to: "/image",
     icon: <MdImage />,
     text: "Image Compressor",
+    group: "Image",
+  },
+  {
+    id: "image-crop",
+    to: "/image-crop",
+    icon: <MdOutlineImage />,
+    text: "Image Cropper",
     group: "Image",
   },
   {
@@ -175,7 +188,13 @@ export const navitems: NavItem[] = [
     text: "Hashing Files",
     group: "Hashing",
   },
-
+  {
+    id: "hmac-generator",
+    to: "/hmac-generator",
+    icon: <SiHashnode />,
+    text: "HMAC Generator",
+    group: "Hashing",
+  },
   {
     id: "json-formatter",
     to: "/json-formatter",
@@ -211,7 +230,13 @@ export const navitems: NavItem[] = [
     text: "Color Utils",
     group: "Converters",
   },
-
+  {
+    id: "colorgenerator",
+    to: "/colorgenerator",
+    icon: <MdColorize />,
+    text: "Color Generator",
+    group: "Generators",
+  },
   {
     id: "text",
     to: "/text",

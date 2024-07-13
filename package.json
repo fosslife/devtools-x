@@ -1,6 +1,6 @@
 {
   "name": "dev-tools",
-  "version": "2.12.0",
+  "version": "2.13.0",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -36,6 +36,7 @@
     "@uiw/react-markdown-preview": "^5.1.1",
     "angular-html-parser": "^5.2.0",
     "axios": "^1.6.8",
+    "chroma-js": "^2.4.2",
     "clsx": "^2.1.0",
     "color-convert": "^2.0.1",
     "convert-units": "^2.3.4",
@@ -61,6 +62,7 @@
     "react": "^18.2.0",
     "react-colorful": "^5.6.1",
     "react-compare-slider": "^3.0.1",
+    "react-cropper": "^2.3.3",
     "react-dom": "^18.2.0",
     "react-icons": "^5.2.1",
     "react-live": "^4.1.5",
@@ -79,6 +81,7 @@
     "@actions/github": "^6.0.0",
     "@linaria/rollup": "^5.0.4",
     "@tauri-apps/cli": "^1.6.0",
+    "@types/chroma-js": "^2.4.4",
     "@types/color-convert": "^2.0.3",
     "@types/convert-units": "^2.3.9",
     "@types/crypto-js": "^4.2.2",
@@ -113,6 +116,5 @@
     "rollup-plugin-visualizer": "^5.12.0",
     "typescript": "^5.4.3",
     "vite": "^5.2.7"
-  },
-  "packageManager": "yarn@1.22.22"
+  }
 }
