@@ -44,7 +44,7 @@ const Colors = loadable(() => import("./Features/colors/Colors"));
 const RegexTester = loadable(() => import("./Features/regex/RegexTester"));
 const TextDiff = loadable(() => import("./Features/text/TextDiff"));
 const Markdown = loadable(() => import("./Features/markdown/Markdown"));
-const YamlJson = loadable(() => import("./Features/yaml-json/Yaml"));
+const YamlJson = loadable(() => import("./Features/json-yaml/Yaml"));
 const Pastebin = loadable(() => import("./Features/pastebin/Pastebin"));
 const Repl = loadable(() => import("./Features/repl/Repl"));
 const Image = loadable(() => import("./Features/image/Image"));

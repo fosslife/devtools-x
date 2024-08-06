@@ -53,6 +53,7 @@
     "lesspass": "^9.2.0",
     "lorem-ipsum": "^2.0.8",
     "monaco-themes": "^0.4.4",
+    "nanoid": "^5.0.7",
     "polished": "^4.3.1",
     "preact": "^10.20.1",
     "qrcode": "^1.5.3",

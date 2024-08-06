@@ -75,9 +75,8 @@ function Playground() {
           />
           <LivePreview
             style={{
-              backgroundColor: "white",
               width: "50%",
-              color: "black",
+              color: "white",
               padding: 15,
               height: "100%",
             }}
