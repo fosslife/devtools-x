@@ -10,7 +10,7 @@ import {
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { AppContext } from "../Contexts/AppContextProvider";
+import { useAppContext } from "../Contexts/AppContextProvider";
 import { data } from "../Layout/Navbar";
 import classes from "./styles.module.css";
 import { MdSettings } from "react-icons/md";
@@ -21,13 +21,25 @@ type WelcomeProps = {
 
 const Welcome = ({ openSettings }: WelcomeProps) => {
   const nav = useNavigate();
-  const { pinned } = useContext(AppContext);
+  const { pinned } = useAppContext();
   const [showAll, setShowAll] = useState(false);
 
   return (
     <Stack className={classes.root}>
-      <Text tt="uppercase" c="brand" component={Title}>
-        DEVTOOLS-X
+      <img
+        src={"/main-logo.png"}
+        style={{
+          width: 40,
+        }}
+      />
+      <Text
+        component={Title}
+        style={{
+          color: "#0e72f6",
+          marginTop: "-10px",
+        }}
+      >
+        Devtools-X
       </Text>
 
       <Group>

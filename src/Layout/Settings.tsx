@@ -3,6 +3,7 @@ import {
   Divider,
   Group,
   rem,
+  Select,
   Stack,
   Switch,
   Text,
@@ -17,8 +18,11 @@ import { db } from "../utils";
 import { openFileAndGetData, saveDataToFile } from "../utils/functions";
 import { confirm } from "@tauri-apps/api/dialog";
 import { useLocalStorage } from "@mantine/hooks";
+import { useAppContext } from "../Contexts/AppContextProvider";
+import { themes } from "./themes";
 
 export const Settings = () => {
+  const { config, handleConfig } = useAppContext();
   const { toggleColorScheme } = useMantineColorScheme();
   const theme = useMantineTheme();
 
@@ -137,6 +141,20 @@ export const Settings = () => {
       <Group>
         <Button onClick={resetSidebar}>Reset sidebar order</Button>
       </Group>
+      <Divider />
+      <Select
+        searchable
+        data={themes}
+        value={config.editorThemeDark}
+        onChange={(e) => handleConfig({ editorThemeDark: e as string })}
+      />
+      <Select
+        searchable
+        data={themes}
+        value={config.editorThemeLight}
+        onChange={(e) => handleConfig({ editorThemeLight: e as string })}
+      />
+
       <Divider />
       <Text c="dimmed">DevTools-X v{version}</Text>
       <Text c="dimmed">File issue at: </Text>

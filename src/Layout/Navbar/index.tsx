@@ -14,7 +14,11 @@ import { MdMenu, MdMenuOpen, MdHome } from "react-icons/md";
 import { useLocation, useNavigate } from "react-router-dom";
 import cx from "clsx";
 import { navitems as data } from "./items";
-import { AppContext } from "../../Contexts/AppContextProvider";
+import {
+  AppConfigType,
+  defaultConfig,
+  useAppContext,
+} from "../../Contexts/AppContextProvider";
 import { db } from "../../utils";
 import classes from "./styles.module.css";
 
@@ -65,7 +69,7 @@ export const Navbar = () => {
     key: "groupItems",
     defaultValue: true,
   });
-  const { pinned, handleState } = useContext(AppContext);
+  const { pinned, handleState, config, handleConfig } = useAppContext();
   const [iconMode, setIconMode] = useState(false);
 
   useEffect(() => {
@@ -75,6 +79,12 @@ export const Navbar = () => {
       handleState([...pinnedStore]);
     }
     pinnedItems();
+
+    async function appConfig() {
+      const config = (await db.get<AppConfigType>("config")) || defaultConfig;
+      handleConfig(config);
+    }
+    appConfig();
   }, []);
 
   useEffect(() => {
