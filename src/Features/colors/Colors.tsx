@@ -2,6 +2,7 @@ import classes from "./styles.module.css";
 
 import {
   Box,
+  Collapse,
   Group,
   Stack,
   Switch,
@@ -21,7 +22,6 @@ import {
   renderHsl,
   Convert,
   interpolateColor,
-  createShading,
   hex2cmyk,
 } from "./utilities";
 import {
@@ -30,16 +30,32 @@ import {
   formatRatio,
   meetsMinimumRequirements,
 } from "./contrast";
+import {
+  analogous,
+  complementary,
+  compound,
+  directComplementary,
+  doubleSplitComplementary,
+  monochromatic,
+  splitComplementary,
+  square,
+  triadic,
+} from "./harmonies";
+import { RenderShades } from "./RenderShades";
 
 const Colors = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
   const [config, setConfig] = useState({
     steps: 15,
+    harmoniesOpen: false,
   });
   const [history, setHistory] = useState<string[]>(Array(20).fill("#000000"));
   const [color, setColor] = useState<string>("#000000");
 
+  const toggleHarmonies = () => {
+    setConfig((prev) => ({ ...prev, harmoniesOpen: !prev.harmoniesOpen }));
+  };
   const onCopy = () => {
     // fill one color in history
     setHistory((prev) => {
@@ -61,16 +77,6 @@ const Colors = () => {
   };
 
   const [l, c, h] = new Convert().hex2lch(color);
-
-  const spectrum = createShading({
-    color: color,
-    shades: config.steps,
-    start: 0,
-    end: 95,
-    easeMethod: "ease-in-out",
-    includeBase: true,
-    space: "full-gamut",
-  }).shades;
 
   const shades = interpolateColor([l, c, h], "l", config.steps, 1); // towards black
 
@@ -94,6 +100,17 @@ const Colors = () => {
   const hsv = Object.values(conv.hex2hsv(color))
     .map((v) => v.toFixed())
     .join(", ");
+
+  const harmonies = {
+    analogous: analogous(color),
+    monochromatic: monochromatic(color),
+    triadic: triadic(color),
+    complementary: complementary(color),
+    splitComplementary: splitComplementary(color),
+    doubleSplitComplementary: doubleSplitComplementary(color),
+    square: square(color),
+    compound: compound(color),
+  };
   return (
     <Stack
       align="center"
@@ -133,6 +150,29 @@ const Colors = () => {
       <RenderShades colors={hues} setColor={copy} label="Hues" />
       <RenderShades colors={temperatures} setColor={copy} label="Temps" />
 
+      <Group gap={10} style={{ marginBottom: 14 }}>
+        <Text
+          onClick={toggleHarmonies}
+          style={{ cursor: "pointer" }}
+          fw="lighter"
+          c="dimmed"
+          size="sm"
+        >
+          Harmonies
+        </Text>
+      </Group>
+      <Collapse in={config.harmoniesOpen} style={{ width: "95%" }}>
+        <Stack>
+          {Object.keys(harmonies).map((key) => (
+            <RenderShades
+              colors={harmonies[key as keyof typeof harmonies]}
+              setColor={copy}
+              label={key}
+            />
+          ))}
+        </Stack>
+      </Collapse>
+
       <Group gap={10} grow style={{ marginBottom: 14, width: "100%" }}>
         <Stack align="center">
           <Box
@@ -143,7 +183,9 @@ const Colors = () => {
               height: "30%",
               minHeight: "100px",
             }}
-          ></Box>
+          >
+            {color}
+          </Box>
 
           <Switch
             checked={colorScheme === "dark"}
@@ -184,57 +226,6 @@ const Colors = () => {
     </Stack>
   );
 };
-
-const RenderShades = ({
-  colors,
-  setColor,
-  label,
-}: {
-  colors: string[];
-  setColor: (color: string) => void;
-  label: string;
-}) => (
-  <div
-    style={{
-      display: "flex",
-      justifyContent: "space-between",
-      alignContent: "center",
-      width: "95%",
-      height: "50px",
-    }}
-  >
-    <Text
-      fw="lighter"
-      c="dimmed"
-      size="sm"
-      style={{
-        width: "10%",
-      }}
-    >
-      {label}
-    </Text>
-    {colors.map((color, i) => (
-      <Box
-        key={i}
-        onClick={() => {
-          setColor(color);
-        }}
-        style={{
-          backgroundColor: color,
-          color: canBeWhite(color) ? "white" : "black",
-          fontSize: "0.7em",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "10%",
-          height: "100%",
-        }}
-      >
-        {color.toUpperCase()}
-      </Box>
-    ))}
-  </div>
-);
 
 export const ContrastContent = ({
   color,
