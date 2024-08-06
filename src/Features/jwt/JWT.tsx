@@ -72,6 +72,17 @@ const JWTEditor = () => {
     });
   };
 
+  const verifyJwt = async (secret: string) => {
+    try {
+      const key = new TextEncoder().encode(secret);
+      await jwtVerify(jwt, key, { algorithms: [algorithm] });
+      setIsVerified(true);
+    } catch (e) {
+      setIsVerified(false);
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     (async () => {
       const jwt = await new SignJWT({
@@ -87,6 +98,7 @@ const JWTEditor = () => {
         .sign(new TextEncoder().encode(secret));
 
       setJwt(jwt);
+      await verifyJwt(secret);
     })();
     // Note: should be returned but throws an error when formatted
     () => {
@@ -117,19 +129,11 @@ const JWTEditor = () => {
 
         setSignature(signaturePart);
       }
+      (async () => {
+        await verifyJwt(secret);
+      })();
     }
   }, [signature, jwt]);
-
-  const verifyJwt = async (secret: string) => {
-    try {
-      const key = new TextEncoder().encode(secret);
-      await jwtVerify(jwt, key, { algorithms: [algorithm] });
-      setIsVerified(true);
-    } catch (e) {
-      setIsVerified(false);
-      console.log(e);
-    }
-  };
 
   return (
     <Group h="100%" w={"100%"} wrap="nowrap" align="start">

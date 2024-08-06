@@ -41,6 +41,9 @@ const JWT = loadable(() => import("./Features/jwt/JWT"));
 // const Nums = loadable(() => import("./Features/nums/Nums"));
 const Sql = loadable(() => import("./Features/sql/Sql"));
 const Colors = loadable(() => import("./Features/colors/Colors"));
+const ColorHarmonies = loadable(
+  () => import("./Features/colors/ColorHarmonies")
+);
 const RegexTester = loadable(() => import("./Features/regex/RegexTester"));
 const TextDiff = loadable(() => import("./Features/text/TextDiff"));
 const Markdown = loadable(() => import("./Features/markdown/Markdown"));
@@ -224,6 +227,7 @@ function App() {
               <Route path="/nums" element={<Nums />}></Route>
               <Route path="/sql" element={<Sql />}></Route>
               <Route path="/colors" element={<Colors />}></Route>
+              <Route path="/harmonies" element={<ColorHarmonies />}></Route>
               <Route path="/regex" element={<RegexTester />}></Route>
               <Route path="/text" element={<TextDiff />}></Route>
               <Route path="/markdown" element={<Markdown />}></Route>
