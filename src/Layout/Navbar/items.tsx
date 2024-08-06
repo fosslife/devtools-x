@@ -25,6 +25,7 @@ import {
   MdImage,
   MdQrCode2,
   MdOutlineImage,
+  MdPalette,
 } from "react-icons/md";
 import {
   FcCamera,
@@ -228,6 +229,13 @@ export const navitems: NavItem[] = [
     to: "/colors",
     icon: <MdColorize />,
     text: "Color Utils",
+    group: "Converters",
+  },
+  {
+    id: "harmonies",
+    to: "/harmonies",
+    icon: <MdPalette />,
+    text: "Harmonies",
     group: "Converters",
   },
   {
