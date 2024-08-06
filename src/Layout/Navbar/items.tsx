@@ -296,6 +296,13 @@ export const navitems: NavItem[] = [
     group: "Web",
   },
   {
+    id: "url-encoder",
+    to: "/url-encoder",
+    icon: <MdQuestionMark />,
+    text: "URL Encoder",
+    group: "Web",
+  },
+  {
     id: "html-preview",
     to: "/html-preview",
     icon: <MdHtml />,
