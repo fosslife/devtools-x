@@ -15,14 +15,20 @@ import {
 } from "./harmonies";
 import { RenderShades } from "./RenderShades";
 import { useDebouncedValue } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
 
 const ColorHarmonies = () => {
-  const [color, setColor] = useState<string>("#000000");
+  const [color, setColor] = useState<string>("#61D2C3");
 
   const [colorDeb] = useDebouncedValue(color, 300);
 
   const copy = (color: string) => {
     clipboard.writeText(color.startsWith("#") ? color : `#${color}`);
+    notifications.show({
+      message: `Copied ${color} to clipboard`,
+      color: "blue",
+      autoClose: 1000,
+    });
   };
 
   const [harmonies, setHarmonies] = useState({});
