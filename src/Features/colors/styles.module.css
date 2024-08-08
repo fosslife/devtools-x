@@ -21,7 +21,11 @@
 /* Color shades */
 .shades__container {
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    flex-direction: row;
+    min-height: 45px;
+    width: 100%;
 }
 
 .shades__box {
@@ -29,17 +33,24 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 10%;
+    width: 100%;
     height: 100%;
     cursor: copy;
-
-    span {
-        opacity: 0;
-    }
-
-    &:hover span {
-        opacity: 1;
-    }
+}
+.shades__container :first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.shades__container :last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.shades__box span {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.shades__box:hover span {
+    opacity: 1;
 }
 /* Wcag contrast box */
 

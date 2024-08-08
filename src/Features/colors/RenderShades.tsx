@@ -13,7 +13,12 @@ export const RenderShades = ({
   setColor: (color: string) => void;
   label: string;
 }) => (
-  <Group justify="space-between" align="center" w="95%" h="50px">
+  <div
+    className={classes.shades__container}
+    style={{
+      height: "50px",
+    }}
+  >
     <Text
       fw="lighter"
       size="sm"
@@ -23,20 +28,27 @@ export const RenderShades = ({
     >
       {label}
     </Text>
-    {colors.map((color, i) => (
-      <Box
-        key={i}
-        onClick={() => {
-          setColor(color);
-        }}
-        className={classes.colorBox}
-        style={{
-          backgroundColor: color,
-          color: canBeWhite(color) ? "white" : "black",
-        }}
-      >
-        {color.toUpperCase()}
-      </Box>
-    ))}
-  </Group>
+    <div
+      className={classes.shades__container}
+      style={{
+        height: "50px",
+      }}
+    >
+      {colors.map((color, i) => (
+        <div
+          key={i}
+          onClick={() => {
+            setColor(color);
+          }}
+          className={classes.shades__box}
+          style={{
+            backgroundColor: color,
+            color: canBeWhite(color) ? "white" : "black",
+          }}
+        >
+          <span>{color.toUpperCase()}</span>
+        </div>
+      ))}
+    </div>
+  </div>
 );
