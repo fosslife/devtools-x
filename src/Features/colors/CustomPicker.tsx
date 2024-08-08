@@ -228,6 +228,7 @@ class CustomColorPicker extends React.Component<Props, State> {
             value={this.state.hex}
             onChange={this.props.onChange}
           />
+          {/*  // todo Will add more input methods   */}
         </div>
         {this.props.colors?.length && (
           <div
