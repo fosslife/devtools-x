@@ -59,7 +59,7 @@ This project exists solely because I was fed up switching between different tool
 
 #### Checkout [features.md](features.md) for a short video demo on every feature.
 
-DevTools-X has about **40 features** as of now, and growing.
+DevTools-X has about **41 features** as of now, and growing.
 
 The full list in below, One big selling point of DevTools-X is it uses `monaco-editor`, the editor used by vscode, so tons of editor features are
 available to you right from the start, as if you are using vscode.
@@ -104,6 +104,7 @@ available to you right from the start, as if you are using vscode.
 38. Image cropper
 39. HMAC Generator
 40. Color palette generator
+41. Color Harmonies generator
 
 ## Contributing
 
@@ -123,9 +124,12 @@ DevTools-X is **NOT WRITTEN IN ELECTRON**.
 
 That should be enough to tell you it's built on top of [Tauri](https://tauri.app/), So we get best of the both worlds: Web + Rust. Web to create beautiful cross-platform UI, Rust to create fast and small applications. Tauri bundle is super small, about 10MB of installer.
 
-## Authors
+## Contributors
 
 - [@Sparkenstein](https://www.github.com/Sparkenstein)
+- [@ThijsZijdel](https://github.com/ThijsZijdel)
+- [@yemikudaisi](https://github.com/yemikudaisi)
+- [@kuyoonjo](https://github.com/kuyoonjo)
 - You?
 
 ## FAQ
