@@ -19,57 +19,61 @@
   width: 24px;
 }
 
-
 .wcagBox {
-    font-size: 14px;
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    width: 40%;
-    border: 1px solid var(--mantine-color-gray-8);
-    border-radius: 5px;
-
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  width: 40%;
+  border: 1px solid var(--mantine-color-gray-8);
+  border-radius: 5px;
 }
 
 .box {
-    display: flex;
-    margin-right: 0.5rem;
-    align-items: center;
-    padding: 0.125rem 0.5rem;
-    border: 2px;
-    text-align: center;
-    font-size: 1rem;
-    border-radius: 0.25rem;
+  display: flex;
+  margin-right: 0.5rem;
+  align-items: center;
+  padding: 0.125rem 0.5rem;
+  border: 2px;
+  text-align: center;
+  font-size: 1rem;
+  border-radius: 0.25rem;
 
-    &.dark {
-        background-color: var(--mantine-color-gray-7);
-        border: 1px solid var(--mantine-color-gray-7);
-    }
-    &.light {
-        background-color: var(--mantine-color-gray-3);
-        border: 1px solid var(--mantine-color-gray-3);
-    }
+  &.dark {
+    background-color: var(--mantine-color-gray-7);
+    border: 1px solid var(--mantine-color-gray-7);
+  }
+  &.light {
+    background-color: var(--mantine-color-gray-3);
+    border: 1px solid var(--mantine-color-gray-3);
+  }
 }
 
 .grid {
-    margin-top: 10px;
-    display: grid;
-    gap: 0.5em;
-    grid-template-columns: repeat(2, 1fr);
+  margin-top: 10px;
+  display: grid;
+  gap: 0.5em;
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .ok {
-    color: #0ca678;
+  color: #0ca678;
 }
 
 .fail {
-    color: #ff5252;
+  color: #ff5252;
 }
 
-
 .colorPicker {
-    /*width: 95%!important;*/
-    /*height: 35vh!important;*/
-    cursor: pointer !important;
+  cursor: pointer !important;
+}
 
+.colorBox {
+  font-size: 0.7em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 10%;
+  height: 100%;
+  cursor: copy;
 }
