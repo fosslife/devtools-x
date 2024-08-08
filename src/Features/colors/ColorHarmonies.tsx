@@ -31,6 +31,8 @@ const ColorHarmonies = () => {
     });
   };
 
+  useColorRandomizer(setColor);
+
   const [harmonies, setHarmonies] = useState({});
 
   useEffect(() => {

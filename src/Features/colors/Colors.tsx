@@ -56,6 +56,7 @@ const Colors = () => {
   const toggleHarmonies = () => {
     setConfig((prev) => ({ ...prev, harmoniesOpen: !prev.harmoniesOpen }));
   };
+  useColorRandomizer(setColor);
   const onCopy = () => {
     // fill one color in history
     setHistory((prev) => {

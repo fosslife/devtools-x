@@ -19,23 +19,7 @@ import { useColorRandomizer } from "./hooks";
 const Colors = () => {
   const [color, setColor] = useState<string>("#000000");
 
-  const randomize = useCallback(() => {
-    const randomColor = getRandomColor();
-    setColor(randomColor);
-  }, []);
-
-  useEffect(() => {
-    // Randomize the color on load
-    randomize();
-
-    window.addEventListener("keydown", (e) => {
-      if (e.code === "Space") randomize();
-    });
-
-    return () => {
-      window.removeEventListener("keydown", () => {});
-    };
-  }, []);
+  useColorRandomizer(setColor);
 
   const copy = (color: string) => {
     clipboard.writeText(color.startsWith("#") ? color : `#${color}`);
