@@ -18,6 +18,30 @@
   height: 24px;
   width: 24px;
 }
+/* Color shades */
+.shades__container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.shades__box {
+    font-size: 0.7em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+    height: 100%;
+    cursor: copy;
+
+    span {
+        opacity: 0;
+    }
+
+    &:hover span {
+        opacity: 1;
+    }
+}
+/* Wcag contrast box */
 
 .wcagBox {
   font-size: 14px;
@@ -28,6 +52,7 @@
   border: 1px solid var(--mantine-color-gray-8);
   border-radius: 5px;
 }
+
 
 .box {
   display: flex;
@@ -68,12 +93,11 @@
   cursor: pointer !important;
 }
 
-.colorBox {
-  font-size: 0.7em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 10%;
-  height: 100%;
-  cursor: copy;
+
+/* Simulation */
+.simulation_heading {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

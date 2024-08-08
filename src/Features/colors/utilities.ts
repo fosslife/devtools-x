@@ -379,3 +379,11 @@ export const getInterpolateShades = (
 
   return interpolateTwoColors([l1, c1, h1], [l2, c2, h2], shades);
 };
+
+export const getRandomColor = () => {
+  const [r, g, b] = Array.from({ length: 3 }, () =>
+    Math.floor(Math.random() * 256)
+  );
+  const randomColor = new Convert().rgb2hex(r, g, b);
+  return randomColor;
+};
