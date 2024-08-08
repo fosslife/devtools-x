@@ -14,6 +14,7 @@ import {
 import { RenderShades } from "./RenderShades";
 import { blindnessStats, simulateColorBlindness } from "./blindness";
 import { useDebouncedValue } from "@mantine/hooks";
+import { useColorRandomizer } from "./hooks";
 
 const Colors = () => {
   const [color, setColor] = useState<string>("#000000");
@@ -42,15 +43,13 @@ const Colors = () => {
 
   const [l, c, h] = new Convert().hex2lch(color);
 
-  // Set up the color blindness debounced since it's less important
-  const [debouncedColor] = useDebouncedValue(color, 400);
   const stats = useMemo(
     () =>
       blindnessStats.map((info) => ({
-        data: simulateColorBlindness(debouncedColor, info.name),
+        data: simulateColorBlindness(color, info.name),
         info,
       })),
-    [debouncedColor]
+    [color]
   );
 
   return (
@@ -66,13 +65,18 @@ const Colors = () => {
       <Group
         gap={10}
         grow
-        style={{ marginTop: 14, marginBottom: 14, width: "100%" }}
+        style={{ marginTop: 14, marginBottom: 14, width: "95%" }}
       >
-        <Stack align="center" style={{ width: "95%" }}>
+        <Stack align="center" style={{ width: "100%" }}>
           <div className={classes.grid} style={{ width: "100%" }}>
             {stats.map(({ data, info }) => (
               <div key={info.name} style={{ width: "100%" }}>
-                <Text size="md" className={classes.simulation_heading}>
+                <Text
+                  size="sm"
+                  fw="lighter"
+                  style={{ marginBottom: 10 }}
+                  className={classes.simulation_heading}
+                >
                   {info.name}
 
                   {/*    tag */}
@@ -80,6 +84,7 @@ const Colors = () => {
                     style={{
                       background: data.percentage >= 90 ? "green" : "red",
                       color: "white",
+                      fontWeight: "bold",
                       padding: "0 5px",
                       borderRadius: "5px",
                       marginLeft: "auto",
@@ -100,7 +105,7 @@ const Colors = () => {
           </div>
         </Stack>
 
-        <Group style={{ width: "100%" }}>
+        <Group style={{ width: "100%", justifyContent: "center" }}>
           <ContrastContent color={color} background={"#ffffff"} />
           <ContrastContent color={color} background={"#000000"} />
         </Group>

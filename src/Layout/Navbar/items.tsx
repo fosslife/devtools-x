@@ -236,8 +236,16 @@ export const navitems: NavItem[] = [
     to: "/harmonies",
     icon: <MdPalette />,
     text: "Harmonies",
-    group: "Converters",
+    group: "Generators",
   },
+  {
+    id: "color-testing",
+    to: "/color-testing",
+    icon: <MdPalette />,
+    text: "Color Testing",
+    group: "Testing",
+  },
+
   {
     id: "colorgenerator",
     to: "/colorgenerator",
