@@ -18,18 +18,16 @@ import { notifications } from "@mantine/notifications";
 import { useColorRandomizer } from "./hooks";
 
 const ColorHarmonies = () => {
-  const [color, setColor] = useState<string>("#61D2C3");
+  const [color, setColor] = useColorRandomizer();
 
-  const copy = (color: string) => {
-    clipboard.writeText(color.startsWith("#") ? color : `#${color}`);
+  const copy = async (color: string) => {
+    await clipboard.writeText(color.startsWith("#") ? color : `#${color}`);
     notifications.show({
       message: `Copied ${color} to clipboard`,
       color: "blue",
       autoClose: 1000,
     });
   };
-
-  useColorRandomizer(setColor);
 
   const [harmonies, setHarmonies] = useState({});
 

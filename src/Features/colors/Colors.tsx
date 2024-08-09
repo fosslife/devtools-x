@@ -2,45 +2,40 @@ import classes from "./styles.module.css";
 
 import {
   Box,
-  Collapse,
-  Grid,
   Group,
   Stack,
   Switch,
-  TagsInput,
   Text,
   Tooltip,
   useMantineColorScheme,
 } from "@mantine/core";
-import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import CustomPicker from "./CustomPicker";
 import { BsMoon, BsSun } from "react-icons/bs";
 
 import { OutputBox } from "../../Components/OutputBox";
 import { clipboard } from "@tauri-apps/api";
 import {
+  Convert,
   getInterpolateShades,
+  hex2cmyk,
+  interpolateColor,
   renderCmyk,
   renderHsl,
-  Convert,
-  interpolateColor,
-  hex2cmyk,
 } from "./utilities";
 
 import { RenderShades } from "./RenderShades";
 import { useColorRandomizer } from "./hooks";
 
 const Colors = () => {
+  const [color, setColor] = useColorRandomizer();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
-  const [config, setConfig] = useState({
+  const [config] = useState({
     steps: 15,
     harmoniesOpen: false,
   });
   const [history, setHistory] = useState<string[]>(Array(20).fill("#000000"));
-  const [color, setColor] = useState<string>("#000000");
-
-  useColorRandomizer(setColor);
 
   const onCopy = () => {
     // fill one color in history
@@ -52,8 +47,8 @@ const Colors = () => {
     });
   };
 
-  const copy = (color: string) => {
-    clipboard.writeText(color.startsWith("#") ? color : `#${color}`);
+  const copy = async (color: string) => {
+    await clipboard.writeText(color.startsWith("#") ? color : `#${color}`);
     setHistory((prev) => {
       let newHistory = [...prev];
       newHistory.pop();
@@ -147,8 +142,8 @@ const Colors = () => {
             <Tooltip label={`Copy ${color}`} key={i}>
               <Box
                 className={classes.gridItem}
-                onClick={() => {
-                  clipboard.writeText(
+                onClick={async () => {
+                  await clipboard.writeText(
                     color.startsWith("#") ? color : `#${color}`
                   );
                 }}

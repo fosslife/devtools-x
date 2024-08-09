@@ -1,7 +1,12 @@
-import { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { getRandomColor } from "./utilities";
 
-export const useColorRandomizer = (setColor: (color: string) => void) => {
+export const useColorRandomizer = (): [
+  string,
+  React.Dispatch<React.SetStateAction<string>>,
+] => {
+  const [color, setColor] = useState<string>("#000000");
+
   const randomize = useCallback(() => {
     const randomColor = getRandomColor();
     setColor(randomColor);
@@ -19,4 +24,6 @@ export const useColorRandomizer = (setColor: (color: string) => void) => {
       window.removeEventListener("keydown", () => {});
     };
   }, []);
+
+  return [color, setColor];
 };

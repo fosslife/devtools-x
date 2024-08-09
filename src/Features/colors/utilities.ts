@@ -280,7 +280,7 @@ export class Convert {
   };
 
   canBeWhite = (hex: string) => {
-    const [h, s, l] = this.hex2hsl(hex);
+    const [_h, _s, l] = this.hex2hsl(hex);
     return l < 55;
   };
 }

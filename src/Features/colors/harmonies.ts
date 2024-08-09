@@ -107,16 +107,3 @@ export function compound(hex: string) {
 
   return [main, cp1, cp2, cp3, cp4];
 }
-
-// Shades Colors
-export function shades(hex: string) {
-  const [l, c, h] = cc.hex2lch(hex);
-
-  const main = cc.lch2hex(l, c, h);
-  const sh1 = cc.lch2hex(l * 0.25, c * 0.25, h);
-  const sh2 = cc.lch2hex(l * 0.5, c * 0.5, h);
-  const sh3 = cc.lch2hex(l * 0.75, c * 0.75, h);
-  const sh4 = cc.lch2hex(l * 0.9, c * 0.9, h);
-
-  return [main, sh1, sh2, sh3, sh4];
-}

@@ -1,4 +1,4 @@
-import { Box, Group, Text } from "@mantine/core";
+import { Text } from "@mantine/core";
 
 import { canBeWhite } from "./contrast";
 

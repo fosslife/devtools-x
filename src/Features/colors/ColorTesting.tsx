@@ -1,10 +1,9 @@
 import classes from "./styles.module.css";
 
 import { Group, Stack, Text } from "@mantine/core";
-import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
+import { Fragment, useMemo } from "react";
 import CustomPicker from "./CustomPicker";
 import { clipboard } from "@tauri-apps/api";
-import { Convert, getRandomColor } from "./utilities";
 import {
   checkContrast,
   formatRatio,
@@ -13,19 +12,14 @@ import {
 
 import { RenderShades } from "./RenderShades";
 import { blindnessStats, simulateColorBlindness } from "./blindness";
-import { useDebouncedValue } from "@mantine/hooks";
 import { useColorRandomizer } from "./hooks";
 
 const Colors = () => {
-  const [color, setColor] = useState<string>("#000000");
+  const [color, setColor] = useColorRandomizer();
 
-  useColorRandomizer(setColor);
-
-  const copy = (color: string) => {
-    clipboard.writeText(color.startsWith("#") ? color : `#${color}`);
+  const copy = async (color: string) => {
+    await clipboard.writeText(color.startsWith("#") ? color : `#${color}`);
   };
-
-  const [l, c, h] = new Convert().hex2lch(color);
 
   const stats = useMemo(
     () =>
