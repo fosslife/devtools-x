@@ -1,7 +1,7 @@
 import { Button, Group, LoadingOverlay, Stack, Table } from "@mantine/core";
 import { dialog, invoke } from "@tauri-apps/api";
 import { useState } from "react";
-import { trackOtherEvent } from "../../utils/analytics";
+import { trackOtherEvent } from "@/utils/analytics";
 
 const FileHash = () => {
   const [fileHashes, setFileHashes] = useState<

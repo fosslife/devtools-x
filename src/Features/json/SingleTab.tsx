@@ -13,7 +13,7 @@ import {
   BsTextParagraph,
 } from "react-icons/bs";
 
-import { Monaco } from "../../Components/MonacoWrapper";
+import { Monaco } from "@/Components/MonacoWrapper";
 
 export const SingleTab = ({
   tabid,

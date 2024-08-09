@@ -1,7 +1,7 @@
 import { Group, NumberInput, Select, Stack, Textarea } from "@mantine/core";
 import { loremIpsum } from "lorem-ipsum";
 import { useEffect, useState } from "react";
-import { Copy } from "../../Components/Copy";
+import { Copy } from "@/Components/Copy";
 
 type mode = "paragraphs" | "sentences" | "words";
 

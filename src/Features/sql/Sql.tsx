@@ -1,9 +1,9 @@
-import { Box, Stack } from "@mantine/core";
+import { Box, Group, Select, Stack, Text } from "@mantine/core";
 import sqlFormatter from "@sqltools/formatter";
 import { useEffect, useState } from "react";
 
-import { Copy } from "../../Components/Copy";
-import { Monaco } from "../../Components/MonacoWrapper";
+import { Copy } from "@/Components/Copy";
+import { Monaco } from "@/Components/MonacoWrapper";
 
 const firstQuery = `
 WITH SubQuery1 AS (    SELECT         EmployeeID,         DepartmentID,        COUNT(*) OVER(PARTITION BY DepartmentID) AS DepartmentSize,

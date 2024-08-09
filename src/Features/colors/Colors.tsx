@@ -13,7 +13,7 @@ import { useState } from "react";
 import CustomPicker from "./CustomPicker";
 import { BsMoon, BsSun } from "react-icons/bs";
 
-import { OutputBox } from "../../Components/OutputBox";
+import { OutputBox } from "@/Components/OutputBox";
 import { clipboard } from "@tauri-apps/api";
 import {
   Convert,
