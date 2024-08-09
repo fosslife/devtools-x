@@ -9,7 +9,7 @@ import {
 } from "@mantine/core";
 import { useState } from "react";
 
-import { Monaco } from "../../Components/MonacoWrapper";
+import { Monaco } from "@/Components/MonacoWrapper";
 import { notifications } from "@mantine/notifications";
 
 const langs = [

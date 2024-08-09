@@ -7,9 +7,9 @@ import {
   Stack,
   Tooltip,
 } from "@mantine/core";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
-import { MdMenu, MdMenuOpen, MdHome } from "react-icons/md";
+import { MdHome, MdMenu, MdMenuOpen } from "react-icons/md";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import cx from "clsx";
@@ -19,11 +19,11 @@ import {
   defaultConfig,
   useAppContext,
 } from "../../Contexts/AppContextProvider";
-import { db } from "../../utils";
+import { db } from "@/utils";
 import classes from "./styles.module.css";
 
 import { useLocalStorage, useWindowEvent } from "@mantine/hooks";
-import { trackButtonClick, trackOtherEvent } from "../../utils/analytics";
+import { trackButtonClick, trackOtherEvent } from "@/utils/analytics";
 import { GroupedView } from "./components/GroupedView";
 import { UngroupedView } from "./components/UngroupedView";
 
