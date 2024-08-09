@@ -1,10 +1,10 @@
 import "./styles.module.css";
 
 import { Button, Stack, Tabs } from "@mantine/core";
-import { MouseEvent, MouseEventHandler, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { db } from "../../utils";
-import { useDebouncedCallback } from "../../utils/";
+import { db } from "@/utils";
+import { useDebouncedCallback } from "@/hooks";
 import { SingleTab } from "./SingleTab";
 
 // default state

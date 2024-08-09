@@ -3,7 +3,7 @@ import { OnMount } from "@monaco-editor/react";
 import { editor } from "monaco-editor";
 import { useEffect, useState } from "react";
 
-import { Monaco } from "../../Components/MonacoWrapper";
+import { Monaco } from "@/Components/MonacoWrapper";
 
 /////////////////////////////////////
 // NOTE BEFORE YOU WORK ON THIS FILE

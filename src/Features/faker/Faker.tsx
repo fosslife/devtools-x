@@ -15,7 +15,7 @@ import {
 import { FakerInput } from "./FakerInput";
 import { useCallback, useState } from "react";
 import { faker } from "@faker-js/faker";
-import { Monaco } from "../../Components/MonacoWrapper";
+import { Monaco } from "@/Components/MonacoWrapper";
 import {
   MdOutlineRemove,
   MdOutlineClose,

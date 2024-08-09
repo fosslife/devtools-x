@@ -1,7 +1,7 @@
 import { Button, Divider, Select, Stack, Textarea } from "@mantine/core";
 import { useState } from "react";
 
-import { Copy } from "../../Components/Copy";
+import { Copy } from "@/Components/Copy";
 import { fs, invoke } from "@tauri-apps/api";
 import { open, save } from "@tauri-apps/api/dialog";
 

@@ -1,7 +1,7 @@
 import { Button, Group, Stack, Textarea } from "@mantine/core";
 import { useState } from "react";
 
-import { Copy } from "../../Components/Copy";
+import { Copy } from "@/Components/Copy";
 
 const Base64 = () => {
   const [input, setInput] = useState("");

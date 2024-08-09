@@ -1,17 +1,17 @@
 import {
   Group,
+  rem,
   Stack,
   Switch,
   Text,
   ThemeIcon,
   Title,
-  rem,
 } from "@mantine/core";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useAppContext } from "../Contexts/AppContextProvider";
-import { data } from "../Layout/Navbar";
+import { useAppContext } from "@/Contexts/AppContextProvider";
+import { data } from "@/Layout/Navbar";
 import classes from "./styles.module.css";
 import { MdSettings } from "react-icons/md";
 

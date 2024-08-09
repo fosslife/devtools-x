@@ -1,13 +1,16 @@
-# DEVTOOLS-X
 
-`devutils` is macOS-only, and `devtoys` is Windows-only.  
-So here's DevTools-X -- an x-platform collection of dev-tools that is lighter, safer, and full of feature rich (currenltly 32 modules and growing) development utilities.
+<h1>
+    <img src="assets/logo.min.png" alt="Logo" height="25">
+    <span>DEVTOOLS-X</span>
+</h1>
+
+**DevTools-X** is a cross-platform collection of development utilities, designed to be lightweight, secure, and feature-rich. Unlike `devutils` (macOS-only) and `devtoys` (Windows-only), DevTools-X works seamlessly across multiple operating systems. With over 40 modules and counting, it provides a powerful toolkit for developers everywhere.
 
 > Note: Application is under development, expect some bugs.
 
 > In any case if the app doesn't render/load anything, just delete the file if exists or create settings.json if doesn't exist at: https://docs.rs/tauri/latest/tauri/api/path/fn.data_dir.html
 
-![Logo](assets/banner.png)
+
 
 ## Badges
 

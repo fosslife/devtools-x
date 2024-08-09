@@ -13,7 +13,7 @@ import {
 import { generate } from "generate-password-ts";
 import { useEffect, useState } from "react";
 
-import { saveDataToFile } from "../../utils/functions";
+import { saveDataToFile } from "@/utils/functions";
 
 const checkboxtypes = [
   "lowercase",

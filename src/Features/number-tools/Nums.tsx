@@ -2,7 +2,7 @@ import { Button, Divider, Group, Stack, Text, TextInput } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { convertBase } from "simple-base-converter";
 
-import { OutputBox } from "../../Components/OutputBox";
+import { OutputBox } from "@/Components/OutputBox";
 
 const init = {
   decimal: "",

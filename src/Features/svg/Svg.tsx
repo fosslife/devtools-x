@@ -1,5 +1,5 @@
 import { Box, Button, Group, Stack } from "@mantine/core";
-import { Monaco } from "../../Components/MonacoWrapper";
+import { Monaco } from "@/Components/MonacoWrapper";
 import { useState } from "react";
 import { open } from "@tauri-apps/api/dialog";
 import { readTextFile } from "@tauri-apps/api/fs";

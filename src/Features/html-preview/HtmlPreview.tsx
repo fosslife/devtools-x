@@ -1,7 +1,7 @@
 import { Group, Stack } from "@mantine/core";
 import { Interweave } from "interweave";
 import { useState } from "react";
-import { Monaco } from "../../Components/MonacoWrapper";
+import { Monaco } from "@/Components/MonacoWrapper";
 
 const input = `<h2>HTML Preview</h2>
 <p>Enter HTML in the textarea below and see the preview here</p>

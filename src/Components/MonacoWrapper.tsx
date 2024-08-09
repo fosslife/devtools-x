@@ -1,14 +1,12 @@
 import Editor, {
   DiffEditor,
   DiffOnMount,
-  OnMount,
   EditorProps,
+  OnMount,
 } from "@monaco-editor/react";
-import * as monaco from "monaco-editor";
 import { editor } from "monaco-editor";
-import { useAppContext } from "../Contexts/AppContextProvider";
-import { themes } from "../Layout/themes";
-import { useEffect, useState } from "react";
+import { useAppContext } from "@/Contexts/AppContextProvider";
+import { themes } from "@/Layout/themes";
 
 type MonacoProps = {
   value?: string;

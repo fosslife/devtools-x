@@ -13,7 +13,7 @@ import {
 import axios from "axios";
 import { useState } from "react";
 
-import { Monaco } from "../../Components/MonacoWrapper";
+import { Monaco } from "@/Components/MonacoWrapper";
 import { Params } from "./Params";
 
 export type ParamType = { key: string; value: string; enabled: boolean };

@@ -1,6 +1,6 @@
 import { Input } from "@mantine/core";
 
-import { Copy } from "../../Components/Copy";
+import { Copy } from "@/Components/Copy";
 
 type HashBoxProps = {
   value: string;

@@ -2,8 +2,7 @@ import { Box, Group, NativeSelect, Stack } from "@mantine/core";
 import YAML from "js-yaml";
 import { useState } from "react";
 
-import { Monaco } from "../../Components/MonacoWrapper";
-import { useAppContext } from "../../Contexts/AppContextProvider";
+import { Monaco } from "@/Components/MonacoWrapper";
 
 const YamlJson = () => {
   const [mode, setMode] = useState<"json" | "yaml" | string>("json");

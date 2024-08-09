@@ -19,8 +19,8 @@ import { FaCheck } from "react-icons/fa";
 import { FiCheck } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 
-import { OutputBox } from "../../Components/OutputBox";
-import { db } from "../../utils";
+import { OutputBox } from "@/Components/OutputBox";
+import { db } from "@/utils";
 import { QuantityInput } from "./Counter";
 
 type Config = {

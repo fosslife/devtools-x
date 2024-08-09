@@ -15,7 +15,7 @@ import {
 } from "quicktype-core";
 import { useState } from "react";
 
-import { Monaco } from "../../Components/MonacoWrapper";
+import { Monaco } from "@/Components/MonacoWrapper";
 
 const languages = [
   { language: "ruby", label: "Ruby", baseLang: "ruby" },
