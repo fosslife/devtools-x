@@ -156,5 +156,5 @@ function Pastebin() {
 export default Pastebin;
 
 // TODO: Add a button to copy the link to clipboard
-// TODO: store settings to db
+// TODO: store settings to db -> Would be nice for OpenAi/ api keys too
 // TODO: store prev generated URLS?
