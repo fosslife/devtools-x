@@ -14,16 +14,14 @@ import {
   triadic,
 } from "./harmonies";
 import { RenderShades } from "./RenderShades";
-import { useDebouncedValue } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
+import { useColorRandomizer } from "./hooks";
 
 const ColorHarmonies = () => {
-  const [color, setColor] = useState<string>("#61D2C3");
+  const [color, setColor] = useColorRandomizer();
 
-  const [colorDeb] = useDebouncedValue(color, 300);
-
-  const copy = (color: string) => {
-    clipboard.writeText(color.startsWith("#") ? color : `#${color}`);
+  const copy = async (color: string) => {
+    await clipboard.writeText(color.startsWith("#") ? color : `#${color}`);
     notifications.show({
       message: `Copied ${color} to clipboard`,
       color: "blue",
@@ -35,16 +33,16 @@ const ColorHarmonies = () => {
 
   useEffect(() => {
     setHarmonies({
-      analogous: analogous(colorDeb),
-      monochromatic: monochromatic(colorDeb),
-      triadic: triadic(colorDeb),
-      complementary: complementary(colorDeb),
-      splitComplementary: splitComplementary(colorDeb),
-      doubleSplitComplementary: doubleSplitComplementary(colorDeb),
-      square: square(colorDeb),
-      compound: compound(colorDeb),
+      analogous: analogous(color),
+      monochromatic: monochromatic(color),
+      triadic: triadic(color),
+      complementary: complementary(color),
+      splitComplementary: splitComplementary(color),
+      doubleSplitComplementary: doubleSplitComplementary(color),
+      square: square(color),
+      compound: compound(color),
     });
-  }, [colorDeb]);
+  }, [color]);
 
   return (
     <Stack

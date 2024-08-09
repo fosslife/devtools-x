@@ -280,7 +280,7 @@ export class Convert {
   };
 
   canBeWhite = (hex: string) => {
-    const [h, s, l] = this.hex2hsl(hex);
+    const [_h, _s, l] = this.hex2hsl(hex);
     return l < 55;
   };
 }
@@ -378,4 +378,12 @@ export const getInterpolateShades = (
   const [l2, c2, h2] = c.hex2lch(endColor) ?? [0, 0, 0];
 
   return interpolateTwoColors([l1, c1, h1], [l2, c2, h2], shades);
+};
+
+export const getRandomColor = () => {
+  const [r, g, b] = Array.from({ length: 3 }, () =>
+    Math.floor(Math.random() * 256)
+  );
+  const randomColor = new Convert().rgb2hex(r, g, b);
+  return randomColor;
 };

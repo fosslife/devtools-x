@@ -4,7 +4,10 @@ const hexToRgb = (hex: string) => new Convert().hex2rgb(hex);
 const rgbToHex = (r: number, g: number, b: number) =>
   new Convert().rgb2hex(r, g, b);
 
-const simulateColorBlindness = (color: string, blindnessType: string) => {
+export const simulateColorBlindness = (
+  color: string,
+  blindnessType: string
+) => {
   const [r, g, b] = hexToRgb(color) ?? [0, 0, 0];
 
   let perceivedColor = [r, g, b];
@@ -81,11 +84,16 @@ const simulateColorBlindness = (color: string, blindnessType: string) => {
     ];
   }
 
-  return rgbToHex(
+  const simulation = rgbToHex(
     Math.round(perceivedColor[0]),
     Math.round(perceivedColor[1]),
     Math.round(perceivedColor[2])
   );
+
+  return {
+    simulation,
+    percentage: colorSimilarityPercentage(color, simulation),
+  };
 };
 
 const colorSimilarityPercentage = (color1: string, color2: string): number => {
@@ -104,31 +112,6 @@ const colorSimilarityPercentage = (color1: string, color2: string): number => {
   const similarity = 1 - distance / maxDistance;
 
   return similarity * 100; // Returns similarity percentage
-};
-
-const getSimilarBlindness = (color: string) => {
-  const stats: {
-    name: string;
-    match: string;
-    percentage: number;
-  }[] = blindnessStats.map((blindness) => {
-    // Hypothetical function to simulate color blindness
-    const perceivedColor = simulateColorBlindness(color, blindness.name);
-
-    // Hypothetical function to calculate color similarity
-    const similarityPercentage = colorSimilarityPercentage(
-      color,
-      perceivedColor
-    );
-
-    return {
-      name: blindness.name,
-      match: perceivedColor,
-      percentage: similarityPercentage,
-    };
-  });
-
-  return stats;
 };
 
 export const blindnessStats = [
