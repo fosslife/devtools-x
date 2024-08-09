@@ -17,7 +17,14 @@ ROW_NUMBER() OVER(PARTITION BY DepartmentID ORDER BY Salary DESC) AS SalaryRank 
         e.DepartmentID,     e.Salary DESCLIMIT 50;
 `;
 
+type Query = {
+  preFormatted: string;
+  formatted: string;
+};
 const Sql = () => {
+  const [indent, setIndent] = useState<string>("\t");
+  const [history, setHistory] = useState<Query[]>([]);
+  const [preFormatted, setPreFormatted] = useState(firstQuery);
   const [formatted, setFormatted] = useState("");
   const [showCopy, setShowCopy] = useState(false);
 
@@ -25,11 +32,11 @@ const Sql = () => {
     setFormatted(
       sqlFormatter.format(firstQuery, {
         language: "sql",
-        indent: "\t", // TODO: take this from user?
+        indent,
         reservedWordCase: "upper",
       })
     );
-  }, []);
+  }, [indent]);
 
   return (
     <Stack
@@ -37,15 +44,54 @@ const Sql = () => {
         height: "100%",
       }}
     >
-      <Box style={{ height: "50%" }}>
+      <Group
+        style={{
+          height: "10%",
+        }}
+      >
+        <Select
+          label="Indentation"
+          value={indent}
+          onChange={(e) => setIndent(e as string)}
+          data={[
+            { value: "\t", label: "Tab" },
+            { value: "  ", label: "2 spaces" },
+            { value: "    ", label: "4 spaces" },
+          ]}
+        />
+        {history?.length > 0 ? (
+          <Select
+            label="History"
+            value={null}
+            placeholder="Click to select"
+            onChange={(e) => {
+              const query = history.find((q) => q.preFormatted === e);
+              if (query) {
+                setPreFormatted(query.preFormatted);
+                setFormatted(query.formatted);
+              }
+            }}
+            data={history.map((q) => ({
+              value: q.preFormatted,
+              label: q.preFormatted.slice(0, 20),
+            }))}
+          />
+        ) : (
+          <Text c="dimmed" size="sm" mt={28}>
+            When you copy a formatted query, it will be saved here.
+          </Text>
+        )}
+      </Group>
+      <Box style={{ height: "40%" }}>
         <Monaco
           language="sql"
-          value={firstQuery}
+          value={preFormatted}
           setValue={(e) => {
+            setPreFormatted(e as string);
             setFormatted(
               sqlFormatter.format(e || "", {
                 language: "sql",
-                indent: "\t", // TODO: take this from user?
+                indent: indent,
                 reservedWordCase: "upper",
               })
             );
@@ -69,6 +115,15 @@ const Sql = () => {
               top: 10,
               right: 20,
             }}
+            onClick={() => {
+              setHistory([
+                ...history,
+                {
+                  preFormatted,
+                  formatted,
+                },
+              ]);
+            }}
           >
             <Copy value={formatted} label="Copy" />
           </Box>
@@ -79,5 +134,3 @@ const Sql = () => {
 };
 
 export default Sql;
-
-// TODO: Save previous query
