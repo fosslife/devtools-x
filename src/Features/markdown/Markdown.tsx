@@ -5,8 +5,8 @@ import { Box, Button, Group, Stack } from "@mantine/core";
 import MarkdownPreview from "@uiw/react-markdown-preview";
 import { useState } from "react";
 
-import { Monaco } from "../../Components/MonacoWrapper";
-import { openFileAndGetData, saveDataToFile } from "../../utils/functions";
+import { Monaco } from "@/Components/MonacoWrapper";
+import { openFileAndGetData, saveDataToFile } from "@/utils/functions";
 
 const Markdown = () => {
   const [source, setSource] = useState(`
@@ -81,4 +81,4 @@ const codeblock = () => {
 
 export default Markdown;
 
-// TODO: Save previous text
+// TODO: Save previous text,... db?

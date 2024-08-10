@@ -4,14 +4,14 @@ import {
   NumberInput,
   Select,
   Stack,
-  TextInput,
   Textarea,
+  TextInput,
 } from "@mantine/core";
 import { useInputState } from "@mantine/hooks";
 import { useCallback, useEffect, useState } from "react";
 import { v4 } from "uuid";
-import { nanoid, customAlphabet } from "nanoid";
-import { Copy } from "../../Components/Copy";
+import { customAlphabet, nanoid } from "nanoid";
+import { Copy } from "@/Components/Copy";
 
 type Generator = "v4" | "nanoid" | "custom";
 

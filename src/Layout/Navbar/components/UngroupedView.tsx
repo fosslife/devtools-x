@@ -1,15 +1,15 @@
 import {
   DragDropContext,
-  Droppable,
   Draggable,
+  Droppable,
   OnDragEndResponder,
 } from "@hello-pangea/dnd";
 import cx from "clsx";
-import { Stack, Box, ActionIcon, Text, Tooltip } from "@mantine/core";
-import { VscPinned, VscPin } from "react-icons/vsc";
+import { ActionIcon, Box, Stack, Text, Tooltip } from "@mantine/core";
+import { VscPin, VscPinned } from "react-icons/vsc";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { trackOtherEvent } from "../../../utils/analytics";
-import { db } from "../../../utils";
+import { trackOtherEvent } from "@/utils/analytics";
+import { db } from "@/utils";
 
 import classes from "./ungrouped.module.css";
 import { NavItem } from "..";

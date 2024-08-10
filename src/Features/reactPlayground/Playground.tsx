@@ -2,7 +2,7 @@ import { Group, Stack } from "@mantine/core";
 import { useState } from "react";
 import { LivePreview, LiveProvider } from "react-live";
 
-import { Monaco } from "../../Components/MonacoWrapper";
+import { Monaco } from "@/Components/MonacoWrapper";
 
 const boilerplate = `
 // Syntax highlighting, autocompletion etc 

@@ -15,8 +15,8 @@ import { useInterval } from "@mantine/hooks";
 import { useEffect, useMemo, useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 
-import { Copy } from "../../Components/Copy";
-import { db } from "../../utils";
+import { Copy } from "@/Components/Copy";
+import { db } from "@/utils";
 
 const formats = [
   "toString",

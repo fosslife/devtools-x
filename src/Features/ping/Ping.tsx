@@ -12,7 +12,6 @@ import { useEffect, useState } from "react";
 
 import "@mantine/charts/styles.css";
 import { LineChart } from "@mantine/charts";
-import { data } from "../../Layout/Navbar/index";
 
 type PingResponse = {
   size: number;
