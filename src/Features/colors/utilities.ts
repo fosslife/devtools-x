@@ -75,30 +75,9 @@ export class Convert {
     return this.hsl2hsv(h, s, l);
   };
 
-  hex2hsl = (hex: string, asObj = false) => {
-    const [r, g, b] = this.hex2rgb(hex);
-    const max = Math.max(r, g, b),
-      min = Math.min(r, g, b);
-    let h: number,
-      s: number,
-      l = (max + min) / 2;
-
-    if (max === min) {
-      h = s = 0; // achromatic
-    } else {
-      const d = max - min;
-      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-      h =
-        max === r
-          ? (g - b) / d + (g < b ? 6 : 0)
-          : max === g
-            ? (b - r) / d + 2
-            : (r - g) / d + 4;
-      h *= 60;
-      if (h < 0) h += 360;
-    }
-
-    return [Math.round(h), fixFloat(s), fixFloat(l)];
+  hex2hsl = (hex: string, asObj = false): [number, number, number] => {
+    const [h, s, l] = ChromaJS(hex).hsl();
+    return [h, s * 100, l * 100];
   };
 
   hsl2Object = (hsl: number[]) => {

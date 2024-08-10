@@ -60,7 +60,7 @@ const Colors = () => {
   const [l, c, h] = new Convert().hex2lch(color);
 
   // Generate shades, tints, tones, hues, and temperatures
-  const shades = interpolateColor([l, c, h], "l", config.steps, 1); // towards black
+  const shades = interpolateColor([100, c, h], "l", config.steps, 10); // towards black
 
   const tints = getInterpolateShades(color, "#ffffff", config.steps); // towards white
   const tones = getInterpolateShades(color, "#808080", config.steps); // towards grey
@@ -114,6 +114,12 @@ const Colors = () => {
           onCopy={onCopy}
         />
         <OutputBox label="HSV:" value={hsv} onCopy={onCopy} />
+
+        <OutputBox
+          label="LCH:"
+          value={l.toFixed(2) + ", " + c.toFixed(2) + ", " + h.toFixed(2)}
+          onCopy={onCopy}
+        />
       </Group>
 
       <Stack align="center" style={{ width: "95%" }}>

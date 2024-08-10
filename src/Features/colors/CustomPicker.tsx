@@ -1,9 +1,9 @@
 import React, { MouseEvent } from "react";
 import { ColorResult, CustomPicker, HSLColor } from "react-color";
 import {
-  Saturation,
   EditableInput,
   Hue,
+  Saturation,
 } from "react-color/lib/components/common";
 import { Convert } from "./utilities";
 import tinycolor2 from "tinycolor2";

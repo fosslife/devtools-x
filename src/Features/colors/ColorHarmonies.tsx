@@ -1,4 +1,4 @@
-import { Group, Stack, Text } from "@mantine/core";
+import { Group, Stack, Switch, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 import CustomPicker from "./CustomPicker";
 import { clipboard } from "@tauri-apps/api";
@@ -16,6 +16,9 @@ import {
 import { RenderShades } from "./RenderShades";
 import { notifications } from "@mantine/notifications";
 import { useColorRandomizer } from "./hooks";
+import { wheels } from "./constants/color-data";
+import { Convert } from "./utilities";
+import { WheelDisplay } from "./constants/Wheels";
 
 const ColorHarmonies = () => {
   const [color, setColor] = useColorRandomizer();
@@ -31,6 +34,8 @@ const ColorHarmonies = () => {
 
   const [harmonies, setHarmonies] = useState({});
 
+  const [variations, setVariations] = useState(false);
+
   useEffect(() => {
     setHarmonies({
       analogous: analogous(color),
@@ -44,6 +49,21 @@ const ColorHarmonies = () => {
     });
   }, [color]);
 
+  const [h, s, l] = new Convert().hex2hsl(color);
+  // const h = 186,
+  //   s = 100,
+  //   l = 50;
+
+  const _wheels = Object.keys(wheels).map((key) => {
+    return {
+      shades: (wheels as any)[key]({
+        sourceColor: { h, s, l },
+        config: { angle: 30 },
+      }),
+      label: key,
+    };
+  });
+
   return (
     <Stack
       align="center"
@@ -53,21 +73,42 @@ const ColorHarmonies = () => {
         hexCode={color.startsWith("#") ? color.slice(1) : color}
         onChange={(newColor) => setColor(newColor.hex)}
       />
-
+      H: {h}, S: {s}, L: {l}
+      <Switch
+        label="Variations"
+        checked={variations}
+        onChange={() => setVariations((prev) => !prev)}
+      />
       <Group gap={10} style={{ marginBottom: 14 }}>
         <Text style={{ cursor: "pointer" }} fw="lighter" c="dimmed" size="sm">
           Harmonies
         </Text>
       </Group>
+      {variations
+        ? Object.keys(harmonies).map((key) => (
+            <RenderShades
+              key={key}
+              colors={harmonies[key as keyof typeof harmonies]}
+              setColor={copy}
+              label={key.slice(0, 10)}
+            />
+          ))
+        : _wheels.map((key, i) => (
+            <RenderShades
+              key={key.label}
+              colors={key.shades.map((color: any) => {
+                color.h = (color.h % 360).toFixed();
+                color.s = color.s.toFixed();
+                color.l = color.l.toFixed();
 
-      {Object.keys(harmonies).map((key) => (
-        <RenderShades
-          key={key}
-          colors={harmonies[key as keyof typeof harmonies]}
-          setColor={copy}
-          label={key}
-        />
-      ))}
+                return `hsl(${color.h}, ${color.s}%, ${color.l}%)`;
+              })}
+              setColor={copy}
+              label={key.label.slice(0, 10)}
+            />
+          ))}
+      {/*<pre>{JSON.stringify(_wheels, null, 2)}</pre>*/}
+      <WheelDisplay />
     </Stack>
   );
 };
