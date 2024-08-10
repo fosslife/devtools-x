@@ -1,31 +1,31 @@
-import { BsSortNumericUpAlt, BsFilePdf } from "react-icons/bs";
+import { BsFilePdf, BsSortNumericUpAlt } from "react-icons/bs";
 import {
-  FaRandom,
-  FaReact,
-  FaPaste,
   FaCode,
-  FaMarkdown,
-  FaYinYang,
-  FaExchangeAlt,
   FaCompress,
   FaCss3,
+  FaExchangeAlt,
+  FaMarkdown,
+  FaPaste,
+  FaRandom,
+  FaReact,
+  FaYinYang,
 } from "react-icons/fa";
-import { FiClock, FiHash, FiFile, FiStar } from "react-icons/fi";
+import { FiClock, FiFile, FiHash, FiStar } from "react-icons/fi";
 import {
-  MdQrCode,
-  MdWork,
   MdAnchor,
   MdColorize,
-  MdPassword,
-  MdQuestionMark,
-  MdHtml,
-  MdPermIdentity,
   MdDataExploration,
-  MdWeb,
+  MdHtml,
   MdImage,
-  MdQrCode2,
   MdOutlineImage,
   MdPalette,
+  MdPassword,
+  MdPermIdentity,
+  MdQrCode,
+  MdQrCode2,
+  MdQuestionMark,
+  MdWeb,
+  MdWork,
 } from "react-icons/md";
 import {
   FcCamera,
@@ -41,16 +41,16 @@ import {
 } from "react-icons/fc";
 import { RiPingPongLine } from "react-icons/ri";
 import {
-  SiPrettier,
+  SiHashnode,
   SiJsonwebtokens,
   SiPostgresql,
-  SiHashnode,
+  SiPrettier,
 } from "react-icons/si";
 import {
-  VscSymbolString,
   VscDiff,
-  VscTypeHierarchySub,
   VscRegex,
+  VscSymbolString,
+  VscTypeHierarchySub,
 } from "react-icons/vsc";
 import { NavItem } from ".";
 import { TbFileTypeSvg } from "react-icons/tb";
@@ -266,6 +266,13 @@ export const navitems: NavItem[] = [
     icon: <FaMarkdown />,
     text: "Markdown",
     group: "Previewers",
+  },
+  {
+    id: "readme",
+    to: "/readme",
+    icon: <FaMarkdown />,
+    text: "Readme",
+    group: "Generators",
   },
   {
     id: "yamljson",

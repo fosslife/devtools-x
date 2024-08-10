@@ -49,6 +49,7 @@ const ColorTesting = loadable(() => import("./Features/colors/ColorTesting"));
 const RegexTester = loadable(() => import("./Features/regex/RegexTester"));
 const TextDiff = loadable(() => import("./Features/text/TextDiff"));
 const Markdown = loadable(() => import("./Features/markdown/Markdown"));
+const Readme = loadable(() => import("./Features/markdown/Readme"));
 const YamlJson = loadable(() => import("./Features/json-yaml/Yaml"));
 const Pastebin = loadable(() => import("./Features/pastebin/Pastebin"));
 const Repl = loadable(() => import("./Features/repl/Repl"));
@@ -234,6 +235,7 @@ function App() {
               <Route path="/regex" element={<RegexTester />}></Route>
               <Route path="/text" element={<TextDiff />}></Route>
               <Route path="/markdown" element={<Markdown />}></Route>
+              <Route path="/readme" element={<Readme />}></Route>
               <Route path="/yamljson" element={<YamlJson />}></Route>
               <Route path="/pastebin" element={<Pastebin />}></Route>
               <Route path="/repl" element={<Repl />}></Route>
