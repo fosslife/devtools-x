@@ -1,4 +1,5 @@
 import { Store } from "tauri-plugin-store-api";
+import { defaultConfig } from "../Contexts/AppContextProvider";
 
 const db = new Store("settings.json");
 
@@ -11,6 +12,7 @@ if (!(await db.length())) {
     db.set("epoch", {}),
     db.set("password", {}),
     db.set("sidebar", []),
+    db.set("config", defaultConfig),
   ]);
   await db.save();
 }

@@ -41,10 +41,15 @@ const JWT = loadable(() => import("./Features/jwt/JWT"));
 // const Nums = loadable(() => import("./Features/nums/Nums"));
 const Sql = loadable(() => import("./Features/sql/Sql"));
 const Colors = loadable(() => import("./Features/colors/Colors"));
+const ColorHarmonies = loadable(
+  () => import("./Features/colors/ColorHarmonies")
+);
+const ColorTesting = loadable(() => import("./Features/colors/ColorTesting"));
+
 const RegexTester = loadable(() => import("./Features/regex/RegexTester"));
 const TextDiff = loadable(() => import("./Features/text/TextDiff"));
 const Markdown = loadable(() => import("./Features/markdown/Markdown"));
-const YamlJson = loadable(() => import("./Features/yaml-json/Yaml"));
+const YamlJson = loadable(() => import("./Features/json-yaml/Yaml"));
 const Pastebin = loadable(() => import("./Features/pastebin/Pastebin"));
 const Repl = loadable(() => import("./Features/repl/Repl"));
 const Image = loadable(() => import("./Features/image/Image"));
@@ -63,6 +68,7 @@ const Quicktpe = loadable(() => import("./Features/quicktype/Quicktype"));
 const Ping = loadable(() => import("./Features/ping/Ping"));
 const Minify = loadable(() => import("./Features/minifiers/Minify"));
 const UrlParser = loadable(() => import("./Features/url/UrlParser"));
+const UrlEncoder = loadable(() => import("./Features/url/UrlEncoder"));
 const HtmlPreview = loadable(
   () => import("./Features/html-preview/HtmlPreview")
 );
@@ -223,6 +229,8 @@ function App() {
               <Route path="/nums" element={<Nums />}></Route>
               <Route path="/sql" element={<Sql />}></Route>
               <Route path="/colors" element={<Colors />}></Route>
+              <Route path="/harmonies" element={<ColorHarmonies />}></Route>
+              <Route path="/color-testing" element={<ColorTesting />}></Route>
               <Route path="/regex" element={<RegexTester />}></Route>
               <Route path="/text" element={<TextDiff />}></Route>
               <Route path="/markdown" element={<Markdown />}></Route>
@@ -242,6 +250,7 @@ function App() {
               <Route path="/ping" element={<Ping />}></Route>
               <Route path="/minify" element={<Minify />}></Route>
               <Route path="/url-parser" element={<UrlParser />}></Route>
+              <Route path="/url-encoder" element={<UrlEncoder />}></Route>
               <Route path="/html-preview" element={<HtmlPreview />}></Route>
               <Route path="/lorem" element={<Lorem />}></Route>
               <Route path="/qrcode" element={<QrCode />}></Route>

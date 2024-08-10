@@ -4,7 +4,11 @@ import Editor, {
   OnMount,
   EditorProps,
 } from "@monaco-editor/react";
+import * as monaco from "monaco-editor";
 import { editor } from "monaco-editor";
+import { useAppContext } from "../Contexts/AppContextProvider";
+import { themes } from "../Layout/themes";
+import { useEffect, useState } from "react";
 
 type MonacoProps = {
   value?: string;
@@ -24,6 +28,8 @@ type MonacoProps = {
   };
 } & EditorProps;
 
+let inMemoryThemeCache: any = {};
+
 export const Monaco = ({
   value,
   setValue,
@@ -37,6 +43,35 @@ export const Monaco = ({
   diffProps,
   ...rest
 }: MonacoProps) => {
+  const { config } = useAppContext();
+
+  const dark = themes.find((t) => t.value === config.editorThemeDark)!;
+  const light = themes.find((t) => t.value === config.editorThemeLight)!;
+
+  const applyTheme = (monaco: any, theme: { value: string; label: string }) => {
+    // Importing it from `monaco-themes/themes/${theme.label}.json` gave all sorts of issues
+    // so fallback to using the CDN is fine for now, but we should look into this later / improve caching
+    const themeUrl = `https://cdn.jsdelivr.net/npm/monaco-themes@0.4.4/themes/${encodeURIComponent(theme.label)}.json`;
+
+    if ((inMemoryThemeCache as any)[theme.label]) {
+      monaco.editor.setTheme(theme.value);
+      return;
+    }
+
+    fetch(themeUrl)
+      .then(async (data: any) => {
+        console.log(`monaco-themes/themes/${theme.label}.json`);
+        const value = await data.json();
+        const name = theme.value ?? "tomorrow-night";
+        inMemoryThemeCache[theme.label] = value;
+        monaco.editor.defineTheme(name, value);
+        monaco.editor.setTheme(name);
+      })
+      .catch((e: any) => {
+        console.error(e);
+      });
+  };
+
   const diffOnMount: DiffOnMount = (editor, monaco) => {
     // disable TS incorrect diagnostic
     monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
@@ -44,22 +79,21 @@ export const Monaco = ({
       noSyntaxValidation: true,
     });
 
-    import("monaco-themes/themes/Tomorrow-Night.json").then((data: any) => {
-      monaco.editor.defineTheme("tmnight", data);
-      monaco.editor.setTheme("tmnight");
-    });
+    applyTheme(monaco, dark);
 
     if (onDiffEditorMounted) {
       onDiffEditorMounted(editor, monaco);
     }
   };
+
   const onMount: OnMount = (editor, monaco) => {
     // disable TS incorrect diagnostic
     monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
       noSemanticValidation: true,
       noSyntaxValidation: true,
     });
-    // theme command
+
+    // Theme command
     editor.addAction({
       id: "change-theme-dark",
       label: "Dark Theme",
@@ -71,7 +105,7 @@ export const Monaco = ({
       ],
       contextMenuOrder: -1,
       run: function () {
-        monaco.editor.setTheme("tmnight");
+        applyTheme(monaco, dark);
       },
     });
 
@@ -86,24 +120,17 @@ export const Monaco = ({
       ],
       contextMenuOrder: -1,
       run: function () {
-        monaco.editor.setTheme("dawn");
+        applyTheme(monaco, light);
       },
     });
-    //
 
-    import("monaco-themes/themes/Tomorrow-Night.json").then((data: any) => {
-      monaco.editor.defineTheme("tmnight", data);
-      monaco.editor.setTheme("tmnight");
-    });
-
-    import("monaco-themes/themes/Dawn.json").then((data: any) => {
-      monaco.editor.defineTheme("dawn", data);
-    });
+    applyTheme(monaco, dark);
 
     if (onEditorMounted) {
       onEditorMounted(editor, monaco);
     }
   };
+
   if (mode === "diff") {
     return (
       <DiffEditor
@@ -116,7 +143,6 @@ export const Monaco = ({
 
   return (
     <Editor
-      theme="tmnight"
       value={value}
       onChange={setValue}
       language={language}
@@ -125,7 +151,10 @@ export const Monaco = ({
       width={width}
       options={{
         automaticLayout: true,
-        fontSize: 16,
+        fontSize: 12,
+        scrollBeyondLastLine: false,
+        smoothScrolling: true,
+        wordWrap: "on",
         minimap: {
           enabled: false,
         },

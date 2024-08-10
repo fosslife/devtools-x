@@ -18,3 +18,97 @@
   height: 24px;
   width: 24px;
 }
+/* Color shades */
+.shades__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    min-height: 45px;
+    width: 100%;
+}
+
+.shades__box {
+    font-size: 0.7em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    cursor: copy;
+}
+.shades__container :first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.shades__container :last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.shades__box span {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.shades__box:hover span {
+    opacity: 1;
+}
+/* Wcag contrast box */
+
+.wcagBox {
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  width: 40%;
+  border: 1px solid var(--mantine-color-gray-8);
+  border-radius: 5px;
+}
+
+
+.box {
+  display: flex;
+  margin-right: 0.5rem;
+  align-items: center;
+  padding: 0.125rem 0.5rem;
+  border: 2px;
+  text-align: center;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+
+  &.dark {
+    background-color: var(--mantine-color-gray-7);
+    border: 1px solid var(--mantine-color-gray-7);
+  }
+  &.light {
+    background-color: var(--mantine-color-gray-3);
+    border: 1px solid var(--mantine-color-gray-3);
+  }
+}
+
+.grid {
+  margin-top: 10px;
+  display: grid;
+  gap: 0.5em;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.ok {
+  color: #0ca678;
+}
+
+.fail {
+  color: #ff5252;
+}
+
+.colorPicker {
+  cursor: pointer !important;
+}
+
+
+/* Simulation */
+.simulation_heading {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

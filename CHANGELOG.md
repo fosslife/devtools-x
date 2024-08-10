@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [devtoolsx-v2.10.0] - 2024-07-13
+## [devtoolsx-v2.14.0] - 2024-08-10
 
 ### 🚀 Features
 
@@ -17,7 +17,7 @@ All notable changes to this project will be documented in this file.
 - Auto open accordion for path
 - Changelog generator
 - Css playground
-- *(ci)* New bump version script
+- _(ci)_ New bump version script
 - Rewrote jwt
 - Rest options for monaco
 - Svg preview
@@ -26,17 +26,21 @@ All notable changes to this project will be documented in this file.
 - Color palette generator
 - Hmac generator
 - Image cropper
+- Debounce color picker
+- Cleanup, copy cursor and copy notification
 
 ### 🐛 Bug Fixes
 
 - Hardcoded width
 - Vertical image overflow
 - Error handling
-- *(ci)* Js heap out of mem
-- *(ci)* Incorrect matrix platforms
+- _(ci)_ Js heap out of mem
+- _(ci)_ Incorrect matrix platforms
 - Autosizing text
 - No sourcemaps
 - Upx script
+- Remove corepack
+- Yarn.lock update
 
 ### 📚 Documentation
 
@@ -45,6 +49,9 @@ All notable changes to this project will be documented in this file.
 - Star history
 - Reorder features
 - New feature
+- Changelog
+- 3 new features
+- New authors and feature
 
 ### ⚙️ Miscellaneous Tasks
 
@@ -52,14 +59,22 @@ All notable changes to this project will be documented in this file.
 - Refactoring and error handling
 - Cleanup
 - Smaller app drawer
-- *(ui)* Bigger icons, flex fix
+- _(ui)_ Bigger icons, flex fix
 - Cleanup
 - Unused vars rule
 - Deps upgrade
-- *(doc)* Add download instructions
-- *(ui)* Shortcut styling
+- _(doc)_ Add download instructions
+- _(ui)_ Shortcut styling
 - Rename file
-- *(doc)* Changelog
+- _(doc)_ Changelog
+
+### Feature
+
+- Harmonies & Some cleanup
+
+### Todo
+
+- Next pr =)
 
 ### Deps
 
@@ -245,7 +260,7 @@ All notable changes to this project will be documented in this file.
 - Minifier/beautifier
 - New tauri action
 - Release v2.1.0
-- *(ci)* Fix broken CI
+- _(ci)_ Fix broken CI
 - Upgrade pnpm version
 - Move to pnpm
 - Move to yarn
@@ -266,14 +281,14 @@ All notable changes to this project will be documented in this file.
 - Delete row feature
 - Open and save markdown files
 - Lots of cleanup, collapsible navbar
-- *(navbar)* Migrate to css-modules
+- _(navbar)_ Migrate to css-modules
 - App style
 - All version upgrade
 
 ### 🐛 Bug Fixes
 
 - Pinned cards different layouts
-- *(readme)* Borked english
+- _(readme)_ Borked english
 - Minimum width
 - Styles cleanup
 - Css cleanup and overflow fix
@@ -353,7 +368,7 @@ All notable changes to this project will be documented in this file.
 
 ### 🚀 Features
 
-- *(doc)* Reorder features
+- _(doc)_ Reorder features
 - Add loader to show compression progress
 - Navigate on entire row click
 - Loader for large file hashes
@@ -380,12 +395,12 @@ All notable changes to this project will be documented in this file.
 ### 🚀 Features
 
 - REST API module
-- *(rest)* Params support
+- _(rest)_ Params support
 - Headers
 - Delete and enable params
-- *(ui)* Global styles + theme
-- *(json)* Move away from jsoneditor
-- *(monaco)* New theme
+- _(ui)_ Global styles + theme
+- _(json)_ Move away from jsoneditor
+- _(monaco)_ New theme
 - Hashing tools rewrite
 - Moved random text generator, entropy calculation
 - Exclude chars
@@ -412,7 +427,7 @@ All notable changes to this project will be documented in this file.
 - Theme toggle action
 - Unstable features tooltip
 - Enable debug window
-- *(doc)* Add coc and contributing
+- _(doc)_ Add coc and contributing
 - Icon assets for all sizes
 - Add banner
 - Debug launch configuration
@@ -423,9 +438,9 @@ All notable changes to this project will be documented in this file.
 - Card width
 - Unused imports
 - UI changes
-- *(nav)* Remove theme for now
-- *(wip)* Remove chakra ui
-- *(wip)* Remove chakra ui
+- _(nav)_ Remove theme for now
+- _(wip)_ Remove chakra ui
+- _(wip)_ Remove chakra ui
 - Responsive width
 - Auto focus on new tab and close tab
 - Main layout
@@ -448,7 +463,7 @@ All notable changes to this project will be documented in this file.
 - Increase default font size
 - Reset selection on error
 - Scroll high blocking last item
-- *(ui)* Extra padding on left
+- _(ui)_ Extra padding on left
 
 ### 🚜 Refactor
 
@@ -456,7 +471,7 @@ All notable changes to this project will be documented in this file.
 - Reuse outputbox
 - Lint
 - Lint
-- *(doc)* New badges
+- _(doc)_ New badges
 
 ### 📚 Documentation
 
@@ -499,7 +514,7 @@ All notable changes to this project will be documented in this file.
 
 ### Ui
 
-- *(wip)* Remove chakra UI
+- _(wip)_ Remove chakra UI
 
 ## [DevToolsv1.5.0] - 2022-06-19
 
@@ -513,18 +528,18 @@ All notable changes to this project will be documented in this file.
 - Search navbar items
 - Pinning items working
 - Pin feature on nav and home
-- *(wip)* Unit conversion
-- *(ui)* Animation on route change
+- _(wip)_ Unit conversion
+- _(ui)_ Animation on route change
 - Tabs support in json-editor
 - Generate many random strings at once
 - Generate multiple strings
-- *(ui)* Heading
-- *(ui)* Heading on all components
+- _(ui)_ Heading
+- _(ui)_ Heading on all components
 - Unit converter
 - Calculate on swap
 - Global modal
 - Focus on escape
-- *(wip)* React playground
+- _(wip)_ React playground
 - React live editor
 
 ### 🐛 Bug Fixes
@@ -535,7 +550,7 @@ All notable changes to this project will be documented in this file.
 - Disable ctrlP and F3
 - Remove prefetch
 - Lint
-- *(ui)* Better animation and height fix
+- _(ui)_ Better animation and height fix
 - Repl scroll increasing
 - Cards color to match theme
 - Hide outside links
@@ -552,7 +567,7 @@ All notable changes to this project will be documented in this file.
 - Vite plugins
 - Color
 - Layout changed
-- Using reusable monaco  wrapper
+- Using reusable monaco wrapper
 
 ### ⚙️ Miscellaneous Tasks
 
@@ -594,13 +609,13 @@ All notable changes to this project will be documented in this file.
 - Markdown preview and editor
 - Yaml json convertro
 - Support monaco offline
-- *(wip)* Pastebin
+- _(wip)_ Pastebin
 - Pastebin
 
 ### 🐛 Bug Fixes
 
 - Regex tester
-- *(scope)* Update version
+- _(scope)_ Update version
 - Titles
 - Cleanup unused deps
 - Disable right click
@@ -646,7 +661,7 @@ All notable changes to this project will be documented in this file.
 - Darkmode reset on leave
 - Ignore type
 - Css overflow on button
-- *(ui)* Remove cards
+- _(ui)_ Remove cards
 
 ### Deps
 
@@ -721,7 +736,7 @@ All notable changes to this project will be documented in this file.
 
 ### 🐛 Bug Fixes
 
-- *(utils)* Crash when launching app for the first time
+- _(utils)_ Crash when launching app for the first time
 - Sort order
 
 ### Conf
@@ -738,13 +753,13 @@ All notable changes to this project will be documented in this file.
 
 - Lazy loading components
 - Profile smaller release
-- *(hash)* Calculate hash of a file
+- _(hash)_ Calculate hash of a file
 
 ### 🐛 Bug Fixes
 
 - Eslint config
 - Quotes
-- *(CI)* Tool name in release
+- _(CI)_ Tool name in release
 
 ### Conf
 
@@ -762,7 +777,7 @@ All notable changes to this project will be documented in this file.
 
 ### Lint
 
-- *(format)* Single quotes to double
+- _(format)_ Single quotes to double
 
 ### Misc
 
@@ -796,7 +811,7 @@ All notable changes to this project will be documented in this file.
 ### Dep
 
 - Using react-hookz
-- *(add)* Crypto js for hashes
+- _(add)_ Crypto js for hashes
 - Gen-password util
 
 ### Release
@@ -813,7 +828,7 @@ All notable changes to this project will be documented in this file.
 
 - Dark theme first
 - Routes
-- *(component)* Welcome placeholder
+- _(component)_ Welcome placeholder
 - Card and json-formatter
 - Navbar using cards
 - Basic prototype of json
@@ -836,7 +851,7 @@ All notable changes to this project will be documented in this file.
 
 ### Add
 
-- *(dep)* For type hints
+- _(dep)_ For type hints
 
 ### Init
 

@@ -8,33 +8,43 @@ import {
   Textarea,
 } from "@mantine/core";
 import { useInputState } from "@mantine/hooks";
-import { useState } from "react";
-import { v1, v3, v4, v5 } from "uuid";
+import { useCallback, useEffect, useState } from "react";
+import { v4 } from "uuid";
+import { nanoid, customAlphabet } from "nanoid";
 import { Copy } from "../../Components/Copy";
 
-type Versions = "v1" | "v3" | "v4" | "v5";
+type Generator = "v4" | "nanoid" | "custom";
 
 export default function Ids() {
   const [ids, setIds] = useState<string[]>([]);
   const [count, setCount] = useInputState<number>(5);
-  const [version, setVersion] = useInputState<Versions>("v4");
+  const [generator, setGenerator] = useInputState<Generator>("v4");
+  const [custom, setCustom] = useInputState<{
+    alphabet: string;
+    length: number;
+  }>({
+    alphabet: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
+    length: 16,
+  });
 
-  const generateIds = () => {
-    switch (version) {
-      case "v1":
-        // setIds(Array.from({ length: count }, () => v1()));
-        break;
-      case "v3":
-        // setIds(Array.from({ length: count }, () => v3()));
-        break;
-      case "v4":
-        setIds(Array.from({ length: count }, () => v4()));
-        break;
-      case "v5":
-        // setIds(Array.from({ length: count }, () => v5()));
-        break;
-    }
-  };
+  const generateIds = useCallback(() => {
+    const newIds = Array.from({ length: count }, () => {
+      switch (generator) {
+        case "v4":
+          return v4();
+        case "nanoid":
+          return nanoid();
+        case "custom":
+          return customAlphabet(custom.alphabet)(custom.length);
+      }
+    });
+    setIds(newIds);
+  }, [count, generator, custom.length, custom.alphabet]);
+
+  // Set initial IDs
+  useEffect(() => {
+    generateIds();
+  }, [generator]);
 
   return (
     <Stack h="100%">
@@ -46,14 +56,26 @@ export default function Ids() {
           onChange={(e) => setCount(Number(e))}
         />
         <Select
-          // Not supporting versions for now.
-          display={"none"}
-          data={["v1", "v3", "v4", "v5"]}
-          value={version}
-          onChange={(e) => setVersion(e as Versions)}
-          allowDeselect={false}
+          data={["v4", "nanoid", "custom"]}
+          value={generator}
+          onChange={(e) => setGenerator(e as Generator)}
         />
       </Group>
+      {generator === "custom" ? (
+        <Group>
+          <TextInput
+            flex={1}
+            value={custom.alphabet}
+            onChange={(e) => setCustom({ ...custom, alphabet: e.target.value })}
+          />
+          <NumberInput
+            value={custom.length}
+            onChange={(e) =>
+              setCustom({ ...custom, length: parseInt(e as string) })
+            }
+          />
+        </Group>
+      ) : null}
 
       <Button w="fit-content" onClick={() => generateIds()}>
         Generate
