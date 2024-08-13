@@ -1,7 +1,6 @@
 import { Group, Stack, Text, Textarea } from "@mantine/core";
-import { useDebouncedValue, useInputState } from "@mantine/hooks";
-
-const algorithms = ["gzip", "deflate", "zlib"];
+import { useInputState } from "@mantine/hooks";
+import { useMemo } from "react";
 
 export default function TextUtils() {
   const [text, setText] = useInputState("Sample text");
@@ -27,14 +26,7 @@ export default function TextUtils() {
     return { stats, wordCount, uniqueWords, density };
   };
 
-  const [retrieve] = useDebouncedValue(getWordSet, 500);
-  // Todo check why pasing retrieve directly to wordset throws an type error
-  const wordset = retrieve as unknown as {
-    stats: { word: string; count: number }[];
-    wordCount: number;
-    uniqueWords: number;
-    density: number;
-  };
+  const wordset = useMemo(() => getWordSet(), [text]);
 
   return (
     <Group align="top">
