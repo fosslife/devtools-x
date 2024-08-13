@@ -1,31 +1,32 @@
-import { BsSortNumericUpAlt, BsFilePdf } from "react-icons/bs";
+import { BsFilePdf, BsSortNumericUpAlt } from "react-icons/bs";
 import {
-  FaRandom,
-  FaReact,
-  FaPaste,
   FaCode,
-  FaMarkdown,
-  FaYinYang,
-  FaExchangeAlt,
   FaCompress,
   FaCss3,
+  FaExchangeAlt,
+  FaMarkdown,
+  FaPaste,
+  FaRandom,
+  FaReact,
+  FaYinYang,
 } from "react-icons/fa";
-import { FiClock, FiHash, FiFile, FiStar } from "react-icons/fi";
+import { FiClock, FiFile, FiHash, FiStar } from "react-icons/fi";
 import {
-  MdQrCode,
-  MdWork,
   MdAnchor,
   MdColorize,
-  MdPassword,
-  MdQuestionMark,
-  MdHtml,
-  MdPermIdentity,
   MdDataExploration,
-  MdWeb,
+  MdHtml,
   MdImage,
-  MdQrCode2,
+  MdLink,
   MdOutlineImage,
   MdPalette,
+  MdPassword,
+  MdPermIdentity,
+  MdQrCode,
+  MdQrCode2,
+  MdTextFields,
+  MdWeb,
+  MdWork,
 } from "react-icons/md";
 import {
   FcCamera,
@@ -41,16 +42,16 @@ import {
 } from "react-icons/fc";
 import { RiPingPongLine } from "react-icons/ri";
 import {
-  SiPrettier,
+  SiHashnode,
   SiJsonwebtokens,
   SiPostgresql,
-  SiHashnode,
+  SiPrettier,
 } from "react-icons/si";
 import {
-  VscSymbolString,
   VscDiff,
-  VscTypeHierarchySub,
   VscRegex,
+  VscSymbolString,
+  VscTypeHierarchySub,
 } from "react-icons/vsc";
 import { NavItem } from ".";
 import { TbFileTypeSvg } from "react-icons/tb";
@@ -254,10 +255,17 @@ export const navitems: NavItem[] = [
     group: "Generators",
   },
   {
-    id: "text",
-    to: "/text",
+    id: "diff",
+    to: "/diff",
     icon: <VscDiff />,
     text: "Diff Tools",
+    group: "Utilities",
+  },
+  {
+    id: "text",
+    to: "/text",
+    icon: <MdTextFields />,
+    text: "Count chars",
     group: "Utilities",
   },
   {
@@ -307,14 +315,14 @@ export const navitems: NavItem[] = [
   {
     id: "url-parser",
     to: "/url-parser",
-    icon: <MdQuestionMark />,
+    icon: <MdLink />,
     text: "URL Parser",
     group: "Web",
   },
   {
     id: "url-encoder",
     to: "/url-encoder",
-    icon: <MdQuestionMark />,
+    icon: <MdLink />,
     text: "URL Encoder",
     group: "Web",
   },
