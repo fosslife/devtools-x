@@ -25,7 +25,7 @@ import postcss from "prettier/plugins/postcss";
 import { minify as cssMinify } from "csso";
 import { minify as terserMinify } from "terser";
 
-import { Monaco } from "../../Components/MonacoWrapper";
+import { Monaco } from "@/Components/MonacoWrapper";
 import { invoke } from "@tauri-apps/api";
 
 const map: Record<string, prettier.BuiltInParserName> = {

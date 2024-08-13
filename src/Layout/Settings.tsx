@@ -10,15 +10,15 @@ import {
   useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
-import { TbSun, TbMoon, TbCheck, TbX } from "react-icons/tb";
+import { TbCheck, TbMoon, TbSun, TbX } from "react-icons/tb";
 import { notifications } from "@mantine/notifications";
 import { version } from "../../package.json";
 
-import { db } from "../utils";
-import { openFileAndGetData, saveDataToFile } from "../utils/functions";
+import { db } from "@/utils";
+import { openFileAndGetData, saveDataToFile } from "@/utils/functions";
 import { confirm } from "@tauri-apps/api/dialog";
 import { useLocalStorage } from "@mantine/hooks";
-import { useAppContext } from "../Contexts/AppContextProvider";
+import { useAppContext } from "@/Contexts/AppContextProvider";
 import { themes } from "./themes";
 
 export const Settings = () => {

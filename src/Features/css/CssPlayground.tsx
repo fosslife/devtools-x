@@ -1,5 +1,5 @@
 import { Box, Group, Stack } from "@mantine/core";
-import { Monaco } from "../../Components/MonacoWrapper";
+import { Monaco } from "@/Components/MonacoWrapper";
 import { useState } from "react";
 
 const htmlBoilerplate = `

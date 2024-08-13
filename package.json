@@ -1,6 +1,6 @@
 {
   "name": "dev-tools",
-  "version": "2.14.0",
+  "version": "2.14.1",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -118,6 +118,7 @@
     "prettier": "^3.2.4",
     "rollup-plugin-visualizer": "^5.12.0",
     "typescript": "^5.4.3",
-    "vite": "^5.2.7"
+    "vite": "^5.2.7",
+    "vite-tsconfig-paths": "^5.0.1"
   }
 }

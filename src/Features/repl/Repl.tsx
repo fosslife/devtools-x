@@ -2,7 +2,7 @@
 import { Box, Button, Group, Select, Stack, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 
-import { Monaco } from "../../Components/MonacoWrapper";
+import { Monaco } from "@/Components/MonacoWrapper";
 
 import classes from "./styles.module.css";
 

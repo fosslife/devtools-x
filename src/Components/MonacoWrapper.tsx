@@ -4,11 +4,9 @@ import Editor, {
   OnMount,
   EditorProps,
 } from "@monaco-editor/react";
-import * as monaco from "monaco-editor";
 import { editor } from "monaco-editor";
-import { useAppContext } from "../Contexts/AppContextProvider";
-import { themes } from "../Layout/themes";
-import { useEffect, useState } from "react";
+import { useAppContext } from "@/Contexts/AppContextProvider";
+import { themes } from "@/Layout/themes";
 
 type MonacoProps = {
   value?: string;
@@ -28,8 +26,6 @@ type MonacoProps = {
   };
 } & EditorProps;
 
-let inMemoryThemeCache: any = {};
-
 export const Monaco = ({
   value,
   setValue,
@@ -48,23 +44,15 @@ export const Monaco = ({
   const dark = themes.find((t) => t.value === config.editorThemeDark)!;
   const light = themes.find((t) => t.value === config.editorThemeLight)!;
 
-  const applyTheme = (monaco: any, theme: { value: string; label: string }) => {
-    // Importing it from `monaco-themes/themes/${theme.label}.json` gave all sorts of issues
-    // so fallback to using the CDN is fine for now, but we should look into this later / improve caching
-    const themeUrl = `https://cdn.jsdelivr.net/npm/monaco-themes@0.4.4/themes/${encodeURIComponent(theme.label)}.json`;
-
-    if ((inMemoryThemeCache as any)[theme.label]) {
-      monaco.editor.setTheme(theme.value);
-      return;
-    }
-
-    fetch(themeUrl)
-      .then(async (data: any) => {
-        console.log(`monaco-themes/themes/${theme.label}.json`);
-        const value = await data.json();
+  const applyTheme = (
+    monaco: typeof import("monaco-editor/esm/vs/editor/editor.api"),
+    theme: { value: string; label: string }
+  ) => {
+    // hardcoding the path is fine since it's a static import.
+    import(`../../node_modules/monaco-themes/themes/${theme.label}.json`)
+      .then((data) => {
         const name = theme.value ?? "tomorrow-night";
-        inMemoryThemeCache[theme.label] = value;
-        monaco.editor.defineTheme(name, value);
+        monaco.editor.defineTheme(name, data);
         monaco.editor.setTheme(name);
       })
       .catch((e: any) => {

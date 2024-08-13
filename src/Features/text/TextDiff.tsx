@@ -1,7 +1,7 @@
 import { NativeSelect, Stack } from "@mantine/core";
 import { useState } from "react";
 
-import { Monaco } from "../../Components/MonacoWrapper";
+import { Monaco } from "@/Components/MonacoWrapper";
 
 const languages = [
   "Text",
