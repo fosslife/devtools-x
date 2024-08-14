@@ -18,7 +18,7 @@ import { notifications } from "@mantine/notifications";
 import { useColorRandomizer } from "./hooks";
 import { wheels } from "./constants/color-data";
 import { Convert } from "./utilities";
-import { WheelDisplay } from "./constants/Wheels";
+import { ColorWheel, getDot } from "./constants/Wheels";
 
 const ColorHarmonies = () => {
   const [color, setColor] = useColorRandomizer();
@@ -64,6 +64,16 @@ const ColorHarmonies = () => {
     };
   });
 
+  const [lightness, setLightness] = useState(50);
+
+  const wheeels = _wheels.map((w) => ({
+    dots: w.shades.map((c: any) => ({
+      color: getDot(c.h, c.s, c.l),
+      updateColor: (color: any) => setColor(new Convert().hsl2hex(color)),
+    })),
+    name: w.label,
+  }));
+
   return (
     <Stack
       align="center"
@@ -73,7 +83,27 @@ const ColorHarmonies = () => {
         hexCode={color.startsWith("#") ? color.slice(1) : color}
         onChange={(newColor) => setColor(newColor.hex)}
       />
-      H: {h}, S: {s}, L: {l}
+      <Group gap={10} style={{ marginBottom: 14 }}>
+        {wheeels.map((w, i) => (
+          <div key={i} style={{ textAlign: "center" }}>
+            <ColorWheel
+              lightness={l}
+              setLightness={setLightness}
+              colors={w.dots}
+              size={150}
+            />
+            <Text
+              style={{ cursor: "pointer" }}
+              fw="lighter"
+              c="dimmed"
+              size="sm"
+            >
+              {w.name}
+            </Text>
+          </div>
+        ))}
+      </Group>
+      {/*<pre>{JSON.stringify(colors, null, 2)}</pre>*/}
       <Switch
         label="Variations"
         checked={variations}
@@ -108,7 +138,6 @@ const ColorHarmonies = () => {
             />
           ))}
       {/*<pre>{JSON.stringify(_wheels, null, 2)}</pre>*/}
-      <WheelDisplay />
     </Stack>
   );
 };

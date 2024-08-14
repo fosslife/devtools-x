@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useContext, useMemo, useState } from "react";
+import { Convert } from "@/Features/colors/utilities";
 
 type WheelContext = {
   selectedColor: string;
@@ -75,21 +76,38 @@ const calculateGradient = (e: any) => {
   return h;
 };
 
-const ColorWheel = ({ initialHue = 0, initialLightness = 50 }) => {
-  const [hue, setHue] = useState(initialHue);
-  const [lightness, setLightness] = useState(initialLightness);
+type ColorDot = {
+  x: number;
+  y: number;
+  bg: string;
+  rgb: string;
+  hex: string;
+  hsl: { h: number; s: number; l: number };
+};
 
+export const ColorWheel = ({
+  colors = [],
+  lightness = 50,
+  setLightness = () => {},
+  size = 250,
+}: {
+  colors: {
+    color: ColorDot;
+    updateColor: (color: { h: number; s: number; l: number }) => void;
+  }[];
+  lightness?: number;
+  setLightness?: (lightness: number) => void;
+  size?: number;
+}) => {
   const backgroundStyle = useMemo(() => {
     return calculateGradient({ lightness });
-  }, [hue, lightness]);
+  }, [lightness]);
 
   const handleLightnessChange = (event: any) => {
     setLightness(event.target.value);
   };
 
-  const wheelRadius = 50; // Assuming the radius of the wheel is 50 units
-
-  const colors = [
+  const test_dots = [
     { h: 0, s: 100, l: 50 }, // Pure red
     { h: 30, s: 100, l: 50 }, // Orange
     { h: 60, s: 100, l: 50 }, // Yellow
@@ -127,24 +145,21 @@ const ColorWheel = ({ initialHue = 0, initialLightness = 50 }) => {
     { h: 300, s: 50, l: 50 }, // Desaturated magenta
   ];
 
-  const dots = colors.map((color, index) => ({
-    bg: `hsl(${color.h}, ${color.s}%, ${color.l}%)`,
-    ...calculateColorWheelPosition(color, wheelRadius),
-  }));
-
   return (
-    <div
-      style={{
-        width: "300px",
-        height: "300px",
-        background: backgroundStyle,
-        borderRadius: "50%",
-        position: "relative",
-      }}
-    >
-      {dots.map((dot, index) => (
-        <Dot key={index} {...dot} />
-      ))}
+    <div>
+      <div
+        style={{
+          width: size,
+          height: size,
+          background: backgroundStyle,
+          borderRadius: "50%",
+          position: "relative",
+        }}
+      >
+        {colors.map(({ color }, index) => (
+          <Dot key={index} {...color} />
+        ))}
+      </div>
       {/*<input*/}
       {/*  type="range"*/}
       {/*  min="0"*/}
@@ -152,13 +167,21 @@ const ColorWheel = ({ initialHue = 0, initialLightness = 50 }) => {
       {/*  value={lightness}*/}
       {/*  onChange={handleLightnessChange}*/}
       {/*/>*/}
-      {/*{backgroundStyle}*/}
-      {/*<pre>{JSON.stringify(position, null, 2)}</pre>*/}
     </div>
   );
 };
 
-const Dot = ({ x, y, bg }: { x: number; y: number; bg: string }) => {
+const convert = new Convert();
+
+export const getDot = (h: number, s: number, l: number): Dot => ({
+  ...calculateColorWheelPosition({ h, s, l }, 50),
+  bg: `hsl(${(h % 360).toFixed()}, ${s.toFixed()}%, ${l.toFixed()}%)`,
+  rgb: `rgb(${convert.hslToRgb(h, s, l).join(", ")})`,
+  hex: convert.hsl2hex({ h, s, l }),
+  hsl: { h, s, l },
+});
+
+const Dot = ({ x, y, bg }: ColorDot) => {
   return (
     <div
       style={{
@@ -169,6 +192,7 @@ const Dot = ({ x, y, bg }: { x: number; y: number; bg: string }) => {
         height: "10px",
         borderRadius: "50%",
         border: "1px solid white",
+        transition: "all 0.3s ease-in-out",
         background: bg,
       }}
     />
@@ -196,23 +220,24 @@ const calculateColorWheelPosition = (
 
   return { x, y };
 };
-export const WheelDisplay = ({
-  selectedColor,
-  wheelMode,
-}: {
-  selectedColor?: WheelContext["selectedColor"];
-  wheelMode?: WheelContext["wheelMode"];
-}) => {
-  const renderWheel = () => {
-    // Logic to render the wheel based on selectedColor and wheelMode
-    return "";
-  };
-
-  const lightness = 50;
-  // const gradient = useColorWheelGradient(lightness);
-  return (
-    <div>
-      <ColorWheel initialHue={0} initialLightness={lightness} />
-    </div>
-  );
-};
+//
+// export const WheelDisplay = ({
+//   selectedColor,
+//   wheelMode,
+// }: {
+//   selectedColor?: WheelContext["selectedColor"];
+//   wheelMode?: WheelContext["wheelMode"];
+// }) => {
+//   const renderWheel = () => {
+//     // Logic to render the wheel based on selectedColor and wheelMode
+//     return "";
+//   };
+//
+//   const lightness = 50;
+//   // const gradient = useColorWheelGradient(lightness);
+//   return (
+//     <div>
+//       <ColorWheel/>
+//     </div>
+//   );
+// };

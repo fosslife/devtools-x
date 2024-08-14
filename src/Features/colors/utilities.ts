@@ -80,6 +80,11 @@ export class Convert {
     return [h, s * 100, l * 100];
   };
 
+  hsl2hex = (hsl: { h: number; s: number; l: number }) => {
+    const { h, s, l } = hsl;
+    return ChromaJS.hsl(h, s, l).hex();
+  };
+
   hsl2Object = (hsl: number[]) => {
     const [h, s, l] = hsl;
     return { h, s, l };
