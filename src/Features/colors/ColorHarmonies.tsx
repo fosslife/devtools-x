@@ -47,7 +47,7 @@ const ColorHarmonies = () => {
   return (
     <Stack
       align="center"
-      style={{ height: "100%", width: "100%", overflowY: "scroll" }}
+      style={{ height: "100%", width: "100%", overflowY: "auto" }}
     >
       <CustomPicker
         hexCode={color.startsWith("#") ? color.slice(1) : color}
