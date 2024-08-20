@@ -125,7 +125,7 @@ console.log(sum); // Outputs: 15
 `,
   badges: {
     render: `
-    ## Badges
+## Badges
 
 ![MIT License](https://img.shields.io/github/license/fosslife/devtools-x.svg)
 ![GitHub issues](https://badgen.net/github/issues/fosslife/devtools-x) ![GitHub stars](https://badgen.net/github/stars/fosslife/devtools-x)
