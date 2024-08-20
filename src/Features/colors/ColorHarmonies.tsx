@@ -67,10 +67,7 @@ const ColorHarmonies = () => {
   const [lightness, setLightness] = useState(50);
 
   const wheeels = _wheels.map((w) => ({
-    dots: w.shades.map((c: any) => ({
-      color: getDot(c.h, c.s, c.l),
-      updateColor: (color: any) => setColor(new Convert().hsl2hex(color)),
-    })),
+    dots: w.shades.map((c: any) => getDot(c.h, c.s, c.l)),
     name: w.label,
   }));
 
@@ -88,6 +85,7 @@ const ColorHarmonies = () => {
           <div key={i} style={{ textAlign: "center" }}>
             <ColorWheel
               lightness={l}
+              updateColor={({ hsl }) => setColor(new Convert().hsl2hex(hsl))}
               setLightness={setLightness}
               colors={w.dots}
               size={150}

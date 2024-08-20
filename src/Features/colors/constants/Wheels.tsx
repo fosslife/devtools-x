@@ -88,13 +88,12 @@ type ColorDot = {
 export const ColorWheel = ({
   colors = [],
   lightness = 50,
+  updateColor,
   setLightness = () => {},
   size = 250,
 }: {
-  colors: {
-    color: ColorDot;
-    updateColor: (color: { h: number; s: number; l: number }) => void;
-  }[];
+  colors: ColorDot[];
+  updateColor: (color: { hsl: { h: number; s: number; l: number } }) => void;
   lightness?: number;
   setLightness?: (lightness: number) => void;
   size?: number;
@@ -145,6 +144,46 @@ export const ColorWheel = ({
     { h: 300, s: 50, l: 50 }, // Desaturated magenta
   ];
 
+  const [isDragging, setIsDragging] = useState(false);
+  const handleMouseDown = () => {
+    setIsDragging(true);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseMove = (e: any) => {
+    if (!isDragging) return;
+
+    const rect = e.target.getBoundingClientRect();
+    const centerX = rect.width / 2; // Center of the wheel (x)
+    const centerY = rect.height / 2; // Center of the wheel (y)
+
+    const x = e.clientX - rect.left; // X coordinate within the element
+    const y = e.clientY - rect.top; // Y coordinate within the element
+
+    const dx = x - centerX;
+    const dy = y - centerY;
+    const distance = Math.sqrt(dx * dy + dy * dy);
+
+    let angle = Math.atan2(dy, dx) * (180 / Math.PI);
+
+    // Adjust the angle to make 0° at the top (12 o'clock position)
+    let h = (angle + 90 + 360) % 360;
+
+    // Normalize the distance for saturation (assuming wheelRadius as max)
+    const wheelRadius = rect.width / 2;
+    const s = (distance / wheelRadius) * 100;
+
+    // Clamp saturation between 0 and 100
+    const clampedS = Math.max(0, Math.min(100, s));
+
+    const l = colors?.[0]?.hsl?.l ?? 50;
+
+    updateColor({ hsl: { h, s: clampedS, l } });
+  };
+
   return (
     <div>
       <div
@@ -154,26 +193,23 @@ export const ColorWheel = ({
           background: backgroundStyle,
           borderRadius: "50%",
           position: "relative",
+          cursor: "pointer",
         }}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
       >
-        {colors.map(({ color }, index) => (
-          <Dot key={index} {...color} />
+        {colors.map((color, index) => (
+          <Dot key={index} {...color} moving={isDragging} />
         ))}
       </div>
-      {/*<input*/}
-      {/*  type="range"*/}
-      {/*  min="0"*/}
-      {/*  max="100"*/}
-      {/*  value={lightness}*/}
-      {/*  onChange={handleLightnessChange}*/}
-      {/*/>*/}
     </div>
   );
 };
 
 const convert = new Convert();
 
-export const getDot = (h: number, s: number, l: number): Dot => ({
+export const getDot = (h: number, s: number, l: number): ColorDot => ({
   ...calculateColorWheelPosition({ h, s, l }, 50),
   bg: `hsl(${(h % 360).toFixed()}, ${s.toFixed()}%, ${l.toFixed()}%)`,
   rgb: `rgb(${convert.hslToRgb(h, s, l).join(", ")})`,
@@ -181,10 +217,18 @@ export const getDot = (h: number, s: number, l: number): Dot => ({
   hsl: { h, s, l },
 });
 
-const Dot = ({ x, y, bg }: ColorDot) => {
+const Dot = ({
+  x,
+  y,
+  bg,
+  moving = false,
+}: ColorDot & {
+  moving?: boolean;
+}) => {
   return (
     <div
       style={{
+        pointerEvents: "none",
         position: "absolute",
         top: `calc(${y}% - 5px)`, // Adjust for dot size (10px)
         left: `calc(${x}% - 5px)`,
@@ -192,7 +236,7 @@ const Dot = ({ x, y, bg }: ColorDot) => {
         height: "10px",
         borderRadius: "50%",
         border: "1px solid white",
-        transition: "all 0.3s ease-in-out",
+        transition: moving ? "" : "all 0.3s ease-in-out",
         background: bg,
       }}
     />
@@ -202,19 +246,12 @@ const calculateColorWheelPosition = (
   hsl: { h: number; s: number; l: number },
   wheelRadius: number
 ) => {
-  // Normalize saturation to a 0-1 range
   const normalizedSaturation = hsl.s / 100;
 
-  // Convert hue to radians and adjust for the starting point (top of the wheel)
-  // const angleInRadians = ((hsl.h - 90) * Math.PI) / 180;
   const angleInRadians = ((hsl.h - 90) * Math.PI) / 180;
 
-  // Calculate x and y based on the angle and normalized saturation
   const x =
     wheelRadius + wheelRadius * normalizedSaturation * Math.cos(angleInRadians);
-  // const y =
-  //   wheelRadius - wheelRadius * normalizedSaturation * Math.sin(angleInRadians);
-
   const y =
     wheelRadius + wheelRadius * normalizedSaturation * Math.sin(angleInRadians);
 

@@ -150,3 +150,12 @@ export const wheels = {
 
   // Add other color wheel functions similarly...
 };
+
+const mainColorIndex = (wheel: string) => {
+  switch (wheel) {
+    case "analogous":
+      return 1; // middle
+    default:
+      return 0;
+  }
+};
