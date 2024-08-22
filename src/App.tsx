@@ -55,11 +55,11 @@ const Pastebin = loadable(() => import("./Features/pastebin/Pastebin"));
 const Repl = loadable(() => import("./Features/repl/Repl"));
 const Image = loadable(() => import("./Features/image/Image"));
 const Playground = loadable(
-  () => import("./Features/reactPlayground/Playground")
+  () => import("./Features/react-playground/Playground")
 );
 const Rest = loadable(() => import("./Features/rest/Rest"));
 const UnitConverter = loadable(
-  () => import("./Features/unitconverter/UnitConverter")
+  () => import("./Features/unit-converter/UnitConverter")
 );
 const Epoch = loadable(() => import("./Features/epoch/Epoch"));
 const Stateless = loadable(() => import("./Features/password"));
