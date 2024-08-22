@@ -276,6 +276,13 @@ export const navitems: NavItem[] = [
     group: "Previewers",
   },
   {
+    id: "readme",
+    to: "/readme",
+    icon: <FaMarkdown />,
+    text: "Readme",
+    group: "Generators",
+  },
+  {
     id: "yamljson",
     to: "/yamljson",
     icon: <FaYinYang />,
