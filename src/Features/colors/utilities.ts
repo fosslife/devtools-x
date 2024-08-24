@@ -81,7 +81,8 @@ export class Convert {
   };
 
   hsl2hex = (hsl: { h: number; s: number; l: number }) => {
-    const { h, s, l } = hsl;
+    let { h, s, l } = hsl;
+    h = h % 360;
     return ChromaJS.hsl(h, s, l).hex();
   };
 

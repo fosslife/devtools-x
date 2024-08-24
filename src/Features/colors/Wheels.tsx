@@ -129,6 +129,7 @@ export const ColorWheel = ({
       if (angle < 0) {
         angle += 360;
       }
+      angle += 45;
 
       const h = Math.round(angle + 45) % 360;
 
@@ -138,7 +139,7 @@ export const ColorWheel = ({
       setAn([h, s, lightness].map((e) => e.toFixed(0)).join(", "));
       setLocalHsl({ h, s, l: lightness });
 
-      updateColor({ hsl: { h, s: s / 10, l: lightness } });
+      updateColor({ hsl: { h, s: s / 100, l: lightness / 100 } });
     },
     [isDragging, lightness, updateColor]
   );
@@ -155,6 +156,13 @@ export const ColorWheel = ({
       >
         x
       </div>
+      {convert.hsl2hex({
+        h: localHsl.h,
+        s: localHsl.s / 100,
+        l: localHsl.l / 100,
+      })}
+      {colors[0].hsl.h.toFixed()},{colors[0].hsl.s.toFixed()},
+      {colors[0].hsl.l.toFixed()}
       <div
         style={{
           width: size,
