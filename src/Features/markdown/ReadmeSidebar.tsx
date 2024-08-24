@@ -1,5 +1,5 @@
-import { Box, Button, Popover, Stack, Text } from "@mantine/core";
-import { templates } from "@/Features/markdown/templates";
+import classes from "@/Layout/Navbar/components/ungrouped.module.css";
+import { Box, Stack, Text } from "@mantine/core";
 import { titleCase } from "@/utils/strings";
 import {
   DragDropContext,
@@ -7,10 +7,12 @@ import {
   Droppable,
   OnDragEndResponder,
 } from "@hello-pangea/dnd";
+
 import cx from "clsx";
-import classes from "@/Layout/Navbar/components/ungrouped.module.css";
-import MdPreview from "@/Features/markdown/MarkdownPreview";
-import { Part } from "./types";
+
+import { templates } from "@/Features/markdown/templates";
+import MarkdownInsertion from "@/Features/markdown/MarkdownInsertion";
+import type { Part } from "./types";
 
 const ReadmeSidebar = ({
   parts,
@@ -96,87 +98,15 @@ const ReadmeSidebar = ({
           )}
         </Droppable>
       </DragDropContext>
-      <Popover opened={popover.opened} onChange={popover.toggle}>
-        <Popover.Target>
-          <Button onClick={popover.toggle}>Add section</Button>
-        </Popover.Target>
-
-        <Popover.Dropdown>
-          <Stack
-            style={{
-              maxHeight: "60vh",
-              maxWidth: "300px",
-              overflowY: "auto",
-              overflowX: "hidden",
-            }}
-          >
-            {Object.keys(templates).map((key) => {
-              const template = templates[key as keyof typeof templates];
-              const isStringTemplate = typeof template === "string";
-              const renderTitle = !isStringTemplate && template?.renderTitle;
-              const renderTemplate = isStringTemplate
-                ? template
-                : template?.render;
-
-              return (
-                <div
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    addPart(key, renderTemplate);
-                    activeIndex.set(parts.length);
-                    popover.toggle();
-                  }}
-                >
-                  <RenderTemplatePart
-                    renderTemplate={renderTemplate}
-                    renderTitle={renderTitle ? key : undefined}
-                  />
-                </div>
-              );
-            })}
-          </Stack>
-        </Popover.Dropdown>
-      </Popover>
+      <MarkdownInsertion
+        opened={popover.opened}
+        toggle={popover.toggle}
+        templates={templates}
+        addPart={addPart}
+        callback={() => activeIndex.set(parts.length)}
+      />
     </Stack>
   );
 };
-
-const RenderTemplatePart = ({
-  renderTemplate,
-  renderTitle,
-}: {
-  renderTemplate: string;
-  renderTitle?: string;
-}) => (
-  <div
-    style={{
-      pointerEvents: "none",
-    }}
-  >
-    {renderTitle ? (
-      <Text
-        size="xs"
-        fw="bold"
-        style={{
-          textAlign: "center",
-          background: "#eee",
-          color: "#333",
-        }}
-      >
-        {titleCase(renderTitle)}
-      </Text>
-    ) : (
-      <MdPreview
-        source={renderTemplate}
-        style={{
-          fontSize: "0.8em",
-          maxHeight: "200px",
-          overflow: "hidden",
-          padding: 5,
-        }}
-      />
-    )}
-  </div>
-);
 
 export default ReadmeSidebar;
