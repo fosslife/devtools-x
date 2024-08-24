@@ -96,7 +96,7 @@ const Readme = () => {
         >
           {showEditor ? "Hide" : "Show"} editor
         </Button>
-        {activeIndex ? (
+        {typeof activeIndex != "undefined" && parts?.length > 1 ? (
           <Button
             onClick={() => {
               setParts((prev) =>
@@ -174,39 +174,60 @@ const Readme = () => {
               >
                 {Object.keys(templates).map((key) => {
                   const template = templates[key as keyof typeof templates];
+                  const isStringTemplate = typeof template === "string";
+                  const renderTitle =
+                    !isStringTemplate && template?.renderTitle;
+
                   return (
                     <div
+                      style={{
+                        cursor: "pointer",
+                      }}
                       onClick={() => {
                         setParts((prev) => [
                           ...prev,
                           {
                             title: key,
-                            template:
-                              typeof template === "string"
-                                ? template
-                                : template?.render,
+                            template: isStringTemplate
+                              ? template
+                              : template?.render,
                           } as Part,
                         ]);
                       }}
                     >
-                      <Text size="sm" style={{ cursor: "pointer" }}>
-                        {titleCase(key)}
-                      </Text>
-                      <MarkdownPreview
-                        source={
-                          typeof template === "string"
-                            ? template
-                            : template?.render
-                        }
+                      <div
                         style={{
-                          fontSize: "0.8em",
-                          maxHeight: "200px",
-                          overflow: "hidden",
-                          padding: 5,
+                          pointerEvents: "none",
                         }}
-                        remarkPlugins={[remarkMath]}
-                        rehypePlugins={[rehypeKatex, rehypeRaw]}
-                      />
+                      >
+                        {renderTitle ? (
+                          <Text
+                            size="xs"
+                            fw="bold"
+                            style={{
+                              textAlign: "center",
+                              background: "#eee",
+                              color: "#333",
+                            }}
+                          >
+                            {titleCase(key)}
+                          </Text>
+                        ) : (
+                          <MarkdownPreview
+                            source={
+                              isStringTemplate ? template : template?.render
+                            }
+                            style={{
+                              fontSize: "0.8em",
+                              maxHeight: "200px",
+                              overflow: "hidden",
+                              padding: 5,
+                            }}
+                            remarkPlugins={[remarkMath]}
+                            rehypePlugins={[rehypeKatex, rehypeRaw]}
+                          />
+                        )}
+                      </div>
                     </div>
                   );
                 })}
