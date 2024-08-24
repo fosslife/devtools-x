@@ -18,7 +18,7 @@ import { notifications } from "@mantine/notifications";
 import { useColorRandomizer } from "./hooks";
 import { wheels } from "./constants/color-data";
 import { Convert } from "./utilities";
-import { ColorWheel, getDot } from "./constants/Wheels";
+import { ColorWheel, getDot } from "./Wheels";
 
 const ColorHarmonies = () => {
   const [color, setColor] = useColorRandomizer();
@@ -50,9 +50,6 @@ const ColorHarmonies = () => {
   }, [color]);
 
   const [h, s, l] = new Convert().hex2hsl(color);
-  // const h = 186,
-  //   s = 100,
-  //   l = 50;
 
   const _wheels = Object.keys(wheels).map((key) => {
     return {
