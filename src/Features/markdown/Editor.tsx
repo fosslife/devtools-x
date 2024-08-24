@@ -2,14 +2,10 @@
 import "./markdown.css";
 
 import { Box, Group } from "@mantine/core";
-import MarkdownPreview from "@uiw/react-markdown-preview";
 import { Monaco } from "@/Components/MonacoWrapper";
 
-import rehypeKatex from "rehype-katex";
-import rehypeRaw from "rehype-raw";
-import remarkMath from "remark-math";
-
 import "katex/dist/katex.min.css";
+import MdPreview from "./MarkdownPreview";
 
 const MarkdownEditor = ({
   file,
@@ -43,17 +39,9 @@ const MarkdownEditor = ({
       ) : null}
       {showPreview ? (
         <Box style={{ width: showEditor ? "50%" : "100%", height: "100%" }}>
-          <MarkdownPreview
+          <MdPreview
             source={previewFile ?? file}
             style={{ padding: "15px", height: "100%", overflow: "scroll" }}
-            remarkPlugins={[remarkMath]}
-            rehypePlugins={[rehypeKatex, rehypeRaw]}
-            rehypeRewrite={(node) => {
-              if (node.tagName === "a") {
-                node.properties.target = "_blank";
-                node.properties.rel = "noopener noreferrer";
-              }
-            }}
           />
         </Box>
       ) : null}
