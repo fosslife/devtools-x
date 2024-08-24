@@ -74,7 +74,15 @@ const Readme = () => {
       }}
     >
       <Group>
-        <Button onClick={openFile}>Open md file</Button>
+        <Button
+          onClick={() =>
+            openFile((data) => {
+              setParts([{ title: "Content", template: data }]);
+            })
+          }
+        >
+          Open md file
+        </Button>
         <Button onClick={saveFile}>Save md file</Button>
         <Button
           onClick={() => setShowPreview((p) => !p)}
