@@ -12,13 +12,15 @@ export const useFile = ({
 }: UseMarkdownFileProps) => {
   const [file, setFile] = React.useState(initialFile);
 
-  const openFile = async () => {
+  const openFile = async (cb?: (data: string) => void) => {
     const data = await openFileAndGetData(
       `Open a ${extensions.join(", ")} File`,
       [{ name: "open-file", extensions }],
       "text"
     );
-    if (data) setFile(data);
+    if (!data) return;
+    setFile(data);
+    cb?.(data);
   };
 
   const saveFile = async () => {

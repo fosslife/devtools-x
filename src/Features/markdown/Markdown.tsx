@@ -22,7 +22,7 @@ const Markdown = () => {
       }}
     >
       <Group>
-        <Button onClick={openFile}>Open md file</Button>
+        <Button onClick={() => openFile()}>Open md file</Button>
         <Button onClick={saveFile}>Save md file</Button>
         <Button onClick={() => setPreview((p) => !p)}>
           {preview ? "Hide" : "Show"} preview
