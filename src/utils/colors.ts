@@ -108,6 +108,8 @@ export class Convert {
     try {
       let [h, s, l] = hsl;
       h = h % 360;
+      if (s > 1) s = s / 100;
+      if (l > 1) l = l / 100;
       return ChromaJS.hsl(h, s, l).hex();
     } catch (e) {
       console.warn(e);
