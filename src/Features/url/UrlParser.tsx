@@ -1,5 +1,6 @@
 import {
   Button,
+  Divider,
   Group,
   Stack,
   Table,
@@ -9,7 +10,7 @@ import {
 import { FormEventHandler, useState } from "react";
 
 const sampleUrlWithQueryparams =
-  "https://www.example.com?name=John&age=30&city=NewYork&country=USA&hobbies=reading&hobbies=swimming&hobbies=movies";
+  "https://www.example.com:8080?name=John&age=30&city=NewYork&country=USA&hobbies=reading&hobbies=swimming&hobbies=movies";
 
 export default function UrlParser() {
   const [url, setUrl] = useState(sampleUrlWithQueryparams);
@@ -38,13 +39,12 @@ export default function UrlParser() {
   return (
     <form onSubmit={onSubmit}>
       <Stack>
-        <Group wrap="nowrap" align="start" h="100%">
+        <Group wrap="nowrap" align="start" justify="space-between" h="100%">
           <Textarea
             w={"50%"}
             autosize
-            minRows={15}
+            minRows={30}
             placeholder={sampleUrlWithQueryparams}
-            maxRows={30}
             value={url}
             onChange={(e) => {
               setUrl(e.currentTarget.value);
@@ -53,54 +53,78 @@ export default function UrlParser() {
               );
             }}
           />
-          <Table w="50%" striped withColumnBorders>
-            <Table.Thead>
-              <Table.Tr>
-                <Table.Th>Key</Table.Th>
-                <Table.Th>Value</Table.Th>
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>
-              {Array.from(searchParams.keys()).map((key, i) => (
-                <Table.Tr key={key + i}>
-                  <Table.Td>{key}</Table.Td>
-                  <Table.Td>{searchParams.get(key)}</Table.Td>
+          <Stack w="50%" px="xs" gap="xl">
+            <Table withTableBorder striped>
+              <Table.Tbody>
+                <Table.Tr>
+                  <Table.Td>hostname</Table.Td>
+                  <Table.Td>{new URL(url).hostname}</Table.Td>
                 </Table.Tr>
-              ))}
-              <Table.Tr>
-                <Table.Td>
-                  <TextInput
-                    value={key}
-                    onChange={(e) => {
-                      let key = e.currentTarget.value;
-                      setKey(key);
-                    }}
-                    placeholder="Key"
-                  />
-                </Table.Td>
-                <Table.Td>
-                  <TextInput
-                    value={value}
-                    onChange={(e) => {
-                      let value = e.currentTarget.value;
-                      setValue(value);
-                    }}
-                    placeholder="Value"
-                  />
-                </Table.Td>
-              </Table.Tr>
-            </Table.Tbody>
-          </Table>
+                <Table.Tr>
+                  <Table.Td>pathname</Table.Td>
+                  <Table.Td>{new URL(url).pathname}</Table.Td>
+                </Table.Tr>
+                <Table.Tr>
+                  <Table.Td>port</Table.Td>
+                  <Table.Td>{new URL(url).port}</Table.Td>
+                </Table.Tr>
+                <Table.Tr>
+                  <Table.Td>protocol</Table.Td>
+                  <Table.Td>{new URL(url).protocol}</Table.Td>
+                </Table.Tr>
+              </Table.Tbody>
+            </Table>
+
+            <Divider />
+            <Table w="100%" withColumnBorders>
+              <Table.Thead>
+                <Table.Tr>
+                  <Table.Th>Key</Table.Th>
+                  <Table.Th>Value</Table.Th>
+                </Table.Tr>
+              </Table.Thead>
+              <Table.Tbody>
+                {Array.from(searchParams.keys()).map((key, i) => (
+                  <Table.Tr key={key + i}>
+                    <Table.Td>{key}</Table.Td>
+                    <Table.Td>{searchParams.get(key)}</Table.Td>
+                  </Table.Tr>
+                ))}
+                <Table.Tr>
+                  <Table.Td>
+                    <TextInput
+                      value={key}
+                      onChange={(e) => {
+                        let key = e.currentTarget.value;
+                        setKey(key);
+                      }}
+                      placeholder="Key"
+                    />
+                  </Table.Td>
+                  <Table.Td>
+                    <TextInput
+                      value={value}
+                      onChange={(e) => {
+                        let value = e.currentTarget.value;
+                        setValue(value);
+                      }}
+                      placeholder="Value"
+                    />
+                  </Table.Td>
+                </Table.Tr>
+              </Table.Tbody>
+            </Table>
+            <Button
+              w="fit-content"
+              style={{
+                alignSelf: "flex-end",
+              }}
+              type="submit"
+            >
+              Add
+            </Button>
+          </Stack>
         </Group>
-        <Button
-          w="fit-content"
-          style={{
-            alignSelf: "flex-end",
-          }}
-          type="submit"
-        >
-          Add
-        </Button>
       </Stack>
     </form>
   );

@@ -44,11 +44,7 @@ const Sql = () => {
         height: "100%",
       }}
     >
-      <Group
-        style={{
-          height: "10%",
-        }}
-      >
+      <Group>
         <Select
           label="Indentation"
           value={indent}
