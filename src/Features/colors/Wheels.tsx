@@ -88,30 +88,20 @@ export const ColorWheel = ({
   colors = [],
   lightness = 50,
   updateColor,
-  setLightness = () => {},
   size = 250,
 }: {
   colors: ColorDot[];
   updateColor: (color: { hsl: { h: number; s: number; l: number } }) => void;
   lightness?: number;
-  setLightness?: (lightness: number) => void;
   size?: number;
 }) => {
   const backgroundStyle = useMemo(() => {
     return calculateGradient({ lightness });
   }, [lightness]);
 
-  const handleLightnessChange = (event: any) => {
-    setLightness(event.target.value);
-  };
-
   const [isDragging, setIsDragging] = useState(false);
   const startDrag = () => setIsDragging(true);
   const stopDrag = () => setIsDragging(false);
-
-  const [an, setAn] = useState("");
-
-  const [localHsl, setLocalHsl] = useState({ h: 0, s: 0, l: 0 });
 
   const handleMouseMoveOnWheel = useCallback(
     (e: MouseEvent<HTMLDivElement>) => {
@@ -123,21 +113,12 @@ export const ColorWheel = ({
       const x = e.clientX - rect.left - radius;
       const y = e.clientY - rect.top - radius;
 
-      // const radius = Math.sqrt(x * x + y * y); // Pythagoras' theorem to find the radius
-      let angle = (Math.atan2(y, x) * 360) / (Math.PI * 2); // atan2 to find the angle in radians and convert it to degrees
-
-      if (angle < 0) {
-        angle += 360;
-      }
-      angle += 45;
+      const angle = (Math.atan2(y, x) * 360) / (Math.PI * 2) + 45;
 
       const h = Math.round(angle + 45) % 360;
 
       const distance = Math.sqrt(x * x + y * y);
       const s = Math.round((distance / radius) * 100) % 100;
-
-      setAn([h, s, lightness].map((e) => e.toFixed(0)).join(", "));
-      setLocalHsl({ h, s, l: lightness });
 
       updateColor({ hsl: { h, s: s / 100, l: lightness / 100 } });
     },
@@ -145,41 +126,22 @@ export const ColorWheel = ({
   );
 
   return (
-    <div>
-      {/*{lightness}*/}
-      {/*{JSON.stringify(colors?.[0]?.hsl)}*/}
-      {JSON.stringify(an)}
-      <div
-        style={{
-          background: `hsl(${localHsl.h}, ${localHsl.s}%, ${localHsl.l}%)`,
-        }}
-      >
-        x
-      </div>
-      {convert.hsl2hex({
-        h: localHsl.h,
-        s: localHsl.s / 100,
-        l: localHsl.l / 100,
-      })}
-      {colors[0].hsl.h.toFixed()},{colors[0].hsl.s.toFixed()},
-      {colors[0].hsl.l.toFixed()}
-      <div
-        style={{
-          width: size,
-          height: size,
-          background: backgroundStyle,
-          borderRadius: "50%",
-          position: "relative",
-          cursor: "pointer",
-        }}
-        onMouseDown={startDrag}
-        onMouseUp={stopDrag}
-        onMouseMove={handleMouseMoveOnWheel}
-      >
-        {colors.map((color, index) => (
-          <Dot key={index} {...color} moving={isDragging} />
-        ))}
-      </div>
+    <div
+      style={{
+        width: size,
+        height: size,
+        background: backgroundStyle,
+        borderRadius: "50%",
+        position: "relative",
+        cursor: "pointer",
+      }}
+      onMouseDown={startDrag}
+      onMouseUp={stopDrag}
+      onMouseMove={handleMouseMoveOnWheel}
+    >
+      {colors.map((color, index) => (
+        <Dot key={index} {...color} moving={isDragging} />
+      ))}
     </div>
   );
 };
@@ -203,7 +165,6 @@ const Dot = ({
         height: "10px",
         borderRadius: "50%",
         border: "1px solid white",
-        // transition: moving ? "" : "all 0.3s ease-in-out",
         background: bg,
       }}
     />

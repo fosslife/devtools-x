@@ -19,6 +19,7 @@ import { useColorRandomizer } from "./hooks";
 import { wheels } from "./constants/color-data";
 import { Convert } from "./utilities";
 import { ColorWheel, getDot } from "./Wheels";
+import { useContainerSize } from "@/hooks";
 
 const ColorHarmonies = () => {
   const [color, setColor] = useColorRandomizer();
@@ -61,12 +62,12 @@ const ColorHarmonies = () => {
     };
   });
 
-  const [lightness, setLightness] = useState(50);
-
   const wheeels = _wheels.map((w) => ({
     dots: w.shades.map((c: any) => getDot(c.h, c.s, c.l)),
     name: w.label,
   }));
+
+  const { ref, width } = useContainerSize();
 
   return (
     <Stack
@@ -77,45 +78,47 @@ const ColorHarmonies = () => {
         hexCode={color.startsWith("#") ? color.slice(1) : color}
         onChange={(newColor) => setColor(newColor.hex)}
       />
-      <Group gap={10} style={{ marginBottom: 14 }}>
-        {wheeels.map((w, i) => (
-          <div key={i} style={{ textAlign: "center" }}>
-            <ColorWheel
-              lightness={l}
-              updateColor={({ hsl }) => setColor(new Convert().hsl2hex(hsl))}
-              setLightness={setLightness}
-              colors={w.dots}
-              size={150}
-            />
-            <Text
-              style={{ cursor: "pointer" }}
-              fw="lighter"
-              c="dimmed"
-              size="sm"
-            >
-              {w.name}
-            </Text>
-          </div>
-        ))}
-      </Group>
-      {/*<pre>{JSON.stringify(colors, null, 2)}</pre>*/}
       <Switch
-        label="Variations"
+        label="Inspired"
         checked={variations}
         onChange={() => setVariations((prev) => !prev)}
       />
-      <Group gap={10} style={{ marginBottom: 14 }}>
-        <Text style={{ cursor: "pointer" }} fw="lighter" c="dimmed" size="sm">
-          Harmonies
-        </Text>
-      </Group>
+
+      {variations ? null : (
+        <Group gap={10} style={{ marginBottom: 14, width: "100%" }} ref={ref}>
+          {wheeels.map((w, i) => (
+            <div key={i} style={{ textAlign: "center" }}>
+              <ColorWheel
+                lightness={l}
+                updateColor={({ hsl }) => setColor(new Convert().hsl2hex(hsl))}
+                colors={w.dots}
+                size={width / (wheeels?.length + 1)}
+              />
+              <Text
+                style={{
+                  cursor: "pointer",
+                  overflow: "hidden",
+                  maxWidth: width / (wheeels?.length + 1),
+                  textOverflow: "ellipsis",
+                }}
+                fw="lighter"
+                c="dimmed"
+                size="sm"
+              >
+                {w.name}
+              </Text>
+            </div>
+          ))}
+        </Group>
+      )}
+
       {variations
         ? Object.keys(harmonies).map((key) => (
             <RenderShades
               key={key}
               colors={harmonies[key as keyof typeof harmonies]}
               setColor={copy}
-              label={key.slice(0, 10)}
+              label={key}
             />
           ))
         : _wheels.map((key, i) => (
@@ -129,10 +132,9 @@ const ColorHarmonies = () => {
                 return `hsl(${color.h}, ${color.s}%, ${color.l}%)`;
               })}
               setColor={copy}
-              label={key.label.slice(0, 10)}
+              label={key.label}
             />
           ))}
-      {/*<pre>{JSON.stringify(_wheels, null, 2)}</pre>*/}
     </Stack>
   );
 };

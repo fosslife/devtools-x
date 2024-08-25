@@ -42,9 +42,22 @@ const hexColorMatch =
   /^#?(?:([a-f0-9])([a-f0-9])([a-f0-9])([a-f0-9])?|([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})?)$/i;
 const fixFloat = (num: number) => parseFloat((num * 100).toFixed(1));
 
+type Hex = string;
+type ColorValueArr = [number, number, number];
+type ColorValueArrAlpha = [number, number, number, number];
+type Rgb = ColorValueArr;
+type Rgba = ColorValueArrAlpha;
+type Hsl = ColorValueArr;
+type Hsla = ColorValueArrAlpha;
+type Hsv = ColorValueArr;
+type Hsva = ColorValueArrAlpha;
+type Lch = ColorValueArr;
+type Lab = ColorValueArr;
+type Xyz = ColorValueArr;
+type Cmyk = ColorValueArr;
+
 export class Convert {
-  hex2rgb = (hex: string) => {
-    // #<hex-color>{3,4,6,8}
+  hex2rgb = (hex: Hex): Rgb | Rgba => {
     const [, r, g, b, a, rr, gg, bb, aa] = hex.match(hexColorMatch) || [];
     if (rr !== undefined || r !== undefined) {
       const red = rr !== undefined ? parseInt(rr, 16) : parseInt(r + r, 16);
@@ -56,21 +69,12 @@ export class Convert {
           : a !== undefined
             ? parseInt(a + a, 16)
             : 255;
-      return [red, green, blue, alpha].map((c) => (c * 100) / 255);
+      return [red, green, blue, alpha].map((c) => (c * 100) / 255) as Rgba;
     }
     return [0, 0, 0, 1];
-    // hex = hex.startsWith("#") ? hex.slice(1) : hex;
-    // if (hex.length === 3) {
-    //   hex = Array.from(hex).reduce((str, x) => str + x + x, ""); // 123 -> 112233
-    // }
-    // return hex
-    //   .split(/([a-z0-9]{2,2})/)
-    //   .filter(Boolean)
-    //   .map((x) => parseInt(x, 16));
-    // return `rgb${values.length == 4 ? "a" : ""}(${values.join(", ")})`;
   };
 
-  hex2hsv = (hex: string) => {
+  hex2hsv = (hex: Hex) => {
     const [h, s, l] = this.hex2hsl(hex) as [number, number, number];
     return this.hsl2hsv(h, s, l);
   };
@@ -89,6 +93,10 @@ export class Convert {
   hsl2Object = (hsl: number[]) => {
     const [h, s, l] = hsl;
     return { h, s, l };
+  };
+
+  hex2cmyk = (hex: string) => {
+    return ChromaJS(hex).cmyk();
   };
 
   hex2lch = (hex: string) => {
@@ -131,6 +139,7 @@ export class Convert {
     const v = l + (s * Math.min(l, 100 - l)) / 100;
     s = v === 0 ? 0 : 2 * (1 - l / v);
     return { h, s: s * 100, v };
+    // return [h, s: s * 100, v]
   };
 
   hslToRgb = (h: number, s: number, l: number) => {

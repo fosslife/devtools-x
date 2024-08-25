@@ -24,9 +24,14 @@ export const RenderShades = ({
       size="sm"
       style={{
         width: "10%",
+        maxWidth: "10%",
+        minWidth: "10%",
+        paddingRight: "5px",
+        textOverflow: "ellipsis",
+        overflow: "hidden",
       }}
     >
-      {label}
+      {label.charAt(0).toUpperCase() + label.slice(1)}
     </Text>
     <div
       className={classes.shades__container}
