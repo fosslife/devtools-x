@@ -83,9 +83,7 @@ const Compress = loadable(() => import("./Features/text/TextCompress"));
 const Faker = loadable(() => import("./Features/faker/Faker"));
 const CssPlayground = loadable(() => import("./Features/css/CssPlayground"));
 const SvgPreview = loadable(() => import("./Features/svg/Svg"));
-const ColorGenerator = loadable(
-  () => import("./Features/colors/ColorGenerator")
-);
+
 const QrReadcer = loadable(() => import("./Features/qrcode/QrCodeReader"));
 const HmacGenerator = loadable(() => import("./Features/hash/HmacGenerator"));
 const ImageCrop = loadable(() => import("./Features/image/ImageCrop"));
@@ -266,10 +264,6 @@ function App() {
               <Route path="/qrcode-reader" element={<QrReadcer />}></Route>
               <Route path="/hmac-generator" element={<HmacGenerator />}></Route>
               <Route path="/image-crop" element={<ImageCrop />}></Route>
-              <Route
-                path="/colorgenerator"
-                element={<ColorGenerator />}
-              ></Route>
             </Routes>
           </Stack>
         </Group>

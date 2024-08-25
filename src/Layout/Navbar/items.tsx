@@ -246,14 +246,6 @@ export const navitems: NavItem[] = [
     text: "Color Testing",
     group: "Testing",
   },
-
-  {
-    id: "colorgenerator",
-    to: "/colorgenerator",
-    icon: <MdColorize />,
-    text: "Color Generator",
-    group: "Generators",
-  },
   {
     id: "diff",
     to: "/diff",
