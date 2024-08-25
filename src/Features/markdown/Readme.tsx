@@ -69,7 +69,7 @@ const Readme = () => {
         <Button onClick={() => toggle("editor")} disabled={!state.preview}>
           {state.editor ? "Hide" : "Show"} editor
         </Button>
-        {typeof activeIndex != "undefined" && parts?.length > 1 ? (
+        {typeof activeIndex != "undefined" && parts.length > 1 ? (
           <Button
             onClick={() => {
               setParts((prev) =>
