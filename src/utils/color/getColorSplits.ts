@@ -1,4 +1,7 @@
-export const colorStyles = {
+// Note, will be using this to generate 'color emotions' for the color generators
+// Constants are currently not in use, feel free to get started on this task
+
+export const getColorSplits = {
   red: {
     color: "#ff0749",
     hueRange: [-15, 15],

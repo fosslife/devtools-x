@@ -1,28 +1,69 @@
-import { Group, Stack, Switch, Text } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { Flex, Stack, Switch, Text } from "@mantine/core";
+import { useEffect, useMemo, useState } from "react";
 import CustomPicker from "./CustomPicker";
 import { clipboard } from "@tauri-apps/api";
-
-import {
-  analogous,
-  complementary,
-  compound,
-  doubleSplitComplementary,
-  monochromatic,
-  splitComplementary,
-  square,
-  triadic,
-} from "./harmonies";
 import { RenderShades } from "./RenderShades";
 import { notifications } from "@mantine/notifications";
-import { useColorRandomizer } from "./hooks";
-import { wheels } from "./constants/color-data";
-import { Convert } from "./utilities";
-import { ColorWheel, getDot } from "./Wheels";
-import { useContainerSize } from "@/hooks";
+import { useColorState, useContainerSize } from "@/hooks";
+import { Convert } from "@/utils/colors";
+import { ColorWheel } from "./Wheels";
+import { EditableColorOutput } from "@/Features/colors/ColorEditableOutput";
+import {
+  getPaletteHarmonies,
+  getWheelDotLocation,
+  getWheelGradient,
+  getWheelSetups,
+} from "@/utils/color";
+import type { ColorHarmony, Hsl } from "@/types/colors";
+
+const conv = new Convert();
 
 const ColorHarmonies = () => {
-  const [color, setColor] = useColorRandomizer();
+  const [color, setColor, conversions] = useColorState();
+  const hsl = new Convert().hex2hsl(color);
+
+  // Lightness for wheels
+  const lightness = hsl[2];
+  const backgroundStyle = useMemo(
+    () => getWheelGradient(lightness),
+    [lightness]
+  );
+
+  // Mode switch
+  const [mode, setMode] = useState<"wheels" | "palettes">("wheels");
+  const toggleMode = () => {
+    // Todo: for now a simple toggle.
+    // Will be expanding this with, eg, export modes, color info and tests
+    setMode((prev) => (prev === "wheels" ? "palettes" : "wheels"));
+  };
+
+  // Palette harmonies
+  const [harmonies, setHarmonies] = useState<ColorHarmony[]>([]);
+
+  useEffect(() => {
+    if (mode !== "palettes") return;
+    setHarmonies(getPaletteHarmonies(color));
+  }, [color, mode]);
+
+  // Wheel modes
+  const wheels = useMemo(
+    () =>
+      mode === "wheels"
+        ? getWheelSetups.map(({ func, key }) => {
+            const shades = func({
+              sourceColor: hsl,
+              config: { angle: 30 },
+            }) as Hsl[];
+
+            return {
+              shades,
+              dots: shades.map(getWheelDotLocation),
+              label: key,
+            };
+          })
+        : [],
+    [color, mode]
+  );
 
   const copy = async (color: string) => {
     await clipboard.writeText(color.startsWith("#") ? color : `#${color}`);
@@ -33,104 +74,88 @@ const ColorHarmonies = () => {
     });
   };
 
-  const [harmonies, setHarmonies] = useState({});
-
-  const [variations, setVariations] = useState(false);
-
-  useEffect(() => {
-    setHarmonies({
-      analogous: analogous(color),
-      monochromatic: monochromatic(color),
-      triadic: triadic(color),
-      complementary: complementary(color),
-      splitComplementary: splitComplementary(color),
-      doubleSplitComplementary: doubleSplitComplementary(color),
-      square: square(color),
-      compound: compound(color),
-    });
-  }, [color]);
-
-  const [h, s, l] = new Convert().hex2hsl(color);
-
-  const _wheels = Object.keys(wheels).map((key) => {
-    return {
-      shades: (wheels as any)[key]({
-        sourceColor: { h, s, l },
-        config: { angle: 30 },
-      }),
-      label: key,
-    };
-  });
-
-  const wheeels = _wheels.map((w) => ({
-    dots: w.shades.map((c: any) => getDot(c.h, c.s, c.l)),
-    name: w.label,
-  }));
-
+  // Todo - when making the window smaller, the updates should be instant
   const { ref, width } = useContainerSize();
 
   return (
     <Stack
       align="center"
-      style={{ height: "100%", width: "100%", overflowY: "scroll" }}
+      style={{
+        height: "100%",
+        width: "100%",
+        overflowY: "scroll",
+      }}
     >
-      <CustomPicker
-        hexCode={color.startsWith("#") ? color.slice(1) : color}
-        onChange={(newColor) => setColor(newColor.hex)}
-      />
       <Switch
-        label="Inspired"
-        checked={variations}
-        onChange={() => setVariations((prev) => !prev)}
+        label="Harmonies"
+        checked={mode === "palettes"}
+        onChange={toggleMode}
       />
 
-      {variations ? null : (
-        <Group gap={10} style={{ marginBottom: 14, width: "100%" }} ref={ref}>
-          {wheeels.map((w, i) => (
+      {mode === "palettes" ? (
+        <Stack style={{ width: "100%" }}>
+          <CustomPicker
+            hexCode={color.startsWith("#") ? color.slice(1) : color}
+            onChange={(newColor) => setColor(newColor.hex)}
+          />
+
+          <EditableColorOutput conversions={conversions} />
+        </Stack>
+      ) : (
+        <Flex
+          style={{
+            marginBottom: 14,
+            width: "100%",
+            maxWidth: "100%",
+            overflow: "hidden",
+          }}
+          ref={ref}
+        >
+          {wheels.map((w, i) => (
             <div key={i} style={{ textAlign: "center" }}>
               <ColorWheel
-                lightness={l}
-                updateColor={({ hsl }) => setColor(new Convert().hsl2hex(hsl))}
+                lightness={lightness}
+                updateColor={setColor}
                 colors={w.dots}
-                size={width / (wheeels?.length + 1)}
+                size={width / wheels?.length - 20}
+                style={{
+                  background: backgroundStyle,
+                  margin: 10,
+                }}
               />
               <Text
                 style={{
                   cursor: "pointer",
                   overflow: "hidden",
-                  maxWidth: width / (wheeels?.length + 1),
+                  maxWidth: width / (wheels?.length + 1),
                   textOverflow: "ellipsis",
                 }}
                 fw="lighter"
                 c="dimmed"
                 size="sm"
               >
-                {w.name}
+                {w.label}
               </Text>
             </div>
           ))}
-        </Group>
+        </Flex>
       )}
 
-      {variations
-        ? Object.keys(harmonies).map((key) => (
+      {mode === "palettes"
+        ? harmonies.map(({ key, colors }) => (
             <RenderShades
               key={key}
-              colors={harmonies[key as keyof typeof harmonies]}
+              colors={colors}
               setColor={copy}
               label={key}
             />
           ))
-        : _wheels.map((key, i) => (
+        : wheels.map((key, i) => (
             <RenderShades
               key={key.label}
-              colors={key.shades.map((color: any) => {
-                color.h = (color.h % 360).toFixed();
-                color.s = color.s.toFixed();
-                color.l = color.l.toFixed();
-
-                return `hsl(${color.h}, ${color.s}%, ${color.l}%)`;
-              })}
+              colors={key.shades.map(
+                (color: any) => conv.values("hsl", color).renderValue
+              )}
               setColor={copy}
               label={key.label}
             />

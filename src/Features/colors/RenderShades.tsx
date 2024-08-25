@@ -1,8 +1,7 @@
 import { Text } from "@mantine/core";
 
-import { canBeWhite } from "./contrast";
-
 import classes from "./styles.module.css";
+import { Convert } from "@/utils/colors";
 
 export const RenderShades = ({
   colors,
@@ -48,7 +47,7 @@ export const RenderShades = ({
           className={classes.shades__box}
           style={{
             backgroundColor: color,
-            color: canBeWhite(color) ? "white" : "black",
+            color: new Convert().canBeWhite(color) ? "white" : "black",
           }}
         >
           <span>{color.toUpperCase()}</span>

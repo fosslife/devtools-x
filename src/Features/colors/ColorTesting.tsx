@@ -1,21 +1,19 @@
 import classes from "./styles.module.css";
-
 import { Group, Stack, Text } from "@mantine/core";
 import { Fragment, useMemo } from "react";
 import CustomPicker from "./CustomPicker";
 import { clipboard } from "@tauri-apps/api";
 import {
-  checkContrast,
-  formatRatio,
-  meetsMinimumRequirements,
-} from "./contrast";
-
+  blindnessStats,
+  getColorContrast as checker,
+  simulateColorBlindness,
+} from "@/utils/color";
 import { RenderShades } from "./RenderShades";
-import { blindnessStats, simulateColorBlindness } from "./blindness";
-import { useColorRandomizer } from "./hooks";
+import { useColorState } from "@/hooks";
+import { EditableColorOutput } from "@/Features/colors/ColorEditableOutput";
 
 const Colors = () => {
-  const [color, setColor] = useColorRandomizer();
+  const [color, setColor, conversions] = useColorState();
 
   const copy = async (color: string) => {
     await clipboard.writeText(color.startsWith("#") ? color : `#${color}`);
@@ -39,6 +37,8 @@ const Colors = () => {
         hexCode={color.startsWith("#") ? color.slice(1) : color}
         onChange={(color) => setColor(color.hex)}
       />
+
+      <EditableColorOutput conversions={conversions} />
 
       <Group
         gap={10}
@@ -101,8 +101,8 @@ export const ContrastContent = ({
   background: string;
   color: string;
 }) => {
-  const contrast = checkContrast(color, background);
-  const result = meetsMinimumRequirements(contrast);
+  const contrast = checker.check(color, background);
+  const result = checker.meets(contrast);
 
   return (
     <div className={classes.wcagBox}>
@@ -115,7 +115,7 @@ export const ContrastContent = ({
         >
           Aa
         </span>
-        <Text size={"xl"}>{formatRatio(contrast)}</Text>
+        <Text size={"xl"}>{checker.format(contrast)}</Text>
       </div>
       <div className={classes.grid}>
         {result.map(({ level, label, pass }) => (

@@ -7,21 +7,27 @@ import {
   MantineSize,
 } from "@mantine/core";
 import { clipboard } from "@tauri-apps/api";
-import { HTMLInputTypeAttribute, useState } from "react";
+import { CSSProperties, HTMLInputTypeAttribute, useState } from "react";
 import { FaCopy, FaEye } from "react-icons/fa";
 
 function OutputBox({
   label,
   value,
+  copyValue,
   type: propType,
   size,
   onCopy,
+  style,
+  onChange,
 }: {
   label: string;
   value: string;
+  copyValue?: string;
   type?: HTMLInputTypeAttribute;
   size?: MantineSize;
   onCopy?: () => void;
+  style?: CSSProperties;
+  onChange?: (value: string) => void;
 }) {
   const [type, setType] = useState(propType);
 
@@ -51,9 +57,10 @@ function OutputBox({
                   // fullWidth={true}
                   onClick={() => {
                     copy(); //  copy doesn't work but need this function for animation.
-                    clipboard.writeText(value);
+                    clipboard.writeText(copyValue ?? value);
                     onCopy?.();
                   }}
+                  style={style}
                 >
                   {copied ? "Copied" : `Copy`}
                 </Button>
@@ -62,7 +69,8 @@ function OutputBox({
           </Group>
         }
         value={value}
-        readOnly
+        onChange={(e) => onChange?.(e.currentTarget.value)}
+        readOnly={!onChange}
       ></Input>
     </Input.Wrapper>
   );

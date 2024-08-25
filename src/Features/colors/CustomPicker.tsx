@@ -1,7 +1,7 @@
 import React, { MouseEvent } from "react";
 import { ColorResult, CustomPicker, HSLColor } from "react-color";
 import { Hue, Saturation } from "react-color/lib/components/common";
-import { Convert } from "./utilities";
+import { Convert } from "@/utils/colors";
 import tinycolor2 from "tinycolor2";
 
 const inputStyles = {
@@ -17,7 +17,7 @@ const inlineStyles = {
     display: "flex",
     flexDirection: "column",
     height: "auto",
-    width: "95%",
+    width: "100%",
     textAlign: "center",
     justifyContent: "center",
     // margin: "auto"

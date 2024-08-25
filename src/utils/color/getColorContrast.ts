@@ -86,4 +86,9 @@ function meetsMinimumRequirements(ratio: number) {
   return checks;
 }
 
-export { checkContrast, formatRatio, meetsMinimumRequirements, canBeWhite };
+export const getColorContrast = {
+  check: checkContrast,
+  format: formatRatio,
+  meets: meetsMinimumRequirements,
+  canBeWhite: canBeWhite,
+};
