@@ -19,8 +19,9 @@ function OutputBox({
   onCopy,
   style,
   onChange,
+  btnLabel = "Copy",
 }: {
-  label: string;
+  label?: string;
   value: string;
   copyValue?: string;
   type?: HTMLInputTypeAttribute;
@@ -28,6 +29,7 @@ function OutputBox({
   onCopy?: () => void;
   style?: CSSProperties;
   onChange?: (value: string) => void;
+  btnLabel?: string;
 }) {
   const [type, setType] = useState(propType);
 
@@ -52,7 +54,7 @@ function OutputBox({
             <CopyButton value={value}>
               {({ copied, copy }) => (
                 <Button
-                  leftSection={<FaCopy />}
+                  leftSection={btnLabel === "Copy" ? <FaCopy /> : null}
                   size={size || "xs"}
                   // fullWidth={true}
                   onClick={() => {
@@ -62,7 +64,7 @@ function OutputBox({
                   }}
                   style={style}
                 >
-                  {copied ? "Copied" : `Copy`}
+                  {copied ? "Copied" : btnLabel}
                 </Button>
               )}
             </CopyButton>

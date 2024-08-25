@@ -1,5 +1,5 @@
-import { Flex, Stack, Switch, Text } from "@mantine/core";
-import { useEffect, useMemo, useState } from "react";
+import { Flex, Group, Slider, Stack, Switch, Text } from "@mantine/core";
+import { useEffect, useMemo, useRef, useState } from "react";
 import CustomPicker from "./CustomPicker";
 import { clipboard } from "@tauri-apps/api";
 import { RenderShades } from "./RenderShades";
@@ -77,6 +77,7 @@ const ColorHarmonies = () => {
   // Todo - when making the window smaller, the updates should be instant
   const { ref, width } = useContainerSize();
 
+  const rendered = useRef(0);
   return (
     <Stack
       align="center"
@@ -86,60 +87,74 @@ const ColorHarmonies = () => {
         overflowY: "scroll",
       }}
     >
-      <Switch
-        label="Harmonies"
-        checked={mode === "palettes"}
-        onChange={toggleMode}
-      />
-
-      {mode === "palettes" ? (
-        <Stack style={{ width: "100%" }}>
+      <Group align="center">
+        <br />
+        <Switch
+          label="Harmonies"
+          checked={mode === "palettes"}
+          onChange={toggleMode}
+        />
+        {mode === "wheels" && (
+          <Slider
+            style={{ width: 200 }}
+            value={lightness}
+            thumbSize={2}
+            showLabelOnHover={false}
+            onChangeEnd={(value) =>
+              setColor(conv.hsl2hex([hsl[0], hsl[1], value]))
+            }
+            min={10}
+            max={95}
+          />
+        )}
+      </Group>
+      <Stack style={{ width: "100%" }}>
+        {mode === "palettes" ? (
           <CustomPicker
             hexCode={color.startsWith("#") ? color.slice(1) : color}
             onChange={(newColor) => setColor(newColor.hex)}
           />
-
-          <EditableColorOutput conversions={conversions} />
-        </Stack>
-      ) : (
-        <Flex
-          style={{
-            marginBottom: 14,
-            width: "100%",
-            maxWidth: "100%",
-            overflow: "hidden",
-          }}
-          ref={ref}
-        >
-          {wheels.map((w, i) => (
-            <div key={i} style={{ textAlign: "center" }}>
-              <ColorWheel
-                lightness={lightness}
-                updateColor={setColor}
-                colors={w.dots}
-                size={width / wheels?.length - 20}
-                style={{
-                  background: backgroundStyle,
-                  margin: 10,
-                }}
-              />
-              <Text
-                style={{
-                  cursor: "pointer",
-                  overflow: "hidden",
-                  maxWidth: width / (wheels?.length + 1),
-                  textOverflow: "ellipsis",
-                }}
-                fw="lighter"
-                c="dimmed"
-                size="sm"
-              >
-                {w.label}
-              </Text>
-            </div>
-          ))}
-        </Flex>
-      )}
+        ) : (
+          <Flex
+            style={{
+              // marginBottom: 14,
+              width: "100%",
+              maxWidth: "100%",
+              overflow: "hidden",
+            }}
+            ref={ref}
+          >
+            {wheels.map((w, i) => (
+              <div key={i} style={{ textAlign: "center" }}>
+                <ColorWheel
+                  lightness={lightness}
+                  updateColor={setColor}
+                  colors={w.dots}
+                  size={width / wheels?.length - 20}
+                  style={{
+                    background: backgroundStyle,
+                    margin: 10,
+                  }}
+                />
+                <Text
+                  style={{
+                    cursor: "pointer",
+                    overflow: "hidden",
+                    maxWidth: width / (wheels?.length + 1),
+                    textOverflow: "ellipsis",
+                  }}
+                  fw="lighter"
+                  c="dimmed"
+                  size="sm"
+                >
+                  {w.label}
+                </Text>
+              </div>
+            ))}
+          </Flex>
+        )}
+        <EditableColorOutput conversions={conversions} />
+      </Stack>
 
       {mode === "palettes"
         ? harmonies.map(({ key, colors }) => (
