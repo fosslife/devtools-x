@@ -1,5 +1,5 @@
-import { Flex, Group, Slider, Stack, Switch, Text } from "@mantine/core";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Divider, Group, Select, Slider, Stack, Text } from "@mantine/core";
+import { useEffect, useMemo, useState } from "react";
 import CustomPicker from "./CustomPicker";
 import { clipboard } from "@tauri-apps/api";
 import { RenderShades } from "./RenderShades";
@@ -77,32 +77,37 @@ const ColorHarmonies = () => {
   // Todo - when making the window smaller, the updates should be instant
   const { ref, width } = useContainerSize();
 
-  const rendered = useRef(0);
   return (
     <Stack
       align="center"
+      px="lg"
+      h={"100%"}
+      w={"100%"}
       style={{
-        height: "100%",
-        width: "100%",
-        overflowY: "scroll",
+        overflowY: "auto",
       }}
     >
       <Group align="center">
         <br />
-        <Switch
-          label="Harmonies"
-          checked={mode === "palettes"}
+        <Select
+          label="Mode"
+          data={["wheels", "palettes"]}
+          value={mode}
+          allowDeselect={false}
           onChange={toggleMode}
         />
         {mode === "wheels" && (
           <Slider
+            labelAlwaysOn
+            label={`Lightness: ${Number(lightness).toFixed(0)}`}
             style={{ width: 200 }}
             value={lightness}
             thumbSize={2}
             showLabelOnHover={false}
-            onChangeEnd={(value) =>
-              setColor(conv.hsl2hex([hsl[0], hsl[1], value]))
-            }
+            onChange={(e) => {
+              setColor(conv.hsl2hex([hsl[0], hsl[1], e]));
+            }}
+            mt={35}
             min={10}
             max={95}
           />
@@ -115,15 +120,7 @@ const ColorHarmonies = () => {
             onChange={(newColor) => setColor(newColor.hex)}
           />
         ) : (
-          <Flex
-            style={{
-              // marginBottom: 14,
-              width: "100%",
-              maxWidth: "100%",
-              overflow: "hidden",
-            }}
-            ref={ref}
-          >
+          <Group w={"100%"} maw={"100%"} grow ref={ref}>
             {wheels.map((w, i) => (
               <div key={i} style={{ textAlign: "center" }}>
                 <ColorWheel
@@ -151,10 +148,11 @@ const ColorHarmonies = () => {
                 </Text>
               </div>
             ))}
-          </Flex>
+          </Group>
         )}
         <EditableColorOutput conversions={conversions} />
       </Stack>
+      <Divider />
 
       {mode === "palettes"
         ? harmonies.map(({ key, colors }) => (
@@ -165,7 +163,7 @@ const ColorHarmonies = () => {
               label={key}
             />
           ))
-        : wheels.map((key, i) => (
+        : wheels.map((key) => (
             <RenderShades
               key={key.label}
               colors={key.shades.map(
