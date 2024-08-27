@@ -39,7 +39,7 @@ export const RenderShades = ({
       }}
     >
       {colors.map((color, i) => (
-        <div
+        <button
           key={i}
           onClick={() => {
             setColor(color);
@@ -47,11 +47,12 @@ export const RenderShades = ({
           className={classes.shades__box}
           style={{
             backgroundColor: color,
+            border: "none",
             color: new Convert().canBeWhite(color) ? "white" : "black",
           }}
         >
           <span>{color.toUpperCase()}</span>
-        </div>
+        </button>
       ))}
     </div>
   </div>

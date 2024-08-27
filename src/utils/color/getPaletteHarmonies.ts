@@ -117,6 +117,7 @@ export const getPaletteHarmonies = (hex: string): ColorHarmony[] => {
     { key: "complementary", colors: complementary(hex) },
     { key: "splitComplementary", colors: splitComplementary(hex) },
     { key: "doubleSplitComplementary", colors: doubleSplitComplementary(hex) },
+
     { key: "square", colors: square(hex) },
     { key: "compound", colors: compound(hex) },
   ];
