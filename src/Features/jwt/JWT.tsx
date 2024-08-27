@@ -111,7 +111,7 @@ const JWTEditor = () => {
     if (jwt) {
       const parts = jwt.split(".");
       if (parts.length === 3) {
-        const [headerPart, payloadPart, signaturePart] = parts;
+        const [headerPart, payloadPart] = parts;
 
         try {
           const decodedPayload = decodeJwt(`${jwt}`);

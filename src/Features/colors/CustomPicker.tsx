@@ -1,17 +1,11 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable react/no-deprecated */
 import React, { MouseEvent } from "react";
 import { ColorResult, CustomPicker, HSLColor } from "react-color";
 import { Hue, Saturation } from "react-color/lib/components/common";
 import { Convert } from "@/utils/colors";
 import tinycolor2 from "tinycolor2";
 
-const inputStyles = {
-  input: {
-    border: "1px solid black",
-    padding: "10px",
-    fontSize: "15px",
-    // color: "#000",
-  },
-};
 const inlineStyles = {
   container: {
     display: "flex",

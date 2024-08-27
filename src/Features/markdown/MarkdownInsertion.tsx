@@ -43,11 +43,21 @@ const MarkdownInsertion = ({
 
             return (
               <div
+                key={key}
+                role="button"
+                tabIndex={0}
                 style={{ cursor: "pointer" }}
                 onClick={() => {
                   addPart(key, renderTemplate);
                   toggle();
                   callback?.();
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    addPart(key, renderTemplate);
+                    toggle();
+                    callback?.();
+                  }
                 }}
               >
                 <RenderTemplatePart

@@ -358,7 +358,7 @@ export class Convert {
    * Utils
    */
   canBeWhite = (hex: string) => {
-    const [_h, _s, l] = this.hex2hsl(hex);
+    const [, , l] = this.hex2hsl(hex);
     return l < 55;
   };
 
@@ -426,9 +426,6 @@ export const hex2cmyk = (hex: string) => {
 };
 export const renderCmyk = (cmyk: number[]) =>
   cmyk.map((v) => (v * 100).toFixed()).join(", ");
-
-const intLch2hex = (l: number, c: number, h: number) =>
-  ChromaJS.lch(l, c, h).hex();
 
 const interpolate = (
   start: number,

@@ -52,6 +52,11 @@ export const ColorWheel = ({
 
   return (
     <div
+      role="slider"
+      aria-valuemax={100}
+      aria-valuemin={0}
+      tabIndex={0}
+      aria-valuenow={lightness}
       style={{
         width: size,
         height: size,
@@ -75,7 +80,6 @@ const Dot = ({
   x,
   y,
   bg,
-  moving = false,
 }: ColorDot & {
   moving?: boolean;
 }) => {

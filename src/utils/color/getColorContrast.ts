@@ -73,9 +73,6 @@ const NameMapping = {
 };
 
 function meetsMinimumRequirements(ratio: number) {
-  let didPass = false;
-  let maxLevel = null;
-
   const checks = WCAG_MINIMUM_RATIOS.map(([level, minRatio]) => {
     return {
       level,

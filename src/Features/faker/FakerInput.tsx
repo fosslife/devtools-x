@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
-import { Group, Select, TextInput } from "@mantine/core";
+import { Select, TextInput } from "@mantine/core";
 
 // Function to get categories and their subsets dynamically
 const getCategoriesAndSubsets = () => {

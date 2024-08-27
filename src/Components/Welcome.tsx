@@ -27,6 +27,7 @@ const Welcome = ({ openSettings }: WelcomeProps) => {
   return (
     <Stack className={classes.root}>
       <img
+        alt="logo"
         src={"/main-logo.png"}
         style={{
           width: 40,

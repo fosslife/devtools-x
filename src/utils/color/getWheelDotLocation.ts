@@ -6,7 +6,7 @@ export const getWheelDotLocation = (hsl: Hsl) => {
 };
 
 const getWheelDotLocationWithCustomRad = (hsl: Hsl, rad: number) => {
-  const [h, s, l] = hsl;
+  const [h, s] = hsl;
   const normalizedSaturation = s / 100;
 
   const angleInRadians = ((h - 90) * Math.PI) / 180;

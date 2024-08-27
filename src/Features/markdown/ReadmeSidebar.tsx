@@ -68,6 +68,8 @@ const ReadmeSidebar = ({
                 >
                   {(provided) => (
                     <div
+                      role="button"
+                      tabIndex={0}
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
@@ -76,6 +78,9 @@ const ReadmeSidebar = ({
                         userSelect: "none",
                       }}
                       onClick={() => activeIndex.set(index)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") activeIndex.set(index);
+                      }}
                     >
                       <Box
                         className={cx(classes.row, {

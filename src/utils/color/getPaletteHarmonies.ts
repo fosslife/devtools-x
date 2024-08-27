@@ -52,10 +52,6 @@ function complementary(hex: string) {
   return [main, c1, c2, c3, c4];
 }
 
-function directComplementary(hex: string) {
-  const [l, c, h] = cc.hex2lch(hex);
-  return cc.lch2hex([l, c, (h + 180) % 360]);
-}
 // Split Complementary Colors
 function splitComplementary(hex: string) {
   const [l, c, h] = cc.hex2lch(hex);

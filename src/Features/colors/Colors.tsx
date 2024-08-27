@@ -73,11 +73,6 @@ const Colors = () => {
   const temperaturesWarm = interpolateColor([l, c, h], "h", config.steps, 60);
   const temperatures = h > 180 ? temperaturesCool : temperaturesWarm;
 
-  const conv = new Convert();
-  const hsv = Object.values(conv.hex2hsv(color))
-    .map((v) => v.toFixed())
-    .join(", ");
-
   return (
     <Stack
       align="center"
