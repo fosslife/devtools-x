@@ -1,3 +1,17 @@
+import type {
+  Cmyk,
+  ColorType,
+  ColorValue,
+  Hex,
+  Hsl,
+  Hsv,
+  Lab,
+  Lch,
+  Rgb,
+  Xyz,
+} from "@/types/colors";
+import ChromaJS from "chroma-js";
+
 export const {
   abs,
   atan2,
@@ -40,11 +54,16 @@ const matrix = (params: number[], mats: any[]) => {
 
 const hexColorMatch =
   /^#?(?:([a-f0-9])([a-f0-9])([a-f0-9])([a-f0-9])?|([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})?)$/i;
-const fixFloat = (num: number) => parseFloat((num * 100).toFixed(1));
+
+type MixedValue = number | string;
 
 export class Convert {
-  hex2rgb = (hex: string) => {
-    // #<hex-color>{3,4,6,8}
+  /**
+   * Hex
+   */
+
+  // This way we ensure we don't lose any data, but it isn't a true 1:1 conversion
+  hex2rgb = (hex: Hex): Rgb => {
     const [, r, g, b, a, rr, gg, bb, aa] = hex.match(hexColorMatch) || [];
     if (rr !== undefined || r !== undefined) {
       const red = rr !== undefined ? parseInt(rr, 16) : parseInt(r + r, 16);
@@ -56,73 +75,100 @@ export class Convert {
           : a !== undefined
             ? parseInt(a + a, 16)
             : 255;
-      return [red, green, blue, alpha].map((c) => (c * 100) / 255);
+      return [red, green, blue, alpha].map((c) => (c * 100) / 255) as Rgb;
     }
     return [0, 0, 0, 1];
-    // hex = hex.startsWith("#") ? hex.slice(1) : hex;
-    // if (hex.length === 3) {
-    //   hex = Array.from(hex).reduce((str, x) => str + x + x, ""); // 123 -> 112233
-    // }
-    // return hex
-    //   .split(/([a-z0-9]{2,2})/)
-    //   .filter(Boolean)
-    //   .map((x) => parseInt(x, 16));
-    // return `rgb${values.length == 4 ? "a" : ""}(${values.join(", ")})`;
   };
 
-  hex2hsv = (hex: string) => {
-    const [h, s, l] = this.hex2hsl(hex) as [number, number, number];
-    return this.hsl2hsv(h, s, l);
-  };
-
-  hex2hsl = (hex: string, asObj = false) => {
-    const [r, g, b] = this.hex2rgb(hex);
-    const max = Math.max(r, g, b),
-      min = Math.min(r, g, b);
-    let h: number,
-      s: number,
-      l = (max + min) / 2;
-
-    if (max === min) {
-      h = s = 0; // achromatic
-    } else {
-      const d = max - min;
-      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-      h =
-        max === r
-          ? (g - b) / d + (g < b ? 6 : 0)
-          : max === g
-            ? (b - r) / d + 2
-            : (r - g) / d + 4;
-      h *= 60;
-      if (h < 0) h += 360;
+  trueHex2rgb = (hex: Hex): Rgb => {
+    try {
+      return ChromaJS(hex).rgb();
+    } catch (e) {
+      console.warn(e);
+      return [0, 0, 0, 1];
     }
-
-    return [Math.round(h), fixFloat(s), fixFloat(l)];
   };
 
-  hsl2Object = (hsl: number[]) => {
-    const [h, s, l] = hsl;
-    return { h, s, l };
+  hex2hsv = (hex: Hex): Hsv => {
+    const hsl = this.hex2hsl(hex);
+    return this.hsl2hsv(hsl);
   };
 
-  hex2lch = (hex: string) => {
+  hex2hsl = (hex: Hex): Hsl => {
+    try {
+      const [h, s, l] = ChromaJS(hex).hsl();
+      return [h, s * 100, l * 100];
+    } catch (e) {
+      console.warn(e);
+      return [0, 0, 0];
+    }
+  };
+
+  hsl2hex = (hsl: Hsl): Hex => {
+    try {
+      let [h, s, l] = hsl;
+      h = h % 360;
+      if (s > 1) s = s / 100;
+      if (l > 1) l = l / 100;
+      return ChromaJS.hsl(h, s, l).hex();
+    } catch (e) {
+      console.warn(e);
+      return "#000000";
+    }
+  };
+
+  hex2cmyk = (hex: Hex): Cmyk => {
+    try {
+      return ChromaJS(hex)
+        .cmyk()
+        .map((v) => v * 100) as Cmyk;
+    } catch (e) {
+      console.warn(e);
+      return [0, 0, 0, 0];
+    }
+  };
+
+  hex2lch = (hex: Hex): Lch => {
     const rgb = this.hex2rgb(hex);
     if (!rgb) return [0, 0, 0];
-    return this.rgb2lch(...(rgb as [number, number, number]));
+    return this.rgb2lch(rgb);
   };
 
-  rgb2hex = (r: number, g: number, b: number) => {
+  hex2lab = (hex: Hex): Lab => {
+    const rgb = this.hex2rgb(hex);
+    if (!rgb) return [0, 0, 0];
+    const xyz = this.rgb2xyz(rgb);
+    const lab = this.xyz2lab(xyz);
+    return lab;
+  };
+
+  hex2xyz = (hex: Hex): Xyz => {
+    const rgb = this.hex2rgb(hex);
+    if (!rgb) return [0, 0, 0];
+    return this.rgb2xyz(rgb);
+  };
+
+  hexRender = (hex: Hex) => {
+    return (hex.startsWith("#") ? hex : `#${hex}`).toUpperCase();
+  };
+
+  /**
+   * RGB
+   */
+
+  rgb2hex = (rgb: Rgb): Hex => {
+    const [r, g, b] = rgb; // todo handle alpha
     return `#${((1 << 24) + (Math.round((r * 255) / 100) << 16) + (Math.round((g * 255) / 100) << 8) + Math.round((b * 255) / 100)).toString(16).slice(1)}`;
   };
 
-  rgb2lch = (r: number, g: number, b: number) => {
-    const [x, y, z] = this.rgb2xyz(r, g, b);
-    const [_l, _a, _b] = this.xyz2lab(x, y, z);
-    return this.lab2lch(_l, _a, _b);
+  rgb2lch = (rgb: Rgb) => {
+    const xyz = this.rgb2xyz(rgb);
+    const lab = this.xyz2lab(xyz);
+    return this.lab2lch(lab);
   };
 
-  rgb2xyz = (r: number, g: number, b: number) => {
+  rgb2xyz = (rgb: Rgb): Xyz => {
+    const [r, g, b] = rgb;
     const [lR, lB, lG] = [r, g, b].map((v) =>
       v > 4.045 ? Math.pow((v + 5.5) / 105.5, 2.4) * 100 : v / 12.92
     );
@@ -133,22 +179,22 @@ export class Convert {
         [0.2126729, 0.7151522, 0.072175],
         [0.0193339, 0.119192, 0.9503041],
       ]
-    );
+    ) as Xyz;
   };
 
-  hsv2hsl = (h: number, s: number, v: number) => {
-    const l = ((200 - s) * v) / 200;
-    s = l === 0 || l === 100 ? 0 : (s * v) / 100 / (l < 50 ? l : 100 - l);
-    return [h, s * 100, l / 2];
-  };
+  /**
+   * HSL
+   */
 
-  hsl2hsv = (h: number, s: number, l: number) => {
+  hsl2hsv = (hsl: Hsl): Hsv => {
+    let [h, s, l] = hsl;
     const v = l + (s * Math.min(l, 100 - l)) / 100;
     s = v === 0 ? 0 : 2 * (1 - l / v);
-    return { h, s: s * 100, v };
+    return [h, s * 100, v];
   };
 
-  hslToRgb = (h: number, s: number, l: number) => {
+  hslToRgb = (hsl: Hsl): Rgb => {
+    let [h, s, l] = hsl;
     let r, g, b;
     if (s == 0) {
       r = g = b = l; // achromatic
@@ -174,7 +220,13 @@ export class Convert {
     ];
   };
 
-  hsv2rgb = (h: number, s: number, v: number, a: number) => {
+  /**
+   * HSV
+   */
+
+  hsv2rgb = (hsv: Hsv): Rgb => {
+    const [h, s, v] = hsv;
+    const a = hsv?.length === 4 ? hsv[3] : 100;
     const rgbI = floor(h / 60);
     // calculate rgb parts
     const rgbF = (h / 60 - rgbI) & 1 ? h / 60 - rgbI : 1 - h / 60 - rgbI;
@@ -197,49 +249,58 @@ export class Convert {
     return [rgbR, rgbG, rgbB, rgbA];
   };
 
-  lch2hex = (l: number, c: number, h: number) => {
-    const [r, g, b] = this.lch2rgb(l, c, h);
-    return this.rgb2hex(r, g, b);
+  hsv2hsl = (hsv: Hsv): Hsl => {
+    let [h, s, v] = hsv;
+    const l = ((200 - s) * v) / 200;
+    s = l === 0 || l === 100 ? 0 : (s * v) / 100 / (l < 50 ? l : 100 - l);
+    return [h, s * 100, l / 2];
   };
 
-  lch2rgb = (lchL: number, lchC: number, lchH: number) => {
-    const [labL, labA, labB] = this.lch2lab(lchL, lchC, lchH);
-    const [xyzX, xyzY, xyzZ] = this.lab2xyz(labL, labA, labB);
-    const [rgbR, rgbG, rgbB] = this.xyz2rgb(xyzX, xyzY, xyzZ);
-    return [rgbR, rgbG, rgbB];
+  /**
+   * LCH
+   */
+
+  lch2hex = (lch: Lch): Hex => {
+    const rgb = this.lch2rgb(lch);
+    return this.rgb2hex(rgb);
   };
 
-  lch2lab = (lchL: number, lchC: number, lchH: number) => {
+  lch2rgb = (lch: Lch): Rgb => {
+    const lab = this.lch2lab(lch);
+    const xyz = this.lab2xyz(lab);
+    const rgb = this.xyz2rgb(xyz);
+    return rgb;
+  };
+
+  lch2lab = (lch: Lch): Lab => {
+    const [lchL, lchC, lchH] = lch;
     // convert to Lab a and b from the polar form
-    const [labA, labB] = [lchC * cosd(lchH), lchC * sind(lchH)];
-    return [lchL, labA, labB];
+    return [lchL, lchC * cosd(lchH), lchC * sind(lchH)];
   };
 
-  xyz2rgb = (xyzX: number, xyzY: number, xyzZ: number) => {
-    const [lrgbR, lrgbB, lrgbG] = matrix(
-      [xyzX, xyzY, xyzZ],
-      [
-        [3.2404542, -1.5371385, -0.4985314],
-        [-0.969266, 1.8760108, 0.041556],
-        [0.0556434, -0.2040259, 1.0572252],
-      ]
-    );
+  /**
+   * XYZ
+   */
+
+  xyz2rgb = (xyz: Xyz): Rgb => {
+    const [lrgbR, lrgbB, lrgbG] = matrix(xyz, [
+      [3.2404542, -1.5371385, -0.4985314],
+      [-0.969266, 1.8760108, 0.041556],
+      [0.0556434, -0.2040259, 1.0572252],
+    ]);
     const [rgbR, rgbG, rgbB] = [lrgbR, lrgbB, lrgbG].map((v) =>
       v > 0.31308 ? 1.055 * pow(v / 100, 1 / 2.4) * 100 - 5.5 : 12.92 * v
     );
     return [rgbR, rgbG, rgbB];
   };
 
-  xyz2lab = (x: number, y: number, z: number) => {
+  xyz2lab = (xyz: Xyz): Lab => {
     // calculate D50 XYZ from D65 XYZ
-    const [d50X, d50Y, d50Z] = matrix(
-      [x, y, z],
-      [
-        [1.0478112, 0.0228866, -0.050127],
-        [0.0295424, 0.9904844, -0.0170491],
-        [-0.0092345, 0.0150436, 0.7521316],
-      ]
-    );
+    const [d50X, d50Y, d50Z] = matrix(xyz, [
+      [1.0478112, 0.0228866, -0.050127],
+      [0.0295424, 0.9904844, -0.0170491],
+      [-0.0092345, 0.0150436, 0.7521316],
+    ]);
     // calculate f
     const [f1, f2, f3] = [d50X / wd50X, d50Y / wd50Y, d50Z / wd50Z].map(
       (value) => (value > epsilon ? cbrt(value) : (kappa * value + 16) / 116)
@@ -247,7 +308,12 @@ export class Convert {
     return [116 * f2 - 16, 500 * (f1 - f2), 200 * (f2 - f3)];
   };
 
-  lab2xyz = (labL: number, labA: number, labB: number) => {
+  /**
+   * LAB
+   */
+
+  lab2xyz = (lab: Lab): Xyz => {
+    const [labL, labA, labB] = lab;
     // compute f, starting with the luminance-related term
     const f2 = (labL + 16) / 116;
     const f1 = labA / 500 + f2;
@@ -271,7 +337,8 @@ export class Convert {
     return [xyzX, xyzY, xyzZ];
   };
 
-  lab2lch = (labL: number, labA: number, labB: number) => {
+  lab2lch = (lab: Lab): Lch => {
+    const [labL, labA, labB] = lab;
     return [
       labL,
       sqrt(pow(labA, 2) + pow(labB, 2)), // convert to chroma
@@ -279,9 +346,68 @@ export class Convert {
     ];
   };
 
+  /**
+   * CMYK
+   */
+
+  cmyk2hex = (cmyk: Cmyk): Hex => {
+    return ChromaJS(...cmyk).hex();
+  };
+
+  /**
+   * Utils
+   */
   canBeWhite = (hex: string) => {
-    const [_h, _s, l] = this.hex2hsl(hex);
+    const [, , l] = this.hex2hsl(hex);
     return l < 55;
+  };
+
+  values = (type: ColorType, c: ColorValue) => {
+    return {
+      value: c,
+      renderValue: this.render(type, c),
+      editableValue: this.render(type, c, true),
+    };
+  };
+
+  private render = (type: ColorType, c: ColorValue, editable = false) => {
+    if (typeof c === "string") return type === "hex" ? c.toUpperCase() : "";
+    if (!Array.isArray(c)) return "";
+
+    const skipAlpha = type === "hex" || type === "cmyk";
+    const alpha = !skipAlpha && c.length === 4 && c[3] !== 1;
+
+    const roundedValues = (alpha ? c.slice(0, 3) : c).map((v) => Math.round(v));
+
+    let values: MixedValue[] = roundedValues;
+    let delimiter = ", ";
+
+    switch (type) {
+      case "rgb":
+        // fix the alpha value
+        if (alpha && typeof values[3] === "number") {
+          values[3] = values[3] > 1 ? values[3] / 100 : values[3];
+        }
+        break;
+
+      case "hsl":
+      case "hsv":
+        values = [values[0], `${values[1]}%`, `${values[2]}%`];
+        if (alpha) values.push(c[3]);
+        break;
+      case "lch":
+      case "lab":
+        delimiter = " ";
+        values[0] = `${values[0]}%`;
+        break;
+      case "cmyk":
+        values = c.map((v) => `${Math.round(v)}%`);
+        break;
+    }
+
+    return !editable
+      ? `${type}${alpha ? "a" : ""}(${values.join(delimiter)})`
+      : values.join(delimiter);
   };
 }
 
@@ -291,15 +417,15 @@ export const renderHsl = (hsl: number[]) =>
   `${hsl[0].toFixed()}, ${(hsl[1] * -1).toFixed()}%, ${(hsl[2] / 100).toFixed()}%`;
 
 export const hex2cmyk = (hex: string) => {
-  return ChromaJS(hex).cmyk();
+  try {
+    return ChromaJS(hex).cmyk();
+  } catch (e) {
+    console.warn(e);
+    return [0, 0, 0, 0];
+  }
 };
 export const renderCmyk = (cmyk: number[]) =>
   cmyk.map((v) => (v * 100).toFixed()).join(", ");
-
-import ChromaJS from "chroma-js";
-
-const intLch2hex = (l: number, c: number, h: number) =>
-  ChromaJS.lch(l, c, h).hex();
 
 const interpolate = (
   start: number,
@@ -346,8 +472,14 @@ export const interpolateColor = (
   return interpolatedColors;
 };
 
-const render_lch2hex = (l: number, c: number, h: number) =>
-  ChromaJS.lch(l, c, h).hex();
+const render_lch2hex = (l: number, c: number, h: number) => {
+  try {
+    return ChromaJS.lch(l, c, h).hex();
+  } catch (e) {
+    console.warn(e);
+    return "#000000";
+  }
+};
 
 export const interpolateTwoColors = (
   c1: [number, number, number],
@@ -381,9 +513,10 @@ export const getInterpolateShades = (
 };
 
 export const getRandomColor = () => {
-  const [r, g, b] = Array.from({ length: 3 }, () =>
+  const rgb = Array.from({ length: 3 }, () =>
     Math.floor(Math.random() * 256)
-  );
-  const randomColor = new Convert().rgb2hex(r, g, b);
+  ) as Rgb;
+
+  const randomColor = new Convert().rgb2hex(rgb);
   return randomColor;
 };

@@ -48,17 +48,19 @@ const ColorTesting = loadable(() => import("./Features/colors/ColorTesting"));
 
 const RegexTester = loadable(() => import("./Features/regex/RegexTester"));
 const TextDiff = loadable(() => import("./Features/text/TextDiff"));
+const TextUtils = loadable(() => import("./Features/text/TextUtils"));
 const Markdown = loadable(() => import("./Features/markdown/Markdown"));
+const Readme = loadable(() => import("./Features/markdown/Readme"));
 const YamlJson = loadable(() => import("./Features/json-yaml/Yaml"));
 const Pastebin = loadable(() => import("./Features/pastebin/Pastebin"));
 const Repl = loadable(() => import("./Features/repl/Repl"));
 const Image = loadable(() => import("./Features/image/Image"));
 const Playground = loadable(
-  () => import("./Features/reactPlayground/Playground")
+  () => import("./Features/react-playground/Playground")
 );
 const Rest = loadable(() => import("./Features/rest/Rest"));
 const UnitConverter = loadable(
-  () => import("./Features/unitconverter/UnitConverter")
+  () => import("./Features/unit-converter/UnitConverter")
 );
 const Epoch = loadable(() => import("./Features/epoch/Epoch"));
 const Stateless = loadable(() => import("./Features/password"));
@@ -82,9 +84,7 @@ const Compress = loadable(() => import("./Features/text/TextCompress"));
 const Faker = loadable(() => import("./Features/faker/Faker"));
 const CssPlayground = loadable(() => import("./Features/css/CssPlayground"));
 const SvgPreview = loadable(() => import("./Features/svg/Svg"));
-const ColorGenerator = loadable(
-  () => import("./Features/colors/ColorGenerator")
-);
+
 const QrReadcer = loadable(() => import("./Features/qrcode/QrCodeReader"));
 const HmacGenerator = loadable(() => import("./Features/hash/HmacGenerator"));
 const ImageCrop = loadable(() => import("./Features/image/ImageCrop"));
@@ -232,8 +232,10 @@ function App() {
               <Route path="/harmonies" element={<ColorHarmonies />}></Route>
               <Route path="/color-testing" element={<ColorTesting />}></Route>
               <Route path="/regex" element={<RegexTester />}></Route>
-              <Route path="/text" element={<TextDiff />}></Route>
+              <Route path="/diff" element={<TextDiff />}></Route>
+              <Route path="/text" element={<TextUtils />}></Route>
               <Route path="/markdown" element={<Markdown />}></Route>
+              <Route path="/readme" element={<Readme />}></Route>
               <Route path="/yamljson" element={<YamlJson />}></Route>
               <Route path="/pastebin" element={<Pastebin />}></Route>
               <Route path="/repl" element={<Repl />}></Route>
@@ -264,10 +266,6 @@ function App() {
               <Route path="/qrcode-reader" element={<QrReadcer />}></Route>
               <Route path="/hmac-generator" element={<HmacGenerator />}></Route>
               <Route path="/image-crop" element={<ImageCrop />}></Route>
-              <Route
-                path="/colorgenerator"
-                element={<ColorGenerator />}
-              ></Route>
             </Routes>
           </Stack>
         </Group>

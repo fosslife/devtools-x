@@ -95,7 +95,7 @@ export default function Ping() {
       {res && (
         <LineChart
           h={300}
-          data={res?.map((r, i) => ({ seq: r.sequence, time: r.time })) || []}
+          data={res?.map((r) => ({ seq: r.sequence, time: r.time })) || []}
           series={[{ name: "time", color: "blue", label: "Time (ms)" }]}
           dataKey="seq"
           curveType="natural"

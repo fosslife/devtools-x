@@ -10,7 +10,6 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
-import axios from "axios";
 import { useState } from "react";
 
 import { Monaco } from "@/Components/MonacoWrapper";
@@ -27,9 +26,6 @@ export const SingleTab = ({ t }: { t: number }) => {
     "POST",
     "PUT",
     "PATCH",
-    // "PURGE", FIXME: Enable these?
-    // "LINK",
-    // "UNLINK",
   ] as const;
 
   type Methods = (typeof methods)[number];
@@ -44,35 +40,56 @@ export const SingleTab = ({ t }: { t: number }) => {
   const [headers, setHeaders] = useState<ParamType[]>([
     { key: "", value: "", enabled: true },
   ]);
+  const [statusText, setStatusText] = useState<string>("");
+  const [response, setResponse] = useState<Record<string, any> | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const [respText, setRespText] = useState<string>("");
-  const [response, setResponse] = useState<any>(null);
+  function parseKV(arr: ParamType[]) {
+    return arr
+      .filter((e) => e.enabled)
+      .reduce(
+        (acc, curr) => (curr.key ? { ...acc, [curr.key]: curr.value } : acc),
+        {}
+      );
+  }
 
   const makeRequest = async () => {
-    function parseKV(arr: ParamType[]) {
-      return arr
-        .filter((e) => e.enabled)
-        .reduce(
-          (acc, curr) => (curr.key ? { ...acc, [curr.key]: curr.value } : acc),
-          {}
-        );
-    }
+    setResponse(null);
+    setError(null);
     const paramsCopy = [...params];
     const headersCopy = [...headers];
     const t1 = performance.now();
 
-    const res = await axios({
+    const res = await fetch(url, {
       method,
-      url,
       headers: parseKV(headersCopy),
-      params: parseKV(paramsCopy),
-    });
-    const t2 = performance.now();
-    console.debug(res); // Keeping for dbg
-    setRespText(
-      `${res.status} - ${res.statusText}  Time: ${(t2 - t1).toFixed(2)}ms`
-    );
-    setResponse(res);
+      body: !["GET", "HEAD"].includes(method)
+        ? JSON.stringify(parseKV(paramsCopy))
+        : undefined,
+    }).catch((e) => setError(e.message));
+
+    try {
+      const t2 = performance.now();
+      if (res) {
+        console.debug(res); // Keeping for dbg
+        if (method === "HEAD") {
+          setStatusText(`${res.status} - ${res.statusText || res.ok}`);
+          setResponse({ headers: Object.fromEntries(res.headers), body: {} });
+
+          return;
+        }
+        setStatusText(
+          `${res.status} - ${res.statusText}  Time: ${(t2 - t1).toFixed(2)}ms`
+        );
+        setResponse({
+          body: await res.json(),
+          headers: Object.fromEntries(res.headers),
+        });
+      }
+    } catch (e) {
+      console.error(e);
+      setError((e as Error).message);
+    }
   };
 
   return (
@@ -143,11 +160,8 @@ export const SingleTab = ({ t }: { t: number }) => {
         {/* TODO: make draggable? */}
         <Divider />
         <Stack>
-          {/* TODO: unselectable={"on"} style={{ userSelect: "none" }} */}
-          <Text c={"dimmed"} size="xs">
-            Response {respText}
-          </Text>
-          {response?.data && (
+          {statusText && <Text c="dimmed">{statusText}</Text>}
+          {response?.body && (
             <Tabs defaultValue={"response"} variant="outline">
               <Tabs.List>
                 <Tabs.Tab value="response">Response</Tabs.Tab>
@@ -159,14 +173,17 @@ export const SingleTab = ({ t }: { t: number }) => {
                 <Tabs.Panel value="response" style={{ height: "100%" }}>
                   <Monaco
                     height="100%"
+                    options={{
+                      automaticLayout: true,
+                    }}
                     language="json"
-                    value={JSON.stringify(response.data, null, 2)}
+                    value={JSON.stringify(response.body, null, 2)}
                   />
                 </Tabs.Panel>
                 <Tabs.Panel value="headers">
                   <Table striped>
                     <Table.Tbody>
-                      {Object.entries(response.headers).map(
+                      {Object.entries(response.headers as any).map(
                         ([key, value]: any) => {
                           return (
                             <Table.Tr key={key}>
@@ -182,9 +199,8 @@ export const SingleTab = ({ t }: { t: number }) => {
               </Box>
             </Tabs>
           )}
+          {error && <Text c="red">{error}</Text>}
         </Stack>
-
-        {/* =========== RESPONSE */}
       </Stack>
     </Stack>
   );

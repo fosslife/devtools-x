@@ -69,7 +69,7 @@ export const Navbar = () => {
     key: "groupItems",
     defaultValue: true,
   });
-  const { pinned, handleState, config, handleConfig } = useAppContext();
+  const { pinned, handleState, handleConfig } = useAppContext();
   const [iconMode, setIconMode] = useState(false);
 
   useEffect(() => {

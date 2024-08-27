@@ -73,9 +73,6 @@ const NameMapping = {
 };
 
 function meetsMinimumRequirements(ratio: number) {
-  let didPass = false;
-  let maxLevel = null;
-
   const checks = WCAG_MINIMUM_RATIOS.map(([level, minRatio]) => {
     return {
       level,
@@ -86,4 +83,9 @@ function meetsMinimumRequirements(ratio: number) {
   return checks;
 }
 
-export { checkContrast, formatRatio, meetsMinimumRequirements, canBeWhite };
+export const getColorContrast = {
+  check: checkContrast,
+  format: formatRatio,
+  meets: meetsMinimumRequirements,
+  canBeWhite: canBeWhite,
+};

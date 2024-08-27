@@ -1,9 +1,9 @@
 # DEVTOOLS-X
 
 `devutils` is macOS-only, and `devtoys` is Windows-only.  
-So here's DevTools-X -- an x-platform collection of dev-tools that is lighter, safer, and full of feature rich (currenltly 32 modules and growing) development utilities.
+So here's DevTools-X -- an x-platform non-electron, collection of dev-tools that is lighter, safer, and feature rich (currenltly 41 modules and growing) development utilities.
 
-> Note: Application is under development, expect some bugs.
+> Note: Application is stable but there are too many modules and all are not well tested on all 3 OSes. Please report any bugs you find.
 
 > In any case if the app doesn't render/load anything, just delete the file if exists or create settings.json if doesn't exist at: https://docs.rs/tauri/latest/tauri/api/path/fn.data_dir.html
 
@@ -21,6 +21,17 @@ So here's DevTools-X -- an x-platform collection of dev-tools that is lighter, s
 
 ## Installation
 
+### Download prebuilt binaries
+
+This project runs a github CI to build binaries for all platforms. Head to [Releases](https://github.com/fosslife/devtools-x/releases)
+and download the binary as per your requirements.
+
+> NOTE FOR MACOS USERS, you need this to run the app as binaries are not signed yet:
+
+```sh
+xattr -r -c /Applications/dev-tools.app
+```
+
 ### Compile yourself
 
 Download the relevant package from Github Releases section, and start using it! :D
@@ -36,24 +47,6 @@ Then just clone and open the project in terminal and run
 ```
 yarn tauri build
 ```
-
-### Download prebuilt binaries
-
-This project runs a github CI to build binaries for all platforms. Head to [Releases](https://github.com/fosslife/devtools-x/releases)
-and download the binary as per your requirements.
-
-NOTE FOR MACOS USERS, you need this to run the app as binaries are not signed yet.
-
-```sh
-xattr -r -c /Applications/dev-tools.app
-```
-
-## Acknowledgements
-
-This project exists solely because I was fed up switching between different tools on different OSes. Please do star their github repositories, they have inspired many modules in devtools-x
-
-- [DevUtils](https://devutils.com/)
-- [DevToys](https://github.com/veler/DevToys)
 
 ## Features
 
@@ -159,6 +152,13 @@ or compressing image etc.
 - Can the logo be improved?
 - Regex Tester is kinda broken, monaco gives a headache
 - Fix ALL FIXME: s and TODO: s
+
+## Acknowledgements
+
+This project exists solely because I was fed up switching between different tools on different OSes. Please do star their github repositories, they have inspired many modules in devtools-x
+
+- [DevUtils](https://devutils.com/)
+- [DevToys](https://github.com/veler/DevToys)
 
 ## License
 

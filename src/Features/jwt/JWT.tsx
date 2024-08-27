@@ -1,8 +1,8 @@
-import { useRef, useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import Editor, { OnMount } from "@monaco-editor/react";
 import { editor } from "monaco-editor";
-import { Group, Select, Stack, Text, Textarea } from "@mantine/core";
-import { SignJWT, jwtVerify, decodeJwt, decodeProtectedHeader } from "jose";
+import { Group, Select, Stack, Text } from "@mantine/core";
+import { decodeJwt, decodeProtectedHeader, jwtVerify, SignJWT } from "jose";
 
 // import base64url from "base64url";
 
@@ -33,7 +33,7 @@ const JWTEditor = () => {
   const [header, setHeader] = useState<string>("");
   const [payload, setPayload] = useState<string>("");
   const [isVerified, setIsVerified] = useState<boolean>(false);
-  const [signature, setSignature] = useState<string>("");
+  const [secretBase64, setSecretBase64] = useState<boolean>(false);
 
   const [secret, setSecret] = useState<string>("your-256-bit-secret");
 
@@ -111,7 +111,7 @@ const JWTEditor = () => {
     if (jwt) {
       const parts = jwt.split(".");
       if (parts.length === 3) {
-        const [headerPart, payloadPart, signaturePart] = parts;
+        const [headerPart, payloadPart] = parts;
 
         try {
           const decodedPayload = decodeJwt(`${jwt}`);
@@ -126,14 +126,12 @@ const JWTEditor = () => {
         } catch (e) {
           setHeader(headerPart);
         }
-
-        setSignature(signaturePart);
       }
       (async () => {
         await verifyJwt(secret);
       })();
     }
-  }, [signature, jwt]);
+  }, [jwt]);
 
   return (
     <Group h="100%" w={"100%"} wrap="nowrap" align="start">
@@ -170,69 +168,101 @@ const JWTEditor = () => {
             onChange={(e) => setAlgorithm(e as string)}
           />
         </Text>
-        <Editor
-          path="header.json"
-          height="20%"
-          width="100%"
-          defaultLanguage="json"
-          defaultValue={header}
-          value={header}
-          options={{
-            minimap: { enabled: false },
-            lineNumbers: "off",
-          }}
-        />
-        <Text c="dimmed" size="sm">
-          <strong>Payload:</strong> Data
-        </Text>
-        <Editor
-          path="payload.json"
-          height="40%"
-          width="100%"
-          defaultLanguage="json"
-          defaultValue={payload}
-          value={payload}
-          options={{
-            minimap: { enabled: false },
-            lineNumbers: "off",
-          }}
-        />
-        <Text c="dimmed" size="sm">
-          <strong>Verify Signature</strong>
-        </Text>
         <div
+          className="editor__red"
           style={{
-            color: isVerified ? "green" : "red",
-            border: "1px solid",
-            borderColor: isVerified ? "green" : "red",
-            height: "10%",
+            height: "20%",
           }}
         >
           <Editor
-            path="signature.txt"
+            path="header.json"
+            height="100%"
             width="100%"
-            defaultLanguage="plaintext"
-            defaultValue={signature}
-            value={signature}
+            defaultLanguage="json"
+            defaultValue={header}
+            value={header}
             options={{
               minimap: { enabled: false },
               lineNumbers: "off",
-              wordWrap: "on",
-              scrollbar: { vertical: "hidden", horizontal: "hidden" },
             }}
           />
+          <style>{`.editor__red * { color: #fb015b; }`}</style>
         </div>
         <Text c="dimmed" size="sm">
-          <strong>Secret</strong>
+          <strong>Payload:</strong> Data
         </Text>
-        <Textarea
-          value={secret}
-          onChange={async (e) => {
-            setSecret(e.target.value as string);
-            // Todo check if this can be done in a better way
-            await verifyJwt(e.target.value);
+
+        <div
+          className="editor__purple"
+          style={{
+            height: "30%",
           }}
-        />
+        >
+          <Editor
+            path="payload.json"
+            height="100%"
+            width="100%"
+            defaultLanguage="json"
+            defaultValue={payload}
+            value={payload}
+            options={{
+              minimap: { enabled: false },
+              lineNumbers: "off",
+            }}
+          />
+          <style>{`.editor__purple * { color: #d63aff; }`}</style>
+        </div>
+        <Text c="dimmed" size="sm">
+          <strong>Secret</strong> {isVerified ? "Verified" : "Not Verified"}
+        </Text>
+        <div
+          style={{
+            border: "1px solid #666",
+            fontSize: 14,
+            borderRadius: 4,
+            padding: "0.5em",
+            color: "#00b9f1",
+          }}
+        >
+          <div>
+            HMAC{algorithm.replaceAll(" ", "").toUpperCase()}
+            {"("}
+          </div>
+          <div style={{ marginLeft: "1em" }}>
+            base64UrlEncode(header) + {'"."'} +
+          </div>
+          <div style={{ marginLeft: "1em" }}>base64UrlEncode(payload),</div>
+          <input
+            value={secret}
+            onChange={async (e) => {
+              setSecret(e.target.value as string);
+              // Todo check if this can be done in a better way
+              await verifyJwt(e.target.value);
+            }}
+            style={{
+              marginLeft: "1em",
+              maxWidth: "calc(100% - 1em)",
+              width: 170,
+              fontSize: 12,
+              border: "0.5px solid rgba(0,185,241,0.47)",
+              borderRadius: 4,
+              outline: "none",
+
+              padding: "0.5em",
+            }}
+          />
+
+          <div>
+            ){/* Todo implement this checkbox 8_8 */}
+            <input
+              type="checkbox"
+              checked={secretBase64}
+              onChange={(e) => setSecretBase64(e.target.checked)}
+              style={{ marginLeft: "0.2em" }}
+            />
+            secret base64 encoded
+          </div>
+        </div>
       </Stack>
     </Group>
   );

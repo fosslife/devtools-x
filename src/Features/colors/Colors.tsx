@@ -2,7 +2,6 @@ import classes from "./styles.module.css";
 
 import {
   Box,
-  Group,
   Stack,
   Switch,
   Text,
@@ -12,23 +11,19 @@ import {
 import { useState } from "react";
 import CustomPicker from "./CustomPicker";
 import { BsMoon, BsSun } from "react-icons/bs";
-
-import { OutputBox } from "@/Components/OutputBox";
 import { clipboard } from "@tauri-apps/api";
 import {
   Convert,
   getInterpolateShades,
-  hex2cmyk,
   interpolateColor,
-  renderCmyk,
-  renderHsl,
-} from "./utilities";
+} from "@/utils/colors";
 
 import { RenderShades } from "./RenderShades";
-import { useColorRandomizer } from "./hooks";
+import { useColorState } from "@/hooks";
+import { EditableColorOutput } from "@/Features/colors/ColorEditableOutput";
 
 const Colors = () => {
-  const [color, setColor] = useColorRandomizer();
+  const [color, setColor, conversions] = useColorState();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
   const [config] = useState({
@@ -60,7 +55,7 @@ const Colors = () => {
   const [l, c, h] = new Convert().hex2lch(color);
 
   // Generate shades, tints, tones, hues, and temperatures
-  const shades = interpolateColor([l, c, h], "l", config.steps, 1); // towards black
+  const shades = interpolateColor([100, c, h], "l", config.steps, 10); // towards black
 
   const tints = getInterpolateShades(color, "#ffffff", config.steps); // towards white
   const tones = getInterpolateShades(color, "#808080", config.steps); // towards grey
@@ -78,11 +73,6 @@ const Colors = () => {
   const temperaturesWarm = interpolateColor([l, c, h], "h", config.steps, 60);
   const temperatures = h > 180 ? temperaturesCool : temperaturesWarm;
 
-  const conv = new Convert();
-  const hsv = Object.values(conv.hex2hsv(color))
-    .map((v) => v.toFixed())
-    .join(", ");
-
   return (
     <Stack
       align="center"
@@ -93,28 +83,7 @@ const Colors = () => {
         onChange={(color) => setColor(color.hex)}
       />
 
-      <Group gap={10} grow style={{ marginBottom: 14 }}>
-        <OutputBox
-          label="RGB:"
-          value={conv
-            .hex2rgb(color)
-            .map((v) => v.toFixed())
-            .join(", ")}
-          onCopy={onCopy}
-        />
-        <OutputBox label="HEX:" value={color.toUpperCase()} onCopy={onCopy} />
-        <OutputBox
-          label="CMYK:"
-          value={renderCmyk(hex2cmyk(color))}
-          onCopy={onCopy}
-        />
-        <OutputBox
-          label="HSL:"
-          value={renderHsl(conv.hex2hsl(color))}
-          onCopy={onCopy}
-        />
-        <OutputBox label="HSV:" value={hsv} onCopy={onCopy} />
-      </Group>
+      <EditableColorOutput conversions={conversions} onCopy={onCopy} />
 
       <Stack align="center" style={{ width: "95%" }}>
         <RenderShades colors={shades} setColor={copy} label="Shades" />

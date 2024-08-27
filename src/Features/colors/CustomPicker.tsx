@@ -1,27 +1,17 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable react/no-deprecated */
 import React, { MouseEvent } from "react";
 import { ColorResult, CustomPicker, HSLColor } from "react-color";
-import {
-  Saturation,
-  EditableInput,
-  Hue,
-} from "react-color/lib/components/common";
-import { Convert } from "./utilities";
+import { Hue, Saturation } from "react-color/lib/components/common";
+import { Convert } from "@/utils/colors";
 import tinycolor2 from "tinycolor2";
 
-const inputStyles = {
-  input: {
-    border: "1px solid black",
-    padding: "10px",
-    fontSize: "15px",
-    // color: "#000",
-  },
-};
 const inlineStyles = {
   container: {
     display: "flex",
     flexDirection: "column",
     height: "auto",
-    width: "95%",
+    width: "100%",
     textAlign: "center",
     justifyContent: "center",
     // margin: "auto"
@@ -31,8 +21,8 @@ const inlineStyles = {
     width: "20px",
     height: "20px",
     borderRadius: "50%",
-    backgroundColor: "rgb(248, 248, 248)",
     boxShadow: "0 1px 4px 0 rgba(0, 0, 0, 0.37)",
+    border: "1px solid #fff",
     cursor: "pointer",
   },
   slider: {
@@ -49,6 +39,8 @@ const inlineStyles = {
     position: "relative",
     overflow: "hidden",
     cursor: "pointer",
+    borderTopLeftRadius: "5px",
+    borderTopRightRadius: "5px",
   },
   swatchCircle: {
     minWidth: 20,
@@ -73,10 +65,6 @@ const onPointerMouseDown = (event: MouseEvent<HTMLDivElement>) => {
 
 const CustomSlider = () => {
   return <div style={inlineStyles.slider} />;
-};
-
-const CustomPointer = () => {
-  return <div className="custom-pointer" style={inlineStyles.pointer} />;
 };
 
 interface Props {
@@ -111,6 +99,13 @@ class CustomColorPicker extends React.Component<Props, State> {
       hex: "aaaaaa",
     };
   }
+
+  CustomPointer = () => (
+    <div
+      className="custom-pointer"
+      style={{ ...inlineStyles.pointer, background: this.state.hex }}
+    />
+  );
 
   guard = (num: number) => {
     if (isNaN(num)) return 0;
@@ -162,18 +157,6 @@ class CustomColorPicker extends React.Component<Props, State> {
     });
   };
 
-  displayColorSwatches = (colors: string[]) => {
-    return colors.map((color) => {
-      return (
-        <div
-          // onClick={() => this.props.onChange(color as any)}
-          key={color}
-          style={{ ...inlineStyles.swatchCircle, backgroundColor: color }}
-        />
-      );
-    });
-  };
-
   render() {
     return (
       <div style={inlineStyles.container as any}>
@@ -185,7 +168,7 @@ class CustomColorPicker extends React.Component<Props, State> {
             // @ts-ignore
             hsl={this.state.hsl}
             hsv={this.state.hsv}
-            pointer={CustomPointer}
+            pointer={this.CustomPointer}
             onChange={this.handleSaturationChange}
           />
         </div>
@@ -193,8 +176,10 @@ class CustomColorPicker extends React.Component<Props, State> {
           style={{
             height: 20,
             position: "relative",
-            margin: "10px 0px",
             width: "100%",
+            borderBottomLeftRadius: "5px",
+            borderBottomRightRadius: "5px",
+            overflow: "hidden",
           }}
         >
           <Hue
@@ -205,44 +190,6 @@ class CustomColorPicker extends React.Component<Props, State> {
             direction={"horizontal"}
           />
         </div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            margin: "2px 0",
-          }}
-        >
-          <span
-            style={{
-              // color: "#000",
-              fontSize: "15px",
-              marginRight: "10px",
-              marginTop: 2,
-              marginLeft: 3,
-            }}
-          >
-            Hex
-          </span>
-          <EditableInput
-            style={inputStyles}
-            value={this.state.hex}
-            onChange={this.props.onChange}
-          />
-          {/*  // todo Will add more input methods   */}
-        </div>
-        {this.props.colors?.length && (
-          <div
-            style={{
-              display: "flex",
-              width: "100%",
-              flexWrap: "wrap",
-              padding: 3,
-              marginTop: "25px",
-            }}
-          >
-            {this.displayColorSwatches(this.props.colors!)}
-          </div>
-        )}
       </div>
     );
   }

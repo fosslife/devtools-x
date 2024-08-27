@@ -1,8 +1,8 @@
-import { Convert } from "./utilities";
+import { Convert } from "@/utils/colors";
 
 const hexToRgb = (hex: string) => new Convert().hex2rgb(hex);
 const rgbToHex = (r: number, g: number, b: number) =>
-  new Convert().rgb2hex(r, g, b);
+  new Convert().rgb2hex([r, g, b]);
 
 export const simulateColorBlindness = (
   color: string,
@@ -114,6 +114,7 @@ const colorSimilarityPercentage = (color1: string, color2: string): number => {
   return similarity * 100; // Returns similarity percentage
 };
 
+// Todo these stats should be visible within a popper/ tooltip on the /color-testing page
 export const blindnessStats = [
   {
     name: "Deuteranomaly",

@@ -12,3 +12,4 @@ yarn-error.log
 assets/vips/
 
 .yarn
+.eslintcache
