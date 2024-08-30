@@ -41,6 +41,11 @@ flate2 = "1.0"
 bardecoder = "0.5.0"
 imageinfo = "0.7.17"
 
+[dependencies.tauri-plugin-sql]
+git = "https://github.com/tauri-apps/plugins-workspace"
+branch = "v1"
+features = ["sqlite"] # or "postgres", or "mysql"
+
 [features]
 default = ["custom-protocol"]
 custom-protocol = ["tauri/custom-protocol"]
