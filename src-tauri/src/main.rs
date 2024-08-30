@@ -7,6 +7,8 @@ use std::convert::TryInto;
 use std::env;
 use tauri::{Manager, WindowBuilder, WindowUrl};
 
+use tauri_plugin_sql::{Migration, MigrationKind};
+
 mod commands;
 
 use commands::base64_image::base64_image::base64_image;
@@ -19,7 +21,50 @@ use commands::ping::ping::ping;
 use commands::qr::qr::read_qr;
 
 fn main() {
+  // Todo move to different file
+  let migrations = vec![
+    Migration {
+        version: 1,
+        description: "create_initial_tables",
+        sql: "\
+        CREATE TABLE snippets (\
+            id INTEGER PRIMARY KEY AUTOINCREMENT,\
+            name TEXT NOT NULL,\
+            path TEXT NOT NULL,\
+            content TEXT,\
+            filetype TEXT,\
+            parent_id INTEGER,\
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,\
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP\
+        );\
+        CREATE TABLE snippets_tags (\
+            id INTEGER PRIMARY KEY AUTOINCREMENT,\
+            snippet_id INTEGER NOT NULL,\
+            tag TEXT NOT NULL,\
+            FOREIGN KEY(snippet_id) REFERENCES snippets (id)\
+        );\
+        CREATE TABLE snippets_notes (\
+            id INTEGER PRIMARY KEY AUTOINCREMENT,\
+            snippet_id INTEGER NOT NULL,\
+            note TEXT NOT NULL,\
+            FOREIGN KEY(snippet_id) REFERENCES snippets (id)\
+        );\
+        CREATE TABLE snippets_files (\
+            id INTEGER PRIMARY KEY AUTOINCREMENT,\
+            snippet_id INTEGER NOT NULL,\
+            file_path TEXT NOT NULL,\
+            FOREIGN KEY(snippet_id) REFERENCES snippets (id)\
+        );",
+        kind: MigrationKind::Up,
+    }
+  ];
+
   tauri::Builder::default()
+    .plugin(
+        tauri_plugin_sql::Builder::default()
+            .add_migrations("sqlite:devtools.db", migrations)
+            .build()
+    )
     .plugin(tauri_plugin_store::Builder::default().build())
     .plugin(tauri_plugin_aptabase::Builder::new("A-EU-0242299228").build())
     .invoke_handler(tauri::generate_handler![

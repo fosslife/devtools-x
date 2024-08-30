@@ -261,6 +261,13 @@ export const navitems: NavItem[] = [
     group: "Utilities",
   },
   {
+    id: "snippets",
+    to: "/snippets",
+    icon: <FiFile />,
+    text: "Snippets",
+    group: "Utilities",
+  },
+  {
     id: "markdown",
     to: "/markdown",
     icon: <FaMarkdown />,

@@ -1,5 +1,5 @@
 import { Store } from "tauri-plugin-store-api";
-import { defaultConfig } from "../Contexts/AppContextProvider";
+import { defaultConfig } from "@/Contexts/AppContextProvider";
 
 const db = new Store("settings.json");
 
