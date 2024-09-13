@@ -8,10 +8,10 @@ import {
   useState,
 } from "react";
 import {
-  BsArrowReturnLeft,
-  BsTextIndentLeft,
-  BsTextParagraph,
-} from "react-icons/bs";
+  IconTextWrap,
+  IconIndentIncrease,
+  IconPilcrow,
+} from "@tabler/icons-react";
 
 import { Monaco } from "@/Components/MonacoWrapper";
 
@@ -42,7 +42,7 @@ export const SingleTab = ({
             setCode(JSON.stringify(JSON.parse(code), null, 2));
           }}
         >
-          <BsTextIndentLeft />
+          <IconIndentIncrease />
         </ControlIcon>
         <ControlIcon
           label="Minify JSON"
@@ -50,7 +50,7 @@ export const SingleTab = ({
             setCode(JSON.stringify(JSON.parse(code)));
           }}
         >
-          <BsTextParagraph />
+          <IconPilcrow />
         </ControlIcon>
         <ControlIcon
           label="Word Wrap"
@@ -61,7 +61,7 @@ export const SingleTab = ({
             })
           }
         >
-          <BsArrowReturnLeft />
+          <IconTextWrap />
         </ControlIcon>
       </Box>
       <Monaco
@@ -86,7 +86,7 @@ type ControlIconProps = {
 function ControlIcon({ label, onClick, children }: ControlIconProps) {
   return (
     <Tooltip label={label} position="bottom">
-      <ActionIcon color={"dark"} variant="default" onClick={onClick}>
+      <ActionIcon size="sm" color={"dark"} variant="default" onClick={onClick}>
         {children}
       </ActionIcon>
     </Tooltip>

@@ -10,7 +10,7 @@ import {
   useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
-import { TbCheck, TbMoon, TbSun, TbX } from "react-icons/tb";
+import { IconCheck, IconMoon, IconSun, IconX } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
 import { version } from "../../package.json";
 
@@ -32,28 +32,28 @@ export const Settings = () => {
   });
 
   const sunIcon = (
-    <TbSun
+    <IconSun
       style={{ width: rem(16), height: rem(16) }}
       color={theme.colors.yellow[4]}
     />
   );
 
   const moonIcon = (
-    <TbMoon
+    <IconMoon
       style={{ width: rem(16), height: rem(16) }}
       color={theme.colors.blue[6]}
     />
   );
 
   const yesIcon = (
-    <TbCheck
+    <IconCheck
       style={{ width: rem(16), height: rem(16) }}
       color={theme.colors.green[6]}
     />
   );
 
   const noIcon = (
-    <TbX
+    <IconX
       style={{ width: rem(16), height: rem(16) }}
       color={theme.colors.red[6]}
     />

@@ -7,12 +7,13 @@ import { open } from "@tauri-apps/api/dialog";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 import { SizeMe } from "react-sizeme";
+
 import {
-  MdKeyboardArrowLeft,
-  MdKeyboardArrowRight,
-  MdZoomIn,
-  MdZoomOut,
-} from "react-icons/md";
+  IconArrowLeft,
+  IconArrowRight,
+  IconZoomIn,
+  IconZoomOut,
+} from "@tabler/icons-react";
 
 import classes from "./styles.module.css";
 
@@ -72,7 +73,7 @@ export default function PdfReader() {
           Open new
         </Button>
         <ActionIcon onClick={() => setPage((p) => p - 1)} disabled={page === 1}>
-          <MdKeyboardArrowLeft />
+          <IconArrowLeft />
         </ActionIcon>
         <Box>
           {page} of {numPages}
@@ -81,11 +82,11 @@ export default function PdfReader() {
           onClick={() => setPage((p) => p + 1)}
           disabled={page === numPages}
         >
-          <MdKeyboardArrowRight />
+          <IconArrowRight />
         </ActionIcon>
         <Tooltip label="Zoom in">
           <ActionIcon onClick={() => setScale((scale) => scale + 0.5)}>
-            <MdZoomIn />
+            <IconZoomIn />
           </ActionIcon>
         </Tooltip>
         <Tooltip label="Zoom out">
@@ -93,7 +94,7 @@ export default function PdfReader() {
             disabled={scale === 1}
             onClick={() => setScale((scale) => scale - 0.5)}
           >
-            <MdZoomOut />
+            <IconZoomOut />
           </ActionIcon>
         </Tooltip>
       </Group>

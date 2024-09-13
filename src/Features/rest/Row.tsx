@@ -1,5 +1,5 @@
 import { Group, TextInput, ThemeIcon } from "@mantine/core";
-import { MdCheckCircle, MdCircle, MdDelete } from "react-icons/md";
+import { IconCheck, IconX } from "@tabler/icons-react";
 
 import { ParamType } from "./SingleTab";
 
@@ -44,7 +44,7 @@ export const Row = ({
         }}
         color={param.enabled ? "green" : "gray"}
       >
-        {param.enabled ? <MdCheckCircle /> : <MdCircle />}
+        <IconCheck size={16} />
       </ThemeIcon>
 
       <ThemeIcon
@@ -52,7 +52,7 @@ export const Row = ({
           onChange("delete", "", id);
         }}
       >
-        <MdDelete />
+        <IconX size={16} />
       </ThemeIcon>
     </Group>
   );

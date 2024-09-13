@@ -18,7 +18,7 @@ import {
 import { Spotlight } from "@mantine/spotlight";
 import { loader } from "@monaco-editor/react";
 import { useEffect, useState } from "react";
-import { FaSearch } from "react-icons/fa";
+import { IconSearch } from "@tabler/icons-react";
 import { useShepherdTour } from "react-shepherd";
 import steps from "./utils/steps";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
@@ -282,7 +282,7 @@ function App() {
       <Spotlight
         shortcut={["mod + k", "/"]}
         searchProps={{
-          leftSection: <FaSearch />,
+          leftSection: <IconSearch />,
           placeholder: "Jump to",
         }}
         actions={data.map((a) => ({

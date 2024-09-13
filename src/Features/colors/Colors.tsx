@@ -10,7 +10,7 @@ import {
 } from "@mantine/core";
 import { useState } from "react";
 import CustomPicker from "./CustomPicker";
-import { BsMoon, BsSun } from "react-icons/bs";
+import { IconMoon, IconSun } from "@tabler/icons-react";
 import { clipboard } from "@tauri-apps/api";
 import {
   Convert,
@@ -97,8 +97,8 @@ const Colors = () => {
         <Switch
           checked={colorScheme === "dark"}
           id="theme"
-          onLabel={<BsSun size={15} />}
-          offLabel={<BsMoon size={15} />}
+          onLabel={<IconSun size={15} />}
+          offLabel={<IconMoon size={15} />}
           size={"lg"}
           onChange={() => toggleColorScheme()}
         />

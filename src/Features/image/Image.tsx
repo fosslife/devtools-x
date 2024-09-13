@@ -14,7 +14,10 @@ import { dialog, fs, invoke } from "@tauri-apps/api";
 import { save } from "@tauri-apps/api/dialog";
 import { convertFileSrc } from "@tauri-apps/api/tauri";
 import { useEffect, useState } from "react";
-import { ReactCompareSlider } from "react-compare-slider";
+import {
+  ReactCompareSlider,
+  ReactCompareSliderImage,
+} from "react-compare-slider";
 
 type ImageType = "Jpeg" | "Png" | "Webp";
 
@@ -126,16 +129,15 @@ export default function Image2() {
       {converted && (
         <Box>
           <ReactCompareSlider
+            transition="0.25s cubic-bezier(0.645, 0.045, 0.355, 1)"
             style={{
               width: "100%",
-              height: "100vh",
+              height: "70vh",
             }}
             onlyHandleDraggable={true}
             itemOne={
-              <img
+              <ReactCompareSliderImage
                 style={{
-                  width: "100%",
-                  height: "100%",
                   objectFit: "contain",
                 }}
                 src={convertFileSrc(imageSrc)}
@@ -143,10 +145,8 @@ export default function Image2() {
               />
             }
             itemTwo={
-              <img
+              <ReactCompareSliderImage
                 style={{
-                  width: "100%",
-                  height: "100%",
                   objectFit: "contain",
                 }}
                 src={converted}
@@ -204,7 +204,8 @@ export default function Image2() {
           </Stack>
           {converted && (
             <Text c={"dimmed"} size="xs">
-              NOTE: extremly large images may take a while to load.
+              NOTE: Large images may take a while to load, instead try
+              squoosh.app/
             </Text>
           )}
         </Box>

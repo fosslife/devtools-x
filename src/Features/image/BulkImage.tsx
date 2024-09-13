@@ -13,7 +13,7 @@ import { invoke } from "@tauri-apps/api";
 import { open } from "@tauri-apps/api/dialog";
 import { useEffect, useState } from "react";
 import classes from "./styles.module.css";
-import { MdInfo } from "react-icons/md";
+import { IconInfoCircle } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import { listen } from "@tauri-apps/api/event";
 import clsx from "clsx";
@@ -122,7 +122,7 @@ export default function BulkImageCompressor() {
           allowDeselect={false}
         />
         <ActionIcon onClick={openModal}>
-          <MdInfo />
+          <IconInfoCircle />
         </ActionIcon>
       </Group>
 
