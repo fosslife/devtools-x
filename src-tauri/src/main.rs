@@ -31,9 +31,6 @@ fn main() {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             path TEXT NOT NULL,
-            content TEXT,
-            filetype TEXT,
-            parent_id INTEGER,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
         );
@@ -52,7 +49,12 @@ fn main() {
         CREATE TABLE snippets_files (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             snippet_id INTEGER NOT NULL,
-            file_path TEXT NOT NULL,
+            name TEXT,
+            file_path TEXT,
+            filetype TEXT,
+            content TEXT,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY(snippet_id) REFERENCES snippets (id)
         );",
         kind: MigrationKind::Up,

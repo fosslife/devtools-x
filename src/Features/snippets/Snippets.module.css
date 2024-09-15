@@ -1,28 +1,48 @@
 .sidebar {
-  width: 150px;
+  --sidebar-width: 275px;
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  max-width: var(--sidebar-width);
 }
 ul {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 li {
   padding: 0.5rem;
   font-size: 12px;
 }
+
+.active,
 li:hover {
-  background-color: #f0f0f0;
+  background-color: light-dark(
+    var(--mantine-color-gray-1),
+    var(--mantine-color-dark-8)
+  );
   cursor: pointer;
-}
-.active {
-  background-color: #f0f0f0;
 }
 
 li button {
+  display: flex;
+  align-items: center;
+  justify-content: start;
   background: transparent;
+  text-align: left;
   border: none;
 }
 
 .content {
   width: 100%;
+}
+
+.header {
+  margin: 0.26em;
+}
+
+.tabInput input {
+  min-width: 0;
+  width: auto;
+  max-width: 150px;
 }
