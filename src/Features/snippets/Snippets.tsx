@@ -172,7 +172,9 @@ const Snippets = () => {
               </li>
             ))}
           </ul>
-          <button onClick={() => seed()}>Seed Database</button>
+          <Button onClick={() => seed()} variant="transparent" opacity={0.1}>
+            Seed Database
+          </Button>
         </aside>
         <div className={styles.content}>
           <Tabs
@@ -192,8 +194,6 @@ const Snippets = () => {
                   key={t.id}
                   onMouseDown={async (e) => {
                     if (e.button === 1) {
-                      // const tabid = tabs.find((el) => el === t);
-                      // setTabs(tabs.filter((e) => e !== t));
                       setActiveIds((prev) => ({
                         ...prev,
                         fileId: undefined,
@@ -237,6 +237,28 @@ const Snippets = () => {
                   value={file?.content ?? ""}
                   onChange={onChange as any}
                   height="500px"
+                />
+                <TextInput
+                  autoComplete="off"
+                  value={file?.filetype ?? "javascript"}
+                  onChange={(e) => {
+                    setSnippet((prev) => {
+                      if (!prev) return null;
+                      return {
+                        ...prev,
+                        files: prev.files.map((f) =>
+                          f.id === file.id
+                            ? { ...f, filetype: e.target.value }
+                            : f
+                        ),
+                      };
+                    });
+
+                    updateSnippetFile(file.id, {
+                      ...file,
+                      filetype: e.target.value,
+                    }).then(() => {});
+                  }}
                 />
               </Tabs.Panel>
             ))}
