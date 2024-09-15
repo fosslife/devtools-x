@@ -13,7 +13,7 @@ import {
 import { DateTimePicker } from "@mantine/dates";
 import { useInterval } from "@mantine/hooks";
 import { useEffect, useMemo, useState } from "react";
-import { FaArrowRight } from "react-icons/fa";
+import { IconArrowRight } from "@tabler/icons-react";
 
 import { Copy } from "@/Components/Copy";
 import { db } from "@/utils";
@@ -177,7 +177,7 @@ function ConversionBoxes({
         />
       </Grid.Col>
       <Grid.Col span={1}>
-        <FaArrowRight style={{ marginTop: 25, marginLeft: 20 }} />
+        <IconArrowRight style={{ marginTop: 25, marginLeft: 20 }} />
       </Grid.Col>
       <Grid.Col span={"auto"}>
         <TextInput value={to} readOnly label={toLabel} />

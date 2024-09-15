@@ -1,6 +1,6 @@
 import { Button, CopyButton, Tooltip } from "@mantine/core";
 import { clipboard } from "@tauri-apps/api";
-import { FaCheck, FaCopy } from "react-icons/fa";
+import { IconCheck, IconCopy } from "@tabler/icons-react";
 
 export function Copy({
   value,
@@ -14,7 +14,9 @@ export function Copy({
       {({ copied, copy }) => (
         <Tooltip label={"Copy"}>
           <Button
-            leftSection={copied ? <FaCheck /> : <FaCopy />}
+            leftSection={
+              copied ? <IconCheck size={16} /> : <IconCopy size={16} />
+            }
             size="xs"
             fullWidth
             onClick={() => {

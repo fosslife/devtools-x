@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppContext } from "@/Contexts/AppContextProvider";
 import { data } from "@/Layout/Navbar";
 import classes from "./styles.module.css";
-import { MdSettings } from "react-icons/md";
+import { IconSettings } from "@tabler/icons-react";
 
 type WelcomeProps = {
   openSettings: (t: boolean) => void;
@@ -55,7 +55,7 @@ const Welcome = ({ openSettings }: WelcomeProps) => {
             openSettings(true);
           }}
         >
-          <MdSettings
+          <IconSettings
             style={{
               width: rem(24),
               height: rem(24),

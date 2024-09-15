@@ -165,6 +165,7 @@ class CustomColorPicker extends React.Component<Props, State> {
           onMouseDown={onPointerMouseDown}
         >
           <Saturation
+            id="1"
             // @ts-ignore
             hsl={this.state.hsl}
             hsv={this.state.hsv}

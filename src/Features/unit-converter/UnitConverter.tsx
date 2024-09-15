@@ -8,7 +8,7 @@ import {
 } from "@mantine/core";
 import Convert, { Unit } from "convert-units";
 import { useRef, useState } from "react";
-import { FaExchangeAlt } from "react-icons/fa";
+import { IconExchange } from "@tabler/icons-react";
 
 const UnitConverter = () => {
   const [category, setCategory] = useState<Convert.Measure>("length");
@@ -98,7 +98,7 @@ const UnitConverter = () => {
               setFromUnit(toUnit);
             }}
           >
-            <FaExchangeAlt />
+            <IconExchange size={16} />
           </ActionIcon>
         </Tooltip>
 
