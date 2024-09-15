@@ -60,14 +60,14 @@ item {
   font-family: var(--docs-font-primary);
 }
 
+.outputGroup input:not(:first-child),
+.outputGroup button {
+  /*opacity: 0.5;*/
 
-.outputGroup input:not(:first-child), .outputGroup button {
-    /*opacity: 0.5;*/
+  background: transparent;
 
-    background: transparent;
-
-    &:hover {
-        opacity: 1;
-        background: var(--hover-background);
-    }
+  &:hover {
+    opacity: 1;
+    background: var(--hover-background);
+  }
 }

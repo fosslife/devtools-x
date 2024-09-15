@@ -1,0 +1,28 @@
+.sidebar {
+  width: 150px;
+}
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  padding: 0.5rem;
+  font-size: 12px;
+}
+li:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+.active {
+  background-color: #f0f0f0;
+}
+
+li button {
+  background: transparent;
+  border: none;
+}
+
+.content {
+  width: 100%;
+}

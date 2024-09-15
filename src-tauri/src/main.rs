@@ -26,34 +26,34 @@ fn main() {
     Migration {
         version: 1,
         description: "create_initial_tables",
-        sql: "\
-        CREATE TABLE snippets (\
-            id INTEGER PRIMARY KEY AUTOINCREMENT,\
-            name TEXT NOT NULL,\
-            path TEXT NOT NULL,\
-            content TEXT,\
-            filetype TEXT,\
-            parent_id INTEGER,\
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,\
-            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP\
-        );\
-        CREATE TABLE snippets_tags (\
-            id INTEGER PRIMARY KEY AUTOINCREMENT,\
-            snippet_id INTEGER NOT NULL,\
-            tag TEXT NOT NULL,\
-            FOREIGN KEY(snippet_id) REFERENCES snippets (id)\
-        );\
-        CREATE TABLE snippets_notes (\
-            id INTEGER PRIMARY KEY AUTOINCREMENT,\
-            snippet_id INTEGER NOT NULL,\
-            note TEXT NOT NULL,\
-            FOREIGN KEY(snippet_id) REFERENCES snippets (id)\
-        );\
-        CREATE TABLE snippets_files (\
-            id INTEGER PRIMARY KEY AUTOINCREMENT,\
-            snippet_id INTEGER NOT NULL,\
-            file_path TEXT NOT NULL,\
-            FOREIGN KEY(snippet_id) REFERENCES snippets (id)\
+        sql: "
+        CREATE TABLE snippets (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            path TEXT NOT NULL,
+            content TEXT,
+            filetype TEXT,
+            parent_id INTEGER,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+        CREATE TABLE snippets_tags (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            snippet_id INTEGER NOT NULL,
+            tag TEXT NOT NULL,
+            FOREIGN KEY(snippet_id) REFERENCES snippets (id)
+        );
+        CREATE TABLE snippets_notes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            snippet_id INTEGER NOT NULL,
+            note TEXT NOT NULL,
+            FOREIGN KEY(snippet_id) REFERENCES snippets (id)
+        );
+        CREATE TABLE snippets_files (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            snippet_id INTEGER NOT NULL,
+            file_path TEXT NOT NULL,
+            FOREIGN KEY(snippet_id) REFERENCES snippets (id)
         );",
         kind: MigrationKind::Up,
     }
