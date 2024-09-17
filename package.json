@@ -76,6 +76,7 @@
     "rehype-raw": "^7.0.0",
     "remark-math": "^6.0.0",
     "simple-base-converter": "^1.0.19",
+    "tauri-plugin-sql-api": "https://github.com/tauri-apps/tauri-plugin-sql#v1",
     "tauri-plugin-store-api": "https://github.com/tauri-apps/tauri-plugin-store",
     "terser": "^5.30.0",
     "tinycolor2": "^1.6.0",
