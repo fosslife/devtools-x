@@ -27,26 +27,26 @@ fn main() {
         version: 1,
         description: "create_initial_tables",
         sql: "
-        CREATE TABLE snippets (
+        CREATE TABLE IF NOT EXISTS snippets (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             path TEXT NOT NULL,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
         );
-        CREATE TABLE snippets_tags (
+        CREATE TABLE IF NOT EXISTS snippets_tags (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             snippet_id INTEGER NOT NULL,
             tag TEXT NOT NULL,
             FOREIGN KEY(snippet_id) REFERENCES snippets (id)
         );
-        CREATE TABLE snippets_notes (
+        CREATE TABLE IF NOT EXISTS snippets_notes (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             snippet_id INTEGER NOT NULL,
             note TEXT NOT NULL,
             FOREIGN KEY(snippet_id) REFERENCES snippets (id)
         );
-        CREATE TABLE snippets_files (
+        CREATE TABLE IF NOT EXISTS snippets_files (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             snippet_id INTEGER NOT NULL,
             name TEXT,
