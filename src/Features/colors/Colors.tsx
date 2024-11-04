@@ -2,6 +2,7 @@ import classes from "./styles.module.css";
 
 import {
   Box,
+  Slider,
   Stack,
   Switch,
   Text,
@@ -27,9 +28,8 @@ const Colors = () => {
   const [color, setColor, conversions] = useColorState();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
-  const [config] = useState({
-    steps: 15,
-    harmoniesOpen: false,
+  const [config, setConfig] = useState({
+    steps: 8,
   });
   const [history, setHistory] = useState<string[]>(Array(20).fill("#000000"));
 
@@ -83,9 +83,15 @@ const Colors = () => {
         hexCode={color.startsWith("#") ? color.slice(1) : color}
         onChange={(color) => setColor(color.hex)}
       />
-
+      <Slider
+        label={`Steps: ${config.steps}`}
+        style={{ width: "50%" }}
+        value={config.steps}
+        onChange={(value) => setConfig({ steps: value })}
+        min={5}
+        max={20}
+      />
       <EditableColorOutput conversions={conversions} onCopy={onCopy} />
-
       <Stack align="center" style={{ width: "95%" }}>
         <RenderShades colors={shades} setColor={copy} label="Shades" />
         <RenderShades colors={tones} setColor={copy} label="Tones" />
@@ -93,7 +99,6 @@ const Colors = () => {
         <RenderShades colors={hues} setColor={copy} label="Hues" />
         <RenderShades colors={temperatures} setColor={copy} label="Temps" />
       </Stack>
-
       <Stack align="center">
         <Switch
           checked={colorScheme === "dark"}
