@@ -1,7 +1,6 @@
 import { Divider, Group, Select, Slider, Stack, Text } from "@mantine/core";
 import { useEffect, useMemo, useState } from "react";
 import CustomPicker from "./CustomPicker";
-import { clipboard } from "@tauri-apps/api";
 import { RenderShades } from "./RenderShades";
 import { notifications } from "@mantine/notifications";
 import { useColorState, useContainerSize } from "@/hooks";
@@ -15,6 +14,7 @@ import {
   getWheelSetups,
 } from "@/utils/color";
 import type { ColorHarmony, Hsl } from "@/types/colors";
+import * as clipboard from "@tauri-apps/plugin-clipboard-manager";
 
 const conv = new Convert();
 

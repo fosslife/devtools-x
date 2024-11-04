@@ -2,7 +2,7 @@ import classes from "./styles.module.css";
 import { Group, Stack, Text } from "@mantine/core";
 import { Fragment, useMemo } from "react";
 import CustomPicker from "./CustomPicker";
-import { clipboard } from "@tauri-apps/api";
+import {} from "@tauri-apps/api";
 import {
   blindnessStats,
   getColorContrast as checker,
@@ -11,6 +11,7 @@ import {
 import { RenderShades } from "./RenderShades";
 import { useColorState } from "@/hooks";
 import { EditableColorOutput } from "@/Features/colors/ColorEditableOutput";
+import * as clipboard from "@tauri-apps/plugin-clipboard-manager";
 
 const Colors = () => {
   const [color, setColor, conversions] = useColorState();

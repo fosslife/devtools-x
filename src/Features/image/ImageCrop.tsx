@@ -1,11 +1,11 @@
 import { Box, Button, Group, Stack } from "@mantine/core";
-import { open, save } from "@tauri-apps/api/dialog";
-import { convertFileSrc } from "@tauri-apps/api/tauri";
+import { open, save } from "@tauri-apps/plugin-dialog";
+import { convertFileSrc } from "@tauri-apps/api/core";
 import { useRef, useState } from "react";
 import Cropper, { ReactCropperElement } from "react-cropper";
-import "cropperjs/dist/cropper.css";
+import "cropperjs/dist/cropper.min.css";
 
-import { writeBinaryFile } from "@tauri-apps/api/fs";
+import { writeFile } from "@tauri-apps/plugin-fs";
 
 export default function ImageCrop() {
   const [imageSrc, setImageSrc] = useState("");
@@ -43,10 +43,7 @@ export default function ImageCrop() {
       });
 
       if (path) {
-        writeBinaryFile({
-          path: path as string,
-          contents: new Uint8Array(await blob.arrayBuffer()),
-        });
+        writeFile(path, new Uint8Array(await blob.arrayBuffer()));
       }
     });
   };
@@ -72,30 +69,36 @@ export default function ImageCrop() {
           Save
         </Button>
       </Group>
-      <Group w="100%" align="start" wrap="nowrap">
+      <Group w="100%" align="start" grow wrap="nowrap">
         {imageSrc && (
           <Box pos={"relative"} w={"50%"}>
             <Cropper
               src={imageSrc}
-              height={600}
               zoomTo={0.5}
-              initialAspectRatio={1}
               preview=".img-preview"
+              rotatable={true}
+              movable={true}
+              scalable={true}
+              //   TODO: slow down when ctrl is held
+              wheelZoomRatio={0.5}
               ref={cropperRef}
-              style={{ height: "fit-content", width: "100%" }}
+              style={{
+                width: "100%",
+              }}
               viewMode={1}
+              dragMode="move"
             />
           </Box>
         )}
       </Group>
-      <Group>
+      <Group h="100%">
         {" "}
         <Box
           className="img-preview"
-          h="300px"
-          w="100%"
           style={{
             overflow: "hidden",
+            height: "100%",
+            width: "50%",
           }}
         ></Box>
       </Group>

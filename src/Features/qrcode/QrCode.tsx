@@ -1,8 +1,9 @@
 import { Button, Group, Select, Stack, Textarea } from "@mantine/core";
-import { fs } from "@tauri-apps/api";
-import { save } from "@tauri-apps/api/dialog";
+import {} from "@tauri-apps/api";
+import { save } from "@tauri-apps/plugin-dialog";
 import QRCodeJS, { QRCodeErrorCorrectionLevel } from "qrcode";
 import { useEffect, useState } from "react";
+import * as fs from "@tauri-apps/plugin-fs";
 
 export default function QrCode() {
   const [input, setInput] = useState("https://fosslife.com");
@@ -37,10 +38,14 @@ export default function QrCode() {
     if (!downloadPath) return;
     if (!url) return;
 
-    fs.writeBinaryFile({
-      contents: await fetch(url).then((res) => res.arrayBuffer()),
-      path: downloadPath,
-    });
+    // fs.writeBinaryFile({
+    //   contents: await fetch(url).then((res) => res.arrayBuffer()),
+    //   path: downloadPath,
+    // });
+    const response = await fetch(url);
+    const arrayBuffer = await response.arrayBuffer();
+    const uint8Array = new Uint8Array(arrayBuffer);
+    fs.writeFile(downloadPath, uint8Array);
   };
 
   return (

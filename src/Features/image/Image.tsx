@@ -10,9 +10,10 @@ import {
   Text,
 } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
-import { dialog, fs, invoke } from "@tauri-apps/api";
-import { save } from "@tauri-apps/api/dialog";
-import { convertFileSrc } from "@tauri-apps/api/tauri";
+import { invoke } from "@tauri-apps/api/core";
+import { save, open } from "@tauri-apps/plugin-dialog";
+import { writeFile } from "@tauri-apps/plugin-fs";
+import { convertFileSrc } from "@tauri-apps/api/core";
 import { useEffect, useState } from "react";
 import {
   ReactCompareSlider,
@@ -36,12 +37,11 @@ export default function Image2() {
 
   const selectImage = () => {
     console.debug("selecting image");
-    dialog
-      .open({
-        multiple: false,
-        title: "Select an Image",
-        directory: false,
-      })
+    open({
+      multiple: false,
+      title: "Select an Image",
+      directory: false,
+    })
       .then(async (p) => {
         if (!p) return; // no path
 
@@ -63,6 +63,8 @@ export default function Image2() {
 
   const resize = async () => {
     if (!imageSrc) return;
+    console.log("resize", imageSrc);
+
     setLoading(true);
     console.time("resize");
     invoke<any>("compress_images_to_buffer", {
@@ -71,7 +73,9 @@ export default function Image2() {
       format: imageType,
     })
       .then((buff) => {
-        const blob = new Blob([new Uint8Array(buff)], { type: "image/jpeg" });
+        const blob = new Blob([new Uint8Array(buff)], {
+          type: "image/jpeg",
+        });
         const url = URL.createObjectURL(blob);
         console.timeEnd("resize");
         setSizes({
@@ -101,10 +105,7 @@ export default function Image2() {
     const blob = await fetch(converted).then((x) => x.blob());
 
     const buffer = await blob.arrayBuffer();
-    fs.writeBinaryFile({
-      path: downloadPath,
-      contents: new Uint8Array(buffer),
-    });
+    writeFile(downloadPath, new Uint8Array(buffer));
   };
 
   useEffect(() => {

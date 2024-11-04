@@ -42,7 +42,7 @@ export const SingleTab = ({
             setCode(JSON.stringify(JSON.parse(code), null, 2));
           }}
         >
-          <IconIndentIncrease />
+          <IconIndentIncrease style={{ height: 16, width: 16 }} />
         </ControlIcon>
         <ControlIcon
           label="Minify JSON"
@@ -50,7 +50,7 @@ export const SingleTab = ({
             setCode(JSON.stringify(JSON.parse(code)));
           }}
         >
-          <IconPilcrow />
+          <IconPilcrow style={{ height: 16, width: 16 }} />
         </ControlIcon>
         <ControlIcon
           label="Word Wrap"
@@ -61,7 +61,7 @@ export const SingleTab = ({
             })
           }
         >
-          <IconTextWrap />
+          <IconTextWrap style={{ height: 16, width: 16 }} />
         </ControlIcon>
       </Box>
       <Monaco

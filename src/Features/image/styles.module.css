@@ -19,6 +19,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  display: flex;
+  align-items: start;
+  gap: 5px;
 }
 
 .done {

@@ -56,6 +56,7 @@ export default function Cron() {
         td="underline"
         style={{
           cursor: "pointer",
+          userSelect: "none",
         }}
         onClick={() => {
           setCron(generateRandomCron());
@@ -72,7 +73,6 @@ export default function Cron() {
     </Stack>
   );
 }
-
 function generateRandomCron() {
   const rand = (max: number) => Math.floor(Math.random() * max);
   const randHour = rand(24);

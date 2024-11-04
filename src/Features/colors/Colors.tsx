@@ -11,7 +11,7 @@ import {
 import { useState } from "react";
 import CustomPicker from "./CustomPicker";
 import { IconMoon, IconSun } from "@tabler/icons-react";
-import { clipboard } from "@tauri-apps/api";
+import {} from "@tauri-apps/api";
 import {
   Convert,
   getInterpolateShades,
@@ -21,6 +21,7 @@ import {
 import { RenderShades } from "./RenderShades";
 import { useColorState } from "@/hooks";
 import { EditableColorOutput } from "@/Features/colors/ColorEditableOutput";
+import * as clipboard from "@tauri-apps/plugin-clipboard-manager";
 
 const Colors = () => {
   const [color, setColor, conversions] = useColorState();
