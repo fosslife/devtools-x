@@ -44,7 +44,7 @@
   },
   "productName": "dev-tools",
   "mainBinaryName": "dev-tools",
-  "version": "2.15.0",
+  "version": "3.0.0",
   "identifier": "com.fosslife.devtoolsx",
   "plugins": {
     "updater": {

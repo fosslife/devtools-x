@@ -1,6 +1,6 @@
 {
   "name": "dev-tools",
-  "version": "2.15.0",
+  "version": "3.0.0",
   "license": "MIT",
   "type": "module",
   "scripts": {
