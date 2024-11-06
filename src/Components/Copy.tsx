@@ -1,6 +1,7 @@
 import { Button, CopyButton, Tooltip } from "@mantine/core";
-import { clipboard } from "@tauri-apps/api";
+import {} from "@tauri-apps/api";
 import { IconCheck, IconCopy } from "@tabler/icons-react";
+import * as clipboard from "@tauri-apps/plugin-clipboard-manager";
 
 export function Copy({
   value,

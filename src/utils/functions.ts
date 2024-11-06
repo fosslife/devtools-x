@@ -1,6 +1,6 @@
 import { notifications } from "@mantine/notifications";
-import { open, save } from "@tauri-apps/api/dialog";
-import { readBinaryFile, readTextFile, writeFile } from "@tauri-apps/api/fs";
+import { open, save } from "@tauri-apps/plugin-dialog";
+import { readFile, readTextFile, writeFile } from "@tauri-apps/plugin-fs";
 
 interface DialogFilter {
   /** Filter name. */
@@ -43,7 +43,7 @@ export async function openFileAndGetData<T extends FileType>(
         ? ((await readTextFile(file as string)) as unknown as Promise<
             ResponseType<T>
           >)
-        : ((await readBinaryFile(file as string)) as unknown as Promise<
+        : ((await readFile(file as string)) as unknown as Promise<
             ResponseType<T>
           >);
     return data;
@@ -69,10 +69,9 @@ export async function saveDataToFile(
     });
   }
 
-  await writeFile({
-    path: path as string,
-    contents,
-  }).then(() => {
+  const data = new TextEncoder().encode(contents);
+
+  await writeFile(path, data).then(() => {
     notifications.show({
       title: notification?.title || "Success!",
       message: notification?.message || "File saved successfully",

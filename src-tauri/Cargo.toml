@@ -1,6 +1,6 @@
 [package]
 name = "devtools-x"
-version = "2.15.0"
+version = "3.0.0"
 description = "Developer tools desktop application"
 authors = ["Sparkenstein"]
 license = "MIT"
@@ -10,13 +10,16 @@ edition = "2018"
 build = "src/build.rs"
 
 [build-dependencies]
-tauri-build = { version = "1.5.3", features = [] }
+tauri-build = { version = "2", features = [] }
 
 [dependencies]
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.7.1", features = [ "dialog-ask", "updater", "protocol-all", "http-all", "dialog-open", "dialog-confirm", "clipboard-all", "dialog-save", "fs-all", "devtools"] }
-tauri-plugin-store = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
+tauri = { version = "2", features = [ "protocol-asset", "devtools"] }
+tauri-plugin-store = { version = "2" }
+tauri-plugin-dialog = "2"
+tauri-plugin-fs = "2.0.0"
+tauri-plugin-clipboard-manager = "2.0.0"
 md-5 = "0.10.5"
 base16ct = { version = "0.2.0", features = ["alloc"] }
 rayon = "1.7.0"
@@ -36,15 +39,13 @@ oxipng = { version = "9.0", features = [
 ], default-features = false }
 webp = "0.2"
 base64 = "0.21.7"
-tauri-plugin-aptabase = "0.4"
 flate2 = "1.0"
 bardecoder = "0.5.0"
 imageinfo = "0.7.17"
 
 [dependencies.tauri-plugin-sql]
-git = "https://github.com/tauri-apps/plugins-workspace"
-branch = "v1"
 features = ["sqlite"] # or "postgres", or "mysql"
+version = "2"
 
 [features]
 default = ["custom-protocol"]

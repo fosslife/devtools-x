@@ -26,7 +26,7 @@ import { minify as cssMinify } from "csso";
 import { minify as terserMinify } from "terser";
 
 import { Monaco } from "@/Components/MonacoWrapper";
-import { invoke } from "@tauri-apps/api";
+import { invoke } from "@tauri-apps/api/core";
 
 const map: Record<string, prettier.BuiltInParserName> = {
   css: "css",

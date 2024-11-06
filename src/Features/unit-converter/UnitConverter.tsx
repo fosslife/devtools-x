@@ -124,3 +124,5 @@ const UnitConverter = () => {
 };
 
 export default UnitConverter;
+
+// TODO: if possible rewrite this module with https://www.npmjs.com/package/convert

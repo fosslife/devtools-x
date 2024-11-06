@@ -57,14 +57,14 @@ const Random = () => {
 
     const pass = generate(options);
 
-    let passwordLength = pass.length;
     let poolsize = 0;
     if (checkboxes.includes("lowercase")) poolsize += 26;
     if (checkboxes.includes("uppercase")) poolsize += 26;
     if (checkboxes.includes("symbols")) poolsize += 32;
     if (checkboxes.includes("numbers")) poolsize += 10;
 
-    const entropy = Math.log2(Math.pow(poolsize, passwordLength));
+    const entropy = Math.log2(Math.pow(poolsize, length));
+
     return { pass, entropy: entropy };
   };
 

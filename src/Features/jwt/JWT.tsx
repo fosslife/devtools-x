@@ -212,8 +212,8 @@ const JWTEditor = () => {
           />
           <style>{`.editor__purple * { color: #d63aff; }`}</style>
         </div>
-        <Text c="dimmed" size="sm">
-          <strong>Secret</strong> {isVerified ? "Verified" : "Not Verified"}
+        <Text c={isVerified ? "green" : "red"} size="sm">
+          <strong>Secret {isVerified ? "Verified" : "Not Verified"}</strong>
         </Text>
         <div
           style={{

@@ -1,3 +1,10 @@
 .page {
   scroll-margin-top: 3rem;
 }
+
+.fastpdf {
+  flex: 1;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+}

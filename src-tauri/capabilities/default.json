@@ -1,0 +1,13 @@
+{
+  "identifier": "default",
+  "description": "default permissions",
+  "windows": ["main"],
+  "permissions": [
+    "store:default",
+    "sql:default",
+    "sql:allow-execute",
+    "dialog:default",
+    "fs:write-all",
+    "clipboard-manager:allow-write-text"
+  ]
+}

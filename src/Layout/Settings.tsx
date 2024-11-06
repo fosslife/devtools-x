@@ -16,7 +16,7 @@ import { version } from "../../package.json";
 
 import { db } from "@/utils";
 import { openFileAndGetData, saveDataToFile } from "@/utils/functions";
-import { confirm } from "@tauri-apps/api/dialog";
+import { confirm } from "@tauri-apps/plugin-dialog";
 import { useLocalStorage } from "@mantine/hooks";
 import { useAppContext } from "@/Contexts/AppContextProvider";
 import { themes } from "./themes";
@@ -103,7 +103,7 @@ export const Settings = () => {
   const resetSidebar = async () => {
     let c = await confirm("reset sidebar order?", {
       title: "Reset sidebar",
-      type: "warning",
+      kind: "warning",
     });
     if (c) {
       await db.set("sidebar", []);

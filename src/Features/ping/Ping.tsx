@@ -6,7 +6,7 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
-import { invoke } from "@tauri-apps/api";
+import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
 import { useEffect, useState } from "react";
 

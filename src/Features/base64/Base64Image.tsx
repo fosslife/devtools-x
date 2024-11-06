@@ -2,8 +2,9 @@ import { Button, Divider, Select, Stack, Textarea } from "@mantine/core";
 import { useState } from "react";
 
 import { Copy } from "@/Components/Copy";
-import { fs, invoke } from "@tauri-apps/api";
-import { open, save } from "@tauri-apps/api/dialog";
+import { invoke } from "@tauri-apps/api/core";
+import { open, save } from "@tauri-apps/plugin-dialog";
+import * as fs from "@tauri-apps/plugin-fs";
 
 type Mode = "image" | "text";
 
@@ -40,7 +41,7 @@ const Base64 = () => {
       for (let i = 0; i < binaryString.length; i++) {
         bytes[i] = binaryString.charCodeAt(i);
       }
-      await fs.writeBinaryFile(file, bytes);
+      await fs.writeFile(file, bytes);
     }
   };
 

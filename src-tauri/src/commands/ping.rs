@@ -2,7 +2,7 @@ pub mod ping {
   use serde::{Deserialize, Serialize};
   use std::{net::IpAddr, time::Duration};
   use surge_ping::{Client, Config, IcmpPacket, PingIdentifier, PingSequence, ICMP};
-  use tauri::Runtime;
+  use tauri::{Emitter, Runtime};
   use tokio::time;
 
   #[derive(Debug, Clone, Deserialize, Serialize)]

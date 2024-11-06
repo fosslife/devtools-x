@@ -10,6 +10,7 @@ pub mod images {
     ops::Deref,
     path::Path,
   };
+  use tauri::Emitter;
   use tokio::time::Instant;
   use webp::Encoder as WebPEncoder;
 
