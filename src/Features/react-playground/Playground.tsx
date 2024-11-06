@@ -6,13 +6,16 @@ const boilerplate = `
 // access to entire \`React\` is auto injected. 
 
 function App() {
-    const [count, setCount] = React.useState<string>(0);
+  const [count, setCount] = React.useState(0);
 
-    return <div>
-        <h4>Counter: {count}</h4>
-        <button onClick={() => setCount(count + 1)}>add1</button>
+  return (
+    <div>
+      <h4>Counter: {count}</h4>
+      <button onClick={() => setCount(count + 1)}>add1</button>
     </div>
+  );
 }
+
 
 `;
 

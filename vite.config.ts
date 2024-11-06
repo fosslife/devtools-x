@@ -12,21 +12,7 @@ export default defineConfig({
   server: {
     port: 3000,
   },
-  plugins: [
-    {
-      name: "configure-response-headers",
-      configureServer: (server) => {
-        server.middlewares.use((_req, res, next) => {
-          res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
-          res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
-          next();
-        });
-      },
-    },
-    react(),
-    copyMonaco(),
-    tsconfigPaths(),
-  ],
+  plugins: [react(), copyMonaco(), tsconfigPaths()],
 
   build: {
     target: ["chrome95", "edge95", "esnext", "firefox95", "safari16"],

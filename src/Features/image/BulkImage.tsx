@@ -9,11 +9,11 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import { invoke } from "@tauri-apps/api";
-import { open } from "@tauri-apps/api/dialog";
+import { invoke } from "@tauri-apps/api/core";
+import { open } from "@tauri-apps/plugin-dialog";
 import { useEffect, useState } from "react";
 import classes from "./styles.module.css";
-import { MdInfo } from "react-icons/md";
+import { IconArrowRight, IconCheck, IconInfoCircle } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import { listen } from "@tauri-apps/api/event";
 import clsx from "clsx";
@@ -26,6 +26,7 @@ type Images = {
 export default function BulkImageCompressor() {
   const [images, setImages] = useState<Images[]>([]);
   const [destination, setDestination] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const [quality, setQuality] = useState<number>(50);
   const [output, setOutput] = useState<string>("");
   const [format, setFormat] = useState<string>("Jpeg");
@@ -78,12 +79,14 @@ export default function BulkImageCompressor() {
     if (quality < 0 || quality > 100) {
       return;
     }
+    setLoading(true);
     invoke("compress_images", {
       images: images.map((i) => i.image),
       destination,
       quality,
     }).then((result) => {
       setOutput(result as string);
+      setLoading(false);
     });
   };
 
@@ -97,8 +100,15 @@ export default function BulkImageCompressor() {
     >
       <Group>
         <Button onClick={selectImages}>Select images</Button>
-        <Button onClick={selectDestination}>Select output folder</Button>
-        <Button onClick={convert} disabled={!images.length || !destination}>
+        <IconArrowRight />
+        <Button onClick={selectDestination} disabled={!images.length}>
+          Select output folder
+        </Button>
+        <IconArrowRight />
+        <Button
+          onClick={convert}
+          disabled={!images.length || !destination || loading}
+        >
           Convert{" "}
         </Button>
       </Group>
@@ -122,7 +132,7 @@ export default function BulkImageCompressor() {
           allowDeselect={false}
         />
         <ActionIcon onClick={openModal}>
-          <MdInfo />
+          <IconInfoCircle />
         </ActionIcon>
       </Group>
 
@@ -141,6 +151,7 @@ export default function BulkImageCompressor() {
             })}
             key={image.image}
           >
+            {image.done && <IconCheck />}
             <Text>{image.image}</Text>
           </Box>
         ))}

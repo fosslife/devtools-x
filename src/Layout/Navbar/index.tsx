@@ -9,7 +9,7 @@ import {
 } from "@mantine/core";
 import React, { useEffect, useMemo, useState } from "react";
 
-import { MdHome, MdMenu, MdMenuOpen } from "react-icons/md";
+import { IconHome, IconMenu2, IconX } from "@tabler/icons-react";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import cx from "clsx";
@@ -174,7 +174,7 @@ export const Navbar = () => {
             onClick={() => nav("/")}
             display={iconMode ? "none" : "flex"}
           >
-            <MdHome />
+            <IconHome width={16} />
           </ActionIcon>
           <Select
             data={dropDownItems}
@@ -206,7 +206,7 @@ export const Navbar = () => {
               setIconMode(!iconMode);
             }}
           >
-            {iconMode ? <MdMenu /> : <MdMenuOpen />}
+            {iconMode ? <IconMenu2 width={16} /> : <IconX width={16} />}
           </ActionIcon>
         </Group>
       </Stack>

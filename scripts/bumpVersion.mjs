@@ -17,6 +17,13 @@ const version = packageJson.version;
 
 const versionParts = version.split(".");
 
+// check if args provided
+if (process.argv.length < 3) {
+  console.error("No argument provided. Please provide a part to bump.");
+  console.log("Usage: node scripts/bumpVersion.mjs <major|minor|patch>");
+  process.exit(1);
+}
+
 const bumpPart =
   process.argv[2] === "major"
     ? "major"
@@ -33,7 +40,7 @@ const newVersion =
 
 packageJson.version = newVersion;
 
-tauriConf.package.version = newVersion;
+tauriConf.version = newVersion;
 
 const newCargoToml = cargoToml.replace(
   /version = "(.*)"/,

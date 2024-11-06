@@ -17,19 +17,17 @@ import { useCallback, useState } from "react";
 import { faker } from "@faker-js/faker";
 import { Monaco } from "@/Components/MonacoWrapper";
 import {
-  MdOutlineRemove,
-  MdOutlineClose,
-  MdOutlineWarning,
-  MdAdd,
-} from "react-icons/md";
+  IconX,
+  IconSquareX,
+  IconAlertCircle,
+  IconPlus,
+} from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
 import YAML from "js-yaml";
 
-const errorIcon = (
-  <MdOutlineClose style={{ width: rem(20), height: rem(20) }} />
-);
+const errorIcon = <IconSquareX style={{ width: rem(20), height: rem(20) }} />;
 const warningIcon = (
-  <MdOutlineWarning style={{ width: rem(20), height: rem(20) }} />
+  <IconAlertCircle style={{ width: rem(20), height: rem(20) }} />
 );
 
 /**
@@ -391,16 +389,14 @@ export default function Faker() {
                       variant="default"
                       aria-label="Settings"
                     >
-                      <MdOutlineRemove
-                        style={{ width: "70%", height: "70%" }}
-                      />
+                      <IconX style={{ width: "70%", height: "70%" }} />
                     </ActionIcon>
                   </Group>
                 ))}
               </ScrollArea.Autosize>
               <Group justify="space-between">
                 {" "}
-                <Button onClick={addField} rightSection={<MdAdd />}>
+                <Button onClick={addField} rightSection={<IconPlus />}>
                   Add{" "}
                 </Button>
                 <Button onClick={generate}>Generate</Button>

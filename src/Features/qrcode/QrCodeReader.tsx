@@ -1,6 +1,6 @@
 import { Button, Group, Stack, Textarea } from "@mantine/core";
-import { invoke } from "@tauri-apps/api";
-import { open } from "@tauri-apps/api/dialog";
+import { invoke } from "@tauri-apps/api/core";
+import { open } from "@tauri-apps/plugin-dialog";
 import { useState } from "react";
 
 function QrCodeReader() {
@@ -23,15 +23,17 @@ function QrCodeReader() {
   return (
     <Stack align="start">
       <Button onClick={readQR}>Select QR image</Button>
-      <Group w="100%">
-        <Textarea
-          w="100%"
-          autosize
-          minRows={10}
-          value={qrData || ""}
-          readOnly
-        />
-      </Group>
+      {qrData && (
+        <Group w="100%">
+          <Textarea
+            w="100%"
+            autosize
+            minRows={10}
+            value={qrData || ""}
+            readOnly
+          />
+        </Group>
+      )}
     </Stack>
   );
 }

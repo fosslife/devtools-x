@@ -6,14 +6,14 @@ import {
 } from "@hello-pangea/dnd";
 import cx from "clsx";
 import { ActionIcon, Box, Stack, Text, Tooltip } from "@mantine/core";
-import { VscPin, VscPinned } from "react-icons/vsc";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { trackOtherEvent } from "@/utils/analytics";
 import { db } from "@/utils";
 
 import classes from "./ungrouped.module.css";
 import { NavItem } from "..";
-import { MdDragIndicator } from "react-icons/md";
+import { IconMenuOrder, IconPin, IconPinned } from "@tabler/icons-react";
+import { cloneElement, ReactElement } from "react";
 
 type UngroupedViewProps = {
   navItems: NavItem[];
@@ -88,9 +88,11 @@ export const UngroupedView = ({
                               size={"xs"}
                               variant="subtle"
                             >
-                              <MdDragIndicator />
+                              <IconMenuOrder />
                             </ActionIcon>
-                            <Text className={classes.rowIcon}>{e.icon}</Text>
+                            {cloneElement(e.icon as ReactElement, {
+                              size: "16px",
+                            })}
                             {e.extra ? (
                               <Tooltip label={e.extra}>
                                 <Text
@@ -130,9 +132,9 @@ export const UngroupedView = ({
                               }}
                             >
                               {pinExists ? (
-                                <VscPinned size="15px" />
+                                <IconPinned size="15px" />
                               ) : (
-                                <VscPin size="15px" />
+                                <IconPin size="15px" />
                               )}
                             </ActionIcon>
                           </Box>

@@ -10,11 +10,15 @@ import {
   Text,
 } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
-import { dialog, fs, invoke } from "@tauri-apps/api";
-import { save } from "@tauri-apps/api/dialog";
-import { convertFileSrc } from "@tauri-apps/api/tauri";
+import { invoke } from "@tauri-apps/api/core";
+import { save, open } from "@tauri-apps/plugin-dialog";
+import { writeFile } from "@tauri-apps/plugin-fs";
+import { convertFileSrc } from "@tauri-apps/api/core";
 import { useEffect, useState } from "react";
-import { ReactCompareSlider } from "react-compare-slider";
+import {
+  ReactCompareSlider,
+  ReactCompareSliderImage,
+} from "react-compare-slider";
 
 type ImageType = "Jpeg" | "Png" | "Webp";
 
@@ -33,12 +37,11 @@ export default function Image2() {
 
   const selectImage = () => {
     console.debug("selecting image");
-    dialog
-      .open({
-        multiple: false,
-        title: "Select an Image",
-        directory: false,
-      })
+    open({
+      multiple: false,
+      title: "Select an Image",
+      directory: false,
+    })
       .then(async (p) => {
         if (!p) return; // no path
 
@@ -60,6 +63,8 @@ export default function Image2() {
 
   const resize = async () => {
     if (!imageSrc) return;
+    console.log("resize", imageSrc);
+
     setLoading(true);
     console.time("resize");
     invoke<any>("compress_images_to_buffer", {
@@ -68,7 +73,9 @@ export default function Image2() {
       format: imageType,
     })
       .then((buff) => {
-        const blob = new Blob([new Uint8Array(buff)], { type: "image/jpeg" });
+        const blob = new Blob([new Uint8Array(buff)], {
+          type: "image/jpeg",
+        });
         const url = URL.createObjectURL(blob);
         console.timeEnd("resize");
         setSizes({
@@ -98,10 +105,7 @@ export default function Image2() {
     const blob = await fetch(converted).then((x) => x.blob());
 
     const buffer = await blob.arrayBuffer();
-    fs.writeBinaryFile({
-      path: downloadPath,
-      contents: new Uint8Array(buffer),
-    });
+    writeFile(downloadPath, new Uint8Array(buffer));
   };
 
   useEffect(() => {
@@ -126,16 +130,15 @@ export default function Image2() {
       {converted && (
         <Box>
           <ReactCompareSlider
+            transition="0.25s cubic-bezier(0.645, 0.045, 0.355, 1)"
             style={{
               width: "100%",
-              height: "100vh",
+              height: "70vh",
             }}
             onlyHandleDraggable={true}
             itemOne={
-              <img
+              <ReactCompareSliderImage
                 style={{
-                  width: "100%",
-                  height: "100%",
                   objectFit: "contain",
                 }}
                 src={convertFileSrc(imageSrc)}
@@ -143,10 +146,8 @@ export default function Image2() {
               />
             }
             itemTwo={
-              <img
+              <ReactCompareSliderImage
                 style={{
-                  width: "100%",
-                  height: "100%",
                   objectFit: "contain",
                 }}
                 src={converted}
@@ -204,7 +205,8 @@ export default function Image2() {
           </Stack>
           {converted && (
             <Text c={"dimmed"} size="xs">
-              NOTE: extremly large images may take a while to load.
+              NOTE: Large images may take a while to load, instead try
+              squoosh.app/
             </Text>
           )}
         </Box>

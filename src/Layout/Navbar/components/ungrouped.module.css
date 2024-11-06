@@ -60,7 +60,7 @@
 
 .listTitle {
   display: flex;
-  gap: 5px;
+  gap: 10px;
   align-items: center;
   flex-direction: row;
   text-align: center;
@@ -120,6 +120,5 @@
 
 .rowIcon {
   margin-top: 5px;
-  font-size: 14px;
   color: light-dark(var(--mantine-color-dark-7), var(--mantine-color-dark-1));
 }

@@ -1,12 +1,12 @@
 import { Accordion, Stack, Group, ActionIcon, Text } from "@mantine/core";
-import { VscPinned, VscPin } from "react-icons/vsc";
+import { IconPin, IconPinned } from "@tabler/icons-react";
 import cx from "clsx";
 import { groupIcons } from "../items";
 import { DropDownItem } from "..";
 
 import classes from "../styles.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { cloneElement, ReactElement, useEffect, useState } from "react";
 
 type GroupedViewProps = {
   dropDownItems: DropDownItem[];
@@ -48,8 +48,18 @@ export const GroupedView = ({
         .map((group) => {
           return (
             <Accordion.Item key={group.group} value={group.group}>
-              <Accordion.Control icon={groupIcons[group.group]}>
-                <Text fz="1rem">{group.group}</Text>
+              <Accordion.Control
+                icon={cloneElement(groupIcons[group.group], {
+                  size: "16px",
+                })}
+                styles={{
+                  icon: {
+                    height: "20px",
+                    width: "20px",
+                  },
+                }}
+              >
+                <Text size="sm">{group.group}</Text>
               </Accordion.Control>
               <Accordion.Panel>
                 <Stack gap={5}>
@@ -69,10 +79,10 @@ export const GroupedView = ({
                         onClick={() => nav(i.value)}
                       >
                         <Group wrap="nowrap">
-                          <Text fz="md" mt={7}>
-                            {i.icon}
-                          </Text>
-                          <Text truncate={"end"} fz={"0.9rem"}>
+                          {cloneElement(i.icon as ReactElement, {
+                            size: "16px",
+                          })}
+                          <Text truncate={"end"} size="xs">
                             {i.label}
                           </Text>
                         </Group>
@@ -91,9 +101,9 @@ export const GroupedView = ({
                           }}
                         >
                           {pinExists ? (
-                            <VscPinned size="15px" />
+                            <IconPinned size="15px" />
                           ) : (
-                            <VscPin size="15px" />
+                            <IconPin size="15px" />
                           )}
                         </ActionIcon>
                       </Group>

@@ -1,6 +1,6 @@
 import { Group, Select, Stack, Text, Textarea } from "@mantine/core";
 import { useDebouncedValue, useInputState } from "@mantine/hooks";
-import { invoke } from "@tauri-apps/api";
+import { invoke } from "@tauri-apps/api/core";
 import { useEffect, useState } from "react";
 
 const algorithms = ["gzip", "deflate", "zlib"];

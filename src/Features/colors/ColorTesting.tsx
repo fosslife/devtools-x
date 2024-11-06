@@ -2,7 +2,7 @@ import classes from "./styles.module.css";
 import { Group, Stack, Text } from "@mantine/core";
 import { Fragment, useMemo } from "react";
 import CustomPicker from "./CustomPicker";
-import { clipboard } from "@tauri-apps/api";
+import {} from "@tauri-apps/api";
 import {
   blindnessStats,
   getColorContrast as checker,
@@ -11,6 +11,7 @@ import {
 import { RenderShades } from "./RenderShades";
 import { useColorState } from "@/hooks";
 import { EditableColorOutput } from "@/Features/colors/ColorEditableOutput";
+import * as clipboard from "@tauri-apps/plugin-clipboard-manager";
 
 const Colors = () => {
   const [color, setColor, conversions] = useColorState();
@@ -40,12 +41,8 @@ const Colors = () => {
 
       <EditableColorOutput conversions={conversions} />
 
-      <Group
-        gap={10}
-        grow
-        style={{ marginTop: 14, marginBottom: 14, width: "95%" }}
-      >
-        <Stack align="center" style={{ width: "100%" }}>
+      <Stack gap={10} style={{ marginTop: 14, marginBottom: 14, width: "95%" }}>
+        <Group grow align="center" style={{ width: "100%" }}>
           <div className={classes.grid} style={{ width: "100%" }}>
             {stats.map(({ data, info }) => (
               <div key={info.name} style={{ width: "100%" }}>
@@ -56,7 +53,6 @@ const Colors = () => {
                   className={classes.simulation_heading}
                 >
                   {info.name}
-
                   {/*    tag */}
                   <span
                     style={{
@@ -65,7 +61,7 @@ const Colors = () => {
                       fontWeight: "bold",
                       padding: "0 5px",
                       borderRadius: "5px",
-                      marginLeft: "auto",
+                      // marginLeft: "auto",
                       fontSize: "0.8rem",
                     }}
                   >
@@ -81,13 +77,13 @@ const Colors = () => {
               </div>
             ))}
           </div>
-        </Stack>
+        </Group>
 
         <Group style={{ width: "100%", justifyContent: "center" }}>
           <ContrastContent color={color} background={"#ffffff"} />
           <ContrastContent color={color} background={"#000000"} />
         </Group>
-      </Group>
+      </Stack>
     </Stack>
   );
 };
@@ -95,9 +91,7 @@ const Colors = () => {
 export const ContrastContent = ({
   color,
   background = "#000000",
-  toggle,
 }: {
-  toggle?: () => void;
   background: string;
   color: string;
 }) => {
@@ -109,7 +103,6 @@ export const ContrastContent = ({
       <Text size={"xl"}>WCAG contrast</Text>
       <div style={{ display: "flex", width: "100%" }}>
         <span
-          onClick={() => (toggle ? toggle() : null)}
           className={`${classes.box} ${background === "#ffffff" ? "dark" : "light"}`}
           style={{ color: color, background }}
         >

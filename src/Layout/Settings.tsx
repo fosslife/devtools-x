@@ -10,13 +10,13 @@ import {
   useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
-import { TbCheck, TbMoon, TbSun, TbX } from "react-icons/tb";
+import { IconCheck, IconMoon, IconSun, IconX } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
 import { version } from "../../package.json";
 
 import { db } from "@/utils";
 import { openFileAndGetData, saveDataToFile } from "@/utils/functions";
-import { confirm } from "@tauri-apps/api/dialog";
+import { confirm } from "@tauri-apps/plugin-dialog";
 import { useLocalStorage } from "@mantine/hooks";
 import { useAppContext } from "@/Contexts/AppContextProvider";
 import { themes } from "./themes";
@@ -32,28 +32,28 @@ export const Settings = () => {
   });
 
   const sunIcon = (
-    <TbSun
+    <IconSun
       style={{ width: rem(16), height: rem(16) }}
       color={theme.colors.yellow[4]}
     />
   );
 
   const moonIcon = (
-    <TbMoon
+    <IconMoon
       style={{ width: rem(16), height: rem(16) }}
       color={theme.colors.blue[6]}
     />
   );
 
   const yesIcon = (
-    <TbCheck
+    <IconCheck
       style={{ width: rem(16), height: rem(16) }}
       color={theme.colors.green[6]}
     />
   );
 
   const noIcon = (
-    <TbX
+    <IconX
       style={{ width: rem(16), height: rem(16) }}
       color={theme.colors.red[6]}
     />
@@ -103,7 +103,7 @@ export const Settings = () => {
   const resetSidebar = async () => {
     let c = await confirm("reset sidebar order?", {
       title: "Reset sidebar",
-      type: "warning",
+      kind: "warning",
     });
     if (c) {
       await db.set("sidebar", []);

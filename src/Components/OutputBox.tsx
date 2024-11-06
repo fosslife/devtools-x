@@ -6,9 +6,10 @@ import {
   Input,
   MantineSize,
 } from "@mantine/core";
-import { clipboard } from "@tauri-apps/api";
+import {} from "@tauri-apps/api";
 import { CSSProperties, HTMLInputTypeAttribute, useState } from "react";
-import { FaCopy, FaEye } from "react-icons/fa";
+import { IconCopy, IconEye } from "@tabler/icons-react";
+import * as clipboard from "@tauri-apps/plugin-clipboard-manager";
 
 function OutputBox({
   label,
@@ -48,13 +49,13 @@ function OutputBox({
                   setType(type === "password" ? "text" : "password")
                 }
               >
-                <FaEye />
+                <IconCopy />
               </ActionIcon>
             ) : null}
             <CopyButton value={value}>
               {({ copied, copy }) => (
                 <Button
-                  leftSection={btnLabel === "Copy" ? <FaCopy /> : null}
+                  leftSection={btnLabel === "Copy" ? <IconEye /> : null}
                   size={size || "xs"}
                   // fullWidth={true}
                   onClick={() => {

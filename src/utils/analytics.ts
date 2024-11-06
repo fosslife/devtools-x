@@ -1,4 +1,8 @@
-import { trackEvent } from "@aptabase/tauri";
+// import { trackEvent } from "@aptabase/tauri";
+
+function trackEvent(event: string, data: any) {
+  console.log("trackEvent", event, data);
+}
 
 function trackPageView(page: string) {
   trackEvent("page_view", { page });

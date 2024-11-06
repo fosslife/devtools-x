@@ -18,7 +18,7 @@ import {
 import { Spotlight } from "@mantine/spotlight";
 import { loader } from "@monaco-editor/react";
 import { useEffect, useState } from "react";
-import { FaSearch } from "react-icons/fa";
+import { IconSearch } from "@tabler/icons-react";
 import { useShepherdTour } from "react-shepherd";
 import steps from "./utils/steps";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
@@ -51,6 +51,7 @@ const TextDiff = loadable(() => import("./Features/text/TextDiff"));
 const TextUtils = loadable(() => import("./Features/text/TextUtils"));
 const Markdown = loadable(() => import("./Features/markdown/Markdown"));
 const Readme = loadable(() => import("./Features/markdown/Readme"));
+const Snippets = loadable(() => import("./Features/snippets/Snippets"));
 const YamlJson = loadable(() => import("./Features/json-yaml/Yaml"));
 const Pastebin = loadable(() => import("./Features/pastebin/Pastebin"));
 const Repl = loadable(() => import("./Features/repl/Repl"));
@@ -237,6 +238,7 @@ function App() {
               <Route path="/markdown" element={<Markdown />}></Route>
               <Route path="/readme" element={<Readme />}></Route>
               <Route path="/yamljson" element={<YamlJson />}></Route>
+              <Route path="/snippets" element={<Snippets />}></Route>
               <Route path="/pastebin" element={<Pastebin />}></Route>
               <Route path="/repl" element={<Repl />}></Route>
               <Route path="/image" element={<Image />}></Route>
@@ -282,7 +284,7 @@ function App() {
       <Spotlight
         shortcut={["mod + k", "/"]}
         searchProps={{
-          leftSection: <FaSearch />,
+          leftSection: <IconSearch />,
           placeholder: "Jump to",
         }}
         actions={data.map((a) => ({

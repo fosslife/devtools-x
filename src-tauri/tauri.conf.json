@@ -1,86 +1,68 @@
 {
-  "package": {
-    "productName": "dev-tools",
-    "version": "2.15.0"
-  },
-  "build": {
-    "distDir": "../dist",
-    "devPath": "http://localhost:3000",
-    "beforeDevCommand": "yarn dev",
-    "beforeBuildCommand": "yarn build",
-    "beforeBundleCommand": "node scripts/compress.mjs"
-  },
-  "tauri": {
-    "bundle": {
-      "active": true,
-      "targets": "all",
-      "identifier": "com.fosslife.devtoolsx",
-      "icon": [
-        "icons/32x32.png",
-        "icons/128x128.png",
-        "icons/128x128@2x.png",
-        "icons/icon.icns",
-        "icons/icon.ico"
-      ],
-      "resources": [],
-      "externalBin": [],
-      "copyright": "",
-      "category": "DeveloperTool",
-      "shortDescription": "Dev Tools",
-      "longDescription": "A cross-platform collection of developer friendly utilities",
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": ""
+    },
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "resources": [],
+    "externalBin": [],
+    "copyright": "",
+    "category": "DeveloperTool",
+    "shortDescription": "Dev Tools",
+    "longDescription": "A cross-platform collection of developer friendly utilities",
+    "macOS": {
+      "frameworks": [],
+      "minimumSystemVersion": "",
+      "exceptionDomain": "",
+      "signingIdentity": null,
+      "entitlements": null
+    },
+    "linux": {
       "deb": {
         "depends": []
-      },
-      "macOS": {
-        "frameworks": [],
-        "minimumSystemVersion": "",
-        "exceptionDomain": "",
-        "signingIdentity": null,
-        "entitlements": null,
-        "license": "a"
-      },
-      "windows": {
-        "certificateThumbprint": null,
-        "digestAlgorithm": "sha256",
-        "timestampUrl": ""
       }
     },
+    "licenseFile": "LICENSE",
+    "createUpdaterArtifacts": "v1Compatible"
+  },
+  "build": {
+    "beforeBundleCommand": "node scripts/compress.mjs",
+    "frontendDist": "../dist",
+    "beforeDevCommand": "yarn dev",
+    "beforeBuildCommand": "yarn build",
+    "devUrl": "http://localhost:3000"
+  },
+  "productName": "dev-tools",
+  "mainBinaryName": "dev-tools",
+  "version": "3.0.0",
+  "identifier": "com.fosslife.devtoolsx",
+  "plugins": {
     "updater": {
-      "active": true,
-      "dialog": true,
       "endpoints": [
         "https://github.com/fosslife/devtools-x/releases/latest/download/latest.json"
       ],
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IERCN0M1MDY1Q0QwRkM1OEUKUldTT3hRL05aVkI4MjhGUW9LSjhZMldoUmNSYmRNYnl0RGNrUW5NTk1lSmNtc2FJTE5NMUhRTzgK"
-    },
-    "allowlist": {
-      "all": false,
-      "fs": {
-        "all": true
-      },
-      "dialog": {
-        "all": false,
-        "ask": true,
-        "confirm": true,
-        "message": false,
-        "open": true,
-        "save": true
-      },
-      "clipboard": {
-        "all": true
-      },
-      "http": {
-        "all": true,
-        "request": true
-      },
-      "protocol": {
-        "all": true
-      }
-    },
-    "windows": [],
-    "security": {
-      "dangerousDisableAssetCspModification": true,
-      "csp": "default-src blob: data: filesystem: ws: wss: http: https: tauri: 'unsafe-eval' 'unsafe-inline' 'self' img-src: 'self'"
     }
+  },
+  "app": {
+    "security": {
+      "assetProtocol": {
+        "enable": true,
+        "scope": ["http://asset.localhost"]
+      },
+      "dangerousDisableAssetCspModification": false,
+      "csp": "default-src 'self' blob: data: filesystem: ws: wss: http: https: tauri: 'unsafe-eval' 'unsafe-inline'; worker-src blob: 'self' https://unpkg.com; script-src 'self' 'unsafe-eval' 'unsafe-inline';"
+    },
+    "windows": []
   }
 }

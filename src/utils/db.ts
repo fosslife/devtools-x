@@ -1,7 +1,7 @@
-import { Store } from "tauri-plugin-store-api";
-import { defaultConfig } from "../Contexts/AppContextProvider";
+import { LazyStore } from "@tauri-apps/plugin-store";
+import { defaultConfig } from "@/Contexts/AppContextProvider";
 
-const db = new Store("settings.json");
+const db = new LazyStore("settings.json");
 
 if (!(await db.length())) {
   await Promise.all([

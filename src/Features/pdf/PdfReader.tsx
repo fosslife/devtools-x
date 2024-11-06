@@ -1,52 +1,27 @@
-import { ActionIcon, Box, Button, Group, Stack, Tooltip } from "@mantine/core";
+import { Button, Group, Stack } from "@mantine/core";
 import { useState } from "react";
-import { pdfjs, Document, Page } from "react-pdf";
-import { convertFileSrc } from "@tauri-apps/api/tauri";
-import { open } from "@tauri-apps/api/dialog";
+import { convertFileSrc } from "@tauri-apps/api/core";
+import { open } from "@tauri-apps/plugin-dialog";
 
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
-import { SizeMe } from "react-sizeme";
-import {
-  MdKeyboardArrowLeft,
-  MdKeyboardArrowRight,
-  MdZoomIn,
-  MdZoomOut,
-} from "react-icons/md";
-
-import classes from "./styles.module.css";
-
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  "pdfjs-dist/build/pdf.worker.min.js",
-  import.meta.url
-).toString();
 
 export default function PdfReader() {
-  const [pdf, setPdf] = useState<ArrayBuffer>();
-  const [numPages, setNumPages] = useState<number>();
-  const [page, setPage] = useState<number>(1);
-  const [scale, setScale] = useState(1);
-
-  function onDocumentLoadSuccess({ numPages }: { numPages: number }): void {
-    setNumPages(numPages);
-  }
+  const [path, setPath] = useState<string>();
 
   const openFile = async () => {
+    setPath(undefined);
     let path = await open({
       directory: false,
       multiple: false,
     });
 
     if (path) {
-      fetch(convertFileSrc(path as string)).then((res) => {
-        res.arrayBuffer().then((buffer) => {
-          setPdf(buffer);
-        });
-      });
+      setPath(path);
     }
   };
 
-  if (!pdf) return <Button onClick={openFile}>Open file</Button>;
+  if (!path) return <Button onClick={openFile}>Open file</Button>;
 
   return (
     <Stack
@@ -58,71 +33,50 @@ export default function PdfReader() {
     >
       <Group
         style={{
-          position: "sticky",
-          top: 0,
+          position: "absolute",
+          bottom: 15,
           zIndex: 100,
           backgroundColor: "var(--mantine-color-dark-4)",
           boxShadow: "0 0 10px 0 rgba(0, 0, 0)",
           padding: "10px",
-          left: 0,
           right: 0,
         }}
       >
         <Button size="xs" onClick={openFile}>
           Open new
         </Button>
-        <ActionIcon onClick={() => setPage((p) => p - 1)} disabled={page === 1}>
-          <MdKeyboardArrowLeft />
-        </ActionIcon>
-        <Box>
-          {page} of {numPages}
-        </Box>
-        <ActionIcon
-          onClick={() => setPage((p) => p + 1)}
-          disabled={page === numPages}
-        >
-          <MdKeyboardArrowRight />
-        </ActionIcon>
-        <Tooltip label="Zoom in">
-          <ActionIcon onClick={() => setScale((scale) => scale + 0.5)}>
-            <MdZoomIn />
-          </ActionIcon>
-        </Tooltip>
-        <Tooltip label="Zoom out">
-          <ActionIcon
-            disabled={scale === 1}
-            onClick={() => setScale((scale) => scale - 0.5)}
-          >
-            <MdZoomOut />
-          </ActionIcon>
-        </Tooltip>
       </Group>
-      <SizeMe monitorWidth>
-        {({ size }) => (
-          <div>
-            <Document onLoadSuccess={onDocumentLoadSuccess} file={pdf}>
-              {Array.from(new Array(numPages), (el, index) => (
-                <Page
-                  scale={scale}
-                  className={classes.page}
-                  pageIndex={index + 1}
-                  inputRef={(ref) => {
-                    if (ref && page === index + 1)
-                      ref.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start",
-                      });
-                  }}
-                  key={`page_${index + 1}`}
-                  pageNumber={index + 1}
-                  width={size.width || 600}
-                  loading={<Box>loading</Box>}
-                />
-              ))}
-            </Document>
-          </div>
-        )}
-      </SizeMe>
+      {/* <div>
+        <Document onLoadSuccess={onDocumentLoadSuccess} file={pdf}>
+          {Array.from(new Array(numPages), (el, index) => (
+            <Page
+              scale={scale}
+              className={classes.page}
+              pageIndex={index + 1}
+              inputRef={(ref) => {
+                if (ref && page === index + 1)
+                  ref.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  });
+              }}
+              key={`page_${index + 1}`}
+              pageNumber={index + 1}
+              width={600}
+              loading={<Box>loading</Box>}
+            />
+          ))}
+        </Document>
+      </div> */}
+      <object
+        style={{
+          width: "100%",
+          height: "100%",
+        }}
+        aria-label="PDF document"
+        type="application/pdf"
+        data={convertFileSrc(path as string)}
+      />
     </Stack>
   );
 }

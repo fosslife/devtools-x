@@ -9,7 +9,7 @@ import {
   Text,
 } from "@mantine/core";
 import { useRef } from "react";
-import { FiMinus, FiPlus } from "react-icons/fi";
+import { IconPlus, IconMinus } from "@tabler/icons-react";
 
 interface QuantityInputProps {
   min: number;
@@ -41,7 +41,7 @@ export function QuantityInput({
           className={classes.control}
           onMouseDown={(event) => event.preventDefault()}
         >
-          <FiMinus />
+          <IconMinus />
         </ActionIcon>
 
         <NumberInput
@@ -62,7 +62,7 @@ export function QuantityInput({
           className={classes.control}
           onMouseDown={(event) => event.preventDefault()}
         >
-          <FiPlus />
+          <IconPlus />
         </ActionIcon>
       </Group>
     </Stack>

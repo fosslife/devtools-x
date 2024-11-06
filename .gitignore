@@ -13,3 +13,6 @@ assets/vips/
 
 .yarn
 .eslintcache
+.idea
+
+src-tauri/gen

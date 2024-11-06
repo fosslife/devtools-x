@@ -15,9 +15,8 @@ import { notifications } from "@mantine/notifications";
 //@ts-ignore
 import { generatePassword } from "lesspass";
 import { useEffect, useState } from "react";
-import { FaCheck } from "react-icons/fa";
-import { FiCheck } from "react-icons/fi";
-import { MdDelete } from "react-icons/md";
+
+import { IconCheck, IconX } from "@tabler/icons-react";
 
 import { OutputBox } from "@/Components/OutputBox";
 import { db } from "@/utils";
@@ -82,7 +81,7 @@ const StatelessPassword = () => {
 
         notifications.show({
           title: "Done",
-          icon: <FaCheck />,
+          icon: <IconCheck />,
           message: "Data stored to db",
         });
       });
@@ -236,7 +235,7 @@ const StatelessPassword = () => {
                       onClick={() => loadConfig(site, config)}
                       variant="filled"
                     >
-                      <FiCheck />
+                      <IconCheck />
                     </ActionIcon>
                     <ActionIcon
                       title="Delete Record"
@@ -248,7 +247,7 @@ const StatelessPassword = () => {
                       }}
                       variant="filled"
                     >
-                      <MdDelete />
+                      <IconX />
                     </ActionIcon>
                   </Group>
                 </Table.Td>

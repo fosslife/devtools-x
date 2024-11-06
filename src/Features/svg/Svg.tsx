@@ -1,8 +1,8 @@
 import { Box, Button, Group, Stack } from "@mantine/core";
 import { Monaco } from "@/Components/MonacoWrapper";
 import { useState } from "react";
-import { open } from "@tauri-apps/api/dialog";
-import { readTextFile } from "@tauri-apps/api/fs";
+import { open } from "@tauri-apps/plugin-dialog";
+import { readTextFile } from "@tauri-apps/plugin-fs";
 
 export default function SvgPreview() {
   const [svg, setSvg] = useState("");
