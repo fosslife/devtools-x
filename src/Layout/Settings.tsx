@@ -103,7 +103,7 @@ export const Settings = () => {
   const resetSidebar = async () => {
     let c = await confirm("reset sidebar order?", {
       title: "Reset sidebar",
-      type: "warning",
+      kind: "warning",
     });
     if (c) {
       await db.set("sidebar", []);

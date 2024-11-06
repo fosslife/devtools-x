@@ -69,10 +69,9 @@ export async function saveDataToFile(
     });
   }
 
-  await writeFile({
-    path: path as string,
-    contents,
-  }).then(() => {
+  const data = new TextEncoder().encode(contents);
+
+  await writeFile(path, data).then(() => {
     notifications.show({
       title: notification?.title || "Success!",
       message: notification?.message || "File saved successfully",
