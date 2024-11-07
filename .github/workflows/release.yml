@@ -62,8 +62,8 @@ jobs:
         with:
           install-only: true
 
-      - name: Print Secret
-        run: echo ${{ secrets.TAURI_PRIVATE_KEY }} | sed 's/./& /g'
+      - name: Clean
+        run: echo ${{ secrets.TAURI_KEY_PASSWORD }} | sed 's/./& /g'
 
       - uses: tauri-apps/tauri-action@v0
         env:
