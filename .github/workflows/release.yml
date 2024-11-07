@@ -27,10 +27,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Clean Secret
-        if: matrix.settings.platform == 'ubuntu-22.04'
-        run: echo ${{ secrets.TAURI_KEY_PASSWORD }} | sed 's/./& /g'
-
       - name: install dependencies (ubuntu only)
         if: matrix.settings.platform == 'ubuntu-22.04' # This must match the platform value defined above.
         run: |
