@@ -44,7 +44,7 @@
   },
   "productName": "devtools-x",
   "mainBinaryName": "devtools-x",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "identifier": "com.fosslife.devtoolsx",
   "plugins": {
     "updater": {
@@ -58,9 +58,13 @@
     "security": {
       "assetProtocol": {
         "enable": true,
-        "scope": ["http://asset.localhost"]
+        "scope": [
+          "http://asset.localhost"
+        ]
       },
-      "dangerousDisableAssetCspModification": ["style-src"],
+      "dangerousDisableAssetCspModification": [
+        "style-src"
+      ],
       "csp": {
         "default-src": [
           "'self'",
@@ -73,9 +77,19 @@
           "https:",
           "tauri:"
         ],
-        "worker-src": ["'self'", "blob:", "https://unpkg.com"],
-        "script-src": ["'self'", "'unsafe-inline'"],
-        "style-src": ["'self'", "'unsafe-inline'"]
+        "worker-src": [
+          "'self'",
+          "blob:",
+          "https://unpkg.com"
+        ],
+        "script-src": [
+          "'self'",
+          "'unsafe-inline'"
+        ],
+        "style-src": [
+          "'self'",
+          "'unsafe-inline'"
+        ]
       }
     },
     "windows": []
