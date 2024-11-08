@@ -33,7 +33,7 @@
       }
     },
     "licenseFile": "LICENSE",
-    "createUpdaterArtifacts": "v1Compatible"
+    "createUpdaterArtifacts": true
   },
   "build": {
     "beforeBundleCommand": "node scripts/compress.mjs",
@@ -42,8 +42,8 @@
     "beforeBuildCommand": "yarn build",
     "devUrl": "http://localhost:3000"
   },
-  "productName": "dev-tools",
-  "mainBinaryName": "dev-tools",
+  "productName": "devtools-x",
+  "mainBinaryName": "devtools-x",
   "version": "3.0.0",
   "identifier": "com.fosslife.devtoolsx",
   "plugins": {
@@ -60,8 +60,23 @@
         "enable": true,
         "scope": ["http://asset.localhost"]
       },
-      "dangerousDisableAssetCspModification": false,
-      "csp": "default-src 'self' blob: data: filesystem: ws: wss: http: https: tauri: 'unsafe-eval' 'unsafe-inline'; worker-src blob: 'self' https://unpkg.com; script-src 'self' 'unsafe-eval' 'unsafe-inline';"
+      "dangerousDisableAssetCspModification": ["style-src"],
+      "csp": {
+        "default-src": [
+          "'self'",
+          "blob:",
+          "data:",
+          "filesystem:",
+          "ws:",
+          "wss:",
+          "http:",
+          "https:",
+          "tauri:"
+        ],
+        "worker-src": ["'self'", "blob:", "https://unpkg.com"],
+        "script-src": ["'self'", "'unsafe-inline'"],
+        "style-src": ["'self'", "'unsafe-inline'"]
+      }
     },
     "windows": []
   }

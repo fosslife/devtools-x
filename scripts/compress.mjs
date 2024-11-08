@@ -10,9 +10,10 @@ function findBinary(dir) {
   for (const file of files) {
     const filePath = path.join(dir, file);
     const stat = fs.statSync(filePath);
+    console.log(file);
     if (stat.isDirectory()) {
       // ignore
-    } else if (file === "dev-tools" || file === "dev-tools.exe") {
+    } else if (file === "devtools-x" || file === "devtools-x.exe") {
       return filePath;
     }
   }
@@ -36,7 +37,7 @@ if (binaryPath) {
     console.log("UPX compression completed successfully.");
   } catch (error) {
     console.error("Error during UPX compression:", error);
-    process.exit(1);
+    // process.exit(1);
   }
 } else {
   console.error("Binary not found");
