@@ -1,6 +1,6 @@
 {
-  "name": "dev-tools",
-  "version": "3.0.0",
+  "name": "devtools-x",
+  "version": "3.1.0",
   "license": "MIT",
   "type": "module",
   "scripts": {
