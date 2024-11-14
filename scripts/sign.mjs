@@ -28,10 +28,10 @@ const releaseData = {
   notes: `https://github.com/${repoMetaData.owner}/${repoMetaData.repo}/releases/tag/${latestRelease.tag_name}`,
   pub_date: new Date().toISOString(),
   platforms: {
-    // "darwin-aarch64": {
-    //   signature: "",
-    //   url: "",
-    // },
+    "darwin-aarch64": {
+      signature: "",
+      url: "",
+    },
     "darwin-x86_64": {
       signature: "",
       url: "",
@@ -51,29 +51,35 @@ const promises = latestRelease.assets.map(
   async ({ name, browser_download_url }) => {
     const signature = await getSignature(browser_download_url);
 
-    if (name.endsWith(".app.tar.gz")) {
-      // releaseData.platforms["darwin-aarch64"].url = browser_download_url;
+    // For Mac
+    if (name.includes("_aarch64.app.tar.gz")) {
+      releaseData.platforms["darwin-aarch64"].url = browser_download_url;
+    }
+    if (name.includes("_x64.app.tar.gz")) {
       releaseData.platforms["darwin-x86_64"].url = browser_download_url;
     }
 
-    if (name.endsWith(".app.tar.gz.sig")) {
-      // releaseData.platforms["darwin-aarch64"].signature = signature;
-      releaseData.platforms["darwin-x86_64"].signature = signature;
-    }
-
-    if (name.endsWith(".AppImage.tar.gz")) {
+    // For Linux
+    if (name.includes("_amd64.AppImage") && !name.endsWith(".sig")) {
       releaseData.platforms["linux-x86_64"].url = browser_download_url;
     }
 
-    if (name.endsWith(".AppImage.tar.gz.sig")) {
-      releaseData.platforms["linux-x86_64"].signature = signature;
-    }
-
-    if (name.endsWith(".msi.zip")) {
+    // For Windows
+    if (name.includes("_x64_en-US.msi") && !name.endsWith(".sig")) {
       releaseData.platforms["windows-x86_64"].url = browser_download_url;
     }
 
-    if (name.endsWith(".msi.zip.sig")) {
+    // Signatures
+    if (name.includes("_aarch64.app.tar.gz.sig")) {
+      releaseData.platforms["darwin-aarch64"].signature = signature;
+    }
+    if (name.includes("_x64.app.tar.gz.sig")) {
+      releaseData.platforms["darwin-x86_64"].signature = signature;
+    }
+    if (name.includes("_amd64.AppImage.sig")) {
+      releaseData.platforms["linux-x86_64"].signature = signature;
+    }
+    if (name.includes("_x64_en-US.msi.sig")) {
       releaseData.platforms["windows-x86_64"].signature = signature;
     }
   }
@@ -81,9 +87,9 @@ const promises = latestRelease.assets.map(
 
 await Promise.allSettled(promises);
 
-// if (!releaseData.platforms["darwin-aarch64"].url) {
-//   throw new Error("Failed to get release for MacOS");
-// }
+if (!releaseData.platforms["darwin-aarch64"].url) {
+  throw new Error("Failed to get release for MacOS");
+}
 
 if (!releaseData.platforms["linux-x86_64"].url) {
   throw new Error("Failed to get release for Linux");
