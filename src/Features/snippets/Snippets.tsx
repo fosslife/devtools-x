@@ -1,273 +1,310 @@
-import { Button, Flex, Stack, Tabs, TextInput } from "@mantine/core";
 import {
-  findAllSnippets,
-  getSnippetById,
-  getSnippetFiles,
-  getSnippetNotes,
-  getSnippetTags,
-  insertSnippetFile,
-  listSnippets,
-  seedDatabase,
-  updateSnippetFile,
-} from "@/utils/database";
-import { useEffect, useState } from "react";
-import styles from "./Snippets.module.css";
-import type {
-  Snippet,
-  SnippetFile,
-  SnippetNote,
-  SnippetTag,
-} from "@/types/snippets";
+  ActionIcon,
+  Button,
+  Group,
+  Pagination,
+  Stack,
+  Table,
+  Tabs,
+  Textarea,
+  TextInput,
+} from "@mantine/core";
+import Database from "@tauri-apps/plugin-sql";
 import { Monaco } from "@/Components/MonacoWrapper";
+import { useEffect, useState } from "react";
+import { IconEdit, IconTrash } from "@tabler/icons-react";
+import { confirm } from "@tauri-apps/plugin-dialog";
+import { notifications } from "@mantine/notifications";
 
-type SideBar = {
-  tags?: string[];
-  search?: string;
-  fields?: string[];
-};
+interface Snippet {
+  id: number;
+  title: string;
+  code: string;
+  language: string;
+  tags: string;
+  note: string;
+  created_at: string;
+}
 
-type CombinedSnippet = {
-  snippet: Snippet;
-  files: SnippetFile[];
-  notes: SnippetNote[];
-  tags: SnippetTag[];
-};
 const Snippets = () => {
-  const [activeIds, setActiveIds] = useState<{
-    snippetId?: number;
-    fileId?: number;
-    noteId?: number;
-  }>({});
+  const [db, setDb] = useState<Database | null>(null);
+  const [activeTab, setActiveTab] = useState<string>("search");
+  const [title, setTitle] = useState<string>("");
+  const [language, setLanguage] = useState<string>("");
+  const [tags, setTags] = useState<string>("");
+  const [id, setId] = useState<number | null>(null);
+  const [note, setNote] = useState<string>("");
+  const [code, setCode] = useState<string>("");
+  const [snippets, setSnippets] = useState<Snippet[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [page, setPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
 
-  const activateId = (key: string, value: number) =>
-    setActiveIds((prev) => ({ ...prev, [key]: value }));
+  const handleSave = async () => {
+    const isUpdate = id !== null;
+    try {
+      if (!title || !code || !language) {
+        // You might want to add proper error handling/UI feedback here
+        console.error("Title, code and language are required");
+        return;
+      }
 
-  const [snippet, setSnippet] = useState<CombinedSnippet | null>(null);
+      if (isUpdate) {
+        await db?.execute(
+          "UPDATE snippets SET title = $1, code = $2, language = $3, tags = $4, note = $5 WHERE id = $6",
+          [title, code, language, tags, note, id]
+        );
+      } else {
+        await db?.execute(
+          "INSERT INTO snippets (title, code, language, tags, note) VALUES ($1, $2, $3, $4, $5)",
+          [title, code, language, tags, note]
+        );
+      }
 
-  const [snippets, setSnippets] = useState<any[]>([]);
-  const [sidebar] = useState<SideBar>({
-    fields: ["id", "name", "path", "filetype"],
-  });
-  // "content"
-
-  useEffect(() => {
-    const load = () =>
-      listSnippets(sidebar).then((r) => {
-        console.log(r);
-        setSnippets(r as any);
+      notifications.show({
+        title: isUpdate ? "Snippet updated" : "Snippet saved",
+        variant: "success",
+        message: "Snippet saved successfully",
       });
 
-    load().then(() => {});
-  }, [...Object.values(sidebar)]);
+      // Clear form after successful save
+      setTitle("");
+      setCode("");
+      setLanguage("");
+      setTags("");
+      setNote("");
 
-  const loadSnippet = async (id: number) => {
-    activateId("snippetId", id);
-    const [snippet, files, notes, tags] = await Promise.all([
-      getSnippetById(id),
-      getSnippetFiles(id),
-      getSnippetNotes(id),
-      getSnippetTags(id),
-    ]);
-
-    if (!snippet) return;
-    setSnippet({ snippet, files, notes, tags });
-    setActiveIds({
-      snippetId: id,
-      fileId: files[0]?.id,
-      noteId: notes[0]?.id,
-    });
+      // Optional: Add success notification here
+    } catch (error) {
+      console.error("Failed to save snippet:", error);
+      // Optional: Add error notification here
+    }
   };
 
-  // Update current file
-  const onChange = async (content: string) => {
-    if (!snippet) return;
-    if (!activeIds.fileId) return;
-    const file = snippet.files.find((f) => f.id === activeIds.fileId);
-    if (!file) return;
-    await updateSnippetFile(file.id, { content });
-    setSnippet((prev) => {
-      if (!prev) return null;
-      return {
-        ...prev,
-        files: prev.files.map((f) =>
-          f.id === activeIds.fileId ? { ...f, content } : f
-        ),
+  const fetchSnippets = async () => {
+    try {
+      const result = await db?.select<Snippet[]>(
+        `SELECT * FROM snippets ORDER BY created_at DESC LIMIT 10 OFFSET ${(page - 1) * 10}`
+      );
+      setSnippets(result || []);
+    } catch (error) {
+      console.error("Failed to fetch snippets:", error);
+    }
+  };
+
+  const searchSnippets = async () => {
+    try {
+      const result = await db?.select<Snippet[]>(
+        `
+        SELECT snippets.*, rank
+        FROM snippets
+        JOIN snippets_fts ON snippets.id = snippets_fts.rowid
+        WHERE snippets_fts MATCH $1
+        ORDER BY rank
+        LIMIT 10;
+        `,
+        [
+          `title:${searchTerm}* OR code:${searchTerm}* OR note:${searchTerm}* OR tags:${searchTerm}*`,
+        ]
+      );
+
+      setSnippets(result || []);
+    } catch (error) {
+      console.error("Failed to search snippets:", error);
+    }
+  };
+
+  // Delete snippet
+  const handleDelete = async (id: number) => {
+    const confirmation = await confirm(
+      "Are you sure you want to delete this snippet?"
+    );
+    if (confirmation) {
+      try {
+        await db?.execute("DELETE FROM snippets WHERE id = $1", [id]);
+        await fetchSnippets(); // Refresh the list
+      } catch (error) {
+        console.error("Failed to delete snippet:", error);
+      }
+    }
+  };
+
+  const handleEdit = async (id: number) => {
+    const snippet = snippets.find((snippet) => snippet.id === id);
+    if (snippet) {
+      setId(snippet.id);
+      setTitle(snippet.title);
+      setCode(snippet.code);
+      setLanguage(snippet.language);
+      setTags(snippet.tags);
+      setNote(snippet.note);
+      setActiveTab("create");
+    }
+  };
+
+  const clearForm = () => {
+    setTitle("");
+    setCode("");
+    setLanguage("");
+    setTags("");
+    setNote("");
+  };
+
+  useEffect(() => {
+    if (!db) {
+      const initDb = async () => {
+        const db = await Database.load("sqlite:devtools.db");
+        setDb(db);
       };
-    });
-  };
+      initDb();
+    } else {
+      fetchSnippets();
+      db.select<{ count: number }[]>(
+        "SELECT COUNT(*) AS count FROM snippets"
+      ).then((result) => {
+        console.log("Total pages", result[0].count);
+        const totalPages = result[0].count;
+        setTotalPages(Math.ceil(totalPages / 10));
+      });
+    }
 
-  const addFile = async () => {
-    if (!snippet) return;
-    const newFile = {
-      name: "Untitled",
-      content: "",
-      filetype: "js",
+    return () => {
+      console.log("Closing database");
+      if (db) {
+        db.close();
+      }
     };
-    if (!activeIds.snippetId) return;
-    const fileId = await insertSnippetFile(activeIds.snippetId, newFile);
-    if (!fileId) return;
-    setSnippet((prev) => {
-      if (!prev) return null;
-      return {
-        ...prev,
-        files: [...(prev?.files ?? []), { ...newFile, id: fileId }],
-      } as CombinedSnippet;
-    });
-    setActiveIds((prev) => ({
-      ...prev,
-      fileId,
-    }));
-  };
+  }, [db]);
 
-  const seed = async () => {
-    await seedDatabase();
-    const data = await findAllSnippets().then((r) => {
-      console.log(r);
-      return r;
-    });
-    setSnippets(data as any);
-  };
+  useEffect(() => {
+    if (activeTab === "search" && searchTerm.length > 2) {
+      searchSnippets();
+    }
+
+    if (activeTab === "search" && searchTerm.length === 0) {
+      fetchSnippets();
+    }
+
+    if (activeTab === "search") {
+      fetchSnippets();
+    }
+  }, [activeTab, searchTerm, page]);
 
   return (
-    <Stack
-      style={{
-        height: "100%",
-      }}
-    >
-      <Flex
-        style={{
-          height: "100%",
+    <Stack h="100%" style={{ overflow: "auto" }}>
+      <Tabs
+        value={activeTab}
+        onChange={(value) => {
+          if (value === "search") {
+            fetchSnippets();
+          }
+          setActiveTab(value as string);
         }}
-        justify={"between"}
-        align={"start"}
       >
-        <aside className={styles.sidebar}>
-          <div className={styles.header}>
-            <TextInput placeholder="Search" variant="unstyled" />
-          </div>
+        <Tabs.List>
+          <Tabs.Tab value="search">Search Snippets</Tabs.Tab>
+          <Tabs.Tab value="create">Create Snippet</Tabs.Tab>
+        </Tabs.List>
 
-          <ul className={styles.ul}>
-            {snippets.map((snippet) => (
-              <li
-                key={snippet.id}
-                className={
-                  (styles.li,
-                  snippet.id && snippet.id === activeIds?.snippetId
-                    ? styles.active
-                    : "")
-                }
-              >
-                <div
-                  tabIndex={0}
-                  role="button"
-                  onClick={() => loadSnippet(snippet.id)}
-                  onKeyDown={async (e) => {
-                    if (e.key === "Enter") {
-                      await loadSnippet(snippet.id);
-                    }
-                  }}
-                >
-                  {snippet.name}
-                </div>
-              </li>
-            ))}
-          </ul>
-          <Button onClick={() => seed()} variant="transparent" opacity={0.1}>
-            Seed Database
-          </Button>
-        </aside>
-        <div className={styles.content}>
-          <Tabs
-            value={activeIds?.fileId?.toString()}
-            onChange={(fileId) =>
-              setActiveIds((prev) => ({
-                ...prev,
-                fileId: parseInt(fileId as string),
-              }))
-            }
-          >
-            <Tabs.List>
-              {snippet?.files?.map((t) => (
-                <Tabs.Tab
-                  value={t.id.toString()}
-                  style={{ padding: "0.25em" }}
-                  key={t.id}
-                  onMouseDown={async (e) => {
-                    if (e.button === 1) {
-                      setActiveIds((prev) => ({
-                        ...prev,
-                        fileId: undefined,
-                      }));
-                    }
-                  }}
-                >
-                  <TextInput
-                    variant="unstyled"
-                    className={styles.tabInput}
-                    p={0}
-                    value={
-                      t.name ??
-                      snippet?.snippet?.name ??
-                      t.file_path ??
-                      "Untitled"
-                    }
-                    onChange={(e) => {
-                      setSnippet((prev) => {
-                        if (!prev) return null;
-                        return {
-                          ...prev,
-                          files: prev.files.map((f) =>
-                            f.id === t.id ? { ...f, name: e.target.value } : f
-                          ),
-                        };
-                      });
-                    }}
-                  />
-                </Tabs.Tab>
-              ))}
-              <Button ml="xs" size="xs" onClick={async () => addFile()}>
-                +
+        <Tabs.Panel value="create">
+          <Stack>
+            <TextInput
+              label="Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <TextInput
+              label="Language"
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+            />
+            <TextInput
+              label="Tags (comma-separated)"
+              value={tags}
+              onChange={(e) => setTags(e.target.value)}
+            />
+            <Textarea
+              label="Note"
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              minRows={2}
+            />
+            <Monaco
+              height="200px"
+              language={language}
+              value={code}
+              onChange={(value) => setCode(value || "")}
+            />
+            <Group>
+              <Button variant="light" onClick={() => clearForm()}>
+                Clear
               </Button>
-            </Tabs.List>
+              <Button
+                onClick={handleSave}
+                disabled={!title || !code || !language}
+              >
+                Save Snippet
+              </Button>
+            </Group>
+          </Stack>
+        </Tabs.Panel>
 
-            {snippet?.files?.map((file) => (
-              <Tabs.Panel key={file.id} value={file.id.toString()}>
-                <Monaco
-                  language={file?.filetype ?? "javascript"}
-                  value={file?.content ?? ""}
-                  onChange={onChange as any}
-                  height="500px"
-                />
-                <TextInput
-                  autoComplete="off"
-                  value={file?.filetype ?? "javascript"}
-                  onChange={(e) => {
-                    setSnippet((prev) => {
-                      if (!prev) return null;
-                      return {
-                        ...prev,
-                        files: prev.files.map((f) =>
-                          f.id === file.id
-                            ? { ...f, filetype: e.target.value }
-                            : f
-                        ),
-                      };
-                    });
-
-                    updateSnippetFile(file.id, {
-                      ...file,
-                      filetype: e.target.value,
-                    }).then(() => {});
-                  }}
-                />
-              </Tabs.Panel>
-            ))}
-            <Tabs.Panel value="+">
-              <Button mt="lg">Add a new Tab</Button>
-            </Tabs.Panel>
-          </Tabs>
-        </div>
-      </Flex>
+        <Tabs.Panel value="search">
+          <Stack>
+            <TextInput
+              label="Search"
+              placeholder="Full text search inside code, title, note and tags is supported"
+              min={2}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <Table highlightOnHover>
+              <Table.Thead>
+                <Table.Tr>
+                  <Table.Th>Title</Table.Th>
+                  <Table.Th>Language</Table.Th>
+                  <Table.Th>Tags</Table.Th>
+                  <Table.Th>Created</Table.Th>
+                  <Table.Th>Actions</Table.Th>
+                </Table.Tr>
+              </Table.Thead>
+              <Table.Tbody>
+                {snippets?.map((snippet) => (
+                  <Table.Tr key={snippet.id}>
+                    <Table.Td>{snippet.title}</Table.Td>
+                    <Table.Td>{snippet.language}</Table.Td>
+                    <Table.Td>{snippet.tags}</Table.Td>
+                    <Table.Td>
+                      {new Date(snippet.created_at).toLocaleDateString()}
+                    </Table.Td>
+                    <Table.Td>
+                      <ActionIcon
+                        color="red"
+                        onClick={() => handleDelete(snippet.id)}
+                        variant="subtle"
+                      >
+                        <IconTrash size={16} />
+                      </ActionIcon>
+                      <ActionIcon
+                        color="blue"
+                        onClick={() => handleEdit(snippet.id)}
+                        variant="subtle"
+                      >
+                        <IconEdit size={16} />
+                      </ActionIcon>
+                    </Table.Td>
+                  </Table.Tr>
+                ))}
+              </Table.Tbody>
+            </Table>
+            <Pagination
+              value={page}
+              onChange={setPage}
+              total={totalPages || 1}
+            />
+          </Stack>
+        </Tabs.Panel>
+      </Tabs>
     </Stack>
   );
 };

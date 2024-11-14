@@ -1,15 +1,15 @@
-import { Button, CopyButton, Tooltip } from "@mantine/core";
+import { Button, CopyButton, MantineSize, Tooltip } from "@mantine/core";
 import {} from "@tauri-apps/api";
 import { IconCheck, IconCopy } from "@tabler/icons-react";
 import * as clipboard from "@tauri-apps/plugin-clipboard-manager";
 
-export function Copy({
-  value,
-  label,
-}: {
+type CopyProps = {
   value: number | string;
   label: string;
-}) {
+  size?: MantineSize;
+};
+
+export function Copy({ value, label, size }: CopyProps) {
   return (
     <CopyButton value={value.toString()} timeout={2400}>
       {({ copied, copy }) => (
@@ -18,7 +18,7 @@ export function Copy({
             leftSection={
               copied ? <IconCheck size={16} /> : <IconCopy size={16} />
             }
-            size="xs"
+            size={size ?? "xs"}
             fullWidth
             onClick={() => {
               copy(); //  copy doesn't work but need this function for animation.
