@@ -169,21 +169,19 @@ fn main() {
       read_qr
     ])
     .setup(|app| {
+      #[cfg(desktop)]
+      let res = app
+        .handle()
+        .plugin(tauri_plugin_updater::Builder::new().build());
+      if res.is_err() {
+        println!("Error: {:?}", res.err());
+      }
+
       WebviewWindowBuilder::new(app, "main", WebviewUrl::App("index.html".into()))
         .title("DevTools-X")
-        .inner_size(1000.0, 650.0)
+        .inner_size(1000.0, 850.0)
         .resizable(true)
         .fullscreen(false)
-        .on_web_resource_request(|_, res| {
-          res.headers_mut().insert(
-            "Cross-Origin-Embedder-Policy",
-            "require-corp".try_into().unwrap(),
-          );
-          res.headers_mut().append(
-            "Cross-Origin-Opener-Policy",
-            "same-origin".try_into().unwrap(),
-          );
-        })
         .build()?;
       // #[cfg(debug_assertions)]
       let process_arg: Vec<String> = env::args().collect();
