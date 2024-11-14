@@ -24,50 +24,6 @@
   );
 }
 
-.row {
-  cursor: pointer;
-  border-radius: 4px;
-  color: light-dark(black, var(--mantine-color-gray-2));
-  padding-inline: 10px;
-  user-select: none;
-}
-
-.row:hover {
-  color: light-dark(var(--mantine-color-gray-8), var(--mantine-color-blue-0));
-  background-color: light-dark(
-    var(--mantine-color-gray-3),
-    var(--mantine-color-gray-8)
-  );
-
-  .pinIcon {
-    visibility: visible;
-  }
-}
-
-.pinIcon {
-  visibility: hidden;
-}
-
-.listTitle {
-  display: flex;
-  gap: 7px;
-  align-items: center;
-  flex-direction: row;
-  text-align: center;
-  align-self: center;
-}
-
-.homeWrapper {
-  display: flex;
-  justify-content: space-between;
-  color: light-dark(var(--mantine-color-dark-8), var(--mantine-color-dark-1));
-}
-
-.home {
-  cursor: pointer;
-  border-radius: 4px;
-}
-
 .active {
   font-style: normal;
   font-weight: bold;
@@ -103,10 +59,4 @@
   margin-top: 20px;
   margin-bottom: -10px;
   margin-left: 5px;
-}
-
-.rowIcon {
-  margin-top: 5px;
-  font-size: 14px;
-  color: light-dark(var(--mantine-color-dark-7), var(--mantine-color-dark-1));
 }
