@@ -1,11 +1,5 @@
 {
   "identifier": "desktop-capability",
-  "platforms": [
-    "macOS",
-    "windows",
-    "linux"
-  ],
-  "permissions": [
-    "updater:default"
-  ]
+  "platforms": ["macOS", "windows", "linux"],
+  "permissions": ["updater:default"]
 }
