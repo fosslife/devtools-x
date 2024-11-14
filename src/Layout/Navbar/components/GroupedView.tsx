@@ -4,7 +4,7 @@ import cx from "clsx";
 import { groupIcons } from "../items";
 import { DropDownItem } from "..";
 
-import classes from "../styles.module.css";
+import classes from "./grouped.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { cloneElement, ReactElement, useEffect, useState } from "react";
 

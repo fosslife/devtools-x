@@ -9,7 +9,7 @@ import {
 } from "@mantine/core";
 import React, { useEffect, useMemo, useState } from "react";
 
-import { IconHome, IconMenu2, IconX } from "@tabler/icons-react";
+import { IconHome } from "@tabler/icons-react";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import cx from "clsx";
@@ -23,7 +23,7 @@ import { db } from "@/utils";
 import classes from "./styles.module.css";
 
 import { useLocalStorage, useWindowEvent } from "@mantine/hooks";
-import { trackButtonClick, trackOtherEvent } from "@/utils/analytics";
+import { trackOtherEvent } from "@/utils/analytics";
 import { GroupedView } from "./components/GroupedView";
 import { UngroupedView } from "./components/UngroupedView";
 
@@ -61,7 +61,12 @@ export type DropDownItem = {
 
 export { data };
 
-export const Navbar = () => {
+type Props = {
+  iconMode: boolean;
+  setIconMode: (value: boolean) => void;
+};
+
+export const Navbar = ({ iconMode, setIconMode }: Props) => {
   const location = useLocation();
   const nav = useNavigate();
   const [navItems, setNavItems] = useState<NavItem[]>([]);
@@ -70,7 +75,6 @@ export const Navbar = () => {
     defaultValue: true,
   });
   const { pinned, handleState, handleConfig } = useAppContext();
-  const [iconMode, setIconMode] = useState(false);
 
   useEffect(() => {
     async function pinnedItems() {
@@ -163,7 +167,7 @@ export const Navbar = () => {
     <Stack
       className={classes.navbar}
       id="navbar"
-      w={iconMode ? 50 : 250}
+      w={iconMode ? 50 : "fit-content"}
       align={iconMode ? "center" : undefined}
     >
       <Stack
@@ -195,19 +199,6 @@ export const Navbar = () => {
             mt={15}
             width={""}
           />
-
-          <ActionIcon
-            variant={"filled"}
-            onClick={() => {
-              trackButtonClick({
-                name: "toggle-icon-mode",
-                value: !iconMode,
-              });
-              setIconMode(!iconMode);
-            }}
-          >
-            {iconMode ? <IconMenu2 width={16} /> : <IconX width={16} />}
-          </ActionIcon>
         </Group>
       </Stack>
 

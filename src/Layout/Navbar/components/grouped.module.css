@@ -1,0 +1,33 @@
+.active {
+  font-style: normal;
+  font-weight: bold;
+  color: light-dark(var(--mantine-color-gray-8), var(--mantine-color-gray-2));
+  background-color: light-dark(
+    var(--mantine-color-gray-3),
+    var(--mantine-color-gray-8)
+  );
+}
+
+.row {
+  cursor: pointer;
+  border-radius: 4px;
+  color: light-dark(black, var(--mantine-color-gray-2));
+  padding-inline: 10px;
+  user-select: none;
+}
+
+.row:hover {
+  color: light-dark(var(--mantine-color-gray-8), var(--mantine-color-blue-0));
+  background-color: light-dark(
+    var(--mantine-color-gray-3),
+    var(--mantine-color-gray-8)
+  );
+
+  .pinIcon {
+    visibility: visible;
+  }
+}
+
+.pinIcon {
+  visibility: hidden;
+}

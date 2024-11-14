@@ -73,6 +73,7 @@
     "react-katex": "^3.0.1",
     "react-live": "^4.1.5",
     "react-pdf": "^9.1.1",
+    "react-resizable-panels": "^2.1.6",
     "react-router-dom": "6.22.3",
     "react-shepherd": "^4.3.0",
     "recharts": "2.12.3",

@@ -17,11 +17,17 @@ import {
 } from "@mantine/core";
 import { Spotlight } from "@mantine/spotlight";
 import { loader } from "@monaco-editor/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IconSearch } from "@tabler/icons-react";
 import { useShepherdTour } from "react-shepherd";
 import steps from "./utils/steps";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import {
+  ImperativePanelHandle,
+  Panel,
+  PanelGroup,
+  PanelResizeHandle,
+} from "react-resizable-panels";
 
 // NOTE: keep Num converter here, do not lazy load. there's a rare crashing bug.
 import Nums from "./Features/number-tools/Nums";
@@ -197,85 +203,123 @@ function App() {
 
   useWindowEvent("keydown", listener);
 
+  const [iconMode, setIconMode] = useState(false);
+
+  const panelRef = useRef<ImperativePanelHandle>(null);
+
+  useEffect(() => {
+    if (panelRef.current) {
+      panelRef.current.resize(50);
+    }
+  }, []);
+
   return (
-    <>
-      <Box className={classes.container}>
-        <Box className={classes.navbar}>
-          <Navbar />
-        </Box>
-        <Group
-          className={`${transitionStage} ${classes.body}`}
-          grow
-          align="start"
-          onAnimationEnd={() => {
-            if (transitionStage === "fadeOut") {
-              setTransistionStage("fadeIn");
-              setDisplayLocation(location);
-            }
+    <Box className={classes.container}>
+      <PanelGroup direction="horizontal" autoSaveId="navbar-layout">
+        <Panel
+          id="navbar"
+          defaultSize={5}
+          maxSize={20}
+          minSize={5}
+          collapsible
+          collapsedSize={4}
+          ref={panelRef}
+          onCollapse={() => {
+            setIconMode(true);
+          }}
+          onExpand={() => {
+            setIconMode(false);
           }}
         >
-          <Stack gap={2} h="100%">
-            <Routes location={displayLocation}>
-              <Route
-                path="/"
-                element={
-                  <Welcome
-                    openSettings={(t: boolean) => setSettingsOpened(t)}
-                  />
-                }
-              ></Route>
-              <Route path="/json-formatter" element={<JsonFormatter />}></Route>
-              <Route path="/hash-text" element={<Hash />}></Route>
-              <Route path="/hash-file" element={<FileHash />}></Route>
-              <Route path="/password" element={<Random />}></Route>
-              <Route path="/jwt" element={<JWT />}></Route>
-              <Route path="/nums" element={<Nums />}></Route>
-              <Route path="/sql" element={<Sql />}></Route>
-              <Route path="/colors" element={<Colors />}></Route>
-              <Route path="/harmonies" element={<ColorHarmonies />}></Route>
-              <Route path="/color-testing" element={<ColorTesting />}></Route>
-              <Route path="/regex" element={<RegexTester />}></Route>
-              <Route path="/diff" element={<TextDiff />}></Route>
-              <Route path="/text" element={<TextUtils />}></Route>
-              <Route path="/markdown" element={<Markdown />}></Route>
-              <Route path="/readme" element={<Readme />}></Route>
-              <Route path="/yamljson" element={<YamlJson />}></Route>
-              <Route path="/snippets" element={<Snippets />}></Route>
-              <Route path="/pastebin" element={<Pastebin />}></Route>
-              <Route path="/repl" element={<Repl />}></Route>
-              <Route path="/image" element={<Image />}></Route>
-              <Route path="/bulk-image" element={<BulkImage />}></Route>
-              <Route path="/units" element={<UnitConverter />}></Route>
-              <Route path="/playground" element={<Playground />}></Route>
-              <Route path="/rest" element={<Rest />}></Route>
-              <Route path="/epoch" element={<Epoch />}></Route>
-              <Route path="/stateless" element={<Stateless />}></Route>
-              <Route path="/base64-image" element={<Base64Image />}></Route>
-              <Route path="/base64-text" element={<Base64Text />}></Route>
-              <Route path="/quicktype" element={<Quicktpe />}></Route>
-              <Route path="/ping" element={<Ping />}></Route>
-              <Route path="/html-minifier" element={<HtmlMinifier />}></Route>
-              <Route path="/css-minifier" element={<CssMinifier />}></Route>
-              <Route path="/js-minifier" element={<JsMinifier />}></Route>
-              <Route path="/url-parser" element={<UrlParser />}></Route>
-              <Route path="/url-encoder" element={<UrlEncoder />}></Route>
-              <Route path="/html-preview" element={<HtmlPreview />}></Route>
-              <Route path="/lorem" element={<Lorem />}></Route>
-              <Route path="/qrcode" element={<QrCode />}></Route>
-              <Route path="/pdf-reader" element={<PdfReader />}></Route>
-              <Route path="/cron" element={<Cron />}></Route>
-              <Route path="/ids" element={<Ids />}></Route>
-              <Route path="/compress" element={<Compress />}></Route>
-              <Route path="/faker" element={<Faker />}></Route>
-              <Route path="/cssplayground" element={<CssPlayground />}></Route>
-              <Route path="/svg-preview" element={<SvgPreview />}></Route>
-              <Route path="/qrcode-reader" element={<QrReadcer />}></Route>
-              <Route path="/hmac-generator" element={<HmacGenerator />}></Route>
-              <Route path="/image-crop" element={<ImageCrop />}></Route>
-            </Routes>
-          </Stack>
-        </Group>
-      </Box>
+          <Navbar iconMode={iconMode} setIconMode={(v) => setIconMode(v)} />
+        </Panel>
+        <PanelResizeHandle
+          style={{ backgroundColor: "var(--mantine-color-brand-5)", width: 1 }}
+        />
+        <Panel>
+          <Group
+            className={`${transitionStage} ${classes.body}`}
+            grow
+            align="start"
+            onAnimationEnd={() => {
+              if (transitionStage === "fadeOut") {
+                setTransistionStage("fadeIn");
+                setDisplayLocation(location);
+              }
+            }}
+          >
+            <Stack gap={2} h="100%">
+              <Routes location={displayLocation}>
+                <Route
+                  path="/"
+                  element={
+                    <Welcome
+                      openSettings={(t: boolean) => setSettingsOpened(t)}
+                    />
+                  }
+                ></Route>
+                <Route
+                  path="/json-formatter"
+                  element={<JsonFormatter />}
+                ></Route>
+                <Route path="/hash-text" element={<Hash />}></Route>
+                <Route path="/hash-file" element={<FileHash />}></Route>
+                <Route path="/password" element={<Random />}></Route>
+                <Route path="/jwt" element={<JWT />}></Route>
+                <Route path="/nums" element={<Nums />}></Route>
+                <Route path="/sql" element={<Sql />}></Route>
+                <Route path="/colors" element={<Colors />}></Route>
+                <Route path="/harmonies" element={<ColorHarmonies />}></Route>
+                <Route path="/color-testing" element={<ColorTesting />}></Route>
+                <Route path="/regex" element={<RegexTester />}></Route>
+                <Route path="/diff" element={<TextDiff />}></Route>
+                <Route path="/text" element={<TextUtils />}></Route>
+                <Route path="/markdown" element={<Markdown />}></Route>
+                <Route path="/readme" element={<Readme />}></Route>
+                <Route path="/yamljson" element={<YamlJson />}></Route>
+                <Route path="/snippets" element={<Snippets />}></Route>
+                <Route path="/pastebin" element={<Pastebin />}></Route>
+                <Route path="/repl" element={<Repl />}></Route>
+                <Route path="/image" element={<Image />}></Route>
+                <Route path="/bulk-image" element={<BulkImage />}></Route>
+                <Route path="/units" element={<UnitConverter />}></Route>
+                <Route path="/playground" element={<Playground />}></Route>
+                <Route path="/rest" element={<Rest />}></Route>
+                <Route path="/epoch" element={<Epoch />}></Route>
+                <Route path="/stateless" element={<Stateless />}></Route>
+                <Route path="/base64-image" element={<Base64Image />}></Route>
+                <Route path="/base64-text" element={<Base64Text />}></Route>
+                <Route path="/quicktype" element={<Quicktpe />}></Route>
+                <Route path="/ping" element={<Ping />}></Route>
+                <Route path="/html-minifier" element={<HtmlMinifier />}></Route>
+                <Route path="/css-minifier" element={<CssMinifier />}></Route>
+                <Route path="/js-minifier" element={<JsMinifier />}></Route>
+                <Route path="/url-parser" element={<UrlParser />}></Route>
+                <Route path="/url-encoder" element={<UrlEncoder />}></Route>
+                <Route path="/html-preview" element={<HtmlPreview />}></Route>
+                <Route path="/lorem" element={<Lorem />}></Route>
+                <Route path="/qrcode" element={<QrCode />}></Route>
+                <Route path="/pdf-reader" element={<PdfReader />}></Route>
+                <Route path="/cron" element={<Cron />}></Route>
+                <Route path="/ids" element={<Ids />}></Route>
+                <Route path="/compress" element={<Compress />}></Route>
+                <Route path="/faker" element={<Faker />}></Route>
+                <Route
+                  path="/cssplayground"
+                  element={<CssPlayground />}
+                ></Route>
+                <Route path="/svg-preview" element={<SvgPreview />}></Route>
+                <Route path="/qrcode-reader" element={<QrReadcer />}></Route>
+                <Route
+                  path="/hmac-generator"
+                  element={<HmacGenerator />}
+                ></Route>
+                <Route path="/image-crop" element={<ImageCrop />}></Route>
+              </Routes>
+            </Stack>
+          </Group>
+        </Panel>
+      </PanelGroup>
       <Drawer
         position="right"
         opened={settingsOpened}
@@ -336,7 +380,7 @@ function App() {
           <br />
         </Modal.Body>
       </Modal>
-    </>
+    </Box>
   );
 }
 
