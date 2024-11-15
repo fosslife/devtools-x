@@ -3,7 +3,6 @@
   windows_subsystem = "windows"
 )]
 
-use std::convert::TryInto;
 use std::env;
 use tauri::{Manager, WebviewUrl, WebviewWindowBuilder};
 
@@ -148,6 +147,7 @@ fn main() {
   ];
 
   tauri::Builder::default()
+    .plugin(tauri_plugin_process::init())
     .plugin(
       tauri_plugin_sql::Builder::default()
         .add_migrations("sqlite:devtools.db", migrations)
@@ -172,7 +172,7 @@ fn main() {
       #[cfg(desktop)]
       let res = app
         .handle()
-        .plugin(tauri_plugin_updater::Builder::new().build());
+        .plugin(tauri_plugin_updater::Builder::new().pubkey("dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IERCN0M1MDY1Q0QwRkM1OEUKUldTT3hRL05aVkI4MjhGUW9LSjhZMldoUmNSYmRNYnl0RGNrUW5NTk1lSmNtc2FJTE5NMUhRTzgK").build());
       if res.is_err() {
         println!("Error: {:?}", res.err());
       }

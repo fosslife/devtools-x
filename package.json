@@ -1,6 +1,6 @@
 {
   "name": "devtools-x",
-  "version": "3.3.2",
+  "version": "3.3.3",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -37,8 +37,10 @@
     "@tauri-apps/plugin-clipboard-manager": "^2.0.0",
     "@tauri-apps/plugin-dialog": "~2",
     "@tauri-apps/plugin-fs": "^2.0.1",
+    "@tauri-apps/plugin-process": "~2",
     "@tauri-apps/plugin-sql": "^2.0.0",
     "@tauri-apps/plugin-store": "^2.1.0",
+    "@tauri-apps/plugin-updater": "^2.0.0",
     "@uiw/react-markdown-preview": "^5.1.1",
     "angular-html-parser": "^5.2.0",
     "chroma-js": "^2.4.2",
