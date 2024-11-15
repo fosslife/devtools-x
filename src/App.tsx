@@ -28,6 +28,7 @@ import {
   PanelGroup,
   PanelResizeHandle,
 } from "react-resizable-panels";
+import { check } from "@tauri-apps/plugin-updater";
 
 // NOTE: keep Num converter here, do not lazy load. there's a rare crashing bug.
 import Nums from "./Features/number-tools/Nums";
@@ -36,6 +37,8 @@ import { Settings } from "./Layout/Settings";
 import { useDisclosure, useWindowEvent } from "@mantine/hooks";
 import { trackOtherEvent, trackPageView } from "./utils/analytics";
 import { db } from "./utils";
+import { ask, message } from "@tauri-apps/plugin-dialog";
+import { relaunch } from "@tauri-apps/plugin-process";
 
 // Lazy load components
 const Welcome = loadable(() => import("./Components/Welcome"));
@@ -154,6 +157,30 @@ function App() {
 
   useEffect(() => {
     async function init() {
+      const update = await check();
+      if (update === null) {
+        await message("Failed to check for updates.\nPlease try again later.", {
+          title: "Error",
+          kind: "error",
+          okLabel: "OK",
+        });
+        return;
+      } else if (update?.available) {
+        const yes = await ask(
+          `Update to ${update.version} is available!\n\nRelease notes: ${update.body}`,
+          {
+            title: "Update Available",
+            kind: "info",
+            okLabel: "Update",
+            cancelLabel: "Cancel",
+          }
+        );
+        if (yes) {
+          await update.downloadAndInstall();
+          await relaunch();
+        }
+      }
+
       const isFirstTime = await db.get("firstTime");
       if (isFirstTime === true) {
         tour.start();

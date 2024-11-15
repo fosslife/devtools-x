@@ -8,6 +8,9 @@
     "sql:allow-execute",
     "dialog:default",
     "fs:write-all",
-    "clipboard-manager:allow-write-text"
+    "clipboard-manager:allow-write-text",
+    "updater:default",
+    "updater:allow-check",
+    "process:allow-restart"
   ]
 }

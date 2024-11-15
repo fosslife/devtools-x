@@ -1151,7 +1151,7 @@ dependencies = [
 
 [[package]]
 name = "devtools-x"
-version = "3.3.2"
+version = "3.3.3"
 dependencies = [
  "anyhow",
  "bardecoder",
@@ -1174,6 +1174,7 @@ dependencies = [
  "tauri-plugin-clipboard-manager",
  "tauri-plugin-dialog",
  "tauri-plugin-fs",
+ "tauri-plugin-process",
  "tauri-plugin-sql",
  "tauri-plugin-store",
  "tauri-plugin-updater",
@@ -5527,6 +5528,16 @@ dependencies = [
  "thiserror",
  "url",
  "uuid",
+]
+
+[[package]]
+name = "tauri-plugin-process"
+version = "2.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ae06a00087c148962a52814a2d7265b1a0505bced5ffb74f8c284a5f96a4d03d"
+dependencies = [
+ "tauri",
+ "tauri-plugin",
 ]
 
 [[package]]

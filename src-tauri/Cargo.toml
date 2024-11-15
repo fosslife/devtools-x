@@ -1,6 +1,6 @@
 [package]
 name = "devtools-x"
-version = "3.3.2"
+version = "3.3.3"
 description = "Developer tools desktop application"
 authors = ["Sparkenstein"]
 license = "MIT"
@@ -42,6 +42,7 @@ base64 = "0.21.7"
 flate2 = "1.0"
 bardecoder = "0.5.0"
 imageinfo = "0.7.17"
+tauri-plugin-process = "2"
 
 [dependencies.tauri-plugin-sql]
 features = ["sqlite"] # or "postgres", or "mysql"
