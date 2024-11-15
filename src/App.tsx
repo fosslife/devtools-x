@@ -37,7 +37,7 @@ import { Settings } from "./Layout/Settings";
 import { useDisclosure, useWindowEvent } from "@mantine/hooks";
 import { trackOtherEvent, trackPageView } from "./utils/analytics";
 import { db } from "./utils";
-import { ask, message } from "@tauri-apps/plugin-dialog";
+import { ask } from "@tauri-apps/plugin-dialog";
 import { relaunch } from "@tauri-apps/plugin-process";
 
 // Lazy load components
@@ -159,12 +159,8 @@ function App() {
     async function init() {
       const update = await check();
       if (update === null) {
-        await message("Failed to check for updates.\nPlease try again later.", {
-          title: "Error",
-          kind: "error",
-          okLabel: "OK",
-        });
-        return;
+        console.log("no update");
+        // can re use this logic to manually check for updates
       } else if (update?.available) {
         const yes = await ask(
           `Update to ${update.version} is available!\n\nRelease notes: ${update.body}`,
@@ -247,9 +243,9 @@ function App() {
           id="navbar"
           defaultSize={5}
           maxSize={20}
-          minSize={5}
+          minSize={8}
           collapsible
-          collapsedSize={4}
+          collapsedSize={5}
           ref={panelRef}
           onCollapse={() => {
             setIconMode(true);
