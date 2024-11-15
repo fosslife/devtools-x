@@ -48,17 +48,7 @@ export const GroupedView = ({
         .map((group) => {
           return (
             <Accordion.Item key={group.group} value={group.group}>
-              <Accordion.Control
-                icon={cloneElement(groupIcons[group.group], {
-                  size: "16px",
-                })}
-                styles={{
-                  icon: {
-                    height: "20px",
-                    width: "20px",
-                  },
-                }}
-              >
+              <Accordion.Control icon={cloneElement(groupIcons[group.group])}>
                 <Text size="sm">{group.group}</Text>
               </Accordion.Control>
               <Accordion.Panel>
