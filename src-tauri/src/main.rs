@@ -181,6 +181,7 @@ fn main() {
         .title("DevTools-X")
         .inner_size(1000.0, 850.0)
         .resizable(true)
+        .min_inner_size(900.0, 800.0)
         .fullscreen(false)
         .build()?;
       // #[cfg(debug_assertions)]

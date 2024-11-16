@@ -167,7 +167,7 @@ export const Navbar = ({ iconMode, setIconMode }: Props) => {
     <Stack
       className={classes.navbar}
       id="navbar"
-      w={iconMode ? 50 : "fit-content"}
+      w={"auto"}
       align={iconMode ? "center" : undefined}
     >
       <Stack

@@ -4,6 +4,8 @@ export const Package = () => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 48 48"
     enableBackground="new 0 0 48 48"
+    height={20}
+    width={20}
   >
     <path
       fill="#FF9800"
@@ -22,6 +24,8 @@ export const Transit = () => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 48 48"
     enableBackground="new 0 0 48 48"
+    height={20}
+    width={20}
   >
     <path
       fill="#FFC107"
@@ -61,6 +65,8 @@ export const DataProtection = () => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 48 48"
     enableBackground="new 0 0 48 48"
+    height={20}
+    width={20}
   >
     <g fill="#D1C4E9">
       <path d="M38,7H10C8.9,7,8,7.9,8,9v6c0,1.1,0.9,2,2,2h28c1.1,0,2-0.9,2-2V9C40,7.9,39.1,7,38,7z" />
@@ -80,6 +86,8 @@ export const Safe = () => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 48 48"
     enableBackground="new 0 0 48 48"
+    height={20}
+    width={20}
   >
     <rect x="8" y="39" fill="#455A64" width="6" height="3" />
     <rect x="34" y="39" fill="#455A64" width="6" height="3" />
@@ -122,6 +130,8 @@ export const Picture = () => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 48 48"
     enableBackground="new 0 0 48 48"
+    height={20}
+    width={20}
   >
     <path
       fill="#F57C00"
@@ -139,6 +149,8 @@ export const Shop = () => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 48 48"
     enableBackground="new 0 0 48 48"
+    height={20}
+    width={20}
   >
     <rect x="5" y="19" fill="#CFD8DC" width="38" height="19" />
     <rect x="5" y="38" fill="#B0BEC5" width="38" height="4" />
@@ -182,6 +194,8 @@ export const MindMap = () => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 48 48"
     enableBackground="new 0 0 48 48"
+    height={20}
+    width={20}
   >
     <polygon
       fill="#CFD8DC"
@@ -204,6 +218,8 @@ export const Binoculars = () => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 48 48"
     enableBackground="new 0 0 48 48"
+    height={20}
+    width={20}
   >
     <g fill="#37474F">
       <circle cx="33" cy="16" r="6" />
@@ -231,6 +247,8 @@ export const Electricity = () => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 48 48"
     enableBackground="new 0 0 48 48"
+    height={20}
+    width={20}
   >
     <path
       fill="#00BCD4"
@@ -245,6 +263,8 @@ export const SerialTask = () => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 48 48"
     enableBackground="new 0 0 48 48"
+    height={20}
+    width={20}
   >
     <path
       fill="#90CAF9"

@@ -65,6 +65,7 @@
       },
       "dangerousDisableAssetCspModification": ["style-src"],
       "csp": {
+        "connect-src": ["ipc:", "http://ipc.localhost"],
         "default-src": [
           "'self'",
           "blob:",

@@ -19,6 +19,11 @@ So here's DevTools-X -- an x-platform non-electron, collection of dev-tools that
 
 <img width="1317" alt="Screenshot 2024-04-01 at 12 20 37 PM" src="https://github.com/fosslife/devtools-x/assets/24642451/4ab136a2-e8df-448e-96c2-e6525a35b393">
 
+### NOTE
+
+After migrating to tauri v2, app is facing minor bugs again, (because of tauri) You might see basic css breaking or app not working on specific platform. Please
+open a bug in issue tracker if you do. I will fix it if anything I can fix on my side.
+
 ## Installation
 
 ### Download prebuilt binaries

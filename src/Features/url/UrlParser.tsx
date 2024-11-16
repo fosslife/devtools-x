@@ -23,7 +23,7 @@ export default function UrlParser() {
   const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     if (!key || !value) return;
-    searchParams.set(key, value);
+    searchParams.append(key, value);
     setSearchParams(searchParams);
     setUrl(
       url.split("?")[0] +
@@ -76,7 +76,7 @@ export default function UrlParser() {
             </Table>
 
             <Divider />
-            <Table w="100%" withColumnBorders>
+            <Table w="100%" withColumnBorders striped>
               <Table.Thead>
                 <Table.Tr>
                   <Table.Th>Key</Table.Th>
@@ -84,15 +84,16 @@ export default function UrlParser() {
                 </Table.Tr>
               </Table.Thead>
               <Table.Tbody>
-                {Array.from(searchParams.keys()).map((key, i) => (
+                {[...new Set(searchParams.keys())].map((key, i) => (
                   <Table.Tr key={key + i}>
                     <Table.Td>{key}</Table.Td>
-                    <Table.Td>{searchParams.get(key)}</Table.Td>
+                    <Table.Td>{searchParams.getAll(key).join(", ")}</Table.Td>
                   </Table.Tr>
                 ))}
                 <Table.Tr>
                   <Table.Td>
                     <TextInput
+                      autoComplete="off"
                       value={key}
                       onChange={(e) => {
                         let key = e.currentTarget.value;
@@ -103,6 +104,7 @@ export default function UrlParser() {
                   </Table.Td>
                   <Table.Td>
                     <TextInput
+                      autoComplete="off"
                       value={value}
                       onChange={(e) => {
                         let value = e.currentTarget.value;

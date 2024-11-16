@@ -21,11 +21,10 @@ code {
 
 /* hide scrollbar on left nav */
 ::-webkit-scrollbar {
-  width: 2px; /* Remove scrollbar space */
-  height: 2px;
-  border-radius: 10px;
+  display: none;
 }
 
+/* this won't have any effect but keeping it here */
 ::-webkit-scrollbar-track {
   background: transparent; /* color of the tracking area */
 }
