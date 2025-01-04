@@ -69,7 +69,8 @@
           "ipc:",
           "http://ipc.localhost",
           "http://asset.localhost",
-          "tauri://localhost"
+          "tauri://localhost",
+          "assets://localhost"
         ],
         "default-src": [
           "'self'",
