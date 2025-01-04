@@ -14,7 +14,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { save, open } from "@tauri-apps/plugin-dialog";
 import { writeFile } from "@tauri-apps/plugin-fs";
 import { convertFileSrc } from "@tauri-apps/api/core";
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useCallback, WheelEvent } from "react";
 import {
   ReactCompareSlider,
   ReactCompareSliderImage,
@@ -35,8 +35,6 @@ export default function Image2() {
     og: "0",
     conv: "0",
   });
-
-  const boxRef = useRef<HTMLDivElement>(null);
 
   const handleWheel = useCallback(
     (e: WheelEvent) => {
@@ -119,14 +117,6 @@ export default function Image2() {
     const buffer = await blob.arrayBuffer();
     writeFile(downloadPath, new Uint8Array(buffer));
   };
-
-  useEffect(() => {
-    const element = boxRef.current;
-    if (!element) return;
-
-    element.addEventListener("wheel", handleWheel, { passive: false });
-    return () => element.removeEventListener("wheel", handleWheel);
-  }, [handleWheel]);
 
   useEffect(() => {
     resize();
