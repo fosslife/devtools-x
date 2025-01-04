@@ -70,7 +70,7 @@
           "http://ipc.localhost",
           "http://asset.localhost",
           "tauri://localhost",
-          "assets://localhost"
+          "asset://localhost"
         ],
         "default-src": [
           "'self'",
