@@ -81,7 +81,8 @@
           "wss:",
           "http:",
           "https:",
-          "tauri:"
+          "tauri:",
+          "asset:"
         ],
         "worker-src": ["'self'", "blob:", "https://unpkg.com"],
         "script-src": ["'self'", "'unsafe-inline'"],
