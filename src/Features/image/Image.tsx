@@ -39,6 +39,7 @@ export default function Image2() {
   const handleWheel = useCallback(
     (e: WheelEvent) => {
       e.preventDefault();
+      e.stopPropagation();
       const delta = e.deltaY * -0.005;
       const newZoom = Math.min(Math.max(zoom + delta, 0.5), 5);
       setZoom(newZoom);
