@@ -68,7 +68,8 @@
         "connect-src": [
           "ipc:",
           "http://ipc.localhost",
-          "http://asset.localhost"
+          "http://asset.localhost",
+          "tauri://localhost"
         ],
         "default-src": [
           "'self'",
