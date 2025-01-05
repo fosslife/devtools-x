@@ -1,25 +1,49 @@
 pub mod qr {
+  use std::str::from_utf8;
+
+  use image;
 
   #[tauri::command]
-  pub fn read_qr(path: String) -> String {
-    let image = image::open(path).unwrap();
-    let decoder = bardecoder::default_decoder();
-    let result = decoder.decode(&image);
-    let mut ret = String::new();
+  pub fn read_qr(path: String) -> Result<String, String> {
+    let image = match image::open(&path) {
+      Ok(img) => img,
+      Err(e) => return Err(format!("Failed to open image: {}", e)),
+    };
 
-    for code in result {
+    let img_gray = image.to_luma8();
+
+    let mut decoder = quircs::Quirc::default();
+
+    let codes = decoder.identify(
+      img_gray.width() as usize,
+      img_gray.height() as usize,
+      &img_gray,
+    );
+
+    let mut ret = String::new();
+    let mut has_error = false;
+
+    for code in codes {
       match code {
-        Ok(code) => {
-          println!("Decoded QR code: {:?}", code);
-          ret.push_str(&code)
-        }
-        Err(e) => {
-          println!("Error decoding QR code: {:?}", e);
-          return "".to_string();
-        }
+        Ok(code) => match code.decode() {
+          Ok(decoded) => match from_utf8(&decoded.payload) {
+            Ok(text) => ret.push_str(text),
+            Err(_) => has_error = true,
+          },
+          Err(_) => has_error = true,
+        },
+        Err(_) => has_error = true,
       }
     }
 
-    ret
+    if ret.is_empty() {
+      if has_error {
+        Err("Invalid QR code or image format".to_string())
+      } else {
+        Err("No QR code found in image".to_string())
+      }
+    } else {
+      Ok(ret)
+    }
   }
 }

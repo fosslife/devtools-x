@@ -14,7 +14,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { save, open } from "@tauri-apps/plugin-dialog";
 import { writeFile } from "@tauri-apps/plugin-fs";
 import { convertFileSrc } from "@tauri-apps/api/core";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, WheelEvent } from "react";
 import {
   ReactCompareSlider,
   ReactCompareSliderImage,
@@ -29,11 +29,23 @@ export default function Image2() {
   const [doubouncedQuality] = useDebouncedValue(quality, 500);
   const [imageType, setImageType] = useState<ImageType>("Jpeg");
   const [loading, setLoading] = useState(false);
+  const [zoom, setZoom] = useState(1);
 
   const [sizes, setSizes] = useState({
     og: "0",
     conv: "0",
   });
+
+  const handleWheel = useCallback(
+    (e: WheelEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const delta = e.deltaY * -0.005;
+      const newZoom = Math.min(Math.max(zoom + delta, 0.5), 5);
+      setZoom(newZoom);
+    },
+    [zoom]
+  );
 
   const selectImage = () => {
     console.debug("selecting image");
@@ -41,15 +53,14 @@ export default function Image2() {
       multiple: false,
       title: "Select an Image",
       directory: false,
+      filters: [{ name: "Images", extensions: ["png", "jpg", "jpeg", "webp"] }],
     })
       .then(async (p) => {
-        if (!p) return; // no path
-
+        if (!p) return;
         let path = p as string;
         const sizeInBytes =
           (await (await (await fetch(convertFileSrc(path))).blob()).size) /
           1024;
-
         setSizes({
           og: sizeInBytes.toFixed(2),
           conv: "0",
@@ -122,13 +133,18 @@ export default function Image2() {
       <Group align={"center"} justify="center">
         <Button onClick={selectImage}>Select image</Button>
         {converted ? <Button onClick={download}>Save</Button> : null}
+        {zoom !== 1 && (
+          <Button variant="light" onClick={() => setZoom(1)}>
+            Fit to width
+          </Button>
+        )}
       </Group>
       <LoadingOverlay
         visible={loading}
         overlayProps={{ radius: "sm", blur: 2 }}
       />
       {converted && (
-        <Box>
+        <Box onWheel={handleWheel} style={{ touchAction: "none" }}>
           <ReactCompareSlider
             transition="0.25s cubic-bezier(0.645, 0.045, 0.355, 1)"
             style={{
@@ -140,6 +156,8 @@ export default function Image2() {
               <ReactCompareSliderImage
                 style={{
                   objectFit: "contain",
+                  transform: `scale(${zoom})`,
+                  transition: "transform 0.2s ease-out",
                 }}
                 src={convertFileSrc(imageSrc)}
                 alt="Left"
@@ -149,6 +167,8 @@ export default function Image2() {
               <ReactCompareSliderImage
                 style={{
                   objectFit: "contain",
+                  transform: `scale(${zoom})`,
+                  transition: "transform 0.2s ease-out",
                 }}
                 src={converted}
                 alt="Right"

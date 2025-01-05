@@ -26,22 +26,27 @@ pub mod images {
     let time = std::time::Instant::now();
     let path = Path::new(&image_path);
 
-    let img = image::open(path).map_err(|e| e.to_string()).unwrap();
+    let img = image::open(path).map_err(|e| e.to_string())?;
 
     match format {
       ImageFormat::Jpeg => {
+        let rgb_img = img.into_rgb8();
         let mut writer = Vec::new();
         let mut encoder = JpegEncoder::new_with_quality(&mut writer, quality);
         encoder
-          .encode(img.as_bytes(), img.width(), img.height(), ColorType::Rgb8)
-          .map_err(|e| e.to_string())
-          .unwrap();
+          .encode(
+            rgb_img.as_raw(),
+            rgb_img.width(),
+            rgb_img.height(),
+            ColorType::Rgb8
+          )
+          .map_err(|e| e.to_string())?;
         println!("Time: {:?}", time.elapsed());
-        return Ok(writer);
+        Ok(writer)
       }
       ImageFormat::Png => {
+        let rgb_img = img.into_rgb8();
         let mut writer = Vec::new();
-        // convert quality percentage to CompressionType
         let compression_level = match quality {
           0..=33 => CompressionType::Best,
           34..=66 => CompressionType::Default,
@@ -54,20 +59,23 @@ pub mod images {
           image::codecs::png::FilterType::Sub,
         );
         encoder
-          .write_image(img.as_bytes(), img.width(), img.height(), ColorType::Rgb8)
-          .map_err(|e| e.to_string())
-          .unwrap();
+          .write_image(
+            rgb_img.as_raw(),
+            rgb_img.width(),
+            rgb_img.height(),
+            ColorType::Rgb8
+          )
+          .map_err(|e| e.to_string())?;
         println!("Time: {:?}", time.elapsed());
-        return Ok(writer);
+        Ok(writer)
       }
       ImageFormat::Webp => {
+        // For WebP, we use the original image since webp::Encoder handles the conversion
         let x = webp::Encoder::from_image(&img)
-          .unwrap()
+          .map_err(|e| e.to_string())?
           .encode(quality as f32);
-        // .map_err(|e| e.to_string())
-        // .unwrap();
         println!("Time: {:?}", time.elapsed());
-        return Ok(x.to_vec());
+        Ok(x.to_vec())
       }
     }
   }
