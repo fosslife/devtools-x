@@ -32,7 +32,7 @@
     "@prettier/plugin-xml": "^3.4.1",
     "@rollup/plugin-alias": "^5.1.0",
     "@sqltools/formatter": "^1.2.5",
-    "@tabler/icons-react": "^3.16.0",
+    "@tabler/icons-react": "^3.26.0",
     "@tauri-apps/api": "^2.2.0",
     "@tauri-apps/plugin-clipboard-manager": "^2.2.0",
     "@tauri-apps/plugin-dialog": "^2.2.0",
