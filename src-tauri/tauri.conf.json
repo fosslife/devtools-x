@@ -44,11 +44,13 @@
   },
   "productName": "devtools-x",
   "mainBinaryName": "devtools-x",
-  "version": "3.3.4",
+  "version": "3.4.0",
   "identifier": "com.fosslife.devtoolsx",
   "plugins": {
     "sql": {
-      "preload": ["sqlite:devtools.db"]
+      "preload": [
+        "sqlite:devtools.db"
+      ]
     },
     "updater": {
       "endpoints": [
@@ -61,9 +63,13 @@
     "security": {
       "assetProtocol": {
         "enable": true,
-        "scope": ["http://asset.localhost"]
+        "scope": [
+          "http://asset.localhost"
+        ]
       },
-      "dangerousDisableAssetCspModification": ["style-src"],
+      "dangerousDisableAssetCspModification": [
+        "style-src"
+      ],
       "csp": {
         "connect-src": [
           "ipc:",
@@ -84,9 +90,19 @@
           "tauri:",
           "asset:"
         ],
-        "worker-src": ["'self'", "blob:", "https://unpkg.com"],
-        "script-src": ["'self'", "'unsafe-inline'"],
-        "style-src": ["'self'", "'unsafe-inline'"]
+        "worker-src": [
+          "'self'",
+          "blob:",
+          "https://unpkg.com"
+        ],
+        "script-src": [
+          "'self'",
+          "'unsafe-inline'"
+        ],
+        "style-src": [
+          "'self'",
+          "'unsafe-inline'"
+        ]
       }
     },
     "windows": []
