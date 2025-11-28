@@ -34,7 +34,7 @@ and download the binary as per your requirements.
 > NOTE FOR MACOS USERS, you need this to run the app as binaries are not signed yet:
 
 ```sh
-xattr -r -c /Applications/dev-tools.app
+xattr -r -c /Applications/devtools-x.app
 ```
 
 ### Compile yourself
