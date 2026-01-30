@@ -25,7 +25,7 @@ base16ct = { version = "0.2.0", features = ["alloc"] }
 rayon = "1.7.0"
 dashmap = { version = "5.4.0", features = ["serde"] }
 surge-ping = "0.8"
-tokio = { version = "1.21.2", features = ["full"] }
+tokio = { version = "1.43.1", features = ["full"] }
 # oxc = { version = "0.16.3", features = ["minifier", "transformer"] }
 minify-html = "0.15.0"
 fast_image_resize = "3.0.3"
@@ -37,7 +37,7 @@ oxipng = { version = "9.0", features = [
     "zopfli",
     "filetime",
 ], default-features = false }
-webp = "0.2"
+webp = "0.3"
 base64 = "0.21.7"
 flate2 = "1.0"
 quircs = "0.10.2"
