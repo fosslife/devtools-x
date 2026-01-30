@@ -56,7 +56,7 @@
     "html-minifier": "^4.0.0",
     "interweave": "^13.1.0",
     "jose": "^5.2.3",
-    "js-yaml": "^4.1.0",
+    "js-yaml": "^4.1.1",
     "lesspass": "^9.2.0",
     "lorem-ipsum": "^2.0.8",
     "monaco-themes": "^0.4.4",
@@ -132,7 +132,7 @@
     "prettier": "^3.2.4",
     "rollup-plugin-visualizer": "^5.12.0",
     "typescript": "^5.4.3",
-    "vite": "^5.4.15",
+    "vite": "^5.4.21",
     "vite-tsconfig-paths": "^5.0.1"
   }
 }
